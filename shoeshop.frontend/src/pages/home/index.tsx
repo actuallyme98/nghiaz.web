@@ -6,14 +6,9 @@ import Layout from '../../components/layout';
 const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
   const classes = useStyles();
 
-  return (
-    <Layout>
-      Hello world!
-    </Layout>
-  );
+  return <Layout>Hello world!</Layout>;
 };
 
-const useStyles = makeStyles((theme) => ({
-}));
+const useStyles = makeStyles((theme) => ({}));
 
 export default Home;
