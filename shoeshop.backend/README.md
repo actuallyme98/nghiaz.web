@@ -11,3 +11,15 @@ yarn
 ```
 yarn dev
 ```
+
+### buid:
+
+```
+yarn build
+```
+
+### start:
+
+```
+yarn start
+```
