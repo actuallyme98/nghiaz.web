@@ -1,18 +1,61 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
 // components
 import Container from '@material-ui/core/Container';
 import Badge from '@material-ui/core/Badge';
+import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
+import Drawer from '@material-ui/core/Drawer';
 
 interface IProps {}
 
 const Header: React.FC<IProps> = (props) => {
+  const [openMenu, setOpenMenu] = useState(false);
   const classes = useStyles();
+
+  const handleCollapseMenu = useCallback(() => {
+    setOpenMenu((prev) => !prev);
+  }, []);
+
+  const handleCloseMenu = useCallback(() => {
+    setOpenMenu(false);
+  }, []);
 
   return (
     <div className={classes.container}>
+      <IconButton className={classes.menuButton} onClick={handleCollapseMenu}>
+        <MenuIcon />
+      </IconButton>
+      <Drawer open={openMenu} onClose={handleCloseMenu}>
+        <div className={classes.rootDrawer}>
+          <a className={classes.menuLinkDrawer} href="/">
+            Trang chủ
+          </a>
+          <a className={classes.menuLinkDrawer} href="/">
+            Giày nam
+          </a>
+          <a className={classes.menuLinkDrawer} href="/">
+            Giày nữ
+          </a>
+          <a className={classes.menuLinkDrawer} href="/">
+            Giày đôi
+          </a>
+          <a className={classes.menuLinkDrawer} href="/">
+            Phụ kiện
+          </a>
+          <a className={classes.menuLinkDrawer} href="/">
+            Khuyến mại
+          </a>
+          <a className={classes.menuLinkDrawer} href="/">
+            Tin tức
+          </a>
+          <a className={classes.menuLinkDrawer} href="/">
+            Liên hệ
+          </a>
+        </div>
+      </Drawer>
       <Container>
         <div className={classes.wrapper}>
           <a href="/" className={classes.logoLink}>
@@ -57,6 +100,36 @@ const Header: React.FC<IProps> = (props) => {
           </div>
         </div>
       </Container>
+      <div className={classes.mainMenu}>
+        <Container>
+          <div className={classes.dFlexline}>
+            <a className={classes.menuLink} href="/">
+              Trang chủ
+            </a>
+            <a className={classes.menuLink} href="/">
+              Giày nam
+            </a>
+            <a className={classes.menuLink} href="/">
+              Giày nữ
+            </a>
+            <a className={classes.menuLink} href="/">
+              Giày đôi
+            </a>
+            <a className={classes.menuLink} href="/">
+              Phụ kiện
+            </a>
+            <a className={classes.menuLink} href="/">
+              Khuyến mại
+            </a>
+            <a className={classes.menuLink} href="/">
+              Tin tức
+            </a>
+            <a className={classes.menuLink} href="/">
+              Liên hệ
+            </a>
+          </div>
+        </Container>
+      </div>
     </div>
   );
 };
@@ -119,7 +192,10 @@ const useStyles = makeStyles((theme) => ({
   dFlexline: {
     display: 'flex',
     alignItems: 'center',
-    textDecoration: 'none',
+    justifyContent: 'center',
+    '@media screen and (max-width: 760px)': {
+      display: 'block',
+    },
   },
   phoneText: {
     display: 'flex',
@@ -158,6 +234,46 @@ const useStyles = makeStyles((theme) => ({
   customBadge: {
     top: 5,
     right: 10,
+  },
+  mainMenu: {
+    background: '#f7f7f7',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
+  },
+  menuLink: {
+    textDecoration: 'none',
+    display: 'inline-block',
+    color: '#000',
+    padding: '15px 25px',
+    '&:hover': {
+      background: '#f1f1f1',
+    },
+    '@media screen and (max-width: 940px)': {
+      padding: 15,
+    },
+  },
+  menuButton: {
+    position: 'absolute',
+    top: 5,
+    left: 5,
+    display: 'none',
+    [theme.breakpoints.down('xs')]: {
+      display: 'block',
+    },
+  },
+  rootDrawer: {
+    background: '#31373d',
+    height: '100%',
+    width: 300,
+    paddingTop: 50,
+  },
+  menuLinkDrawer: {
+    textDecoration: 'none',
+    display: 'block',
+    color: '#fff',
+    padding: '15px 25px',
+    borderBottom: '1px solid #ffffff1a',
   },
 }));
 
