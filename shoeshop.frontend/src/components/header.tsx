@@ -305,6 +305,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 6px 12px rgb(0 0 0 / 18%)',
     width: 200,
     display: 'none',
+    zIndex: 10,
   },
   dropDownItem: {
     textDecoration: 'none',

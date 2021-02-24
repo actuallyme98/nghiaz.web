@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
   },
   campaignItem: {
     '& img': {
-      width: '120%',
+      width: '100%',
       transition: '0.5s',
       '&:hover': {
         boxShadow: '0px 5px 5px #989797',
