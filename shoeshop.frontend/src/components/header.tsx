@@ -115,15 +115,52 @@ const Header: React.FC<IProps> = (props) => {
             <a className={classes.menuLink} href="/">
               Giày đôi
             </a>
-            <a className={classes.menuLink} href="/">
+            <div className={clsx(classes.menuLink, classes.menuDropDown)}>
               Phụ kiện
-            </a>
+              <div className={classes.dropDown}>
+                <a className={classes.dropDownItem} href="/">
+                  Túi xách
+                </a>
+                <a className={classes.dropDownItem} href="/">
+                  Dây giày
+                </a>
+                <a className={classes.dropDownItem} href="/">
+                  Bình xịt
+                </a>
+                <a className={classes.dropDownItem} href="/">
+                  Kính
+                </a>
+                <a className={classes.dropDownItem} href="/">
+                  Lót giày
+                </a>
+                <a className={classes.dropDownItem} href="/">
+                  Qùa tặng
+                </a>
+              </div>
+            </div>
             <a className={classes.menuLink} href="/">
               Khuyến mại
             </a>
-            <a className={classes.menuLink} href="/">
+            <div className={clsx(classes.menuLink, classes.menuDropDown)}>
               Tin tức
-            </a>
+              <div className={classes.dropDown}>
+                <a className={classes.dropDownItem} href="/">
+                  Hoạt động cộng đồng
+                </a>
+                <a className={classes.dropDownItem} href="/">
+                  Xu hướng
+                </a>
+                <a className={classes.dropDownItem} href="/">
+                  Mẹo hay hằng ngày
+                </a>
+                <a className={classes.dropDownItem} href="/">
+                  Trải nghiệm - Phượt
+                </a>
+                <a className={classes.dropDownItem} href="/">
+                  Feedback
+                </a>
+              </div>
+            </div>
             <a className={classes.menuLink} href="/">
               Liên hệ
             </a>
@@ -246,11 +283,36 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
     color: '#000',
     padding: '15px 25px',
+    cursor: 'pointer',
     '&:hover': {
       background: '#f1f1f1',
     },
     '@media screen and (max-width: 940px)': {
       padding: 15,
+    },
+  },
+  menuDropDown: {
+    position: 'relative',
+    '&:hover > div': {
+      display: 'block',
+    },
+  },
+  dropDown: {
+    position: 'absolute',
+    top: 50,
+    left: 0,
+    background: '#fff',
+    boxShadow: '0 6px 12px rgb(0 0 0 / 18%)',
+    width: 200,
+    display: 'none',
+  },
+  dropDownItem: {
+    textDecoration: 'none',
+    color: '#333',
+    padding: '10px 20px',
+    display: 'block',
+    '&:hover': {
+      background: '#f1f1f1',
     },
   },
   menuButton: {
