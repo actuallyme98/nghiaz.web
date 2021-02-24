@@ -3,8 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { RouteConfigComponentProps } from 'react-router-config';
 
 // components
+import Container from '@material-ui/core/Container';
 import Layout from '../../components/layout';
 import SliderBanner from '../../components/slider-banner';
+import TopCampaign from '../../components/top-campaign';
 
 const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
   const classes = useStyles();
@@ -12,10 +14,17 @@ const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
   return (
     <Layout>
       <SliderBanner />
+      <Container maxWidth="lg" className={classes.content}>
+        <TopCampaign />
+      </Container>
     </Layout>
   );
 };
 
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  content: {
+    marginTop: 50,
+  },
+}));
 
 export default Home;
