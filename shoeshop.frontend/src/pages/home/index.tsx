@@ -7,6 +7,8 @@ import Container from '@material-ui/core/Container';
 import Layout from '../../components/layout';
 import SliderBanner from '../../components/slider-banner';
 import TopCampaign from '../../components/top-campaign';
+import TopNewestProduct from '../../components/top-newest-product';
+import TopListSeller from '../../components/top-list-seller';
 
 const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
   const classes = useStyles();
@@ -16,6 +18,8 @@ const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
       <SliderBanner />
       <Container maxWidth="lg" className={classes.content}>
         <TopCampaign />
+        <TopNewestProduct />
+        <TopListSeller />
       </Container>
     </Layout>
   );
