@@ -23,8 +23,10 @@
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
+    "react-slick": "^0.28.0",
     "redux": "^4.0.5",
     "redux-promise": "^0.6.0",
+    "slick-carousel": "^1.8.1",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
   },
@@ -58,6 +60,7 @@
     "@types/react-redux": "^7.1.16",
     "@types/react-router-config": "^5.0.2",
     "@types/react-router-dom": "^5.1.7",
+    "@types/react-slick": "^0.23.4",
     "@types/redux-promise": "^0.5.29",
     "eslint-plugin-prettier": "^3.3.1"
   }
