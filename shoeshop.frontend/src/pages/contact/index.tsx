@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { RouteConfigComponentProps } from 'react-router-config';
 
 // components
+import Container from '@material-ui/core/Container';
 import Layout from '../../components/layout';
 
 const Contact: React.FC<RouteConfigComponentProps<any>> = (props) => {
@@ -10,10 +11,10 @@ const Contact: React.FC<RouteConfigComponentProps<any>> = (props) => {
 
   return (
     <Layout>
-      <div className={classes.container}>
+      <Container className={classes.container}>
         <h1>Liên Hệ</h1>
         <div className={classes.map}>
-          <img src="/assets/icons/bg.jpg" alt="" />
+          <img src="/assets/banners/banner1.jpg" alt="" />
         </div>
 
         <div className={classes.wrapper}>
@@ -70,10 +71,10 @@ const Contact: React.FC<RouteConfigComponentProps<any>> = (props) => {
               <span className={classes.spaceSpan}>BLUEWIND.VN</span>
             </div>
 
-            <div className={classes.phone}>
+            <a className={classes.phone} href="tel:0364589229">
               <img src="/assets/icons/phone.svg" alt="" />
               <span className={classes.spaceSpanLink}> 19004772</span>
-            </div>
+            </a>
 
             <div className={classes.phone}>
               <img src="/assets/icons/pin.svg" alt="" />
@@ -88,15 +89,14 @@ const Contact: React.FC<RouteConfigComponentProps<any>> = (props) => {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </Layout>
   );
 };
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    width: '90%',
-    margin: '40px auto',
+    padding: '20px 0 50px',
   },
   titleLeftRight: {
     width: '100%',
@@ -106,7 +106,6 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     paddingBottom: 5,
     borderBottom: '1px dotted #ddd',
-
     '& img': {
       height: 15,
       width: 15,
@@ -114,18 +113,15 @@ const useStyles = makeStyles((theme) => ({
       marginRight: 8,
     },
   },
-
   mes: {
     verticalAlign: 'middle',
   },
-
   map: {
     '& img': {
       width: '100%',
-      height: 400,
+      height: '80vh',
     },
   },
-
   wrapper: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2,1fr)',
@@ -134,7 +130,6 @@ const useStyles = makeStyles((theme) => ({
       display: 'block',
     },
   },
-
   col: {
     display: 'grid',
     gridTemplateColumns: 'repeat(2,1fr)',
@@ -144,11 +139,9 @@ const useStyles = makeStyles((theme) => ({
       display: 'block',
     },
   },
-
   colFul: {
     textAlign: 'center',
   },
-
   spanIcons: {
     padding: '8px 14px',
     border: '1px solid #ccc',
@@ -160,14 +153,12 @@ const useStyles = makeStyles((theme) => ({
       width: 15,
     },
   },
-
   inputGroup: {
     width: '100%',
     display: 'grid',
     gridTemplateColumns: '1fr 5fr',
     marginBottom: 10,
   },
-
   input: {
     width: '100%',
     padding: '6px 12px',
@@ -199,40 +190,33 @@ const useStyles = makeStyles((theme) => ({
   },
   phone: {
     width: '100%',
+    textDecoration: 'none',
+    color: '#000',
     float: 'left',
     fontSize: 14,
     lineHeight: '16px',
     margin: '5px 0',
     overflow: 'hidden',
     paddingBottom: 5,
-
     '& img': {
       height: 15,
       width: 15,
       verticalAlign: 'middle',
     },
   },
-
   spaceSpan: {
     padding: 7,
     verticalAlign: 'middle',
   },
-
   spaceSpanLink: {
     padding: 7,
-
     cursor: 'pointer',
     verticalAlign: 'middle',
     '&:hover': {
       color: '#428bca',
     },
   },
-
-  right: {
-    '@media screen and (max-width: 960px)': {
-      marginBottom: 200,
-    },
-  },
+  right: {},
 }));
 
 export default Contact;

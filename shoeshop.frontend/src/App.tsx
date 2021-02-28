@@ -11,6 +11,7 @@ import { SnackbarProvider } from 'notistack';
 import Home from './pages/home';
 import Login from './pages/login';
 import Contact from './pages/contact';
+import Category from './pages/category';
 
 // themes
 import theme from './themes/light-theme';
@@ -34,6 +35,11 @@ const routes: RouteConfig[] = [
   {
     component: Contact,
     path: '/contact',
+    exact: true,
+  },
+  {
+    component: Category,
+    path: '/category/:slug?',
     exact: true,
   },
   {

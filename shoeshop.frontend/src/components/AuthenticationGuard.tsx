@@ -7,7 +7,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PageError from './PageError';
 
-interface IProps { }
+interface IProps {}
 
 const AuthenticationGuard: React.FC<IProps> = (props) => {
   const dispatch = useDispatch();
@@ -15,11 +15,11 @@ const AuthenticationGuard: React.FC<IProps> = (props) => {
   const profile = useSelector((store: IStore) => store.appState.profile);
   const [isLoading, setIsLoading] = useState(true);
 
-//   useEffect(() => {
-//     dispatch(AppActions.getProfileAction()).finally(() => {
-//       setIsLoading(false);
-//     });
-//   }, [dispatch]);
+  //   useEffect(() => {
+  //     dispatch(AppActions.getProfileAction()).finally(() => {
+  //       setIsLoading(false);
+  //     });
+  //   }, [dispatch]);
 
   // if (isLoading) {
   //   return (
@@ -29,7 +29,7 @@ const AuthenticationGuard: React.FC<IProps> = (props) => {
   //   );
   // }
 
-  if (location.pathname === '/order') {
+  if (whiteLists.includes(location.pathname)) {
     if (!profile) {
       return <Redirect to="/login" />;
     }
@@ -37,5 +37,7 @@ const AuthenticationGuard: React.FC<IProps> = (props) => {
 
   return <>{props.children}</>;
 };
+
+const whiteLists = ['/order', '/profile'];
 
 export default AuthenticationGuard;
