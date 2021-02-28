@@ -8,6 +8,7 @@ declare namespace REDUX_STORE {
   };
   type Profile = {};
   type State = {
+    isMobile: boolean;
     profile?: Profile;
   };
 }

@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { Link } from 'react-router-dom';
 
 // components
 import Container from '@material-ui/core/Container';
@@ -30,37 +31,37 @@ const Header: React.FC<IProps> = (props) => {
       </IconButton>
       <Drawer open={openMenu} onClose={handleCloseMenu}>
         <div className={classes.rootDrawer}>
-          <a className={classes.menuLinkDrawer} href="/">
+          <Link className={classes.menuLinkDrawer} to="/">
             Trang chủ
-          </a>
-          <a className={classes.menuLinkDrawer} href="/">
+          </Link>
+          <Link className={classes.menuLinkDrawer} to="/category/giay-nam">
             Giày nam
-          </a>
-          <a className={classes.menuLinkDrawer} href="/">
+          </Link>
+          <Link className={classes.menuLinkDrawer} to="/category/giay-nu">
             Giày nữ
-          </a>
-          <a className={classes.menuLinkDrawer} href="/">
+          </Link>
+          <Link className={classes.menuLinkDrawer} to="/category/giay-doi">
             Giày đôi
-          </a>
-          <a className={classes.menuLinkDrawer} href="/">
+          </Link>
+          <Link className={classes.menuLinkDrawer} to="/category/tui-xach">
             Phụ kiện
-          </a>
-          <a className={classes.menuLinkDrawer} href="/">
+          </Link>
+          <Link className={classes.menuLinkDrawer} to="/">
             Khuyến mại
-          </a>
-          <a className={classes.menuLinkDrawer} href="/">
+          </Link>
+          <Link className={classes.menuLinkDrawer} to="/blogs">
             Tin tức
-          </a>
-          <a className={classes.menuLinkDrawer} href="/">
+          </Link>
+          <Link className={classes.menuLinkDrawer} to="/contact">
             Liên hệ
-          </a>
+          </Link>
         </div>
       </Drawer>
       <Container>
         <div className={classes.wrapper}>
-          <a href="/" className={classes.logoLink}>
+          <Link to="/" className={classes.logoLink}>
             <img src="/assets/icons/logo.png" alt="" />
-          </a>
+          </Link>
           <div className={classes.boxInput}>
             <div className={classes.inputGroupSearch}>
               <input className={classes.inputSearch} placeholder="Bạn cần tìm gì?" />
@@ -77,16 +78,16 @@ const Header: React.FC<IProps> = (props) => {
               <span>0364589229</span>
             </a>
 
-            <a href="/" className={clsx(classes.phoneText, classes.orderLink)}>
+            <Link to="/order" className={clsx(classes.phoneText, classes.orderLink)}>
               <div className={classes.borderBox}>
                 <img src="/assets/icons/bill.svg" alt="" />
               </div>
               <span>Kiểm tra đơn hàng</span>
-            </a>
+            </Link>
 
-            <a href="/" className={classes.borderBox}>
+            <Link to="/profile" className={classes.borderBox}>
               <img src="/assets/icons/user.svg" alt="" />
-            </a>
+            </Link>
 
             <Badge
               badgeContent={1}
@@ -103,67 +104,67 @@ const Header: React.FC<IProps> = (props) => {
       <div className={classes.mainMenu}>
         <Container>
           <div className={classes.dFlexline}>
-            <a className={classes.menuLink} href="/">
+            <Link className={classes.menuLink} to="/">
               Trang chủ
-            </a>
-            <a className={classes.menuLink} href="/">
+            </Link>
+            <Link className={classes.menuLink} to="/category/giay-nam">
               Giày nam
-            </a>
-            <a className={classes.menuLink} href="/">
+            </Link>
+            <Link className={classes.menuLink} to="/category/giay-nu">
               Giày nữ
-            </a>
-            <a className={classes.menuLink} href="/">
+            </Link>
+            <Link className={classes.menuLink} to="/category/giay-doi">
               Giày đôi
-            </a>
+            </Link>
             <div className={clsx(classes.menuLink, classes.menuDropDown)}>
               Phụ kiện
               <div className={classes.dropDown}>
-                <a className={classes.dropDownItem} href="/">
+                <Link className={classes.dropDownItem} to="/category/tui-xach">
                   Túi xách
-                </a>
-                <a className={classes.dropDownItem} href="/">
+                </Link>
+                <Link className={classes.dropDownItem} to="/category/day-giay">
                   Dây giày
-                </a>
-                <a className={classes.dropDownItem} href="/">
+                </Link>
+                <Link className={classes.dropDownItem} to="/category/binh-xit">
                   Bình xịt
-                </a>
-                <a className={classes.dropDownItem} href="/">
+                </Link>
+                <Link className={classes.dropDownItem} to="/category/kinh">
                   Kính
-                </a>
-                <a className={classes.dropDownItem} href="/">
+                </Link>
+                <Link className={classes.dropDownItem} to="/category/lot-giay">
                   Lót giày
-                </a>
-                <a className={classes.dropDownItem} href="/">
+                </Link>
+                <Link className={classes.dropDownItem} to="/category/qua-tang">
                   Qùa tặng
-                </a>
+                </Link>
               </div>
             </div>
-            <a className={classes.menuLink} href="/">
+            <Link className={classes.menuLink} to="/">
               Khuyến mại
-            </a>
+            </Link>
             <div className={clsx(classes.menuLink, classes.menuDropDown)}>
               Tin tức
               <div className={classes.dropDown}>
-                <a className={classes.dropDownItem} href="/">
+                <Link className={classes.dropDownItem} to="/">
                   Hoạt động cộng đồng
-                </a>
-                <a className={classes.dropDownItem} href="/">
+                </Link>
+                <Link className={classes.dropDownItem} to="/">
                   Xu hướng
-                </a>
-                <a className={classes.dropDownItem} href="/">
+                </Link>
+                <Link className={classes.dropDownItem} to="/">
                   Mẹo hay hằng ngày
-                </a>
-                <a className={classes.dropDownItem} href="/">
+                </Link>
+                <Link className={classes.dropDownItem} to="/">
                   Trải nghiệm - Phượt
-                </a>
-                <a className={classes.dropDownItem} href="/">
+                </Link>
+                <Link className={classes.dropDownItem} to="/">
                   Feedback
-                </a>
+                </Link>
               </div>
             </div>
-            <a className={classes.menuLink} href="/">
+            <Link className={classes.menuLink} to="/contact">
               Liên hệ
-            </a>
+            </Link>
           </div>
         </Container>
       </div>
@@ -305,6 +306,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 6px 12px rgb(0 0 0 / 18%)',
     width: 200,
     display: 'none',
+    zIndex: 10,
   },
   dropDownItem: {
     textDecoration: 'none',

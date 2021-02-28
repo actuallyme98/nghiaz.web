@@ -49,7 +49,7 @@ export class AppServer {
     app.use(session(sess));
 
     // Setup express middlewares
-    let middlewares = glob.sync(__dirname + '/middlewares/*.+(js|jsx|ts|tsx)');
+    let middlewares = glob.sync(__dirname + '/middlewares/*.+(js|ts)');
 
     for (let middleware of middlewares) {
       try {
@@ -62,9 +62,9 @@ export class AppServer {
     }
 
     // Setup express routes
-    let routes = glob.sync(__dirname + '/routes/*.+(js|jsx|ts|tsx)');
+    let routes = glob.sync(__dirname + '/routes/*.+(js|ts)');
     for (let route of routes) {
-      console.log('Loading route : ' + route);
+      console.log('Loading route : ' + route.split('src')[1]);
       require(route)(app);
     }
 
