@@ -9,6 +9,8 @@ import { SnackbarProvider } from 'notistack';
 
 // pages
 import Home from './pages/home';
+import Login from './pages/login';
+import Contact from './pages/contact';
 
 // themes
 import theme from './themes/light-theme';
@@ -21,20 +23,29 @@ const routes: RouteConfig[] = [
   {
     component: Home,
     path: '/',
-    exact: true
+    exact: true,
   },
   {
-    component: () => <PageError code={404} description="Trang không tồn tại" />
-  }
+    component: Login,
+    path: '/login',
+    exact: true,
+  },
+
+  {
+    component: Contact,
+    path: '/contact',
+    exact: true,
+  },
+  {
+    component: () => <PageError code={404} description="Trang không tồn tại" />,
+  },
 ];
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AuthenticationGuard>
-        <SnackbarProvider>
-          {renderRoutes(routes)}
-        </SnackbarProvider>
+        <SnackbarProvider>{renderRoutes(routes)}</SnackbarProvider>
       </AuthenticationGuard>
     </ThemeProvider>
   );
