@@ -10,6 +10,7 @@ import { SnackbarProvider } from 'notistack';
 // pages
 import Home from './pages/home';
 import Login from './pages/login';
+import Category from './pages/category';
 
 // themes
 import theme from './themes/light-theme';
@@ -27,6 +28,11 @@ const routes: RouteConfig[] = [
   {
     component: Login,
     path: '/login',
+    exact: true,
+  },
+  {
+    component: Category,
+    path: '/category/:slug?',
     exact: true,
   },
   {

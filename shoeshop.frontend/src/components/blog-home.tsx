@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#000',
   },
   rightHeading: {
-    fontSize: 18,
+    fontSize: 17,
     textAlign: 'center',
     borderBottom: '2px solid #333',
     marginBottom: 10,

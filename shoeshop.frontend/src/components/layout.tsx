@@ -26,9 +26,10 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
     padding: 0,
     background: '#fff',
+    fontFamily: 'SFUIDisplay',
   },
   content: {
-    minHeight: '100vh',
+    minHeight: '50vh',
   },
 }));
 
