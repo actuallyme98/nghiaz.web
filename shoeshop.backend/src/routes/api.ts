@@ -6,6 +6,6 @@ module.exports = (app: Express) => {
   app.use('/', router);
 };
 
-router.get('/', (req, res, next) => {
-  res.json({ message: `get ${router.route.name}` });
+router.get('/', async (req, res, next) => {
+  res.json({ message: 'get successfully' });
 });
