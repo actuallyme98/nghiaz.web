@@ -16,8 +16,8 @@ const TopNewestProduct: React.FC<IProps> = (props) => {
 
   const listProducts = useMemo(() => {
     return products.map((product, index) => (
-      <Grid className={classes.listItem} xs={12} sm={6} md={3} item>
-        <ProductItem key={index} product={product} />
+      <Grid key={index} className={classes.listItem} xs={12} sm={6} md={3} item>
+        <ProductItem product={product} />
       </Grid>
     ));
   }, []);
@@ -41,7 +41,24 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     fontSize: 26,
-    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+    '&::before': {
+      content: '""',
+      flexGrow: 1,
+      height: 2,
+      background: '#333',
+      marginRight: 20,
+    },
+    '&::after': {
+      content: '""',
+      height: 2,
+      flexGrow: 1,
+      background: '#333',
+      marginLeft: 20,
+    },
   },
   listArea: {},
   listItem: {
