@@ -6,7 +6,8 @@ import Button from '@material-ui/core/Button';
 import InputNumberSpinner from '../../components/input-number-spinner';
 
 // redux
-import { useSelector } from 'react-redux';
+import * as AppActions from '../../redux/actions/app-action';
+import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from '../../redux/stores/configure-store';
 
 interface Props {
@@ -31,6 +32,7 @@ const ProductInformation: React.FC<Props> = (props) => {
   const [amount, setAmount] = useState(1);
   // const [isFavorite, setIsFavorite] = useState(data.isFavorite);
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   // const handleClickUnLike = useCallback(async () => {
   //   setIsFavorite(!isFavorite);
@@ -45,7 +47,7 @@ const ProductInformation: React.FC<Props> = (props) => {
   }, []);
 
   const handleAddToCart = useCallback(async () => {
-    // pending
+    dispatch(AppActions.openCartDrawer(true));
   }, []);
 
   const handleChangeAmount = useCallback((value: number) => {
@@ -413,8 +415,8 @@ const useStyles = makeStyles((theme) => ({
   },
   imgSale: {
     paddingTop: 13,
-    width: 440,
-    height: 120,
+    width: '100%',
+    maxHeight: 200,
     [theme.breakpoints.down('xs')]: {
       display: 'none',
     },

@@ -81,7 +81,7 @@ const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
           <div className={classes.left}>
             <MediaGallery mediaFiles={mediaFiles} />
           </div>
-          <div>
+          <div className={classes.right}>
             <ProductInformation
               voucher="MOCK"
               data={{
@@ -144,6 +144,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('md')]: {
       padding: 0,
     },
+  },
+  right: {
+    flexGrow: 1,
   },
   contentMobile: {
     width: '100%',

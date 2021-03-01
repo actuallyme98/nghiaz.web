@@ -18,9 +18,9 @@ const TopListSeller: React.FC<IProps> = (props) => {
   const listProducts = useMemo(() => {
     return products.map((product, index) => (
       <Grid key={index} className={classes.listItem} xs={12} sm={6} md={3} item>
-        <Link className={classes.productLink} to="/shop/giay-the-thao-nam">
+        <a className={classes.productLink} href="/shop/giay-the-thao-nam">
           <ProductItem product={product} />
-        </Link>
+        </a>
       </Grid>
     ));
   }, []);

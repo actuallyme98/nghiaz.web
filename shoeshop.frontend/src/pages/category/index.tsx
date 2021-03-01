@@ -117,7 +117,7 @@ const Home: React.FC<RouteConfigComponentProps<{ slug: string }>> = (props) => {
 const Product: React.FC<{ product: any }> = ({ product }) => {
   const classes = useStyles();
   return (
-    <Link className={classes.productLink} to="/shop/giay-the-thao-nam">
+    <a className={classes.productLink} href="/shop/giay-the-thao-nam">
       <ProductItem
         data={{
           category: '',
@@ -127,7 +127,7 @@ const Product: React.FC<{ product: any }> = ({ product }) => {
           thumbnail: product.thumbnail ? product.thumbnail : '',
         }}
       />
-    </Link>
+    </a>
   );
 };
 

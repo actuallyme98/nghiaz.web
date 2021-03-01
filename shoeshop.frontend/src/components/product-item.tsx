@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
 // components
 import IconButton from '@material-ui/core/IconButton';
+
+// redux
+import * as AppActions from '../redux/actions/app-action';
+import { useDispatch } from 'react-redux';
+import { IStore } from '../redux/stores/configure-store';
 
 // types
 import { IProductItem } from '../types/gtypes';
@@ -16,13 +21,22 @@ interface IProps {
 const ProductItem: React.FC<IProps> = (props) => {
   const { className, product } = props;
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const handleAddToCart = useCallback(
+    async (event: React.MouseEvent<HTMLElement>) => {
+      event.preventDefault();
+      dispatch(AppActions.openCartDrawer(true));
+    },
+    [product],
+  );
 
   return (
     <div className={clsx(className, classes.container)}>
       <img alt={product.title} src={product.thumbnail} className={classes.imgProduct} />
       <div className={classes.titleAndCart}>
         <div className={classes.title}>{product.title}</div>
-        <IconButton className={classes.btnAddToCart} />
+        <IconButton onClick={handleAddToCart} className={classes.btnAddToCart} />
       </div>
       <div className={classes.price}>
         <div className={classes.currentPrice}>{product.currentPrice.toLocaleString('vi-VN')} đ</div>

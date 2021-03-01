@@ -9,12 +9,21 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Drawer from '@material-ui/core/Drawer';
+import CartDrawer from './cart-drawer';
+
+// redux
+import * as AppActions from '../redux/actions/app-action';
+import { useSelector, useDispatch } from 'react-redux';
+import { IStore } from '../redux/stores/configure-store';
 
 interface IProps {}
 
 const Header: React.FC<IProps> = (props) => {
   const [openMenu, setOpenMenu] = useState(false);
+  const isMobile = useSelector((store: IStore) => store.appState.isMobile);
+  const openCartDrawer = useSelector((store: IStore) => store.appState.openCartDrawer);
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const handleCollapseMenu = useCallback(() => {
     setOpenMenu((prev) => !prev);
@@ -23,6 +32,10 @@ const Header: React.FC<IProps> = (props) => {
   const handleCloseMenu = useCallback(() => {
     setOpenMenu(false);
   }, []);
+
+  const handleOpenCloseCartDrawer = useCallback(() => {
+    dispatch(AppActions.openCartDrawer(!openCartDrawer));
+  }, [openCartDrawer]);
 
   return (
     <div className={classes.container}>
@@ -94,9 +107,9 @@ const Header: React.FC<IProps> = (props) => {
               classes={{ anchorOriginTopRightRectangle: classes.customBadge }}
               color="primary"
             >
-              <a href="/" className={classes.borderBox}>
+              <div onClick={handleOpenCloseCartDrawer} className={classes.borderBox}>
                 <img src="/assets/icons/shopping-cart.svg" alt="" />
-              </a>
+              </div>
             </Badge>
           </div>
         </div>
@@ -168,6 +181,14 @@ const Header: React.FC<IProps> = (props) => {
           </div>
         </Container>
       </div>
+      <CartDrawer
+        open={openCartDrawer}
+        onClose={handleOpenCloseCartDrawer}
+        anchor={isMobile ? 'bottom' : 'right'}
+        classes={{
+          paper: classes.rootCartDrawer,
+        }}
+      />
     </div>
   );
 };
@@ -268,6 +289,7 @@ const useStyles = makeStyles((theme) => ({
     '& img': {
       width: '50%',
     },
+    cursor: 'pointer',
   },
   customBadge: {
     top: 5,
@@ -338,6 +360,9 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff',
     padding: '15px 25px',
     borderBottom: '1px solid #ffffff1a',
+  },
+  rootCartDrawer: {
+    minWidth: 400,
   },
 }));
 
