@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   formLogin: {
     maxWidth: '100%',
     width: 335,
-    margin: '60px auto',
+    margin: '50px auto 0',
     backgroundColor: '#fff',
     boxShadow: '0px 2px 4px rgb(0 0 0 / 10%)',
     marginBottom: 20,

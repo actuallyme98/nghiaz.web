@@ -1,4 +1,11 @@
-import React, { useState, useCallback, forwardRef, useImperativeHandle, useMemo } from 'react';
+import React, {
+  useState,
+  useCallback,
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+  ForwardRefRenderFunction,
+} from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -17,7 +24,7 @@ import { IStore } from '../redux/stores/configure-store';
 // utils
 import { priceOptions } from '../configs/product-filter-options';
 
-interface Props {
+interface IProps {
   onChange?: (args: any) => void;
   onClose?: () => void;
 }
@@ -32,7 +39,7 @@ const sizes: any[] = Array.from({ length: 6 }, (_, index) => ({
   name: 40 + index,
 }));
 
-const MenuFilterOption: React.FC<Props> = ({ onChange, onClose }, ref) => {
+const MenuFilterOption: ForwardRefRenderFunction<any, IProps> = ({ onChange, onClose }, ref) => {
   const isMobile = useSelector((store: IStore) => store.appState.isMobile);
   const [selectedPriceId, setSelectedPriceId] = useState<number>(0);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
@@ -195,23 +202,22 @@ const MenuFilterOption: React.FC<Props> = ({ onChange, onClose }, ref) => {
           Filter
           <img className={classes.imgArrowRight} src="/images/icons/right-arrow-red.svg" />
         </div>
-        {isMobile && (
-          <Button className={classes.unFilterBtn} onClick={onClose}>
-            Đóng Filter
-          </Button>
-        )}
-        {!isMobile && (
-          <Button className={classes.unFilterBtn} onClick={onUnfiltered}>
-            Bỏ Filter
-          </Button>
-        )}
+        <Button className={classes.unFilterBtnMobile} onClick={onClose}>
+          Đóng Filter
+        </Button>
+        <Button className={classes.unFilterBtn} onClick={onUnfiltered}>
+          Bỏ Filter
+        </Button>
       </div>
       <div className={classes.borderBottom} />
       <div className={classes.listFilter}>
         <div className={classes.title}>
           Khoảng giá
           <IconButton
-            className={classes.unFilterBtnIcon}
+            className={clsx({
+              [classes.unFilterBtnIcon]: true,
+              [classes.hideUnfil]: !Boolean(selectedPriceId),
+            })}
             disabled={!Boolean(selectedPriceId)}
             onClick={onUnfilteredPrice}
           >
@@ -227,7 +233,10 @@ const MenuFilterOption: React.FC<Props> = ({ onChange, onClose }, ref) => {
         <div className={classes.title}>
           Màu sắc
           <IconButton
-            className={classes.unFilterBtnIcon}
+            className={clsx({
+              [classes.unFilterBtnIcon]: true,
+              [classes.hideUnfil]: !Boolean(selectedColors.length),
+            })}
             disabled={!Boolean(selectedColors.length)}
             onClick={onUnfilteredColor}
           >
@@ -239,7 +248,10 @@ const MenuFilterOption: React.FC<Props> = ({ onChange, onClose }, ref) => {
         <div className={classes.title}>
           Kích cỡ
           <IconButton
-            className={classes.unFilterBtnIcon}
+            className={clsx({
+              [classes.unFilterBtnIcon]: true,
+              [classes.hideUnfil]: !Boolean(selectedSizes.length),
+            })}
             disabled={!Boolean(selectedSizes.length)}
             onClick={onUnfilteredSize}
           >
@@ -263,7 +275,7 @@ const MenuFilterOption: React.FC<Props> = ({ onChange, onClose }, ref) => {
   );
 };
 
-export default forwardRef(MenuFilterOption as any);
+export default forwardRef(MenuFilterOption);
 
 const useStyles = makeStyles((theme) => ({
   rootDesktop: {
@@ -296,6 +308,18 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     fontSize: 12,
     color: '#4a4a4a',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
+  },
+  unFilterBtnMobile: {
+    cursor: 'pointer',
+    fontSize: 12,
+    color: '#4a4a4a',
+    display: 'none',
+    [theme.breakpoints.down('xs')]: {
+      display: 'block',
+    },
   },
   unFilterBtnIcon: {
     fontSize: 14,
@@ -311,6 +335,9 @@ const useStyles = makeStyles((theme) => ({
     '&:focus': {
       color: '#4a4a4a',
     },
+  },
+  hideUnfil: {
+    display: 'none',
   },
   borderBottom: {
     marginTop: 15,
