@@ -12,7 +12,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
 // utils
-import { sortOptions } from '../configs/product-sort-options';
+import { sortOptions } from '../../configs/product-sort-options';
 
 interface IProps {
   totalProductReview: number;

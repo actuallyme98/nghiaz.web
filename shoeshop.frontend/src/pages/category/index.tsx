@@ -9,10 +9,10 @@ import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
 import Layout from '../../components/layout';
 import Breadcrumb, { BreadcumbItem } from '../../components/breadcumb';
-import MenuFilterOption from '../../components/menu-filter-options';
+import MenuFilterOption from '../../components/category/menu-filter-options';
 import LoadingIcon from '../../components/loading-icon';
-import SortOptionBar from '../../components/sort-option-bar';
-import ProductItem from '../../components/product-category-item';
+import SortOptionBar from '../../components/category/sort-option-bar';
+import ProductItem from '../../components/category/product-category-item';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -117,7 +117,7 @@ const Home: React.FC<RouteConfigComponentProps<{ slug: string }>> = (props) => {
 const Product: React.FC<{ product: any }> = ({ product }) => {
   const classes = useStyles();
   return (
-    <Link className={classes.productLink} to="/category">
+    <Link className={classes.productLink} to="/shop/giay-the-thao-nam">
       <ProductItem
         data={{
           category: '',

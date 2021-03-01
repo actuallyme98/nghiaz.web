@@ -19,10 +19,10 @@ import IconButton from '@material-ui/core/IconButton';
 
 // redux
 import { useSelector } from 'react-redux';
-import { IStore } from '../redux/stores/configure-store';
+import { IStore } from '../../redux/stores/configure-store';
 
 // utils
-import { priceOptions } from '../configs/product-filter-options';
+import { priceOptions } from '../../configs/product-filter-options';
 
 interface IProps {
   onChange?: (args: any) => void;
