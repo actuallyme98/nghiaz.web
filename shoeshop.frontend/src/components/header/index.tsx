@@ -156,7 +156,7 @@ const Header: React.FC<IProps> = (props) => {
             <a className={css.menuLink} href="/">
               Khuyến mại
             </a>
-            <div className={clsx(css.menuLink, css.menuDropDown)}>
+            <a href="/blogs" className={clsx(css.menuLink, css.menuDropDown)}>
               Tin tức
               <div className={css.dropDown}>
                 <a className={css.dropDownItem} href="/">
@@ -175,7 +175,7 @@ const Header: React.FC<IProps> = (props) => {
                   Feedback
                 </a>
               </div>
-            </div>
+            </a>
             <a className={css.menuLink} href="/contact">
               Liên hệ
             </a>
