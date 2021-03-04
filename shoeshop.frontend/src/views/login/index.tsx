@@ -52,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      title: 'Shoes shop',
+      title: 'Đăng nhập',
     },
   };
 };

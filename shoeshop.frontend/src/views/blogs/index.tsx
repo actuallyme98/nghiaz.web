@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      title: 'Blog - ',
+      title: 'Bài viết',
     },
   };
 };

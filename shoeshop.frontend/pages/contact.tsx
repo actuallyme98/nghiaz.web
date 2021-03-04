@@ -1,1 +1,1 @@
-export { default } from '../src/views/contact';
+export { default, getServerSideProps } from '../src/views/contact';

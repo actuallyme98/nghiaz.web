@@ -1,1 +1,1 @@
-export { default } from '../../src/views/blogs';
+export { default, getServerSideProps } from '../../src/views/blogs';

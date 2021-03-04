@@ -1,1 +1,1 @@
-export { default } from '../src/views/login';
+export { default, getServerSideProps } from '../src/views/login';
