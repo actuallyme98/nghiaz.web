@@ -1,5 +1,5 @@
 import { createTypeAction, createTypeAsyncAction } from '../type-redux';
-import SystemHelper from '@helpers/system.helper';
+import SystemHelper from '../../helpers/system.helper';
 
 export const detectMobile = createTypeAction<string, boolean>(
   'DETECT_MOBILE',
