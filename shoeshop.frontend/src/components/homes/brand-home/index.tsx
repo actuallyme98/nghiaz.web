@@ -8,7 +8,7 @@ import css from './style.module.scss';
 interface IProps {}
 const BrandHome: React.FC<IProps> = (props) => {
   return (
-    <div className={css.container}>
+    <div className="container">
       <div className={css.heading}>THƯƠNG HIỆU</div>
       <div className={css.content}>Comming soon...</div>
     </div>

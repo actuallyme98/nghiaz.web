@@ -39,7 +39,7 @@ const BlogHome: React.FC<IProps> = (props) => {
   }, []);
 
   return (
-    <div className={css.container}>
+    <div className="container">
       <div className={css.heading}>TIN TỨC MỖI NGÀY</div>
       <Row className={css.gridContainer}>
         <Col xs={24} sm={18} md={14}>

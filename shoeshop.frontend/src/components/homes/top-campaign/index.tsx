@@ -11,7 +11,7 @@ interface IProps {}
 
 const TopCampaign: React.FC<IProps> = (props) => {
   return (
-    <div className={css.container}>
+    <div className="container">
       <Row className={css.lisenceArea}>
         <Col className={css.lisenceItem} sm={12} md={6}>
           <img src="/assets/icons/icon-service-transport.png" alt="" />

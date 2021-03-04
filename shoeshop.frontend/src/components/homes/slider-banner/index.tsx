@@ -60,4 +60,5 @@ const settings: Settings = {
   autoplaySpeed: 10000,
   nextArrow: <NextArrow />,
   prevArrow: <PrevArrow />,
+  dotsClass: clsx('slick-dots', css.dots),
 };

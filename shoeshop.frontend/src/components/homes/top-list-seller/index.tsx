@@ -26,7 +26,7 @@ const TopListSeller: React.FC<IProps> = (props) => {
   }, []);
 
   return (
-    <div className={css.container}>
+    <div className="container">
       <div className={css.heading}>SẢN PHẨM BÁN CHẠY</div>
       <Row className={css.listArea}>{listProducts}</Row>
       <div className={css.loadMoreArea}>

@@ -1,5 +1,4 @@
 import React from 'react';
-import Head from 'next/head';
 // styles
 import css from './style.module.scss';
 
@@ -14,16 +13,11 @@ const Layout: React.FC<IProps> = (props) => {
   const { children, title } = props;
 
   return (
-    <>
-      <Head>
-        <title>{title}</title>
-      </Head>
-      <div className={css.container}>
-        <Header />
-        <div className={css.content}>{children}</div>
-        <Footer />
-      </div>
-    </>
+    <div className={css.container}>
+      <Header />
+      <div className={css.content}>{children}</div>
+      <Footer />
+    </div>
   );
 };
 

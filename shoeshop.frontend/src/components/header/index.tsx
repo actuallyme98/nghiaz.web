@@ -36,7 +36,7 @@ const Header: React.FC<IProps> = (props) => {
   }, [openCartDrawer]);
 
   return (
-    <div className={css.container}>
+    <div>
       <IconButton className={css.menuButton} onClick={handleCollapseMenu}>
         <img src="" alt="" />
       </IconButton>
@@ -68,7 +68,7 @@ const Header: React.FC<IProps> = (props) => {
           </a>
         </div>
       </Drawer>
-      <div className={css.container}>
+      <div className="container">
         <div className={css.wrapper}>
           <a href="/" className={css.logoLink}>
             <img src="/assets/icons/logo.png" alt="" />
@@ -109,7 +109,7 @@ const Header: React.FC<IProps> = (props) => {
         </div>
       </div>
       <div className={css.mainMenu}>
-        <div className={css.container}>
+        <div className="container">
           <div className={css.dFlexline}>
             <a className={css.menuLink} href="/">
               Trang chủ
