@@ -64,7 +64,7 @@ const mediaFiles = [
 
 interface Props {}
 
-const Home: React.FC<Props> = (props) => {
+const Shop: React.FC<Props> = (props) => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
 
   // mocks
@@ -146,4 +146,4 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   };
 };
 
-export default Home;
+export default Shop;
