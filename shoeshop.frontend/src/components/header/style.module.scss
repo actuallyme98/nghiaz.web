@@ -158,18 +158,23 @@
 
 .menuButton {
   position: absolute;
-  top: 5px;
-  left: 5px;
+  top: 18px;
+  left: 10px;
   display: none;
+  & img {
+    width: 20px;
+  }
   @media screen and (max-width: 600px) {
     display: block;
+    border: 0;
+    box-shadow: none;
   }
 }
 .rootDrawer {
   background: #31373d;
   height: 100%;
-  width: 300px;
   padding-top: 50px;
+  font-family: 'SFUIDisplay';
 }
 .menuLinkDrawer {
   text-decoration: none;

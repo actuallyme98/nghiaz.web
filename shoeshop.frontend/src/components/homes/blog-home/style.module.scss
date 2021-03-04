@@ -1,25 +1,25 @@
 .container {
-  margin-top: 50;
+  margin-top: 50px;
 }
 .heading {
-  font-size: 26;
+  font-size: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20;
+  margin-bottom: 20px;
   &::before {
     content: '';
     flex-grow: 1;
-    height: 2;
+    height: 2px;
     background: #333;
-    margin-right: 20;
+    margin-right: 20px;
   }
   &::after {
     content: '';
-    height: 2;
+    height: 2px;
     flex-grow: 1;
     background: #333;
-    margin-left: 20;
+    margin-left: 20px;
   }
 }
 .gridContainer {
@@ -27,14 +27,13 @@
 }
 
 .gridItem {
-  padding: 20;
+  padding: 20px;
 }
 
 .leftItem {
   position: relative;
   & img {
     width: 100%;
-    max-height: 600;
   }
 }
 .specialArea {
@@ -51,43 +50,50 @@
   display: inline-block;
 }
 .specialTitle {
-  font-size: 22;
+  font-size: 22px;
   padding: 15px 20px;
   color: #000;
 }
 .rightHeading {
-  font-size: 17;
+  font-size: 17px;
   text-align: center;
   border-bottom: 2px solid #333;
-  margin-bottom: 10;
+  margin-bottom: 10px;
 }
 .blogContainer {
   display: flex;
+  align-items: center;
   text-decoration: none;
+  @media screen and (max-width: 1200px) {
+    align-items: unset;
+  }
 }
 .thumbnail {
   width: 50%;
-  margin-right: 10;
+  margin-right: 10px;
+  padding: 10px 0;
   & img {
     width: 100%;
   }
-  @media screen and (max-width: 900px) {
-    width: 100%;
-    min-width: 100;
+  @media screen and (max-width: 1200px) {
+    width: 200px;
   }
 }
 .blogContentArea {
+  @media screen and (max-width: 1200px) {
+    padding-top: 10px;
+  }
 }
 .blogHeading {
   color: #222;
-  font-size: 16;
+  font-size: 16px;
 }
 .createdDate {
-  font-size: 13;
+  font-size: 13px;
   color: #666;
 }
 .shortDescription {
-  font-size: 14;
+  font-size: 14px;
   color: #7c7575;
   display: -webkit-box;
   -webkit-line-clamp: 2;

@@ -75,7 +75,7 @@ const CartDrawer: React.FC<IProps> = (props) => {
         )}
         <div className={css.head}>
           <div className={css.left}>
-            <img src="/images/icons/bag-red.svg" alt="" />
+            <img src="/assets/icons/bag-red.svg" alt="" />
             <span className={css.text}>Giỏ hàng </span>
             <Badge className={css.badge} count={totalItem} showZero />
           </div>
@@ -95,7 +95,7 @@ const CartDrawer: React.FC<IProps> = (props) => {
         <div className={css.bottom}>
           <Link href="/checkout/cart">
             <Button
-              type="danger"
+              type="ghost"
               disabled={cartItems.length < 1}
               className={css.btnOrder}
               onClick={handleClickOrder}

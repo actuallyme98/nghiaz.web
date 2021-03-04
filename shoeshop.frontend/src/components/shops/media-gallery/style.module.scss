@@ -1,0 +1,171 @@
+.root {
+  display: flex;
+
+  .list {
+    display: block;
+    margin-right: 12px;
+
+    .item {
+      cursor: pointer;
+      display: block;
+      width: 80px;
+      height: 80px;
+      border-radius: 6px;
+      border: solid 1px #e0e0e0;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      &.active {
+        border-color: #f16728;
+      }
+
+      &:not(:first-child) {
+        margin-top: 10px;
+      }
+
+      &.seeMore {
+        position: relative;
+
+        &::after {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          content: 'Xem thêm';
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 6px;
+          color: white;
+          border: solid 1px #e0e0e0;
+          background-color: rgba($color: #000000, $alpha: 0.5);
+        }
+      }
+    }
+
+    .videoItem {
+      position: relative;
+      background-size: cover;
+
+      &::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        content: '';
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 6px;
+        background-image: url('/images/icons/video-play.svg');
+        background-size: 24px 24px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: rgba($color: #000000, $alpha: 0.5);
+      }
+    }
+  }
+
+  .wrapMedia {
+    width: 440px;
+    height: 440px;
+  }
+
+  .media {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    border: solid 1px #e0e0e0;
+    background-color: #ffffff;
+    outline: none;
+    object-fit: contain;
+    cursor: pointer;
+  }
+}
+
+.thumbnail {
+  img {
+    pointer-events: all;
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    background-color: black;
+  }
+}
+
+.slider {
+  background-color: white;
+  padding-top: 10px;
+
+  .dots {
+    background-color: rgba($color: #fff, $alpha: 0.9);
+    border-radius: 15.5px;
+    border: solid 1px #d7d7d7;
+    width: 63px;
+    position: absolute;
+    right: 10px;
+    bottom: 14px;
+    font-family: SFUIDisplay;
+    font-size: 15px;
+    font-weight: 600;
+    color: #848484;
+    text-align: center;
+
+    li {
+      display: none;
+    }
+
+    li[class='slick-active'] {
+      display: inline-block;
+    }
+  }
+
+  .sliderItem {
+    width: 100%;
+    height: 360px;
+    margin-bottom: -4px;
+    object-fit: contain;
+    outline: none !important;
+  }
+}
+
+.modal {
+  display: contents;
+  width: 100% !important;
+  top: 0;
+
+  [class='ant-modal-content'] {
+    pointer-events: none;
+    height: 100%;
+    padding: 20px;
+    background-color: rgba($color: #000000, $alpha: 0.5);
+  }
+
+  [class='ant-modal-close-x'] {
+    color: white;
+  }
+
+  .sliderItem {
+    max-width: 100%;
+    height: calc(100vh - 170px);
+    object-fit: contain;
+  }
+}
+
+.videoWrapper {
+  position: relative;
+
+  .playBtn {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background-color: #f16728;
+  }
+}
+
+.sliderItem {
+  pointer-events: all;
+}

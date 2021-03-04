@@ -38,9 +38,16 @@ const Header: React.FC<IProps> = (props) => {
   return (
     <div>
       <IconButton className={css.menuButton} onClick={handleCollapseMenu}>
-        <img src="" alt="" />
+        <img src="/assets/icons/menu-bar.svg" alt="" />
       </IconButton>
-      <Drawer visible={openMenu} onClose={handleCloseMenu}>
+      <Drawer
+        visible={openMenu}
+        onClose={handleCloseMenu}
+        bodyStyle={{
+          padding: 0,
+        }}
+        placement="left"
+      >
         <div className={css.rootDrawer}>
           <a className={css.menuLinkDrawer} href="/">
             Trang chủ

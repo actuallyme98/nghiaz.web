@@ -10,6 +10,7 @@ import { AppProps } from 'next/app';
 import { initializeStore } from '@redux/with-redux';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  console.log(pageProps);
   const store = initializeStore();
 
   return (
