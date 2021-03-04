@@ -5,12 +5,12 @@ import { RouteConfigComponentProps } from 'react-router-config';
 // components
 import Container from '@material-ui/core/Container';
 import Layout from '../../components/layout';
-import SliderBanner from '../../components/slider-banner';
-import TopCampaign from '../../components/top-campaign';
-import TopNewestProduct from '../../components/top-newest-product';
-import TopListSeller from '../../components/top-list-seller';
-import BlogHome from '../../components/blog-home';
-import BrandHome from '../../components/brand-home';
+import SliderBanner from '../../components/home/slider-banner';
+import TopCampaign from '../../components/home/top-campaign';
+import TopNewestProduct from '../../components/home/top-newest-product';
+import TopListSeller from '../../components/home/top-list-seller';
+import BlogHome from '../../components/home/blog-home';
+import BrandHome from '../../components/home/brand-home';
 
 const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
   const classes = useStyles();

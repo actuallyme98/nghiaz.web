@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     minHeight: '50vh',
+    padding: '0 0 50px',
   },
 }));
 

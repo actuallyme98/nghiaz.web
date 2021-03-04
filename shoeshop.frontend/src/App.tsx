@@ -12,6 +12,7 @@ import Home from './pages/home';
 import Login from './pages/login';
 import Contact from './pages/contact';
 import Category from './pages/category';
+import Shop from './pages/shop';
 
 // themes
 import theme from './themes/light-theme';
@@ -40,6 +41,11 @@ const routes: RouteConfig[] = [
   {
     component: Category,
     path: '/category/:slug?',
+    exact: true,
+  },
+  {
+    component: Shop,
+    path: '/shop/:slug?',
     exact: true,
   },
   {
