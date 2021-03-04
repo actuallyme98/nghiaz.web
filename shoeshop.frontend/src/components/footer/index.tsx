@@ -1,7 +1,7 @@
 import React from 'react';
 
 // styles
-import css from './style.scss';
+import css from './style.module.scss';
 
 interface IProps {}
 

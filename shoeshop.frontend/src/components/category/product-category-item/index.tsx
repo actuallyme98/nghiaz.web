@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 // styles
-import css from './style.scss';
+import css from './style.module.scss';
 
 // redux
 import { useSelector } from 'react-redux';

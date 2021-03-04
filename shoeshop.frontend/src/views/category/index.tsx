@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 
 // styles
-import css from './style.scss';
+import css from './style.module.scss';
 
 // components
 import Button from 'antd/lib/button';

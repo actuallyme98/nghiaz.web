@@ -2,7 +2,7 @@ import React, { useMemo, useCallback } from 'react';
 import Link from 'next/link';
 
 // styles
-import css from './style.scss';
+import css from './style.module.scss';
 
 // components
 import Drawer, { DrawerProps } from 'antd/lib/drawer';

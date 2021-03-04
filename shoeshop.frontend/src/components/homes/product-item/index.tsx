@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import clsx from 'clsx';
 
 // styles
-import css from './style.scss';
+import css from './style.module.scss';
 
 // components
 import Button from 'antd/lib/button';

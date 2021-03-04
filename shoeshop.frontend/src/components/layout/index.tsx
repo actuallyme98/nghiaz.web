@@ -1,12 +1,7 @@
-import 'antd/dist/antd.css';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import 'react-image-gallery/styles/css/image-gallery.css';
-
 import React from 'react';
 import Head from 'next/head';
 // styles
-import css from './style.scss';
+import css from './style.module.scss';
 
 // components
 import Header from '../header';

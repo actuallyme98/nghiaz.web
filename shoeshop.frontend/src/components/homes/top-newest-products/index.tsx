@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 
 // styles
-import css from './style.scss';
+import css from './style.module.scss';
 
 // components
 import Row from 'antd/lib/row';

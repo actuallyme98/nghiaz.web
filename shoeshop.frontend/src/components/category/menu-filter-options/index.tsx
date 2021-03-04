@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback, forwardRef, useImperativeHandle 
 import clsx from 'clsx';
 
 // styles
-import css from './style.scss';
+import css from './style.module.scss';
 
 // components
 import Checkbox from 'antd/lib/checkbox';

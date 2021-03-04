@@ -2,7 +2,7 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 
 // styles
-import css from './style.scss';
+import css from './style.module.scss';
 
 // components
 import Layout from '../../components/layout';

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useImperativeHandle, forwardRef } from 'react';
 
 // styles
-import css from './style.scss';
+import css from './style.module.scss';
 
 // components
 import Select from 'antd/lib/select';

@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState, useImperativeHandle, useCallback } 
 import clsx from 'clsx';
 
 // styles
-import css from './style.scss';
+import css from './style.module.scss';
 
 // components
 import ButtonGroup from 'antd/lib/button/button-group';

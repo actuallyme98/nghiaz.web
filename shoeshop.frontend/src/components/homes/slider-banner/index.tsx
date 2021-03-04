@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import clsx from 'clsx';
 
 // styles
-import css from './style.scss';
+import css from './style.module.scss';
 
 // components
 import Slider, { Settings } from 'react-slick';
