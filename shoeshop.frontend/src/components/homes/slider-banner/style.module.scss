@@ -1,0 +1,29 @@
+.root {
+}
+.image {
+  margin: 0 auto;
+  width: 100%;
+  height: 460px;
+  object-fit: cover;
+  @media screen and (max-width: 600px) {
+    height: 300px;
+  }
+}
+.preArrow {
+  width: 70px;
+  height: 70px;
+  left: 0;
+  z-index: 1;
+  @media screen and (max-width: 600px) {
+    visibility: hidden;
+  }
+}
+.nextArrow {
+  width: 70px;
+  height: 70px;
+  right: 0;
+  z-index: 1;
+  @media screen and (max-width: 600px) {
+    visibility: hidden;
+  }
+}

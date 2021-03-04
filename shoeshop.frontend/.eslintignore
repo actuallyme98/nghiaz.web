@@ -4,3 +4,7 @@ coverage/*
 **/*.d.ts
 # 3rd party libs
 .next
+
+/node_modules
+
+.env

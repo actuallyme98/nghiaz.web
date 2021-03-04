@@ -1,0 +1,42 @@
+.container {
+  text-align: center;
+}
+.lisenceArea {
+  padding: 40px;
+}
+.lisenceItem {
+  display: flex;
+  padding: 10px 15px;
+  & img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+}
+.lisenceHeading {
+  font-weight: 600;
+  font-size: 15px;
+}
+.lisenceText {
+  color: #787878;
+}
+.campaignArea {
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.campaignItem {
+  & img {
+    width: 100%;
+    transition: 0.5s;
+    &:hover {
+      box-shadow: 0px 5px 5px #989797;
+      transform: translate(0, -10px);
+    }
+  }
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
+}

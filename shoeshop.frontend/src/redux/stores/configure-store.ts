@@ -1,8 +1,7 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import promiseMiddleware from 'redux-promise';
 import {
   typePendingReducerSet,
-  TypeReduxPendingState,
   createTypeReduxInitialState,
   typeReduxMiddleware,
 } from '../type-redux';
@@ -14,23 +13,20 @@ export const rootReducer = combineReducers({
   appState: AppReducer.reducer,
 });
 
-export interface IStore {
-  appState: REDUX_STORE.State;
+export interface RootState {
+  appState: REDUX_STORE.Store;
 }
 
-export const InitialState: IStore = Object.assign(createTypeReduxInitialState(), {
+export const InitialState: RootState = Object.assign(createTypeReduxInitialState(), {
   appState: AppReducer.initialState,
 });
 
 const middlewares: any[] = [typeReduxMiddleware, promiseMiddleware];
-const composeEnhancers =
-  process.env.NODE_ENV === 'development'
-    ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-    : compose;
-export const configureStore = (initialState?: IStore) => {
+
+export const configureStore = (initialState?: RootState) => {
   return createStore(
     rootReducer,
     { ...InitialState, ...initialState },
-    composeEnhancers(applyMiddleware(...middlewares)),
+    applyMiddleware(...middlewares),
   );
 };

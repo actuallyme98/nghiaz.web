@@ -1,0 +1,222 @@
+.rootDesktop {
+  min-width: 231px;
+  border-radius: 4px;
+  border: solid 1px #d4d4d4;
+  background-color: #fafafa;
+  padding: 19px;
+
+  & .titleFilter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & .filter {
+      text-transform: uppercase;
+      display: flex;
+      height: 16px;
+      font-family: SFUIDisplay;
+      font-size: 14px;
+      font-weight: bold;
+      color: #f16728;
+
+      & .imgArrowRight {
+        margin-top: 3px;
+        margin-left: 8px;
+        width: 6.7px;
+        height: 10px;
+      }
+    }
+
+    & .unFilterBtn {
+      cursor: pointer;
+      font-family: SFUIDisplay;
+      font-size: 12px;
+      color: #4a4a4a;
+    }
+  }
+
+  .unFilterBtnIcon {
+    right: 0;
+    position: absolute;
+    cursor: pointer;
+    font-family: SFUIDisplay;
+    font-size: 12px;
+    color: #4a4a4a;
+
+    &[class*='ant-btn-link'] {
+      padding: 0;
+      width: 30px !important;
+      height: 30px !important;
+      margin-top: -3px;
+    }
+
+    &:hover {
+      color: #4a4a4a;
+    }
+
+    &:focus {
+      color: #4a4a4a;
+    }
+  }
+
+  & .borderBottom {
+    margin-top: 13px;
+    margin-bottom: 10px;
+    height: 2px;
+    border: solid 1px #e2e2e2;
+  }
+
+  & .firstFilter {
+    margin-bottom: 20px;
+  }
+
+  & .title {
+    position: relative;
+    padding-bottom: 10px;
+    font-family: SFUIDisplay;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4a4a4a;
+  }
+
+  & .check {
+    display: flex;
+    flex-direction: column;
+    font-family: SFUIDisplay;
+    font-size: 14px;
+    color: #4a4a4a;
+
+    [class*='ant-radio-group'] {
+      [class*='ant-radio-wrapper'] {
+        [class*='ant-radio']:hover {
+          [class*='ant-radio-inner'] {
+            border-color: #f16728 !important;
+          }
+        }
+      }
+    }
+
+    [class*='ant-checkbox-group'] {
+      [class*='ant-checkbox-wrapper']:hover {
+        [class*='ant-checkbox'] {
+          [class*='ant-checkbox-inner'] {
+            border-color: #f16728 !important;
+          }
+        }
+      }
+    }
+
+    [class*='ant-checkbox-input']:focus + [class*='ant-checkbox-inner'] {
+      border-color: #f16728;
+    }
+
+    [class*='ant-radio-checked'] {
+      [class*='ant-radio-inner'] {
+        border-color: #f16728;
+
+        &::after {
+          background-color: #f16728;
+        }
+      }
+    }
+
+    [class*='ant-checkbox-checked']::after {
+      border: 1px solid #f16728;
+    }
+
+    [class*='ant-checkbox-checked'] {
+      [class*='ant-checkbox-inner'] {
+        background-color: white;
+        border-color: #f16728;
+
+        &::after {
+          border-color: #f16728;
+        }
+      }
+    }
+  }
+}
+
+.rootMobile {
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  @extend .rootDesktop;
+  background-color: white;
+
+  .listFilter {
+    flex-grow: 1;
+    overflow: scroll;
+    padding-top: 15px;
+  }
+
+  .firstFilter {
+    margin-bottom: 0;
+  }
+}
+
+[class*='ant-checkbox-wrapper'] {
+  margin-left: 0;
+}
+
+.star {
+  margin-top: -5px;
+  margin-right: 6.2px;
+  font-size: 9.6px;
+  color: #efbb3f;
+}
+
+.btnReset {
+  max-width: 160px;
+  border-radius: 2px;
+  border: solid 1px #d2d2d2;
+  background-color: #fcf7f5;
+  font-family: SFUIDisplay;
+  font-size: 15px;
+  font-weight: 600;
+  color: #848484;
+
+  &:focus,
+  &:active {
+    color: #848484;
+    background-color: #fcf7f5;
+    border: solid 1px #d2d2d2;
+  }
+}
+
+.btnApply {
+  max-width: 160px;
+  border-radius: 2px;
+  border: solid 1px #d05922;
+  background-color: #f16728;
+  font-family: SFUIDisplay;
+  font-size: 15px;
+  font-weight: 600;
+
+  &:focus {
+    background-color: #f16728;
+  }
+}
+
+.bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: fit-content;
+  margin: 15px auto 0 auto;
+}
+
+.bottomDesktop {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  & > button {
+    margin: 5px 10px;
+    width: 100%;
+  }
+}

@@ -1,0 +1,113 @@
+.wrapLoading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 11;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.rootDesktop {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  .head {
+    display: flex;
+    align-items: center;
+    border-bottom: solid 1px #dedede;
+    padding: 71px 38px 25px 38px;
+    justify-content: space-between;
+    .left {
+      display: flex;
+      align-items: center;
+    }
+    .btnClose {
+      border: none;
+      min-width: 14px;
+      height: 14px;
+      background-image: url("/images/icons/close.svg");
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    .text {
+      font-family: SFUIDisplay;
+      font-size: 24px;
+      font-weight: 500;
+      color: #4a4a4a;
+      padding: 0 17px;
+    }
+    .badge {
+      & sup {
+        width: 24px;
+        height: 24px;
+        background-color: #f16728;
+        box-shadow: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  .items {
+    overflow: scroll;
+    padding: 24px 38px 0px 38px;
+    flex-grow: 1;
+    .item {
+      margin-bottom: 24px;
+    }
+  }
+
+  .bottom {
+    flex-shrink: 0;
+    box-shadow: 0 2px 11px 0 rgba(0, 0, 0, 0.14);
+    background-color: #ffffff;
+    padding: 32px 20px 20px 20px;
+    .btnOrder {
+      width: 100%;
+      height: 54px;
+      border-radius: 5px;
+      background-color: #f16728;
+      border: none;
+      display: block;
+      margin-bottom: 18px;
+    }
+    .total {
+      display: flex;
+      justify-content: space-between;
+      .text {
+        font-family: SFUIDisplay;
+        font-size: 16px;
+        font-weight: 600;
+        color: #4a4a4a;
+      }
+
+      .price {
+        font-family: SFUIDisplay;
+        font-size: 20px;
+        font-weight: 600;
+        color: #f16728;
+      }
+    }
+  }
+}
+
+.rootMobile {
+  @extend .rootDesktop;
+  height: 70vh;
+  .head {
+    padding: 25px 38px 25px 38px;
+  }
+  .bottom {
+    padding: 20px 20px 10px 20px;
+    .btnOrder {
+      height: 40px;
+      margin-bottom: 10px;
+    }
+  }
+}

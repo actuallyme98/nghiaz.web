@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  padding: 50px 5%;
+  background: #111;
+  color: #fff;
+  h3 {
+    color: #fff;
+  }
+  @media screen and (max-width: 900px) {
+    justify-content: space-between;
+  }
+  @media screen and (max-width: 600px) {
+    display: block;
+  }
+}
+.col2 {
+  width: 20%;
+  margin: 0 50px;
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
+}
+.col1 {
+  width: 33%;
+  @media screen and (max-width: 900px) {
+    width: 70%;
+  }
+}
+.col3 {
+  width: 33%;
+  @media screen and (max-width: 900px) {
+    margin-left: 50px;
+  }
+  @media screen and (max-width: 600px) {
+    margin-left: 0;
+  }
+}

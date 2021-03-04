@@ -1,0 +1,60 @@
+.breadcrumb {
+  width: fit-content;
+  height: 28px;
+  border-radius: 5px;
+  border: solid 1px #efefef;
+  background-color: #f9f9f9;
+  text-align: center;
+  justify-content: space-between;
+  padding: 6px 0 6px 10px;
+  display: flex;
+
+  & .title {
+    // cursor: pointer;
+    float: left;
+    text-align: center;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    font-family: SFUIDisplay;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #4a4a4a;
+    padding-right: 10px;
+  }
+
+  & .title::after {
+    content: "";
+    transform: rotate(-45deg) skew(-12deg, -12deg);
+    display: inline-block;
+    border-bottom: 1px solid #ececec;
+    border-right: 1px solid #ececec;
+    width: 16px;
+    height: 16px;
+    margin-top: -2px;
+    margin-bottom: -2px;
+  }
+
+  & .title:last-child::after {
+    content: none;
+  }
+
+  & .title:last-child {
+    font-family: SFUIDisplay;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #f16728;
+  }
+}
+
+.linkTitle {
+  cursor: pointer;
+}
