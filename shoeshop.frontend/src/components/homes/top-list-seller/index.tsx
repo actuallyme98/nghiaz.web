@@ -17,7 +17,7 @@ interface IProps {}
 const TopListSeller: React.FC<IProps> = (props) => {
   const listProducts = useMemo(() => {
     return products.map((product, index) => (
-      <Col key={index} className={css.listItem} xs={24} sm={12} md={6}>
+      <Col key={index} className={css.listItem} xs={24} sm={12} md={8} xl={6}>
         <a className={css.productLink} href="/shop/giay-the-thao-nam">
           <ProductItem product={product} />
         </a>

@@ -39,13 +39,13 @@ const BlogHome: React.FC<IProps> = (props) => {
   }, []);
 
   return (
-    <div className={css.container}>
+    <div className="container">
       <div className={css.heading}>TIN TỨC MỖI NGÀY</div>
       <Row className={css.gridContainer}>
-        <Col xs={24} sm={18} md={14}>
+        <Col md={24} xl={14}>
           <Slider {...settings}>{blogSliders}</Slider>
         </Col>
-        <Col xs={24} sm={18} md={10} className={css.gridItem}>
+        <Col md={24} xl={10} className={css.gridItem}>
           <div className={css.rightHeading}>BÀI ĐƯỢC XEM NHIỀU NHẤT</div>
           {listBlogs}
         </Col>

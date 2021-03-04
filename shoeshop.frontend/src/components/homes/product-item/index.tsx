@@ -6,11 +6,9 @@ import css from './style.module.scss';
 
 // components
 import Button from 'antd/lib/button';
-import notification from 'antd/lib/notification';
 
 // redux
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '@redux/stores/configure-store';
+import { useDispatch } from 'react-redux';
 import * as AppActions from '@actions/app-action';
 
 // types
@@ -21,12 +19,10 @@ interface IProps {
   product: IProductItem;
 }
 
-// mocks
-const loading = false;
-
-const ProductItem: React.FC<IProps> = ({ product, className }) => {
+const ProductItem: React.FC<IProps> = (props) => {
+  const { className, product } = props;
   const dispatch = useDispatch();
-  const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+
   const handleAddToCart = useCallback(
     async (event: React.MouseEvent<HTMLElement>) => {
       event.preventDefault();
@@ -36,24 +32,16 @@ const ProductItem: React.FC<IProps> = ({ product, className }) => {
   );
 
   return (
-    <div className={clsx(className, isMobile ? css.productMobile : css.productDesktop)}>
-      {/* <div className={css.category}>{product.category}</div> */}
+    <div className={clsx(className, css.container)}>
+      <img alt={product.title} src={product.thumbnail} className={css.imgProduct} />
       <div className={css.titleAndCart}>
         <div className={css.title}>{product.title}</div>
-        <Button
-          className={css.btnAddToCart}
-          onClick={handleAddToCart}
-          loading={loading}
-          shape="circle"
-        />
+        <Button className={css.btnAddToCart} onClick={handleAddToCart} shape="circle" />
       </div>
-      <img alt={product.title} src={product.thumbnail} className={css.imgProduct} />
       <div className={css.price}>
         <div className={css.currentPrice}>{product.currentPrice.toLocaleString('vi-VN')} đ</div>
-        {product.currentPrice != product.originalPrice ? (
+        {product.currentPrice !== product.originalPrice && (
           <div className={css.originalPrice}>{product.originalPrice.toLocaleString('vi-VN')} đ</div>
-        ) : (
-          ''
         )}
       </div>
     </div>

@@ -11,9 +11,9 @@ interface IProps {}
 
 const TopCampaign: React.FC<IProps> = (props) => {
   return (
-    <div className={css.container}>
+    <div className="container">
       <Row className={css.lisenceArea}>
-        <Col className={css.lisenceItem} sm={12} md={6}>
+        <Col className={css.lisenceItem} md={12} xl={6}>
           <img src="/assets/icons/icon-service-transport.png" alt="" />
           <div>
             <div className={css.lisenceHeading}>GIAO HÀNG MIỄN PHÍ</div>
@@ -21,7 +21,7 @@ const TopCampaign: React.FC<IProps> = (props) => {
           </div>
         </Col>
 
-        <Col className={css.lisenceItem} sm={12} md={6}>
+        <Col className={css.lisenceItem} md={12} xl={6}>
           <img src="/assets/icons/icon-service-change.png" alt="" />
           <div>
             <div className={css.lisenceHeading}>ĐỔI TRẢ HÀNG</div>
@@ -29,7 +29,7 @@ const TopCampaign: React.FC<IProps> = (props) => {
           </div>
         </Col>
 
-        <Col className={css.lisenceItem} sm={12} md={6}>
+        <Col className={css.lisenceItem} md={12} xl={6}>
           <img src="/assets/icons/icon-service-recieve-money.png" alt="" />
           <div>
             <div className={css.lisenceHeading}>GIAO HÀNG NHẬN TIỀN</div>
@@ -37,7 +37,7 @@ const TopCampaign: React.FC<IProps> = (props) => {
           </div>
         </Col>
 
-        <Col className={css.lisenceItem} sm={12} md={6}>
+        <Col className={css.lisenceItem} md={12} xl={6}>
           <img src="/assets/icons/icon-service-phone.png" alt="" />
           <div>
             <div className={css.lisenceHeading}>ĐẶT HÀNG ONLINE</div>

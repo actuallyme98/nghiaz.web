@@ -49,13 +49,9 @@
   }
 
   .optionSelect {
-    & [class*='ant-select-selection--single'] {
-      width: 120px;
-      margin-top: -8px;
-      height: 30px;
-      border: solid 1px #e4e4e4;
-      background-color: #ffffff;
-    }
+    width: 120px;
+    margin-top: -8px;
+    height: 30px;
 
     & .option {
       padding: 0 5px;
