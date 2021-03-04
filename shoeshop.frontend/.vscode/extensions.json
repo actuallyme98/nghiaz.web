@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "michelemelluso.code-beautifier",
+    "clinyong.vscode-css-modules",
+    "mikestead.dotenv",
+    "vitaliymaz.vscode-svg-previewer",
+    "foxundermoon.shell-format",
+    "kamikillerto.vscode-colorize"
+  ]
+}

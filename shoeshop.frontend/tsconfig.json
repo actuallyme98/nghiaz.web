@@ -1,0 +1,59 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "paths": {
+      "~/*": [
+        "src/*"
+      ],
+      "@views/*": [
+        "src/views/*"
+      ],
+      "@redux/*": [
+        "src/redux/*"
+      ],
+      "@helpers/*": [
+        "src/helpers/*"
+      ],
+      "@types/*": [
+        "src/types/*"
+      ],
+      "@actions/*": [
+        "src/redux/actions/*"
+      ],
+      "@reducers/*": [
+        "src/redux/reduces/*"
+      ],
+      "@selectors/*": [
+        "src/redux/selectors/*"
+      ],
+      "@i18n": [
+        "src/i18n/index.js"
+      ],
+    }
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
+}
