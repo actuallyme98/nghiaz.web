@@ -14,7 +14,7 @@ import { initializeStore } from '@redux/with-redux';
 
 interface Props {}
 
-const Home: React.FC<Props> = (props) => {
+const Contact: React.FC<Props> = (props) => {
   return (
     <Layout>
       <div className={clsx(css.container, 'container')}>
@@ -109,8 +109,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return {
     props: {
       title: 'Liện hệ',
+      initialReduxState: reduxStore.getState(),
     },
   };
 };
 
-export default Home;
+export default Contact;

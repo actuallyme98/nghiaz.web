@@ -48,8 +48,8 @@ const MediaGallery: React.FC<IProps> = (props) => {
 
   const renderListMedia = useMemo(
     () =>
-      mediaFiles.slice(0, 4).map((media, index) =>
-        mediaFiles.length > 3 && index === 3 ? (
+      mediaFiles.slice(0, 5).map((media, index) =>
+        mediaFiles.length > 4 && index === 4 ? (
           <div
             key={index}
             className={clsx(css.item, css.seeMore)}
@@ -158,23 +158,15 @@ const MediaGallery: React.FC<IProps> = (props) => {
             {media.type === 'image' ? (
               <img className={css.sliderItem} src={media.url} alt="sliderItem" />
             ) : (
-              <iframe
-                width="560"
-                height="315"
-                src={mediaFiles[selectedMedia].url}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-              // <video
-              //   poster={media.thumbnail}
-              //   disablePictureInPicture
-              //   className={css.sliderItem}
-              //   src={media.url}
-              //   playsInline
-              //   controls
-              //   controlsList="nodownload"
-              // />
+              <video
+                poster={media.thumbnail}
+                disablePictureInPicture
+                className={css.sliderItem}
+                src={media.url}
+                playsInline
+                controls
+                controlsList="nodownload"
+              />
             )}
           </div>
         ))}
@@ -190,23 +182,15 @@ const MediaGallery: React.FC<IProps> = (props) => {
           {mediaFiles[selectedMedia].type === 'image' ? (
             <img className={css.media} src={mediaFiles[selectedMedia].url} alt="media" />
           ) : (
-            <iframe
-              width="450"
-              height="348"
+            <video
+              className={css.media}
+              disablePictureInPicture
+              poster={mediaFiles[selectedMedia].thumbnail}
               src={mediaFiles[selectedMedia].url}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-            // <video
-            //   className={css.media}
-            //   disablePictureInPicture
-            //   poster={mediaFiles[selectedMedia].thumbnail}
-            //   src={mediaFiles[selectedMedia].url}
-            //   playsInline
-            //   controls
-            //   controlsList="nodownload"
-            // />
+              playsInline
+              controls
+              controlsList="nodownload"
+            />
           )}
         </div>
       )}

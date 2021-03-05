@@ -1,0 +1,600 @@
+.background {
+  background-color: #f6f6f6;
+  display: inline-block;
+  width: 100%;
+  padding-bottom: 146px;
+}
+
+.contentDesktop {
+  width: 1440px;
+  box-sizing: border-box;
+  padding: 0 100px;
+  margin: auto;
+
+  [class*="ant-radio-inner"] {
+    border-color: black !important;
+    color: black;
+
+    &::after {
+      background-color: black;
+    }
+  }
+
+  [class*="ant-radio-checked"] {
+    border-color: black;
+  }
+
+  .stepper {
+    width: 635px;
+    margin: 53px auto;
+  }
+
+  .haveAccDesktop {
+    margin-top: 30px;
+    margin-bottom: 35px;
+    font-family: SFUIDisplay;
+    font-size: 18px;
+    font-weight: 600;
+    color: #384650;
+
+    .loginNow {
+      cursor: pointer;
+      color: #f16728;
+    }
+  }
+  .wrap {
+    display: flex;
+
+    .col1 {
+      width: 771px;
+
+      .address {
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.08);
+        border: solid 1px #e1e1e1;
+        background-color: #ffffff;
+
+        .addressShipAdd {
+          display: flex;
+          justify-content: space-between;
+
+          .shippingAddress {
+            display: flex;
+            align-items: baseline;
+
+            .imgTitle {
+              display: flex;
+              align-items: center;
+
+              .shippingAddressImg {
+                width: 16px;
+                height: 19px;
+              }
+
+              .shippingAddressText {
+                margin-left: 20px;
+                font-family: SFUIDisplay;
+                font-size: 26px;
+                color: #4a4a4a;
+              }
+            }
+
+            .change {
+              margin-left: 20px;
+              font-family: SFUIDisplay;
+              font-size: 14px;
+              color: #788995;
+            }
+          }
+
+          .onOpenDeliveryAddressModal {
+            margin-left: auto;
+            cursor: pointer;
+            padding-top: 8px;
+            text-align: center;
+            width: 146px;
+            height: 33px;
+            border-radius: 3px;
+            border: solid 1px #dcdcdc;
+            background-color: #ffffff;
+
+            font-family: SFUIDisplay;
+            font-size: 12px;
+            font-weight: 600;
+            color: #819aac;
+          }
+        }
+
+        .addressDetails {
+          padding-top: 27px;
+          display: flex;
+
+          .btnRadio {
+            display: flex;
+
+            .namePhoneNumber {
+              padding-left: 12px;
+
+              .name {
+                max-width: 160px;
+                display: flex;
+                font-family: SFUIDisplay;
+                font-size: 16px;
+                font-weight: 600;
+                line-height: 1.56;
+                color: #384650;
+              }
+
+              .phoneNumber {
+                font-weight: normal;
+                color: #788995;
+              }
+            }
+          }
+
+          .addressDetailsRightName {
+            max-width: 433px;
+            margin-left: 20px;
+            font-family: SFUIDisplay;
+            font-size: 16px;
+            line-height: 1.56;
+            color: #384650;
+          }
+
+          .default {
+            padding: 3px 5px;
+            margin-left: 28px;
+            text-align: center;
+            align-items: center;
+            min-width: 64px;
+            max-height: 25px;
+            border-radius: 3px;
+            border: solid 1px #d3d3d3;
+            background-color: #f2f2f2;
+
+            font-family: SFUIDisplay;
+            font-size: 12px;
+            font-weight: 600;
+            color: #819aac;
+          }
+        }
+      }
+
+      .paymentMethods {
+        border-radius: 10px;
+        box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.08);
+        border: solid 1px #e1e1e1;
+        background-color: #ffffff;
+        margin-top: 30px;
+        padding: 30px;
+
+        .titlePaymentMethods {
+          display: flex;
+          align-items: center;
+
+          .paymentMethodsImg {
+            width: 24px;
+            height: 18px;
+          }
+
+          .paymentMethodsText {
+            padding-left: 10px;
+            font-family: SFUIDisplay;
+            font-size: 26px;
+            color: #4a4a4a;
+          }
+        }
+
+        .methods {
+          padding-top: 17px;
+          display: flex;
+
+          .btnRadio:last-child {
+            padding-bottom: 0;
+          }
+
+          .btnRadio {
+            display: flex;
+            padding-bottom: 15px;
+
+            .nameMethods {
+              padding-left: 12px;
+              font-family: SFUIDisplay;
+              font-size: 16px;
+              font-weight: 600;
+              line-height: 1.56;
+              color: #384650;
+            }
+
+            [class*="ant-radio-inner"] {
+              border-color: black;
+              color: black;
+            }
+          }
+        }
+      }
+
+      .deliveryMethods {
+        border-radius: 10px;
+        box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.08);
+        border: solid 1px #e1e1e1;
+        background-color: #ffffff;
+        margin-top: 30px;
+        padding: 30px;
+
+        .titleDeliveryMethods {
+          display: flex;
+          align-items: center;
+
+          .deliveryMethodsImg {
+            width: 26px;
+            height: 19px;
+          }
+
+          .deliveryMethodsText {
+            padding-left: 10px;
+            font-family: SFUIDisplay;
+            font-size: 26px;
+            color: #4a4a4a;
+          }
+        }
+
+        .methods {
+          padding-top: 17px;
+          display: flex;
+
+          .btnRadio:last-child {
+            padding-bottom: 0;
+          }
+
+          .btnRadio {
+            display: flex;
+            padding-bottom: 15px;
+
+            .fast {
+              padding-left: 12px;
+
+              .name {
+                font-family: SFUIDisplay;
+                font-size: 16px;
+                font-weight: 600;
+                line-height: 1.56;
+                color: #384650;
+              }
+
+              .deliveryDetails {
+                display: flex;
+                font-weight: normal;
+                color: #788995;
+
+                .dash {
+                  padding: 0 10px;
+                }
+              }
+            }
+
+            [class*="ant-radio-inner"] {
+              border-color: black;
+              color: black;
+            }
+          }
+        }
+      }
+
+      .orderNotes {
+        margin-top: 30px;
+        padding: 30px 45px 50px 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.08);
+        border: solid 1px #e1e1e1;
+        background-color: #ffffff;
+
+        .titleOrderNotes {
+          display: flex;
+          align-items: center;
+
+          .OrderNotesImg {
+            width: 18px;
+            height: 20px;
+          }
+
+          .OrderNotesText {
+            padding-left: 10px;
+            font-family: SFUIDisplay;
+            font-size: 26px;
+            color: #4a4a4a;
+          }
+        }
+
+        .inputTextOrderNotes {
+          padding: 15px 20px 15px 20px;
+          margin-top: 20px;
+          width: 705px;
+          height: 96px;
+          border-radius: 5px;
+          border: solid 1px #979797;
+          background-color: #ffffff;
+
+          font-family: SFUIDisplay;
+          font-size: 16px;
+          color: #788995;
+          resize: none;
+        }
+      }
+    }
+
+    .col2 {
+      // margin-top: 92px;
+      margin-left: 33px;
+      flex-grow: 1;
+
+      .pay {
+        &:not(:disabled) {
+          background-color: #f16728;
+          color: #ffffff;
+        }
+        height: unset;
+        padding: 15px 0;
+        margin-top: 20px;
+        width: 100%;
+        border-radius: 5px;
+        font-family: SFUIDisplay;
+        font-size: 20px;
+        font-weight: 600;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.contentMobile {
+  @extend .contentDesktop;
+  padding: 0px;
+  padding-bottom: 60px;
+  background-color: #eef0f6;
+  width: 100%;
+
+  [class*="ant-radio-wrapper"] {
+    margin-right: 0;
+  }
+
+  .wrap {
+    display: block;
+
+    .col1 {
+      width: 100%;
+
+      .payMobile {
+        align-items: center;
+        display: flex;
+        width: 100%;
+        background-color: #ffffff;
+        padding: 15px 20px;
+
+        .imgPayMoblile {
+          width: 16px;
+          height: 16px;
+          font-size: 16px 16px;
+        }
+
+        .payMobileText {
+          padding-left: 10px;
+          font-family: SFUIDisplay;
+          font-size: 18px;
+          font-weight: 600;
+          color: #4a4a4a;
+        }
+      }
+
+      .address {
+        margin-top: 10px;
+        padding: 10px 15px 25px 20px;
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+
+        .addressShipAdd {
+          .onOpenDeliveryAddressModal {
+            display: none;
+          }
+
+          .shippingAddress {
+            width: 100%;
+            justify-content: space-between;
+
+            .imgTitle {
+              .shippingAddressImg {
+                margin-left: 0;
+                width: 12px;
+                height: 14px;
+              }
+
+              .shippingAddressText {
+                font-family: SFUIDisplay;
+                font-size: 16px;
+                font-weight: 600;
+                color: #384650;
+                margin-left: 8px;
+              }
+            }
+
+            .change {
+              font-size: 14px;
+              color: #788995;
+            }
+          }
+
+          .addAddress {
+            display: none;
+          }
+        }
+
+        .addressDetails {
+          padding-top: 13px;
+          width: 100%;
+          flex-wrap: wrap;
+
+          .btnRadio {
+            .namePhoneNumber {
+              padding-left: 8px;
+              display: flex;
+              flex-wrap: wrap;
+              align-items: baseline;
+
+              .name {
+                .borderColNamePhone {
+                  padding: 0 10px;
+                }
+              }
+            }
+          }
+
+          .addressDetailsRightName {
+            padding-top: 9px;
+            width: 100%;
+            padding-left: 24px;
+            margin-left: 0;
+            font-family: SFUIDisplay;
+            font-size: 16px;
+            line-height: 1.56;
+            color: #384650;
+          }
+
+          .default {
+            display: none;
+          }
+        }
+      }
+
+      .deliveryMethods {
+        margin-top: 10px;
+        padding: 20px 15px 30px 20px;
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+
+        .titleDeliveryMethods {
+          .deliveryMethodsImg {
+            width: 16px;
+            height: 10px;
+          }
+
+          .deliveryMethodsText {
+            font-family: SFUIDisplay;
+            font-size: 16px;
+            font-weight: 600;
+            color: #384650;
+          }
+        }
+
+        .methods {
+          .btnRadio {
+            padding-bottom: 10px;
+
+            .fast {
+              .deliveryDetails {
+                display: block;
+              }
+            }
+          }
+        }
+      }
+
+      .paymentMethods {
+        margin-top: 10px;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        background-color: #ffffff;
+        padding: 20px 15px 30px 20px;
+
+        .titlePaymentMethods {
+          .paymentMethodsImg {
+            width: 16px;
+            height: 10px;
+          }
+
+          .paymentMethodsText {
+            font-family: SFUIDisplay;
+            font-size: 16px;
+            font-weight: 600;
+            color: #384650;
+          }
+
+          .methods {
+            .btnRadio {
+              .nameMethods {
+                font-family: SFUIDisplay;
+                font-size: 16px;
+                font-weight: 600;
+                line-height: 1.56;
+                color: #384650;
+              }
+            }
+          }
+        }
+      }
+
+      .orderNotes {
+        margin-top: 10px;
+        padding: 20px 15px 35px 20px;
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+
+        .titleOrderNotes {
+          .OrderNotesImg {
+            width: 14px;
+            height: 16px;
+          }
+
+          .OrderNotesText {
+            font-family: SFUIDisplay;
+            font-size: 16px;
+            font-weight: 600;
+            color: #384650;
+
+            .ifOrderNotesText {
+              font-weight: normal;
+              color: #788995;
+            }
+          }
+        }
+
+        .inputTextOrderNotes {
+          padding: 10px 15px 10px 15px;
+          margin-top: 15px;
+          width: 100%;
+          height: 96px;
+          border-radius: 5px;
+          border: solid 1px #979797;
+          background-color: #ffffff;
+
+          font-family: SFUIDisplay;
+          font-size: 16px;
+          color: #788995;
+          resize: none;
+        }
+      }
+    }
+
+    .col2 {
+      margin-top: 10px;
+      margin-left: 0px;
+      width: 100%;
+
+      .pay {
+        margin: 15px 15px 30px 15px;
+        width: calc(100% - 30px);
+      }
+    }
+  }
+}
+
+.center {
+  text-align: center;
+}

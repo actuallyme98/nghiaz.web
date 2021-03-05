@@ -104,7 +104,7 @@ const ProductInformation: React.FC<Props> = (props) => {
           <div className={css.promotionCode}>
             <div className={css.promotionCodeLeft}>Nhập mã khuyến mại</div>
             <div className={css.promotionCodeRight}>{voucher}</div>
-            <img src="/images/icons/down-arrow.svg"></img>
+            <img src="/assets/icons/down-arrow.svg"></img>
           </div>
         </Dropdown>
       </div> */}
@@ -112,7 +112,7 @@ const ProductInformation: React.FC<Props> = (props) => {
       <div className={css.table}>
         {data.colors && (
           <div className={css.elementTd}>
-            {/* <img src="/images/icon-product-detail/multiple-19.svg" /> */}
+            {/* <img src="/assets/icon-product-detail/multiple-19.svg" /> */}
             <div>
               <div className={css.textTopTd}>Màu sắc</div>
               <div className={css.textBottomTd}>{colorsMemo}</div>
@@ -121,7 +121,7 @@ const ProductInformation: React.FC<Props> = (props) => {
         )}
         {data.sizes && (
           <div className={css.elementTd}>
-            {/* <img src="/images/icon-product-detail/time-alarm.svg" /> */}
+            {/* <img src="/assets/icon-product-detail/time-alarm.svg" /> */}
             <div>
               <div>
                 <div className={css.textTopTd}>Kích cỡ</div>

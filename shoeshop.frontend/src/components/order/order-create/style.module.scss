@@ -1,0 +1,49 @@
+.contentDesktop {
+  width: 462px;
+  height: 557px;
+  padding: 50px 60px 0 30px;
+  background-image: url('/assets/checkout/creacte-acc-in-order.png');
+  background-size: cover;
+  margin-left: 20px;
+
+  .titleCreate {
+    font-family: SFUIDisplay;
+    font-size: 30px;
+    color: #404040;
+  }
+
+  .content {
+    font-family: SFUIDisplay;
+    font-size: 18px;
+    color: #404040;
+  }
+
+  .emailCreate {
+    color: #6cc1da;
+  }
+
+  .signupClick {
+    &:focus,
+    &:hover {
+      background-color: #f16728;
+    }
+
+    height: unset;
+    cursor: pointer;
+    padding: 15px 0;
+    margin-top: 20px;
+    width: 288px;
+    border-radius: 5px;
+    background-color: #f16728;
+
+    font-family: SFUIDisplay;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    color: #ffffff;
+  }
+}
+
+.contentMobile {
+  display: none;
+}

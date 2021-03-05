@@ -1,0 +1,29 @@
+.root {
+  display: flex;
+  .topLine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .checkBox {
+    [class*='ant-checkbox-checked'] {
+      [class*='ant-checkbox-inner'] {
+        background-color: white;
+        border-color: #d9d9d9;
+        &::after {
+          border-color: #f16728;
+        }
+      }
+    }
+    .label {
+      font-family: SFUIDisplay;
+      font-size: 14px;
+      font-weight: 500;
+      color: #384650;
+    }
+  }
+
+  .errorSelect {
+    border: solid 1px rgb(255, 77, 79) !important;
+  }
+}

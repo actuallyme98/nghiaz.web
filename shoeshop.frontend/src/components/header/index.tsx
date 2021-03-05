@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 
 // styles
 import css from './style.module.scss';
@@ -22,6 +23,7 @@ const Header: React.FC<IProps> = (props) => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const openCartDrawer = useSelector((store: RootState) => store.appState.openCartDrawer);
   const dispatch = useDispatch();
+  const route = useRouter();
 
   const handleCollapseMenu = useCallback(() => {
     setOpenMenu((prev) => !prev);
@@ -34,6 +36,10 @@ const Header: React.FC<IProps> = (props) => {
   const handleOpenCloseCartDrawer = useCallback(() => {
     dispatch(AppActions.openCartDrawer(!openCartDrawer));
   }, [openCartDrawer]);
+
+  const redirectToBlog = useCallback(() => {
+    route.push('/blogs');
+  }, []);
 
   return (
     <div>
@@ -156,7 +162,7 @@ const Header: React.FC<IProps> = (props) => {
             <a className={css.menuLink} href="/">
               Khuyến mại
             </a>
-            <a href="/blogs" className={clsx(css.menuLink, css.menuDropDown)}>
+            <div onClick={redirectToBlog} className={clsx(css.menuLink, css.menuDropDown)}>
               Tin tức
               <div className={css.dropDown}>
                 <a className={css.dropDownItem} href="/">
@@ -175,7 +181,7 @@ const Header: React.FC<IProps> = (props) => {
                   Feedback
                 </a>
               </div>
-            </a>
+            </div>
             <a className={css.menuLink} href="/contact">
               Liên hệ
             </a>

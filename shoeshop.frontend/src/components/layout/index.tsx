@@ -8,6 +8,7 @@ import Footer from '../footer';
 
 interface IProps {
   title?: string;
+  loading?: boolean;
 }
 const Layout: React.FC<IProps> = (props) => {
   const { children, title } = props;

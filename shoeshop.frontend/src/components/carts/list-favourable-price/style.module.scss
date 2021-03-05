@@ -1,0 +1,133 @@
+.root {
+  width: 771px;
+  border-radius: 10px;
+  box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.08);
+  border: solid 1px #e1e1e1;
+  background-color: #ffffff;
+
+  .title {
+    font-family: SFUIDisplay;
+    font-size: 26px;
+    display: flex;
+    padding: 23px 0 20px 23px;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 36px;
+      height: 36px;
+      background-image: url('/assets/checkout/coupon.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      margin-right: 17px;
+    }
+  }
+
+  .listProductSlide {
+    overflow: auto;
+    display: flex;
+    margin-left: -10px;
+    margin-right: -10px;
+    padding-left: 10px;
+  }
+
+  .scroll {
+    padding: 0px 0px;
+  }
+
+  .disabledArrow {
+    visibility: hidden;
+  }
+
+  .nextArrow {
+    width: 40px;
+    height: 40px;
+    right: 0px;
+    z-index: 1;
+    opacity: 0.5;
+  }
+
+  .preArrow {
+    width: 40px;
+    height: 40px;
+    left: 0px;
+    opacity: 0.5;
+    z-index: 1;
+  }
+
+  .slideItem {
+    height: 376px;
+    margin: 10px;
+    width: 237px;
+    outline: none !important;
+  }
+}
+
+.rootMobile {
+  @extend .root;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 14px;
+  width: 100%;
+
+  .title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4a4a4a;
+    padding: 0;
+    padding-left: 2.5px;
+    padding-bottom: 15px;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 6px;
+    }
+  }
+
+  .listProductSlide {
+    display: block;
+    white-space: nowrap;
+    padding-left: 0;
+  }
+
+  .slide {
+    [class='slick-list'] {
+      overflow: auto;
+    }
+
+    [class='slick-track'] {
+      width: unset !important;
+      display: flex;
+    }
+  }
+
+  .block {
+    margin-bottom: 5px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .slideItem {
+    height: auto;
+    margin: 0 2.5px;
+    width: 150px;
+    display: inline-block;
+  }
+
+  .nextArrow {
+    display: none !important;
+  }
+
+  .preArrow {
+    display: none !important;
+  }
+
+  .scroll {
+    padding: 0px 0px;
+    margin: 0px 0px;
+  }
+}

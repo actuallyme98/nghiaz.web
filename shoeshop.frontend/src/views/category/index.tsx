@@ -65,7 +65,6 @@ const Category: React.FC<Props> = (props) => {
   const onCloseFilterMenu = useCallback(() => setOpenFilterMenu(false), []);
 
   const breadcrumbs = useMemo(() => [...BREADCRUMB_ITEMS], []);
-
   return (
     <Layout>
       <div className={isMobile ? css.contentMobile : css.contentDesktop}>
@@ -156,6 +155,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return {
     props: {
       title: 'Category - ',
+      initialReduxState: reduxStore.getState(),
     },
   };
 };

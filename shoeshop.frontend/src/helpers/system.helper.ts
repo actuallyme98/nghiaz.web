@@ -1,6 +1,6 @@
 class SystemHelper {
   public static detectMobile(userAgent: string) {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Safari/i.test(userAgent);
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
   }
 
   public static delay(timeout: number) {

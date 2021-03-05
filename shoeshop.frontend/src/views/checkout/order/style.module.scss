@@ -1,0 +1,73 @@
+.background {
+  background-color: #f6f6f6;
+  display: inline-block;
+  width: 100%;
+  padding-bottom: 146px;
+}
+
+.contentDesktopBackground {
+  @extend .contentDesktop;
+
+  .wrap {
+    background-image: url('/assets/checkout/left-back-ground.jpg');
+    background-color: #cfe8e2;
+    background-position: calc(100%) center;
+    background-repeat: no-repeat;
+  }
+}
+
+.contentDesktop {
+  width: 1440px;
+  box-sizing: border-box;
+  padding: 0 100px;
+  margin: auto;
+
+  .stepper {
+    width: 635px;
+    margin: 53px auto;
+  }
+
+  .wrap {
+    display: flex;
+  }
+}
+
+.contentMobile {
+  @extend .contentDesktop;
+  padding: 0px;
+  padding-bottom: 60px;
+  background-color: #eef0f6;
+  width: 100%;
+  min-height: 100vh;
+
+  .wrap {
+    display: block;
+
+    .col1 {
+      width: 100%;
+    }
+  }
+}
+
+.payMobile {
+  margin-bottom: 17px;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 15px 20px;
+
+  .imgPayMoblile {
+    width: 16px;
+    height: 16px;
+    font-size: 16px 16px;
+  }
+
+  .payMobileText {
+    padding-left: 10px;
+    font-family: SFUIDisplay;
+    font-size: 18px;
+    font-weight: 600;
+    color: #4a4a4a;
+  }
+}

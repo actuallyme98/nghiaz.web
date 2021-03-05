@@ -1,0 +1,122 @@
+.background {
+  background-color: #f6f6f6;
+  display: inline-block;
+  width: 100%;
+  padding-bottom: 146px;
+}
+
+.loading {
+  margin: auto;
+}
+
+.contentDesktop {
+  width: 1440px;
+  box-sizing: border-box;
+  padding: 0 100px;
+  margin: auto;
+
+  .stepper {
+    width: 635px;
+    margin: 53px auto;
+  }
+
+  .title {
+    width: 228px;
+    font-family: SFUIDisplay;
+    font-size: 30px;
+    color: #4a4a4a;
+    margin-bottom: 22px;
+  }
+
+  .wrap {
+    display: flex;
+
+    .col1 {
+      width: 771px;
+      margin-right: 33px;
+
+      .noProduct {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.08);
+        border: solid 1px #e1e1e1;
+        background-color: #ffffff;
+        display: flex;
+        padding: 25px 40px 25px 35px;
+        font-family: SFUIDisplay;
+        font-size: 20px;
+        font-weight: 500;
+        text-align: right;
+        color: #384650;
+      }
+    }
+
+    .col2 {
+      flex-grow: 1;
+    }
+
+    .listRelated {
+      margin-top: 35px;
+    }
+  }
+}
+
+.contentMobile {
+  @extend .contentDesktop;
+  padding: 0px;
+  padding-bottom: 60px;
+  background-color: #eef0f6;
+  width: 100%;
+
+  .title {
+    width: 100%;
+    padding-left: 15px;
+    font-family: SFUIDisplay;
+    font-size: 18px;
+    font-weight: 600;
+    color: #4a4a4a;
+    background-color: white;
+    margin: 0;
+    align-items: center;
+    display: flex;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    &::before {
+      content: '';
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      background-image: url('/assets/icons/bag-red.svg');
+      display: inline-block;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+  }
+
+  .wrap {
+    .col1 {
+      width: 100%;
+      margin-right: 0;
+
+      .noProduct {
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 12px 28px 19px 16px;
+        margin-top: 12px;
+      }
+    }
+
+    .listCartItem {
+      border-radius: 0;
+      box-shadow: none;
+      border: none;
+      margin: 0;
+    }
+
+    .listRelated {
+      margin-top: 17px;
+    }
+  }
+}

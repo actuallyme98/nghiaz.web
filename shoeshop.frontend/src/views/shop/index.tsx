@@ -27,38 +27,38 @@ const BREADCRUMB_ITEMS: BreadcumbItem[] = [
 const mediaFiles = [
   {
     thumbnail: '/assets/mocks/products/product2.jpg',
-    type: 'video',
-    url: 'https://www.youtube.com/embed/ToCfRdeH5X8',
+    type: 'image',
+    url: '/assets/mocks/products/product2.jpg',
   },
   {
     thumbnail: '/assets/mocks/products/product2.jpg',
-    type: 'video',
-    url: 'https://www.youtube.com/embed/7vR2lPExR00',
+    type: 'image',
+    url: '/assets/mocks/products/product2.jpg',
   },
   {
     thumbnail: '/assets/mocks/products/product2.jpg',
-    type: 'video',
-    url: 'https://www.youtube.com/embed/nLzyTNd-j3M',
+    type: 'image',
+    url: '/assets/mocks/products/product2.jpg',
   },
   {
     thumbnail: '/assets/mocks/products/product2.jpg',
-    type: 'video',
-    url: 'https://www.youtube.com/embed/X_6rIASGJCQ',
+    type: 'image',
+    url: '/assets/mocks/products/product2.jpg',
   },
   {
     thumbnail: '/assets/mocks/products/product2.jpg',
-    type: 'video',
-    url: 'https://www.youtube.com/embed/sWMhBC8_Wcs',
+    type: 'image',
+    url: '/assets/mocks/products/product2.jpg',
   },
   {
     thumbnail: '/assets/mocks/products/product2.jpg',
-    type: 'video',
-    url: 'https://www.youtube.com/embed/TsrfgJB6QD4',
+    type: 'image',
+    url: '/assets/mocks/products/product2.jpg',
   },
   {
     thumbnail: '/assets/mocks/products/product2.jpg',
-    type: 'video',
-    url: 'https://www.youtube.com/embed/xp8E3Wvqzf8',
+    type: 'image',
+    url: '/assets/mocks/products/product2.jpg',
   },
 ];
 
@@ -142,6 +142,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return {
     props: {
       title: 'Sản phẩm -',
+      initialReduxState: reduxStore.getState(),
     },
   };
 };

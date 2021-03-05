@@ -53,6 +53,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return {
     props: {
       title: 'Đăng nhập',
+      initialReduxState: reduxStore.getState(),
     },
   };
 };
