@@ -47,7 +47,7 @@ const DeliveryAddress: NextPage<Props> = () => {
   }, [deliveryAddresses]);
 
   return isMobile ? (
-    <Layout title="Địa chỉ nhận hàng" loading={loading || loadingDelivery}>
+    <Layout loading={loading || loadingDelivery}>
       <div className={css.rootMobile}>
         <div className={css.title}>
           <img src="/assets/icons/red-delivery-fast.svg" alt="" />

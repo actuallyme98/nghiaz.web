@@ -24,7 +24,7 @@ const Error: NextPage<IProps> = ({ statusCode }) => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
 
   return (
-    <Layout title={String(statusCode)}>
+    <Layout>
       {statusCode ? (
         <div className={isMobile ? css.contentMobile : css.contentDesktop}>
           <img src="/assets/page-404/404err.jpg" className={css.imgError} />

@@ -60,7 +60,7 @@ const Order: NextPage<IProps> = () => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
 
   return (
-    <Layout title="Thông tin đơn hàng" loading={String(route.query.id) !== 'error' && loading}>
+    <Layout loading={String(route.query.id) !== 'error' && loading}>
       <div className={!isMobile ? css.background : ''}>
         <div
           className={

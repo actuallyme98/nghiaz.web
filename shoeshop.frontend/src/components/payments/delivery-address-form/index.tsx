@@ -229,7 +229,7 @@ export interface AddDeliveryFormValues {
   address: string;
 }
 
-const validateAddDeliverySchema = Yup.object().shape<AddDeliveryFormValues>({
+const validateAddDeliverySchema = Yup.object().shape({
   name: Yup.string().required('Trường Bắt Buộc').max(255, 'Tối đa 255 ký tự'),
   phone: Yup.string().required('Trường Bắt Buộc').matches(/\d+/, 'Sai dịnh dạng'),
   address: Yup.string().required('Trường Bắt Buộc').max(255, 'Tối đa 255 ký tự'),

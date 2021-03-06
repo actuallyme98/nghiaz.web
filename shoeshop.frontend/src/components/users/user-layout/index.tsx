@@ -37,7 +37,7 @@ const loadingUser = false;
 const UserLayout: React.FC<Props> = ({ children, breadcumb, title = 'Trang cá nhân', loading }) => {
   const items = useMemo(() => [...BREADCRUMB_ITEMS, ...breadcumb], [breadcumb]);
   return (
-    <Layout title={title} loading={loading || loadingUser}>
+    <Layout loading={loading || loadingUser}>
       <div className={css.root}>
         <div className={css.container}>
           <div className={css.breadcumbWrap}>
