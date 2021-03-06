@@ -12,8 +12,10 @@ create table users(
 	email char(50),
 	password char(128) not null,
 	is_supperuser int, -- 0 or 1,
-	first_name nvarchar(20) not null,
-	last_name nvarchar(20) not null
+	first_name nvarchar(30) not null,
+	last_name nvarchar(30) not null,
+	create_at char(20),
+	update_at char(20)
 );
 
 create table client(
@@ -47,7 +49,6 @@ create table product(
 	current_price int,
 	is_special int, -- 0 or 1
 	is_sell_well int, -- 0 or 1
-	weight int,
 	thumbnail char(100),
 	short_description nvarchar(150),
 	description ntext,
@@ -173,8 +174,8 @@ create table ward_id(
 create table flash_sale(
 	id int primary key not null,
 	title nvarchar(100),
-	startDate char(30),
-	endDate char(30),
+	start_date char(30),
+	end_date char(30),
 	status int, -- 0 or 1
 );
 
@@ -185,4 +186,73 @@ create table flash_sale_item(
 	sale_price int,
 	quantity int,
 	sold_quantity int
+);
+
+create table voucher_code(
+	id int primary key not null,
+	voucher_id int not null,
+	code char(20) not null,
+	status int, -- 0 or 1
+	is_used int, -- 0 or 1
+);
+
+create table voucher(
+	id int primary key not null,
+	title varchar(50),
+	start_date char(20),
+	end_date char(20),
+	percent_discount int,
+	amount int,
+	max_amount int,
+	status int, -- 0 or 1,
+	quantity int,
+	require_max_price int,
+	require_min_price int,
+);
+
+create table voucher_category(
+	id int primary key not null,
+	voucher_id int not null,
+	category int not null
+);
+
+create table cart(
+	id int primary key not null,
+	client_id int not null,
+);
+
+create table cart_item(
+	id int primary key not null,
+	cart_id int not null,
+	product_id int not null,
+	amount int,
+	create_at char(20),
+	update_at char(20)
+);
+
+create table orders(
+	id int primary key not null,
+	client_id int not null,
+	status int, -- 0 or 1
+	reason nvarchar(100),
+	description ntext,
+	price int,
+	shipping_fee int,
+	payment_method char(20),
+	name nvarchar(30),
+	phone char(20),
+	address ntext,
+	ward_id int,
+	district_id int,
+	city_id int,
+	create_at char(20),
+	update_at char(20)
+);
+
+create table order_item(
+	id int primary key not null,
+	order_id int not null,
+	product_id int not null,
+	amount int,
+	price int
 );
