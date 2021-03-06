@@ -1,0 +1,313 @@
+@mixin costMixin($fontSize, $marginTop) {
+  display: flex;
+  justify-content: space-between;
+  margin-top: $marginTop;
+
+  .text {
+    font-family: SFUIDisplay;
+    font-size: 10px;
+    line-height: 1.6;
+    font-weight: 500;
+    color: #384650;
+    margin-top: $marginTop;
+  }
+
+  .price {
+    font-family: SFUIDisplay;
+    font-size: $fontSize;
+    font-weight: 600;
+    line-height: 1.6;
+    color: #d7616e;
+  }
+}
+
+.box {
+  min-height: 318px;
+  width: 420px;
+  border-radius: 4px;
+  box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.03);
+  border: solid 1px #e7e7e7;
+  background-color: #ffffff;
+  display: inline-block;
+  vertical-align: top;
+
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 14px 13px 17px;
+    border-bottom: 1px solid #e7e7e7;
+
+    .status {
+      font-family: SFUIDisplay;
+      font-size: 12px;
+      letter-spacing: 0.34px;
+      color: #384650;
+      position: relative;
+
+      .icon {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 5px;
+        left: -14px;
+
+        &.success {
+          background-color: #a4d56e;
+        }
+
+        &.pending {
+          background-color: #f16728;
+        }
+
+        &.cancel {
+          background-color: #d7616e;
+        }
+      }
+    }
+  }
+
+  .body {
+    padding: 17px 0 15px 16px;
+
+    .products {
+      display: flex;
+      min-height: 150px;
+
+      .boxProduct {
+        width: 85px;
+        margin-right: 17px;
+
+        img {
+          width: 100%;
+          height: 85px;
+        }
+      }
+
+      .boxHidden {
+        width: 85px;
+        height: 85px;
+        background-image: url('/assets/mocks/products/hidden.png');
+        background-size: contain;
+        display: inline-flex;
+        vertical-align: top;
+        justify-content: center;
+        align-items: center;
+        font-family: SFUIDisplay;
+        font-size: 15px;
+        letter-spacing: 0.34px;
+        color: #ffffff;
+        cursor: pointer;
+      }
+
+      .name {
+        font-family: SFUIDisplay;
+        font-size: 12px;
+        letter-spacing: 0.34px;
+        text-align: center;
+        color: #788995;
+        margin-top: 8px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+
+    .lineDotted {
+      border-bottom: 2px dashed #e7e7e7;
+      margin-top: 4px;
+    }
+
+    .cost {
+      width: 44%;
+      margin-top: 10px;
+
+      .costDetail {
+        @include costMixin(10px, 0);
+      }
+
+      .totalCost {
+        @include costMixin(14px, 4px);
+      }
+    }
+  }
+}
+
+.boxMobile {
+  @extend .box;
+  margin-top: 12px;
+  min-height: unset;
+  max-height: 340px;
+  width: 100%;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  background-color: #ffffff;
+  display: inline-block;
+  vertical-align: top;
+
+  .heading {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 14px 19px 0;
+    border-bottom: 1px solid #e7e7e7;
+    margin-left: 16px;
+
+    .status {
+      font-family: SFUIDisplay;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      text-align: right;
+      color: #384650;
+      position: relative;
+
+      .icon {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 7px;
+        left: -16px;
+
+        &.success {
+          background-color: #a4d56e;
+        }
+
+        &.pending {
+          background-color: #f16728;
+        }
+
+        &.cancel {
+          background-color: #d7616e;
+        }
+      }
+    }
+  }
+
+  .body {
+    .products {
+      display: flex;
+      overflow: auto;
+
+      .boxProductMobile {
+        width: 85px;
+        margin-right: 17px;
+        padding-top: 10px;
+
+        .imgOrderItemMobile {
+          width: 85px;
+          height: 85px;
+
+          img {
+            width: 100%;
+            height: 100%;
+            max-height: 85px;
+          }
+        }
+      }
+
+      .nameMobile {
+        font-family: SFUIDisplay;
+        font-size: 12px;
+        letter-spacing: 0.34px;
+        text-align: center;
+        color: #788995;
+        margin-top: 8px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+.costMobile {
+  background-color: #fff;
+  width: 100%;
+  margin-top: 2px;
+  padding: 0 0 30px 15px;
+
+  .costDetail {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #ececec;
+    padding: 13px 0;
+
+    .text {
+      font-family: SFUIDisplay;
+      font-size: 16px;
+      font-weight: 500;
+      color: #384650;
+    }
+
+    .price {
+      margin-right: 30px;
+      font-family: SFUIDisplay;
+      font-size: 16px;
+      font-weight: 500;
+      text-align: right;
+      color: #384650;
+    }
+  }
+
+  .totalCost {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+
+    .text {
+      font-family: SFUIDisplay;
+      font-size: 20px;
+      font-weight: 500;
+      text-align: right;
+      color: #384650;
+    }
+
+    .price {
+      margin-right: 30px;
+      font-family: SFUIDisplay;
+      font-size: 22px;
+      font-weight: 600;
+      text-align: right;
+      color: #f16728;
+    }
+  }
+}
+
+.codeX {
+  font-family: SFUIDisplay;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.34px;
+  color: #384650;
+  position: relative;
+  cursor: pointer;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    right: -14px;
+    width: 6px;
+    height: 6px;
+    border-right: 2px solid #384650;
+    border-top: 2px solid #384650;
+    transform: rotate(45deg);
+  }
+}
+
+.codeMobile {
+  @extend .codeX;
+  font-size: 14px;
+  letter-spacing: 0.4px;
+  width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &::after {
+    bottom: 7px;
+  }
+}

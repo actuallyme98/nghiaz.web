@@ -109,7 +109,7 @@ const Header: React.FC<IProps> = (props) => {
               <span>Kiểm tra đơn hàng</span>
             </a>
 
-            <a href="/profile" className={css.borderBox}>
+            <a href="/user" className={css.borderBox}>
               <img src="/assets/icons/user.svg" alt="" />
             </a>
 

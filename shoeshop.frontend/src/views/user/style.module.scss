@@ -1,0 +1,130 @@
+.rootMobile {
+  margin-bottom: 60px;
+}
+
+.title {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  color: #4a4a4a;
+  padding: 0 16px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eef0f6;
+
+  img {
+    margin-right: 7px;
+  }
+}
+
+.top {
+  height: 102px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+
+  .left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+
+    > img {
+      width: 69px;
+      height: 69px;
+      margin-right: 16px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .nameWrap {
+      .name {
+        font-size: 16px;
+        color: #4a4a4a;
+        font-weight: 600;
+      }
+
+      .level {
+        font-size: 14px;
+        color: #788995;
+        font-weight: 600;
+
+        span {
+          margin-right: 5px;
+        }
+
+        img {
+          width: 13px;
+          height: 9px;
+        }
+      }
+    }
+  }
+
+  .right {
+    text-align: right;
+
+    .accumulatedPoints {
+      font-size: 14px;
+      color: #4a5472;
+      font-weight: 600;
+    }
+
+    .point {
+      font-size: 12px;
+      color: #4a5472;
+      font-weight: 600;
+
+      span {
+        font-size: 20px;
+        font-weight: 300;
+      }
+    }
+  }
+}
+
+.middle {
+  display: flex;
+  align-items: center;
+  height: 102px;
+  justify-content: space-between;
+  padding: 0 20px;
+  background-color: #ffffff;
+  margin-top: 10px;
+
+  .middleItem {
+    text-align: center;
+    width: 70px;
+    font-size: 14px;
+    line-height: 16px;
+    color: #788995;
+    font-weight: 500;
+
+    img {
+      margin-bottom: 12px;
+    }
+  }
+}
+
+.bottom {
+  background-color: #ffffff;
+  margin-top: 10px;
+
+  .bottomItem {
+    height: 50px;
+    display: flex;
+    padding: 0 20px;
+    border-bottom: 1px solid #eef0f6;
+    align-items: center;
+    color: #384650;
+    font-size: 14px;
+    font-weight: 500;
+
+    img {
+      width: 20px;
+      height: 20px;
+      margin-right: 20px;
+    }
+  }
+}

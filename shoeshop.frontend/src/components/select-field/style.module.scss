@@ -36,7 +36,12 @@
     background-color: #ffffff;
     padding-left: 15px;
 
-    >div {
+    & [class*='ant-select-selector'] {
+      border-left: 0;
+      border-right: 0;
+    }
+
+    > div {
       display: flex;
       align-items: center;
       width: 100%;
@@ -45,7 +50,7 @@
       outline: none;
       box-shadow: none;
 
-      >div {
+      > div {
         margin-left: 0;
       }
     }

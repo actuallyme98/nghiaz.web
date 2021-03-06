@@ -1,0 +1,52 @@
+.root {
+  .topLine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .label {
+    font-size: 14px;
+    color: #384650;
+    font-weight: 600;
+    margin-right: 30px;
+  }
+
+  .error {
+    text-align: right;
+    text-overflow: ellipsis;
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 12px;
+    color: rgb(255, 77, 79);
+  }
+
+  .picker {
+    outline: none;
+    width: 100%;
+
+    input {
+      margin-top: 2px;
+      width: 100%;
+      background-color: #ffffff;
+      border-radius: 3px;
+      padding: 0 15px;
+      height: 32px;
+      font-size: 16px;
+      color: #788995;
+      outline: none;
+      box-shadow: none;
+
+      &:placeholder {
+        color: #d8d8d8;
+      }
+    }
+  }
+
+  .errorPickerWrap {
+    input {
+      border: solid 1px rgb(255, 77, 79) !important;
+    }
+  }
+}

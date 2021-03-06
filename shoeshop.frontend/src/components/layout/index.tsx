@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useRouter } from 'next/router';
+import clsx from 'clsx';
+
 // styles
 import css from './style.module.scss';
 
@@ -7,14 +10,28 @@ import Header from '../header';
 import Footer from '../footer';
 
 interface IProps {
-  title?: string;
   loading?: boolean;
+  isAuthenticated?: boolean;
 }
+
+const whiteLists = ['/', '/contact', '/signin', '/blogs', '/signup'];
+
 const Layout: React.FC<IProps> = (props) => {
-  const { children, title } = props;
+  const { children } = props;
+  const route = useRouter();
+
+  const isFluid = useMemo(() => {
+    const path = route.pathname;
+    return !whiteLists.includes(path);
+  }, [route]);
 
   return (
-    <div className={css.container}>
+    <div
+      className={clsx({
+        [css.container]: true,
+        [css.containerFluid]: isFluid,
+      })}
+    >
       <Header />
       <div className={css.content}>{children}</div>
       <Footer />

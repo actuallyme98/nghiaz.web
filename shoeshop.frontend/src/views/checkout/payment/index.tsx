@@ -96,9 +96,9 @@ const Payment: NextPage<IProps> = () => {
     setSelectedPaymentMethod(event.target.value);
   }, []);
 
-  const handleConfirmOrder = async () => {
+  const handleConfirmOrder = useCallback(async () => {
     // pending
-  };
+  }, []);
 
   // useEffect(() => {
   //   if (userData) {
@@ -228,7 +228,7 @@ const Payment: NextPage<IProps> = () => {
           {!isMobile && (
             <div className={css.haveAccDesktop}>
               Bạn đã có tài khoản?{' '}
-              <Link href="/signin?redirect=/checkout/payment">
+              <Link href="/signin">
                 <a className={css.loginNow}>Đăng nhập ngay</a>
               </Link>
             </div>
@@ -295,36 +295,6 @@ const Payment: NextPage<IProps> = () => {
                   />
                   <div className={css.deliveryMethodsText}>PHƯƠNG THỨC GIAO HÀNG</div>
                 </div>
-                {/* {loadingUserData || loadingCartLines || loadingShipFree ? (
-                  <div className={css.center}>
-                    <LoadingIcon />
-                  </div>
-                ) : carriers.length > 0 ? (
-                  <>
-                    <SelectField
-                      label=""
-                      selectItems={carriers.map((c) => ({
-                        label: c.carrierName,
-                        value: String(c.carrierId),
-                      }))}
-                      input={{
-                        value: String(selectedCarrier),
-                        onChange: (value) => setSelectedCarrier(Number(value)),
-                      }}
-                    />
-                    <div className={css.methods}>
-                      <Radio.Group onChange={handleChangeDelivery} value={selectedShipFee}>
-                        {renderCaculateShipFee}
-                      </Radio.Group>
-                    </div>
-                  </>
-                ) : (
-                  <div>
-                    {!userData && !deliveryAddressData
-                      ? 'Bạn chưa nhập địa chỉ giao hàng'
-                      : 'Không tìm thấy phương thức giao hàng'}
-                  </div>
-                )} */}
               </div>
 
               <div className={css.paymentMethods}>

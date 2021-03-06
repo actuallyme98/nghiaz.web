@@ -5,7 +5,13 @@
   font-family: SFUIDisplay;
 }
 
+.containerFluid {
+  min-width: 1440px;
+  overflow-x: scroll;
+}
+
 .content {
   min-height: 50vh;
   padding: 0 0 50px;
+  width: 100%;
 }

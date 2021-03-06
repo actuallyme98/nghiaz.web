@@ -59,7 +59,7 @@ const PaymentCard: React.FC<Props> = (props) => {
         <div className={css.textTop}>
           Mua thêm
           <span className={css.buyMore}> {data.buyMore.toLocaleString('vi-VN')} </span>
-          để được nhận ưu đãi cho thành viên Vàng cho đơn hàng từ 1.000.000
+          để được nhận ưu đãi cho thành viên cho đơn hàng từ 1.000.000
         </div>
         <div className={css.seeDetails}>Xem chi tiết</div>
         <div className={css.crossBar}>

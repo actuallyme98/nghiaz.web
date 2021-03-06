@@ -1,7 +1,6 @@
 import Router from 'next/router';
-import { NextApiResponse } from 'next';
 
-export const redirect = (res: NextApiResponse, location: string, status = 302) => {
+export const redirect = (res: any, location: string, status = 302) => {
   if (res) {
     // Seems to be the version used by zeit
     res.writeHead(status, {

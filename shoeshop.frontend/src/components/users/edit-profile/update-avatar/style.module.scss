@@ -1,0 +1,41 @@
+.rootDesktop {
+  .formField {
+    margin-bottom: 10px;
+  }
+  .preview {
+    display: block;
+    width: 93px;
+    height: 93px;
+    border-radius: 50%;
+    object-fit: contain;
+    cursor: pointer;
+    border: solid 1px #cbd4da;
+    margin-top: 5px;
+    object-fit: cover;
+  }
+  .inputFieldInput {
+    display: none;
+  }
+
+  .updateBtn {
+    margin-top: 15px;
+    height: 40px;
+    width: 100%;
+  }
+
+  .updateBtnMobile {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 40px;
+    width: 100%;
+    max-width: 350px;
+  }
+}
+
+.rootMobile {
+  @extend .rootDesktop;
+  .preview {
+    margin: auto;
+  }
+}
