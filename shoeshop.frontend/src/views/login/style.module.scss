@@ -49,11 +49,11 @@
   width: 100% !important;
   margin-bottom: 0;
   outline: 0;
-  background-color: #28303e;
   color: #fff;
   transition: 0.3s;
   &:hover {
-    background: #dc143c;
+    background: #ee5c30;
+    color: #fff;
   }
 }
 .forgotPass {

@@ -30,7 +30,12 @@ const SignUp: React.FC<Props> = (props) => {
         const { phone, firstName, lastName, password } = values;
         formikHelpers.setSubmitting(true);
         await dispatch(
-          AppActions.registerAction({ username: phone, firstName, lastName, password }),
+          AppActions.registerAction({
+            username: phone.trim(),
+            firstName: firstName.trim(),
+            lastName: lastName.trim(),
+            password,
+          }),
         );
         notification.success({
           message: 'Đăng ký thành công, xin mời đăng nhập',

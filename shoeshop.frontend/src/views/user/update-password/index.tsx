@@ -25,7 +25,7 @@ interface Props {}
 const loading = false;
 
 const UpdatePasswordMobile: NextPage<Props> = () => {
-  const profile = useSelector((store: RootState) => store.appState.Profile);
+  const profile = useSelector((store: RootState) => store.appState.profile);
   const route = useRouter();
 
   useEffect(() => {

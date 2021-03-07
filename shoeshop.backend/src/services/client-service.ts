@@ -3,14 +3,11 @@ import { Mssql } from '../base';
 // modals
 import { Client, EnumGender } from '../models';
 
-// helpers
-import { ErrorHelper } from '../helpers';
-
 // transform
-import { toGClient } from '../transforms';
+import { toGClient, GClient } from '../transforms';
 
 export class ClientService {
-  public async findOneByUserId(userId: number): Promise<Client | undefined> {
+  public async findOneByUserId(userId: number): Promise<GClient | undefined> {
     try {
       const result = await Mssql.Find('client', 'users_id', userId);
       if (!result) {
@@ -18,14 +15,14 @@ export class ClientService {
       }
       return toGClient(result);
     } catch (err) {
-      ErrorHelper.BadRequestException(err);
+      throw new Error(err);
     }
   }
   public async findOneById(id: number): Promise<any> {
     try {
       return await Mssql.Find('client', 'id', id);
     } catch (err) {
-      ErrorHelper.BadRequestException(err);
+      throw new Error(err);
     }
   }
   public async createClient(args: Client): Promise<boolean> {

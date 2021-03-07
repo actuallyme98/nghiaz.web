@@ -18,6 +18,11 @@ create table users(
 	update_at char(20)
 );
 
+select * from users
+select * from client
+delete from users
+delete from client
+
 create table client(
 	id int primary key not null,
 	users_id int not null,

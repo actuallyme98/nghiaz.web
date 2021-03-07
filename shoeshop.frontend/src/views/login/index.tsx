@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 
 // formik
 import { Formik, Form, Field, FieldProps, FormikHelpers } from 'formik';
@@ -12,17 +13,33 @@ import css from './style.module.scss';
 import Layout from '../../components/layout';
 import InputField from '../../components/input-field';
 import SubmitButton from '../../components/submit-button';
+import notification from 'antd/lib/notification';
 
 // redux
+import { useDispatch } from 'react-redux';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 
 interface Props {}
 
 const Login: React.FC<Props> = (props) => {
+  const route = useRouter();
+  const dispatch = useDispatch();
+
   const signInFromSubmit = useCallback(
     async (values: SignInFormValues, formikHelpers: FormikHelpers<SignInFormValues>) => {
-      //
+      try {
+        const { phone, password } = values;
+        formikHelpers.setSubmitting(true);
+        await dispatch(AppActions.loginAction({ username: phone.trim(), password: password }));
+        // route.push('/user');
+      } catch (err) {
+        notification.error({
+          message: String(err.message || err),
+          placement: 'bottomRight',
+        });
+      }
+      formikHelpers.setSubmitting(true);
     },
     [],
   );

@@ -27,7 +27,7 @@ export class Mssql {
     args = Object.values(args);
     const argsMapped = args.map((value: any) => {
       if (typeof value !== 'number') {
-        value = `'${value}'`;
+        value = `LTRIM(RTRIM('${value}'))`; // trim spaces
       }
       return value;
     });

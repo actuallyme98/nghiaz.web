@@ -1,4 +1,4 @@
-import { TokenHelper, ErrorHelper, EncryptHelper } from '../helpers';
+import { TokenHelper, EncryptHelper } from '../helpers';
 
 // services
 import userService from './user-service';
@@ -7,15 +7,16 @@ import { getEnv } from '../base/env-config';
 // types
 import { User } from '../models';
 import { TokenPayload, APIRequest } from '../interfaces';
+import { GUser } from '../transforms';
 
 export class AuthService {
   async login(phoneNumber: string, password: string) {
     const user = await userService.findOneByPhone(phoneNumber);
     if (!user) {
-      ErrorHelper.BadRequestException('User does not exist');
+      throw new Error('Người dùng không tồn tại');
     }
-    if (!(await EncryptHelper.compare(password, user.password))) {
-      ErrorHelper.BadRequestException('Password was wrong');
+    if (!EncryptHelper.compare(password, user.password)) {
+      throw new Error('Sai mật khẩu');
     }
     return await this.generatedAccessToken(user);
   }
@@ -26,20 +27,22 @@ export class AuthService {
         refreshToken,
         `refresh_${getEnv('JWT_SECRET')}`,
       );
-      await this.checkToken(tokenObject);
+      this.checkToken(tokenObject);
       const user = await userService.findOneById(tokenObject.user_id);
-      this.checkUser(user);
+      if (!user) {
+        throw new Error('Invalid token');
+      }
       // no error, generated new access token
       return this.generatedAccessToken(user, refreshToken);
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
-        ErrorHelper.BadRequestException('Token expired');
+        throw new Error('Token expired');
       }
-      ErrorHelper.UnauthorizedException('Invalid token');
+      throw new Error('Invalid token');
     }
   }
 
-  async generatedAccessToken(user: User, refresh_token = '') {
+  async generatedAccessToken(user: GUser, refresh_token = '') {
     const tokenObj = await TokenHelper.generate(
       {
         user_id: user.id,
@@ -59,7 +62,15 @@ export class AuthService {
       token: tokenObj.token,
       expires: tokenObj.expires * 1000, // convert from seconds to miliseconds
       refresh_token: refresh_token.length > 0 ? refresh_token : refreshTokenObj.token,
-      user: user,
+      user: {
+        client: user.client,
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      },
     };
   }
 
@@ -72,21 +83,21 @@ export class AuthService {
       return user;
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
-        ErrorHelper.BadRequestException('Token expired');
+        throw new Error('Token expired');
       }
-      ErrorHelper.UnauthorizedException('Invalid token');
+      throw new Error('Invalid token');
     }
   }
 
   checkToken(tokenObject: TokenPayload) {
     if (!tokenObject || !tokenObject.user_id) {
-      ErrorHelper.UnauthorizedException('Invalid token');
+      throw new Error('Invalid token');
     }
   }
 
-  checkUser(user: User) {
+  checkUser(user?: User) {
     if (!user) {
-      ErrorHelper.BadRequestException('Invalid token');
+      throw new Error('Invalid token');
     }
   }
 
@@ -98,7 +109,7 @@ export class AuthService {
     if (authHeaders.length == 2 && authHeaders[0] == 'Bearer' && authHeaders[1] != '') {
       return await this.verifyUser(authHeaders[1]);
     } else {
-      ErrorHelper.UnauthorizedException('Unauthorized');
+      console.log('Unauthorized');
     }
   }
 

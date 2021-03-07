@@ -8,20 +8,13 @@ import { User } from '../models';
 import ClientService from './client-service';
 
 // helpers
-import { ErrorHelper, EncryptHelper } from '../helpers';
+import { EncryptHelper } from '../helpers';
 
 // transform
-import { toGUser } from '../transforms';
+import { toGUser, GUser } from '../transforms';
 
 export class UserService {
-  public async FindAllUser() {
-    try {
-      return await Mssql.FindAll('users');
-    } catch (err) {
-      ErrorHelper.BadRequestException(err);
-    }
-  }
-  public async findOneByPhone(phoneNumber: string): Promise<any> {
+  public async findOneByPhone(phoneNumber: string): Promise<GUser | undefined> {
     try {
       const result = await Mssql.Find('users', 'username', phoneNumber);
       if (!result) {
@@ -29,14 +22,18 @@ export class UserService {
       }
       return toGUser(result);
     } catch (err) {
-      ErrorHelper.BadRequestException(err);
+      throw new Error(err);
     }
   }
-  public async findOneById(id: string): Promise<any> {
+  public async findOneById(id: string): Promise<GUser | undefined> {
     try {
-      return await Mssql.Find('users', 'id', id);
+      const result = await Mssql.Find('users', 'id', id);
+      if (!result) {
+        return;
+      }
+      return toGUser(result);
     } catch (err) {
-      ErrorHelper.BadRequestException(err);
+      throw new Error(err);
     }
   }
   public async createUser(
@@ -64,7 +61,7 @@ export class UserService {
       const createUserArgs: User = {
         username: args.username,
         email: args.email || '',
-        password: await EncryptHelper.hash(args.password),
+        password: EncryptHelper.hash(args.password),
         isSupperUser: !!args.isSupperUser ? 1 : 0,
         firstName: args.firstName,
         lastName: args.lastName,

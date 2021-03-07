@@ -14,7 +14,7 @@ export class TokenHelper {
   public async generate(
     payload: Record<string, any>,
     secret: string,
-    expiresIn: number,
+    expiresIn: any,
   ): Promise<{
     token: string;
     expires: number;

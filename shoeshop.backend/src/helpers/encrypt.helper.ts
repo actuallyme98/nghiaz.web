@@ -1,11 +1,11 @@
-import * as bcrypt from 'bcrypt';
+import Sha512 from '../base/sha512';
 
 export class EncryptHelper {
-  public async hash(str: string, saltRounds = 10) {
-    return await bcrypt.hash(str, saltRounds);
+  public hash(str: string) {
+    return Sha512.hash(str);
   }
   public compare(str: string, hash: string) {
-    return bcrypt.compare(str, hash);
+    return this.hash(str) === hash;
   }
 }
 

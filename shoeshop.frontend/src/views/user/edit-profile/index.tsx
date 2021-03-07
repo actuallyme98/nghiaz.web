@@ -27,7 +27,7 @@ const loading = false;
 
 const EditProfile: NextPage<Props> = () => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
-  const profile = useSelector((store: RootState) => store.appState.Profile);
+  const profile = useSelector((store: RootState) => store.appState.profile);
   const route = useRouter();
 
   return isMobile ? (

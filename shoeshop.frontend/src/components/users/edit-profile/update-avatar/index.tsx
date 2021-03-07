@@ -19,7 +19,7 @@ const loading = false;
 
 const UpdateAvatar: React.FC<Props> = () => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
-  const profile = useSelector((store: RootState) => store.appState.Profile);
+  const profile = useSelector((store: RootState) => store.appState.profile);
   const [avatarUrl, setAvatarUrl] = useState('');
   const [avarartFile, setAvatarFile] = useState<File>();
   const avatar = process.env.DEFAULT_AVATAR_URL || '';
