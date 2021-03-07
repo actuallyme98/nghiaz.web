@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 
 // styles
@@ -9,6 +8,7 @@ import css from './style.module.scss';
 // components
 import Layout from '../../../components/layout';
 import UpdatePassword from '../../../components/users/edit-profile/update-password';
+import Loading from '../../../components/loading';
 
 // redux
 import { RootState } from '@redux/stores/configure-store';
@@ -26,13 +26,10 @@ const loading = false;
 
 const UpdatePasswordMobile: NextPage<Props> = () => {
   const profile = useSelector((store: RootState) => store.appState.profile);
-  const route = useRouter();
 
-  useEffect(() => {
-    if (!loading && !profile) {
-      // route.push('/signin');
-    }
-  }, [loading, profile]);
+  if (!profile) {
+    return <Loading />;
+  }
 
   return (
     <Layout loading={loading}>

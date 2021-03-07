@@ -41,9 +41,9 @@ const OrderInfo: React.FC<Props> = (props) => {
           : clsx(css.contentDesktop, !data.isClient && css.contentDesktopNotUser)
       }
     >
-      <div className={isMobile ? css.logoLeftMobile : css.logoLeft} />
+      {/* <div className={isMobile ? css.logoLeftMobile : css.logoLeft} /> */}
       <div className={css.orderSuccess}>Chi tiết đơn hàng</div>
-      <div className={css.thankYou}>Cảm ơn bạn đã lựa chọn Board Game VN</div>
+      <div className={css.thankYou}>Cảm ơn bạn đã lựa chọn Bluewind</div>
       {status === 'fail' && <Alert message={message || 'Có lỗi xảy ra'} type="error" showIcon />}
       <div className={css.table}>
         <div className={css.sum}>

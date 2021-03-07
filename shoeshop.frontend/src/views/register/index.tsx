@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { GetServerSideProps } from 'next';
+import Link from 'next/link';
 
 // formik
 import { Formik, Form, Field, FieldProps, FormikHelpers } from 'formik';
@@ -18,6 +19,9 @@ import notification from 'antd/lib/notification';
 import { useDispatch } from 'react-redux';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
+
+// enums
+import { AppRouteEnums } from '../../enums/app-route.enum';
 
 interface Props {}
 
@@ -142,9 +146,9 @@ const SignUp: React.FC<Props> = (props) => {
                     </SubmitButton>
                   </li>
                 </ul>
-                <a href="/signin" className={css.forgotPass}>
-                  Bạn đã có tài khoản? Đăng nhập ngay.
-                </a>
+                <Link href={AppRouteEnums.SIGNIN}>
+                  <a className={css.forgotPass}>Bạn đã có tài khoản? Đăng nhập ngay.</a>
+                </Link>
               </Form>
             )}
           </Formik>

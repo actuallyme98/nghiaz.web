@@ -12,6 +12,9 @@ import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
 
+// enums
+import { AppRouteEnums } from '../../../enums/app-route.enum';
+
 interface Props {
   className?: string;
   data: {
@@ -32,7 +35,7 @@ const PaymentCard: React.FC<Props> = (props) => {
           <div className={css.moneyContentTotal}>{data.totalMoney.toLocaleString('vi-VN')} đ</div>
         </div>
       </div>
-      <Link href="/checkout/payment">
+      <Link href={AppRouteEnums.CHECKOUT_PAYMENT}>
         <Button type="ghost" disabled={data.totalMoney <= 0} className={css.pay}>
           TIẾN HÀNH THANH TOÁN
         </Button>

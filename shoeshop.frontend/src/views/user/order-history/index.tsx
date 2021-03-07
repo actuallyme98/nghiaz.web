@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import clsx from 'clsx';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -14,6 +14,7 @@ import Layout from '../../../components/layout';
 import LoadingIcon from '../../../components/loading-icon';
 import Button from 'antd/lib/button';
 import InfinityScroll from '../../../components/infinity-scroll';
+import Loading from '../../../components/loading';
 
 // redux
 import { RootState } from '../../../redux/stores/configure-store';
@@ -33,6 +34,11 @@ const OrderHistory: NextPage<IProps> = () => {
   const profile = useSelector((store: RootState) => store.appState.profile);
   const orderId = useMemo(() => route.query.order, [route]);
   const [selected, setSelected] = useState(0);
+
+  if (!profile) {
+    return <Loading />;
+  }
+
   const onSelect = useCallback(
     (nextSelect) => {
       setSelected(nextSelect);
@@ -65,12 +71,6 @@ const OrderHistory: NextPage<IProps> = () => {
     // pending
   }, []);
 
-  useEffect(() => {
-    if (!loading && !profile) {
-      // route.push('/signin');
-    }
-  }, [loading, profile]);
-
   if (isMobile) {
     return (
       <Layout loading={loading}>
@@ -97,7 +97,11 @@ const OrderHistory: NextPage<IProps> = () => {
   }
 
   return (
-    <UserLayout title="Lịch sử đơn hàng" breadcumb={[{ title: 'Lịch sử đơn hàng', url: '' }]}>
+    <UserLayout
+      title="Lịch sử đơn hàng"
+      breadcumb={[{ title: 'Lịch sử đơn hàng', url: '' }]}
+      profile={profile}
+    >
       <div className={css.container}>
         <div className={css.heading}>
           <div className={css.title}>

@@ -8,7 +8,7 @@ export const authMiddleware = async (req: APIRequest, res: Response, next: NextF
   // validate request
   const user = await authService.validateRequest(req);
   if (!user) {
-    console.log('Unauthorized');
+    throw new Error('Unauthorized');
   }
   req.user = user;
   next();

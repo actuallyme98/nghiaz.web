@@ -27,7 +27,9 @@ export class AuthService {
         refreshToken,
         `refresh_${getEnv('JWT_SECRET')}`,
       );
-      this.checkToken(tokenObject);
+      if (!tokenObject || !tokenObject.user_id) {
+        throw new Error('Invalid token');
+      }
       const user = await userService.findOneById(tokenObject.user_id);
       if (!user) {
         throw new Error('Invalid token');
@@ -60,7 +62,7 @@ export class AuthService {
 
     return {
       token: tokenObj.token,
-      expires: tokenObj.expires * 1000, // convert from seconds to miliseconds
+      expires: tokenObj.expires, // convert from seconds to miliseconds
       refresh_token: refresh_token.length > 0 ? refresh_token : refreshTokenObj.token,
       user: {
         client: user.client,
@@ -74,29 +76,29 @@ export class AuthService {
     };
   }
 
-  async verifyUser(token: string): Promise<User | any> {
+  async verifyUser(token: string) {
     try {
       const tokenObject = await TokenHelper.verify<TokenPayload>(token, getEnv('JWT_SECRET'));
-      await this.checkToken(tokenObject);
+      if (!tokenObject || !tokenObject.user_id) {
+        throw new Error('Invalid token');
+      }
       const user = await userService.findOneById(tokenObject.user_id);
-      this.checkUser(user);
-      return user;
+      if (!user) {
+        throw new Error('Invalid token');
+      }
+      return {
+        client: user.client,
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      };
     } catch (error) {
       if (error.name === 'TokenExpiredError') {
         throw new Error('Token expired');
       }
-      throw new Error('Invalid token');
-    }
-  }
-
-  checkToken(tokenObject: TokenPayload) {
-    if (!tokenObject || !tokenObject.user_id) {
-      throw new Error('Invalid token');
-    }
-  }
-
-  checkUser(user?: User) {
-    if (!user) {
       throw new Error('Invalid token');
     }
   }
@@ -109,13 +111,8 @@ export class AuthService {
     if (authHeaders.length == 2 && authHeaders[0] == 'Bearer' && authHeaders[1] != '') {
       return await this.verifyUser(authHeaders[1]);
     } else {
-      console.log('Unauthorized');
+      throw new Error('Unauthorized');
     }
-  }
-
-  async register(email: string, password: string) {
-    // register
-    return true;
   }
 }
 

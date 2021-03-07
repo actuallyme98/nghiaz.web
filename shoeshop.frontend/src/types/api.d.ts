@@ -24,5 +24,7 @@ declare namespace SHOES_API {
     user: REDUX_STORE.Profile;
   }
 
-  interface GetProfileResponse {}
+  interface GetProfileResponse {
+    me: REDUX_STORE.Profile;
+  }
 }

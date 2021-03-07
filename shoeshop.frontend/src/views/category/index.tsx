@@ -132,17 +132,19 @@ const Category: React.FC<Props> = (props) => {
 
 const Product: React.FC<{ product: any }> = ({ product }) => {
   return (
-    <a className={css.productLink} href="/shop/giay-the-thao-nam">
-      <ProductItem
-        data={{
-          category: '',
-          originalPrice: product.price,
-          currentPrice: product.currentPrice || product.price,
-          title: product.name,
-          thumbnail: product.thumbnail ? product.thumbnail : '',
-        }}
-      />
-    </a>
+    <Link href="/shop/giay-the-thao-nam">
+      <a className={css.productLink}>
+        <ProductItem
+          data={{
+            category: '',
+            originalPrice: product.price,
+            currentPrice: product.currentPrice || product.price,
+            title: product.name,
+            thumbnail: product.thumbnail ? product.thumbnail : '',
+          }}
+        />
+      </a>
+    </Link>
   );
 };
 

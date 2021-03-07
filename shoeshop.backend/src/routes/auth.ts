@@ -16,7 +16,6 @@ router.post('/token', async (req: Request, res: Response, next: NextFunction) =>
     res.cookie('JWT', 'Bearer ' + loginData.token, {
       maxAge: loginData.expires,
       httpOnly: false,
-      secure: true,
     });
     return res.json(loginData);
   } catch (err) {

@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
 
@@ -8,30 +8,22 @@ import css from './style.module.scss';
 // components
 import Header from '../header';
 import Footer from '../footer';
+import Loading from '../loading';
 
 // redux
-import { useSelector, useDispatch } from 'react-redux';
-import * as AppActions from '@actions/app-action';
+import { useSelector } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
 
 interface IProps {
   loading?: boolean;
-  isRequireAuthentication?: boolean;
 }
 
 const whiteLists = ['/', '/contact', '/signin', '/blogs', '/signup'];
 
 const Layout: React.FC<IProps> = (props) => {
-  const { children, isRequireAuthentication } = props;
+  const { children, loading } = props;
   const route = useRouter();
-  const profile = useSelector((store: RootState) => store.appState.profile);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (isRequireAuthentication) {
-      dispatch(AppActions.getProfileAction());
-    }
-  }, [profile, isRequireAuthentication]);
+  const isMobile = useSelector((store: RootState) => store.appState.isMobile);
 
   const isFluid = useMemo(() => {
     const path = route.pathname;
@@ -42,11 +34,11 @@ const Layout: React.FC<IProps> = (props) => {
     <div
       className={clsx({
         [css.container]: true,
-        [css.containerFluid]: isFluid,
+        [css.containerFluid]: isFluid && !isMobile,
       })}
     >
       <Header />
-      <div className={css.content}>{children}</div>
+      <div className={css.content}>{loading ? <Loading /> : children}</div>
       <Footer />
     </div>
   );

@@ -12,7 +12,7 @@ import DeliveryAddressItem from '../../../components/users/delivery-address/deli
 import UserLayout from '../../../components/users/user-layout';
 import Layout from '../../../components/layout';
 import AddDeliveryAddressModal from '../../../components/add-delivery';
-import { useRouter } from 'next/router';
+import Loading from '../../../components/loading';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -27,7 +27,6 @@ const loading = false;
 const loadingDelivery = false;
 
 const DeliveryAddress: NextPage<Props> = () => {
-  const backURL = '/user';
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const profile = useSelector((store: RootState) => store.appState.profile);
 
@@ -35,6 +34,10 @@ const DeliveryAddress: NextPage<Props> = () => {
   const [openDeliveryAddressModal, setOpenDeliveryAddressModal] = useState(false);
   const onOpenDeliveryAddressModal = useCallback(() => setOpenDeliveryAddressModal(true), []);
   const onCloseDeliveryAddressModal = useCallback(() => setOpenDeliveryAddressModal(false), []);
+
+  if (!profile) {
+    return <Loading />;
+  }
 
   const deliveryAddressItem = useMemo(() => {
     return (
@@ -60,6 +63,7 @@ const DeliveryAddress: NextPage<Props> = () => {
     <UserLayout
       breadcumb={[{ title: 'Địa chỉ nhận hàng', url: '' }]}
       loading={loading || loadingDelivery}
+      profile={profile}
     >
       <div className={isMobile ? css.rootMobile : css.rootDesktop}>
         <div className={css.heading}>

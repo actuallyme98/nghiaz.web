@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -13,6 +13,7 @@ import Layout from '../../../components/layout';
 import UpdateInfo from '../../../components/users/edit-profile/update-info';
 import UpdatePassword from '../../../components/users/edit-profile/update-password';
 import UpdateAvatar from '../../../components/users/edit-profile/update-avatar';
+import Loading from '../../../components/loading';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -22,16 +23,25 @@ import { initializeStore } from '@redux/with-redux';
 
 interface Props {}
 
-// mocks
-const loading = false;
-
 const EditProfile: NextPage<Props> = () => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const profile = useSelector((store: RootState) => store.appState.profile);
   const route = useRouter();
 
+  console.log(profile);
+
+  // useEffect(() => {
+  //   if (!profile) {
+  //     route.push('/signin');
+  //   }
+  // }, [profile]);
+
+  if (!profile) {
+    return <Loading />;
+  }
+
   return isMobile ? (
-    <Layout loading={loading}>
+    <Layout loading={false}>
       <div className={css.rootMobile}>
         <div className={css.title}>
           <img src="/assets/icons/a-edit.svg" alt="" />
@@ -53,7 +63,7 @@ const EditProfile: NextPage<Props> = () => {
       </div>
     </Layout>
   ) : (
-    <UserLayout breadcumb={[{ title: 'Chỉnh sửa thông tin', url: '' }]}>
+    <UserLayout breadcumb={[{ title: 'Chỉnh sửa thông tin', url: '' }]} profile={profile}>
       <div className={css.root}>
         <div className={css.title}>
           <div className={css.logoImgTitleDesktop}>

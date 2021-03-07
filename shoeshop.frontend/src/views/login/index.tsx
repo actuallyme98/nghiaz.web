@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 // formik
 import { Formik, Form, Field, FieldProps, FormikHelpers } from 'formik';
@@ -20,6 +21,9 @@ import { useDispatch } from 'react-redux';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 
+// enums
+import { AppRouteEnums } from '../../enums/app-route.enum';
+
 interface Props {}
 
 const Login: React.FC<Props> = (props) => {
@@ -32,7 +36,7 @@ const Login: React.FC<Props> = (props) => {
         const { phone, password } = values;
         formikHelpers.setSubmitting(true);
         await dispatch(AppActions.loginAction({ username: phone.trim(), password: password }));
-        // route.push('/user');
+        route.push('/user');
       } catch (err) {
         notification.error({
           message: String(err.message || err),
@@ -95,12 +99,12 @@ const Login: React.FC<Props> = (props) => {
                     </SubmitButton>
                   </li>
                 </ul>
-                <a href="/forgot-password" className={css.forgotPass}>
-                  Quên Mật Khẩu ?
-                </a>
-                <a href="/signup" className={css.signUp}>
-                  Đăng Ký
-                </a>
+                <Link href="/forgot-password">
+                  <a className={css.forgotPass}>Quên Mật Khẩu ?</a>
+                </Link>
+                <Link href={AppRouteEnums.SIGNUP}>
+                  <a className={css.signUp}>Đăng Ký</a>
+                </Link>
               </Form>
             )}
           </Formik>

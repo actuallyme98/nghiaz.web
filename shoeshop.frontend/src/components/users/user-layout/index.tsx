@@ -12,6 +12,7 @@ interface Props {
   title?: string;
   breadcumb: { title: string; url: string }[];
   loading?: boolean;
+  profile: REDUX_STORE.Profile;
 }
 
 const BREADCRUMB_ITEMS: BreadcumbItem[] = [
@@ -19,25 +20,11 @@ const BREADCRUMB_ITEMS: BreadcumbItem[] = [
   { title: 'Trang cá nhân', url: '/user' },
 ];
 
-// mocks
-const userData = {
-  user: {
-    firstName: '',
-    lastName: '',
-    client: {
-      avatar: '',
-      level: '',
-      score: 1,
-    },
-  },
-};
-const loading = false;
-const loadingUser = false;
-
-const UserLayout: React.FC<Props> = ({ children, breadcumb, title = 'Trang cá nhân', loading }) => {
+const UserLayout: React.FC<Props> = ({ children, breadcumb, loading, profile }) => {
   const items = useMemo(() => [...BREADCRUMB_ITEMS, ...breadcumb], [breadcumb]);
+
   return (
-    <Layout loading={loading || loadingUser}>
+    <Layout loading={loading} isRequireAuthentication>
       <div className={css.root}>
         <div className={css.container}>
           <div className={css.breadcumbWrap}>
@@ -47,9 +34,8 @@ const UserLayout: React.FC<Props> = ({ children, breadcumb, title = 'Trang cá n
             <div className={css.left}>
               <ProfileMenu
                 data={{
-                  avatar: userData?.user.client?.avatar || process.env.DEFAULT_AVATAR_URL || '',
-                  name: userData?.user.lastName + ' ' + userData?.user.firstName,
-                  point: userData?.user.client?.score || 0,
+                  avatar: profile.client?.avatar || process.env.DEFAULT_AVATAR_URL || '',
+                  name: profile.lastName + ' ' + profile.firstName,
                 }}
               />
             </div>

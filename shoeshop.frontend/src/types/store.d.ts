@@ -7,7 +7,7 @@ declare namespace REDUX_STORE {
 
   interface Profile {
     id: number;
-    fistName: string;
+    firstName: string;
     lastName: string;
     userName: string;
     createdAt?: String;

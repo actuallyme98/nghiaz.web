@@ -9,7 +9,6 @@ interface Iprops {
   data: {
     avatar: string;
     name: string;
-    point: number;
   };
 }
 
@@ -26,7 +25,7 @@ const ProfileMenu: React.FC<Iprops> = (props) => {
     <div className={css.rootDesktop}>
       <div className={css.flexHead}>
         <div className={css.avatar}>
-          <img src={data.avatar} alt={data.name} />
+          <img src={data.avatar.trim() || process.env.DEFAULT_AVATAR_URL} alt={data.name} />
         </div>
         <div className={css.text}>
           <h4>{data.name}</h4>

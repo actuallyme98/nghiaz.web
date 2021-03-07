@@ -2,7 +2,6 @@ import express, { NextFunction, Request, Response, Express } from 'express';
 import bearerToken from 'express-bearer-token';
 import session from 'express-session';
 import path from 'path';
-import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import glob from 'glob';
 import dotenv from 'dotenv';
@@ -27,11 +26,13 @@ export class AppServer {
     // Bearer token middleware for express.
     app.use(bearerToken());
 
-    // logger
-    app.use(morgan('dev'));
-
     // cors
-    app.use(cors());
+    app.use(
+      cors({
+        credentials: true,
+        origin: 'http://localhost:3000',
+      }),
+    );
 
     // bodyParser
     app.use(express.json());
@@ -43,11 +44,8 @@ export class AppServer {
     // session
     let sess: session.SessionOptions = {
       secret: process.env.SESSION_SECRET || '',
-      resave: true,
-      saveUninitialized: true,
-      cookie: {
-        maxAge: parseInt(process.env.SESSION_COOKIE_MAXAGE || '86400'),
-      },
+      resave: false,
+      saveUninitialized: false,
     };
 
     app.use(session(sess));

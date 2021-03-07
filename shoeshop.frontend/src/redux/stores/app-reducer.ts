@@ -27,8 +27,10 @@ export const getProfile = AppActions.getProfileAction.reducer((state, action) =>
   if (isError(action) || !action.payload) {
     return {};
   }
-  console.log(action.payload);
-  return {};
+  console.log('dispatch', action.payload.me);
+  return {
+    profile: action.payload.me,
+  };
 });
 
 export const reducer = createTypeReducer(
@@ -36,4 +38,5 @@ export const reducer = createTypeReducer(
   detectMobileReducer,
   openCartDrawer,
   loginReducer,
+  getProfile,
 );

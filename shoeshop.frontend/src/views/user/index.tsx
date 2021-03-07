@@ -9,41 +9,35 @@ import css from './style.module.scss';
 
 // components
 import Layout from '../../components/layout';
+import Loading from '../../components/loading';
 
 // redux
+import { useSelector } from 'react-redux';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
+import { RootState } from '@redux/stores/configure-store';
 
 // helpers
 import { redirect } from '@helpers/app-util';
 
 interface Props {}
 
-// mocks
-const userData = {
-  user: {
-    firstName: '',
-    lastName: '',
-    client: {
-      avatar: '',
-      level: '',
-      score: 1,
-    },
-  },
-};
-const loading = false;
-
 const User: NextPage<Props> = () => {
   const route = useRouter();
+  const profile = useSelector((store: RootState) => store.appState.profile);
 
   useEffect(() => {
-    if (!loading && !userData) {
-      // route.push('/signin');
+    if (!profile) {
+      route.push('/signin');
     }
-  }, [loading, userData]);
+  }, [profile]);
+
+  if (!profile) {
+    return <Loading />;
+  }
 
   return (
-    <Layout loading={loading}>
+    <Layout loading={false}>
       <div className={css.rootMobile}>
         <div className={css.title}>
           <img src="/assets/icons/a-edit.svg" alt="" />
@@ -51,13 +45,13 @@ const User: NextPage<Props> = () => {
         </div>
         <div className={css.top}>
           <div className={css.left}>
-            <img src={userData?.user.client?.avatar || process.env.DEFAULT_AVATAR_URL} />
+            <img src={profile.client?.avatar || process.env.DEFAULT_AVATAR_URL} />
             <div className={css.nameWrap}>
               <div className={css.name}>
-                {userData?.user.lastName} {userData?.user.firstName}
+                {profile.lastName} {profile.firstName}
               </div>
               <div className={css.level}>
-                <span>{userData?.user.client?.level}</span>
+                <span>10</span>
                 <img src="/assets/icons/crown.svg" alt="" />
               </div>
             </div>
@@ -65,7 +59,7 @@ const User: NextPage<Props> = () => {
           <div className={css.right}>
             <div className={css.accumulatedPoints}>Điểm tích luỹ</div>
             <div className={css.point}>
-              <span>{userData?.user.client?.score} </span>điểm
+              <span>100</span>điểm
             </div>
           </div>
         </div>

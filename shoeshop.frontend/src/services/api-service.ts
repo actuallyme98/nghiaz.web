@@ -17,7 +17,7 @@ export class ApiService {
     if (!SERVER_URL) {
       throw new Error('Server url is missing');
     }
-    this.axios = Axios.create({ baseURL: SERVER_URL });
+    this.axios = Axios.create({ baseURL: SERVER_URL, withCredentials: true });
     this.axios.interceptors.response.use((res) => {
       if (res.status === 200 || res.status === 201) {
         return res.data;

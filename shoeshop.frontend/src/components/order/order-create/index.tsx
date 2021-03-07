@@ -20,7 +20,7 @@ const OrderCreateAcc: React.FC<Props> = (props) => {
     <div className={isMobile ? css.contentMobile : css.contentDesktop}>
       <div className={css.titleCreate}>Tạo tài khoản ngay</div>
       <div className={css.content}>
-        Hãy tạo tài khoản để mua sắm tại Board Game VN và theo dõi đơn hàng dễ dàng hơn.
+        Hãy tạo tài khoản để mua sắm tại Bluewind và theo dõi đơn hàng dễ dàng hơn.
       </div>
 
       <Link href={'/signup'}>

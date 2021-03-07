@@ -25,7 +25,6 @@ interface IProps {}
 const loading = false;
 
 const Cart: NextPage<IProps> = () => {
-  const backURL = '/';
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
 
   const cartItems = useMemo(() => [], []);
