@@ -23,7 +23,7 @@ create table client(
 	users_id int not null,
 	gender char(10) not null,
 	avatar char(150),
-	dob char(20) not null,
+	dob char(20),
 );
 
 create table delivery_address(

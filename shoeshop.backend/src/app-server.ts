@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import glob from 'glob';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 // load .env
 dotenv.config();
@@ -28,6 +29,9 @@ export class AppServer {
 
     // logger
     app.use(morgan('dev'));
+
+    // cors
+    app.use(cors());
 
     // bodyParser
     app.use(express.json());
@@ -64,7 +68,7 @@ export class AppServer {
     // Setup express routes
     let routes = glob.sync(__dirname + '/routes/*.+(js|ts)');
     for (let route of routes) {
-      console.log('Loading route : ' + route.split('src')[1]);
+      console.log('Loading route : ' + route);
       require(route)(app);
     }
 
