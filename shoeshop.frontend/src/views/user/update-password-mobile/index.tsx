@@ -47,16 +47,11 @@ const UpdatePasswordMobile: NextPage<Props> = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const userAgent = req ? req.headers['user-agent'] : navigator.userAgent;
   const reduxStore = initializeStore();
   const { dispatch } = reduxStore;
-  dispatch(AppActions.detectMobile(userAgent));
-
-  const isMobile = dispatch(AppActions.detectMobile(userAgent)).payload;
-  if (!isMobile) {
-    redirect(res, '/user/edit-profile');
-  }
-
+  await dispatch(
+    AppActions.initializeAuthPage({ req, res, urlResponseForMobile: '/user/edit-profile' }),
+  );
   return {
     props: {
       title: 'Cập nhật mật khẩu',

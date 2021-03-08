@@ -24,7 +24,7 @@ declare namespace SHOES_API {
     user: REDUX_STORE.Profile;
   }
 
-  interface GetProfileResponse {
+  interface GetProfileResponse extends BaseResponse {
     me: REDUX_STORE.Profile;
   }
 }

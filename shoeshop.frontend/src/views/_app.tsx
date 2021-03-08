@@ -7,10 +7,10 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
-import { initializeStore } from '@redux/with-redux';
+import { useStore } from '@redux/with-redux';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const store = initializeStore(pageProps.initialReduxState);
+  const store = useStore(pageProps.initialReduxState);
 
   return (
     <React.Fragment>

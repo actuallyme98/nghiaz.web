@@ -1,6 +1,12 @@
 import { createTypeAction, createTypeAsyncAction } from '../type-redux';
-import SystemHelper from '../../helpers/system.helper';
+import { Store } from 'redux';
+
+// services
 import ApiService from '../../services/api-service';
+
+// helpers
+import SystemHelper from '../../helpers/system.helper';
+import { redirect } from '../../helpers/app-util';
 
 export const detectMobile = createTypeAction<string, boolean>(
   'DETECT_MOBILE',
@@ -25,6 +31,32 @@ export const loginAction = createTypeAsyncAction(
   },
 );
 
-export const getProfileAction = createTypeAsyncAction('GET_PROFILE_ACTION', async () => {
-  return await ApiService.getProfile();
-});
+export const getProfileAction = createTypeAsyncAction(
+  'GET_PROFILE_ACTION',
+  async (cookie?: string) => {
+    return await ApiService.getProfile(cookie);
+  },
+);
+
+export const initializeAuthPage = createTypeAsyncAction<any, void, Store>(
+  'INIT_AUTHENICATE_PAGE',
+  async (args, { dispatch }) => {
+    const { req, res, urlResponseForMobile } = args;
+    const userAgent = req ? req.headers['user-agent'] : navigator.userAgent;
+    const isMobile = dispatch(detectMobile(userAgent)).payload;
+    if (urlResponseForMobile && !isMobile) {
+      redirect(res, urlResponseForMobile);
+      return;
+    }
+    const cookie = req.headers.cookie;
+    if (!cookie) {
+      redirect(res, '/signin');
+      return;
+    }
+    try {
+      await dispatch(getProfileAction(cookie));
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);

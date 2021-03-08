@@ -62,7 +62,7 @@ export class AuthService {
 
     return {
       token: tokenObj.token,
-      expires: tokenObj.expires, // convert from seconds to miliseconds
+      expires: tokenObj.expires * 1000, // convert from seconds to miliseconds
       refresh_token: refresh_token.length > 0 ? refresh_token : refreshTokenObj.token,
       user: {
         client: user.client,

@@ -12,6 +12,8 @@ interface Iprops {
   };
 }
 
+const defaultAvatar = process.env.DEFAULT_AVATAR_URL || '';
+
 const ProfileMenu: React.FC<Iprops> = (props) => {
   const { pathname } = useRouter();
   const isEditProfile = useMemo(() => pathname.includes('edit-profile'), [pathname]);
@@ -25,7 +27,7 @@ const ProfileMenu: React.FC<Iprops> = (props) => {
     <div className={css.rootDesktop}>
       <div className={css.flexHead}>
         <div className={css.avatar}>
-          <img src={data.avatar.trim() || process.env.DEFAULT_AVATAR_URL} alt={data.name} />
+          <img src={data.avatar.trim() || defaultAvatar} alt={data.name} />
         </div>
         <div className={css.text}>
           <h4>{data.name}</h4>

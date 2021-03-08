@@ -108,6 +108,14 @@
   cursor: pointer;
 }
 
+.bagButton {
+  width: 42px;
+  height: 42px;
+  margin-left: 10px;
+  img {
+    width: 20px;
+  }
+}
 .mainMenu {
   background: #f7f7f7;
   @media screen and (max-width: 600px) {

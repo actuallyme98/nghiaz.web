@@ -28,13 +28,11 @@ const EditProfile: NextPage<Props> = () => {
   const profile = useSelector((store: RootState) => store.appState.profile);
   const route = useRouter();
 
-  console.log(profile);
-
-  // useEffect(() => {
-  //   if (!profile) {
-  //     route.push('/signin');
-  //   }
-  // }, [profile]);
+  useEffect(() => {
+    if (!profile) {
+      route.push('/signin');
+    }
+  }, [profile]);
 
   if (!profile) {
     return <Loading />;
@@ -92,11 +90,9 @@ const EditProfile: NextPage<Props> = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const userAgent = req ? req.headers['user-agent'] : navigator.userAgent;
   const reduxStore = initializeStore();
   const { dispatch } = reduxStore;
-  dispatch(AppActions.detectMobile(userAgent));
-
+  await dispatch(AppActions.initializeAuthPage({ req, res }));
   return {
     props: {
       title: 'Cập nhật thông tin',

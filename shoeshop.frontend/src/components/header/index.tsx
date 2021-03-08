@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -11,6 +11,7 @@ import Badge from 'antd/lib/badge';
 import IconButton from 'antd/lib/button';
 import Drawer from 'antd/lib/drawer';
 import CartDrawer from '../cart-drawer';
+import PopoverProfile from './popover-profile';
 
 // redux
 import * as AppActions from '../../redux/actions/app-action';
@@ -25,6 +26,7 @@ interface IProps {}
 const Header: React.FC<IProps> = (props) => {
   const [openMenu, setOpenMenu] = useState(false);
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const profile = useSelector((store: RootState) => store.appState.profile);
   const openCartDrawer = useSelector((store: RootState) => store.appState.openCartDrawer);
   const dispatch = useDispatch();
   const route = useRouter();
@@ -45,6 +47,40 @@ const Header: React.FC<IProps> = (props) => {
     route.push('/blogs');
   }, []);
 
+  const profileMenu = useMemo(() => {
+    if (!profile) {
+      return (
+        <Link href={AppRouteEnums.USER}>
+          <a className={css.borderBox}>
+            <img src="/assets/icons/user.svg" alt="" />
+          </a>
+        </Link>
+      );
+    }
+    return (
+      <PopoverProfile
+        data={{
+          avatar: profile.client.avatar,
+        }}
+      />
+    );
+  }, [profile]);
+
+  const profileLink = useMemo(() => {
+    if (!profile) {
+      return (
+        <Link href={AppRouteEnums.HOME}>
+          <a className={css.menuLinkDrawer}>Trang chủ</a>
+        </Link>
+      );
+    }
+    return (
+      <Link href={AppRouteEnums.USER}>
+        <a className={css.menuLinkDrawer}>Trang cá nhân</a>
+      </Link>
+    );
+  }, [profile]);
+
   return (
     <div>
       <IconButton className={css.menuButton} onClick={handleCollapseMenu}>
@@ -59,17 +95,15 @@ const Header: React.FC<IProps> = (props) => {
         placement="left"
       >
         <div className={css.rootDrawer}>
-          <Link href={AppRouteEnums.HOME}>
-            <a className={css.menuLink}>Trang chủ</a>
-          </Link>
+          {profileLink}
           <Link href="/category/giay-nam">
-            <a className={css.menuLink}>Giày nam</a>
+            <a className={css.menuLinkDrawer}>Giày nam</a>
           </Link>
           <Link href="/category/giay-nu">
-            <a className={css.menuLink}>Giày nữ</a>
+            <a className={css.menuLinkDrawer}>Giày nữ</a>
           </Link>
           <Link href="/category/giay-doi">
-            <a className={css.menuLink}>Giày đôi</a>
+            <a className={css.menuLinkDrawer}>Giày đôi</a>
           </Link>
           <Link href="/category/tui-xach">
             <a className={css.menuLinkDrawer}>Phụ kiện</a>
@@ -81,7 +115,7 @@ const Header: React.FC<IProps> = (props) => {
             <a className={css.menuLinkDrawer}>Tin tức</a>
           </Link>
           <Link href={AppRouteEnums.CONTACT}>
-            <a className={css.menuLink}>Liên hệ</a>
+            <a className={css.menuLinkDrawer}>Liên hệ</a>
           </Link>
         </div>
       </Drawer>
@@ -113,15 +147,15 @@ const Header: React.FC<IProps> = (props) => {
                 <span>Kiểm tra đơn hàng</span>
               </a>
             </Link>
-            <Link href={AppRouteEnums.USER}>
-              <a className={css.borderBox}>
-                <img src="/assets/icons/user.svg" alt="" />
-              </a>
-            </Link>
-            <Badge count={1} className={css.customBadge} color="primary">
-              <div onClick={handleOpenCloseCartDrawer} className={css.borderBox}>
-                <img src="/assets/icons/shopping-cart.svg" alt="" />
-              </div>
+            {profileMenu}
+            <Badge count={0}>
+              <IconButton
+                shape="circle"
+                className={css.bagButton}
+                onClick={handleOpenCloseCartDrawer}
+              >
+                <img src="/assets/icons/bag-red.svg" alt="" />
+              </IconButton>
             </Badge>
           </div>
         </div>

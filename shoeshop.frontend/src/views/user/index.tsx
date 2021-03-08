@@ -17,10 +17,9 @@ import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 import { RootState } from '@redux/stores/configure-store';
 
-// helpers
-import { redirect } from '@helpers/app-util';
-
 interface Props {}
+
+const defaultAvatar = process.env.DEFAULT_AVATAR_URL || '';
 
 const User: NextPage<Props> = () => {
   const route = useRouter();
@@ -45,21 +44,20 @@ const User: NextPage<Props> = () => {
         </div>
         <div className={css.top}>
           <div className={css.left}>
-            <img src={profile.client?.avatar || process.env.DEFAULT_AVATAR_URL} />
+            <img src={profile.client?.avatar?.trim() || defaultAvatar} />
             <div className={css.nameWrap}>
               <div className={css.name}>
                 {profile.lastName} {profile.firstName}
               </div>
               <div className={css.level}>
-                <span>10</span>
                 <img src="/assets/icons/crown.svg" alt="" />
               </div>
             </div>
           </div>
           <div className={css.right}>
-            <div className={css.accumulatedPoints}>Điểm tích luỹ</div>
+            <div className={css.accumulatedPoints}>Cập nhật lúc: </div>
             <div className={css.point}>
-              <span>100</span>điểm
+              <span>{profile.createdAt}</span>
             </div>
           </div>
         </div>
@@ -121,16 +119,11 @@ const User: NextPage<Props> = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const userAgent = req ? req.headers['user-agent'] : navigator.userAgent;
   const reduxStore = initializeStore();
   const { dispatch } = reduxStore;
-  dispatch(AppActions.detectMobile(userAgent));
-
-  const isMobile = dispatch(AppActions.detectMobile(userAgent)).payload;
-  if (!isMobile) {
-    redirect(res, '/user/edit-profile');
-  }
-
+  await dispatch(
+    AppActions.initializeAuthPage({ req, res, urlResponseForMobile: '/user/edit-profile' }),
+  );
   return {
     props: {
       title: 'Trang cá nhân',

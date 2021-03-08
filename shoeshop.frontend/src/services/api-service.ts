@@ -33,9 +33,13 @@ export class ApiService {
     const response = await this.axios.post(ApiRouteEnum.LOGIN, payload);
     return await AxiosInterceptors(response);
   }
-  public async getProfile(): Promise<SHOES_API.GetProfileResponse> {
-    const response = await this.axios.get(ApiRouteEnum.GET_PROFILE);
-    return await AxiosInterceptors(response);
+  public async getProfile(cookie?: string): Promise<SHOES_API.GetProfileResponse> {
+    return await this.axios.get(ApiRouteEnum.GET_PROFILE, {
+      headers: {
+        cookie: cookie || '',
+      },
+      withCredentials: true,
+    });
   }
 }
 

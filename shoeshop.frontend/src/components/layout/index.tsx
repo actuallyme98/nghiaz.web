@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
 
@@ -11,7 +11,9 @@ import Footer from '../footer';
 import Loading from '../loading';
 
 // redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as AppActions from '@actions/app-action';
+import { initializeStore } from '@redux/with-redux';
 import { RootState } from '@redux/stores/configure-store';
 
 interface IProps {
@@ -23,7 +25,12 @@ const whiteLists = ['/', '/contact', '/signin', '/blogs', '/signup'];
 const Layout: React.FC<IProps> = (props) => {
   const { children, loading } = props;
   const route = useRouter();
+  const dispatch = useDispatch();
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+
+  useEffect(() => {
+    dispatch(AppActions.getProfileAction());
+  }, []);
 
   const isFluid = useMemo(() => {
     const path = route.pathname;

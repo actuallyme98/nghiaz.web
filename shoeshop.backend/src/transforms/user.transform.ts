@@ -1,9 +1,19 @@
 import { ClientService } from '../services';
+import { Optional } from '../base/typescript-types';
 
-import { User } from '../models';
+import { Client, User } from '../models';
 import { GClient } from './client.transform';
 
 export interface GUser extends User {
+  client?: GClient;
+}
+
+export interface RequestUser {
+  id?: number;
+  firstName: string;
+  lastName: string;
+  createdAt?: string;
+  updatedAt?: string;
   client?: GClient;
 }
 

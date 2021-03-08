@@ -30,13 +30,13 @@ export class AppServer {
     app.use(
       cors({
         credentials: true,
-        origin: 'http://localhost:3000',
+        origin: true,
       }),
     );
 
     // bodyParser
     app.use(express.json());
-    app.use(express.urlencoded({ extended: false }));
+    app.use(express.urlencoded({ extended: true }));
 
     // cookieParser
     app.use(cookieParser());

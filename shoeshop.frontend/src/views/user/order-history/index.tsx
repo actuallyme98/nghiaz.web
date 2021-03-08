@@ -22,6 +22,9 @@ import { useSelector } from 'react-redux';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 
+// helpers
+import { redirect } from '@helpers/app-util';
+
 interface IProps {}
 
 // mocks
@@ -150,11 +153,9 @@ const OrderHistory: NextPage<IProps> = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const userAgent = req ? req.headers['user-agent'] : navigator.userAgent;
   const reduxStore = initializeStore();
   const { dispatch } = reduxStore;
-  dispatch(AppActions.detectMobile(userAgent));
-
+  await dispatch(AppActions.initializeAuthPage({ req, res }));
   return {
     props: {
       title: 'Trang cá nhân',

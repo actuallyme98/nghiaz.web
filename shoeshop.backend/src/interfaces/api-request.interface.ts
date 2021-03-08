@@ -1,6 +1,7 @@
 import { Request } from 'express';
-import { User } from '../models';
+
+import { RequestUser } from '../transforms';
 
 export interface APIRequest extends Request {
-  user?: User;
+  user?: RequestUser;
 }

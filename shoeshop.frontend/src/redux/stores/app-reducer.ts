@@ -24,10 +24,9 @@ export const loginReducer = AppActions.loginAction.reducer((state, action) => {
 });
 
 export const getProfile = AppActions.getProfileAction.reducer((state, action) => {
-  if (isError(action) || !action.payload) {
+  if (isError(action) || !action.payload || !action.payload.me) {
     return {};
   }
-  console.log('dispatch', action.payload.me);
   return {
     profile: action.payload.me,
   };
