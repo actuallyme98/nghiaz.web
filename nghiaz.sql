@@ -156,7 +156,7 @@ create table city(
 	is_active int, -- 0 or 1
 );
 
-create table district_id(
+create table district(
 	id int primary key not null,
 	city_id int,
 	code int,
@@ -164,7 +164,7 @@ create table district_id(
 	is_active int, -- 0 or 1
 );
 
-create table ward_id(
+create table ward(
 	id int primary key not null,
 	district_id int,
 	code int,

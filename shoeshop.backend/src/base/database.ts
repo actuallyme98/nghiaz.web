@@ -1,5 +1,6 @@
 import { IResult, IColumnMetadata, IRecordSet } from 'mssql';
-import { connection } from '../middlewares/db/connection';
+// import { connection } from '../middlewares/db/connection';
+import { connection } from '../middlewares/mssql/seed-helpers/seed-city'; // for seed-data
 
 type T = any;
 
@@ -10,7 +11,7 @@ interface KeyUpdate {
 
 const transformValue = (value: any) => {
   if (typeof value !== 'number') {
-    value = `LTRIM(RTRIM('${value}'))`; // trim spaces
+    value = `N'${value}'`; // trim spaces
   }
   return value;
 };
