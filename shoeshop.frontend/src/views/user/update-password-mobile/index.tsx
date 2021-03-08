@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 
 // styles
 import css from './style.module.scss';
@@ -16,23 +17,34 @@ import { useSelector } from 'react-redux';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 
-// helpers
-import { redirect } from '@helpers/app-util';
+// enums
+import { AppRouteEnums } from '../../../enums/app-route.enum';
 
 interface Props {}
 
-// mocks
-const loading = false;
-
 const UpdatePasswordMobile: NextPage<Props> = () => {
+  const route = useRouter();
   const profile = useSelector((store: RootState) => store.appState.profile);
+  const isMobile = useSelector((store: RootState) => store.appState.isMobile);
 
-  if (!profile) {
+  useEffect(() => {
+    if (!profile) {
+      route.push(AppRouteEnums.SIGNIN);
+    }
+  }, [profile]);
+
+  useEffect(() => {
+    if (!isMobile) {
+      route.push(AppRouteEnums.USER_EDIT_PROFILE);
+    }
+  }, [isMobile]);
+
+  if (!profile || !isMobile) {
     return <Loading />;
   }
 
   return (
-    <Layout loading={loading}>
+    <Layout loading={false}>
       <div className={css.rootMobile}>
         <div className={css.title}>
           <img src="/assets/icons/a-edit.svg" alt="" />
@@ -46,12 +58,10 @@ const UpdatePasswordMobile: NextPage<Props> = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const reduxStore = initializeStore();
   const { dispatch } = reduxStore;
-  await dispatch(
-    AppActions.initializeAuthPage({ req, res, urlResponseForMobile: '/user/edit-profile' }),
-  );
+  await dispatch(AppActions.initializeAuthPage({ req }));
   return {
     props: {
       title: 'Cập nhật mật khẩu',

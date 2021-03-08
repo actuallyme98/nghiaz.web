@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 
 // styles
 import css from './style.module.scss';
@@ -21,16 +21,19 @@ import { RootState } from '../../../redux/stores/configure-store';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 
+// enums
+import { AppRouteEnums } from '../../../enums/app-route.enum';
+
 interface Props {}
 
 const EditProfile: NextPage<Props> = () => {
+  const route = useRouter();
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const profile = useSelector((store: RootState) => store.appState.profile);
-  const route = useRouter();
 
   useEffect(() => {
     if (!profile) {
-      route.push('/signin');
+      route.push(AppRouteEnums.SIGNIN);
     }
   }, [profile]);
 
@@ -89,10 +92,10 @@ const EditProfile: NextPage<Props> = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const reduxStore = initializeStore();
   const { dispatch } = reduxStore;
-  await dispatch(AppActions.initializeAuthPage({ req, res }));
+  await dispatch(AppActions.initializeAuthPage({ req }));
   return {
     props: {
       title: 'Cập nhật thông tin',

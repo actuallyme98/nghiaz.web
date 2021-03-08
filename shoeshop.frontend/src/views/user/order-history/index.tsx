@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import clsx from 'clsx';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -22,21 +22,23 @@ import { useSelector } from 'react-redux';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 
-// helpers
-import { redirect } from '@helpers/app-util';
+// enums
+import { AppRouteEnums } from '../../../enums/app-route.enum';
 
 interface IProps {}
 
-// mocks
-const loading = false;
-const loadingOrder = false;
-
 const OrderHistory: NextPage<IProps> = () => {
-  const route = useRouter();
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const profile = useSelector((store: RootState) => store.appState.profile);
-  const orderId = useMemo(() => route.query.order, [route]);
   const [selected, setSelected] = useState(0);
+  const route = useRouter();
+  const orderId = useMemo(() => route.query.order, [route]);
+
+  useEffect(() => {
+    if (!profile) {
+      route.push(AppRouteEnums.SIGNIN);
+    }
+  }, [profile]);
 
   if (!profile) {
     return <Loading />;
@@ -76,20 +78,20 @@ const OrderHistory: NextPage<IProps> = () => {
 
   if (isMobile) {
     return (
-      <Layout loading={loading}>
+      <Layout loading={false}>
         <div className={css.rootMobile}>
           <div className={css.title}>
             <img src="/assets/icons/bag-delivery.svg" alt="" />
             Lịch sử đơn hàng
           </div>
           <InfinityScroll
-            isLoading={loadingOrder}
+            isLoading={false}
             loadMore={onLoadMore}
             // hasMore={orderData?.user.client?.orderSet.pageInfo.hasNextPage}
           >
             {renderProductsList}
           </InfinityScroll>
-          {loadingOrder && (
+          {false && (
             <div className={css.center}>
               <LoadingIcon />
             </div>
@@ -139,7 +141,7 @@ const OrderHistory: NextPage<IProps> = () => {
           </div>
         </div>
         <div className={css.body}>{renderProductsList}</div>
-        {loadingOrder && (
+        {false && (
           <div className={css.center}>
             <LoadingIcon />
           </div>
@@ -152,10 +154,10 @@ const OrderHistory: NextPage<IProps> = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const reduxStore = initializeStore();
   const { dispatch } = reduxStore;
-  await dispatch(AppActions.initializeAuthPage({ req, res }));
+  await dispatch(AppActions.initializeAuthPage({ req }));
   return {
     props: {
       title: 'Trang cá nhân',

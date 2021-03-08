@@ -29,4 +29,13 @@ declare namespace REDUX_STORE {
     FEMALE = 'FEMALE',
     UNDEFINED = 'UNDEFINED',
   }
+
+  interface InitializeAuthPageArgs {
+    req: any;
+  }
+
+  interface InitializeAuthPagePayload {
+    isMobile: boolean;
+    cookie?: string;
+  }
 }

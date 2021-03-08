@@ -13,7 +13,6 @@ import Loading from '../loading';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 import * as AppActions from '@actions/app-action';
-import { initializeStore } from '@redux/with-redux';
 import { RootState } from '@redux/stores/configure-store';
 
 interface IProps {

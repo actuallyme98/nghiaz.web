@@ -1,21 +1,3 @@
-import Router from 'next/router';
-
-export const redirect = (res: any, location: string, status = 302) => {
-  if (res) {
-    // Seems to be the version used by zeit
-    res.writeHead(status, {
-      Location: location,
-      // Add the content-type for SEO considerations
-      'Content-Type': 'text/html; charset=utf-8',
-    });
-    res.end();
-    return {};
-  }
-
-  Router.replace(location);
-  return {};
-};
-
 export const caculateDiscount = (code: any, price: number, shipFree?: number) => {
   if (!code) {
     return 0;

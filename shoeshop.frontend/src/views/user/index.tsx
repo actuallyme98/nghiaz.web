@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 
 // styles
 import css from './style.module.scss';
@@ -17,6 +17,9 @@ import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 import { RootState } from '@redux/stores/configure-store';
 
+// enums
+import { AppRouteEnums } from '../../enums/app-route.enum';
+
 interface Props {}
 
 const defaultAvatar = process.env.DEFAULT_AVATAR_URL || '';
@@ -24,14 +27,21 @@ const defaultAvatar = process.env.DEFAULT_AVATAR_URL || '';
 const User: NextPage<Props> = () => {
   const route = useRouter();
   const profile = useSelector((store: RootState) => store.appState.profile);
+  const isMobile = useSelector((store: RootState) => store.appState.isMobile);
 
   useEffect(() => {
     if (!profile) {
-      route.push('/signin');
+      route.push(AppRouteEnums.SIGNIN);
     }
   }, [profile]);
 
-  if (!profile) {
+  useEffect(() => {
+    if (!isMobile) {
+      route.push(AppRouteEnums.USER_EDIT_PROFILE);
+    }
+  }, [isMobile]);
+
+  if (!profile || !isMobile) {
     return <Loading />;
   }
 
@@ -118,12 +128,10 @@ const User: NextPage<Props> = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const reduxStore = initializeStore();
   const { dispatch } = reduxStore;
-  await dispatch(
-    AppActions.initializeAuthPage({ req, res, urlResponseForMobile: '/user/edit-profile' }),
-  );
+  await dispatch(AppActions.initializeAuthPage({ req }));
   return {
     props: {
       title: 'Trang cá nhân',

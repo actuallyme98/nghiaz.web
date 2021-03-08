@@ -1,7 +1,8 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { NextPage } from 'next';
 import clsx from 'clsx';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 
 // styles
 import css from './style.module.scss';
@@ -20,8 +21,8 @@ import { RootState } from '../../../redux/stores/configure-store';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 
-// helpers
-import { redirect } from '@helpers/app-util';
+// enums
+import { AppRouteEnums } from '../../../enums/app-route.enum';
 
 interface Props {}
 
@@ -30,13 +31,19 @@ const loading = false;
 const loadingDelivery = false;
 
 const DeliveryAddress: NextPage<Props> = () => {
-  const isMobile = useSelector((store: RootState) => store.appState.isMobile);
-  const profile = useSelector((store: RootState) => store.appState.profile);
-
   const deliveryAddresses = useMemo(() => [], []);
   const [openDeliveryAddressModal, setOpenDeliveryAddressModal] = useState(false);
   const onOpenDeliveryAddressModal = useCallback(() => setOpenDeliveryAddressModal(true), []);
   const onCloseDeliveryAddressModal = useCallback(() => setOpenDeliveryAddressModal(false), []);
+  const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const profile = useSelector((store: RootState) => store.appState.profile);
+  const route = useRouter();
+
+  useEffect(() => {
+    if (!profile) {
+      route.push(AppRouteEnums.SIGNIN);
+    }
+  }, [profile]);
 
   if (!profile) {
     return <Loading />;
@@ -88,10 +95,10 @@ const DeliveryAddress: NextPage<Props> = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const reduxStore = initializeStore();
   const { dispatch } = reduxStore;
-  await dispatch(AppActions.initializeAuthPage({ req, res }));
+  await dispatch(AppActions.initializeAuthPage({ req }));
   return {
     props: {
       title: 'Địa chỉ giao hàng',
