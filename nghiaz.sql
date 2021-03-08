@@ -14,14 +14,10 @@ create table users(
 	is_supperuser int, -- 0 or 1,
 	first_name nvarchar(30) not null,
 	last_name nvarchar(30) not null,
-	create_at char(20),
-	update_at char(20)
+	created_at char(20),
+	updated_at char(20)
 );
 
-select * from users
-select * from client
-delete from users
-delete from client
 
 create table client(
 	id int primary key not null,
@@ -231,8 +227,8 @@ create table cart_item(
 	cart_id int not null,
 	product_id int not null,
 	amount int,
-	create_at char(20),
-	update_at char(20)
+	created_at char(20),
+	updated_at char(20)
 );
 
 create table orders(
@@ -250,8 +246,8 @@ create table orders(
 	ward_id int,
 	district_id int,
 	city_id int,
-	create_at char(20),
-	update_at char(20)
+	created_at char(20),
+	updated_at char(20)
 );
 
 create table order_item(

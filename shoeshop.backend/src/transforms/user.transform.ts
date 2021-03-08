@@ -1,8 +1,9 @@
 import { ClientService } from '../services';
-import { Optional } from '../base/typescript-types';
 
-import { Client, User } from '../models';
+import { User } from '../models';
 import { GClient } from './client.transform';
+
+import { StringHelper } from '../helpers';
 
 export interface GUser extends User {
   client?: GClient;
@@ -20,16 +21,17 @@ export interface RequestUser {
 export const toGUser = async (args: any): Promise<GUser> => {
   const { id } = args;
   const client = await ClientService.findOneByUserId(id);
-
-  return {
+  const data = {
     id,
     username: args.username,
     password: args.password,
     firstName: args.first_name,
     lastName: args.last_name,
+    email: args.email,
     isSupperUser: args.is_supperuser,
-    createdAt: args.create_at,
-    updatedAt: args.update_at,
+    createdAt: args.created_at,
+    updatedAt: args.updated_at,
     client,
   };
+  return StringHelper.deepTrim(data);
 };

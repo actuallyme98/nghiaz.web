@@ -13,6 +13,9 @@ import { EncryptHelper } from '../helpers';
 // transform
 import { toGUser, GUser } from '../transforms';
 
+// dtos
+import { UpdateInfoArgs } from '../dtos';
+
 export class UserService {
   public async findOneByPhone(phoneNumber: string): Promise<GUser | undefined> {
     try {
@@ -79,6 +82,33 @@ export class UserService {
         status: false,
         message: 'Đăng ký thất bại, hãy thử lại.',
       };
+    }
+  }
+
+  public async updateInfo(args: UpdateInfoArgs) {
+    try {
+      const argsUpdated = [
+        { col: 'username', value: args.phoneNumber },
+        { col: 'email', value: args.email },
+        { col: 'first_name', value: args.firstName },
+        { col: 'last_name', value: args.lastName },
+        { col: 'updated_at', value: moment().format('YYYY-MM-DD HH:mm') },
+      ];
+      // update user table
+      await Mssql.Update('users', { col: 'id', value: args.userId }, argsUpdated);
+    } catch (err) {
+      throw new Error(err);
+    }
+
+    try {
+      const argsUpdated = [
+        { col: 'gender', value: args.gender },
+        { col: 'dob', value: args.dob },
+      ];
+      // update client table
+      await Mssql.Update('client', { col: 'users_id', value: args.userId }, argsUpdated);
+    } catch (err) {
+      throw new Error(err);
     }
   }
 }

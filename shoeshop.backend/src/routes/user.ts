@@ -12,3 +12,17 @@ router.post('/register', async (req: Request, res: Response) => {
   const result = await UserService.createUser(payload);
   return res.json({ ...result });
 });
+
+router.post(
+  '/update-info',
+  async (req: Request, res: Response) => {
+    const payload = req.body;
+    try {
+      await UserService.updateInfo(payload);
+      return res.json({ status: true });
+    } catch (err) {
+      res.json({ status: false, message: String(err) });
+    }
+  },
+  [],
+);

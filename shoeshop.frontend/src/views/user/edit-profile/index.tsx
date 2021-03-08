@@ -30,6 +30,9 @@ const EditProfile: NextPage<Props> = () => {
   const route = useRouter();
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const profile = useSelector((store: RootState) => store.appState.profile);
+  const getProfilePending = useSelector((store: RootState) =>
+    AppActions.getProfileAction.isPending(store),
+  );
 
   useEffect(() => {
     if (!profile) {
@@ -42,7 +45,7 @@ const EditProfile: NextPage<Props> = () => {
   }
 
   return isMobile ? (
-    <Layout loading={false}>
+    <Layout loading={getProfilePending}>
       <div className={css.rootMobile}>
         <div className={css.title}>
           <img src="/assets/icons/a-edit.svg" alt="" />
@@ -52,7 +55,7 @@ const EditProfile: NextPage<Props> = () => {
           <div className={css.updateInfoMobile}>
             <UpdateAvatar />
             <br />
-            <UpdateInfo />
+            <UpdateInfo profile={profile} />
           </div>
         </div>
         <Link href="/user/update-password">
@@ -78,7 +81,7 @@ const EditProfile: NextPage<Props> = () => {
         </div>
         <div className={css.content}>
           <div className={css.updateInfo}>
-            <UpdateInfo />
+            <UpdateInfo profile={profile} />
           </div>
           <div className={css.separator} />
           <div className={css.updatePassword}>

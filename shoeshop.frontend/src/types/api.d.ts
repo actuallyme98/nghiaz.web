@@ -31,4 +31,16 @@ declare namespace SHOES_API {
   interface LogoutResponse {
     status: boolean;
   }
+
+  interface UpdateInfoParams {
+    userId: number;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    email: string;
+    dob: string;
+    gender: EnumGender;
+  }
+
+  interface UpdateInfoResponse extends BaseResponse {}
 }

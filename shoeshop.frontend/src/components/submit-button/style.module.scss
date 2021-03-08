@@ -16,6 +16,11 @@ body {
     justify-content: center;
     cursor: pointer;
 
+    &:hover {
+      background-color: #ee5c30;
+      color: #ffffff;
+    }
+
     &:disabled {
       background-color: #f5f5f5;
       color: #b7b7b7;

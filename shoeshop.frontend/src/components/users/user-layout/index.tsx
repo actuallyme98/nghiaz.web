@@ -38,6 +38,7 @@ const UserLayout: React.FC<Props> = ({ children, breadcumb, loading, profile }) 
                 data={{
                   avatar: profile.client?.avatar || defaultAvatar,
                   name: profile.firstName + ' ' + profile.lastName,
+                  updatedAt: profile.updatedAt,
                 }}
               />
             </div>

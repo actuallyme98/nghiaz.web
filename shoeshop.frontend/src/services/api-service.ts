@@ -3,7 +3,7 @@ import { ApiRouteEnum } from '../enums/api-route.enum';
 
 const SERVER_URL = process.env.SERVER_URL;
 
-const AxiosInterceptors = async (response: any) => {
+const HanleResponse = async (response: any) => {
   const { status, message } = response;
   if (status === false) {
     throw new Error(message);
@@ -27,11 +27,11 @@ export class ApiService {
   }
   public async register(payload: SHOES_API.RegisterParams): Promise<SHOES_API.RegisterResponse> {
     const response = await this.axios.post(ApiRouteEnum.REGISTER, payload);
-    return await AxiosInterceptors(response);
+    return await HanleResponse(response);
   }
   public async login(payload: SHOES_API.LoginParams): Promise<SHOES_API.LoginResponse> {
     const response = await this.axios.post(ApiRouteEnum.LOGIN, payload);
-    return await AxiosInterceptors(response);
+    return await HanleResponse(response);
   }
   public async getProfile(cookie?: string): Promise<SHOES_API.GetProfileResponse> {
     return await this.axios.get(ApiRouteEnum.GET_PROFILE, {
@@ -43,6 +43,13 @@ export class ApiService {
   }
   public async logout(): Promise<SHOES_API.LogoutResponse> {
     return await this.axios.post(ApiRouteEnum.LOGOUT);
+  }
+
+  public async updateUserInfo(
+    args: SHOES_API.UpdateInfoParams,
+  ): Promise<SHOES_API.UpdateInfoResponse> {
+    const response = await this.axios.post(ApiRouteEnum.UPDATE_USER_INFO, args);
+    return await HanleResponse(response);
   }
 }
 

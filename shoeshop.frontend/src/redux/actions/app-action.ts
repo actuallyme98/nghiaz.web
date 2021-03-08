@@ -65,3 +65,15 @@ export const initializeAuthPage = createTypeAsyncAction<
 export const logOutAction = createTypeAsyncAction('LOGOUT_ACTION', async () => {
   return await ApiService.logout();
 });
+
+export const updateUserInfoAction = createTypeAsyncAction<SHOES_API.UpdateInfoParams, void, Store>(
+  'UPDATE_USER_INFO_ACTION',
+  async (args, { dispatch }) => {
+    try {
+      await ApiService.updateUserInfo(args);
+      await dispatch(getProfileAction());
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);

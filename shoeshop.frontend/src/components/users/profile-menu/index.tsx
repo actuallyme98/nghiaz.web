@@ -9,6 +9,7 @@ interface Iprops {
   data: {
     avatar: string;
     name: string;
+    updatedAt?: string;
   };
 }
 
@@ -27,7 +28,7 @@ const ProfileMenu: React.FC<Iprops> = (props) => {
     <div className={css.rootDesktop}>
       <div className={css.flexHead}>
         <div className={css.avatar}>
-          <img src={data.avatar.trim() || defaultAvatar} alt={data.name} />
+          <img src={data.avatar || defaultAvatar} alt={data.name} />
         </div>
         <div className={css.text}>
           <h4>{data.name}</h4>
@@ -38,8 +39,8 @@ const ProfileMenu: React.FC<Iprops> = (props) => {
         </div>
       </div>
       <div className={css.pointBox}>
-        <p className={css.textP}>Welcome back!</p>
-        <p className={css.pointValue}></p>
+        <p className={css.textP}>Cập nhật lúc: </p>
+        <p className={css.pointValue}>{data.updatedAt}</p>
       </div>
       <div className={css.flexBody}>
         <Link href="/user/edit-profile">

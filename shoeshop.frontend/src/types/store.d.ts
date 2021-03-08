@@ -11,6 +11,7 @@ declare namespace REDUX_STORE {
     firstName: string;
     lastName: string;
     userName: string;
+    email?: string;
     createdAt?: String;
     updatedAt?: string;
     client: Client;

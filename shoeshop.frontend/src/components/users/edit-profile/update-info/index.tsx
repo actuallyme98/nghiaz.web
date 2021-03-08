@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import moment from 'moment';
 
 // formiks
@@ -16,14 +16,28 @@ import SelectField from '../../../../components/select-field';
 import notification from 'antd/lib/notification';
 
 // redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../../redux/stores/configure-store';
+import * as AppActions from '@actions/app-action';
 
-interface Props {}
+interface Props {
+  profile: REDUX_STORE.Profile;
+}
 
-const UpdateInfo: React.FC<Props> = () => {
+const UpdateInfo: React.FC<Props> = ({ profile }) => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
-  const profile = useSelector((store: RootState) => store.appState.profile);
+  const dispatch = useDispatch();
+
+  const initialValues = useMemo(() => {
+    return {
+      firstName: profile?.firstName || '',
+      lastName: profile?.lastName || '',
+      phoneNumber: profile?.userName || '',
+      email: profile?.email || '',
+      birthday: profile?.client.dob ? moment(profile?.client.dob).toDate() : new Date(),
+      gender: profile?.client.gender || 'UNDEFINED',
+    };
+  }, [profile]);
 
   const updateProfileSubmit = useCallback(
     async (
@@ -43,10 +57,28 @@ const UpdateInfo: React.FC<Props> = () => {
       if (Object.keys(validateFormResult).some((key) => validateFormResult[key])) {
         return;
       }
-      formikHelpers.setSubmitting(true);
-      // update Profile
-
-      formikHelpers.setSubmitting(false);
+      try {
+        formikHelpers.setSubmitting(true);
+        if (profile) {
+          await dispatch(
+            AppActions.updateUserInfoAction({
+              ...values,
+              userId: profile.id,
+              dob: moment(values.birthday).format('YYYY-MM-DD HH:mm'),
+            }),
+          );
+        }
+        formikHelpers.setSubmitting(false);
+        notification.success({
+          message: 'Cập nhật thông tin thành công',
+          placement: 'bottomRight',
+        });
+      } catch (err) {
+        notification.error({
+          message: String(err),
+          placement: 'bottomRight',
+        });
+      }
     },
     [],
   );
@@ -54,14 +86,7 @@ const UpdateInfo: React.FC<Props> = () => {
   return (
     <div className={css.updateInfo}>
       <Formik<UpdateProfileFormValues>
-        initialValues={{
-          firstName: '',
-          lastName: '',
-          phoneNumber: '',
-          email: '',
-          birthday: new Date(),
-          gender: 'UNDEFINED',
-        }}
+        initialValues={initialValues}
         validationSchema={validateUpdateProfileSchema}
         onSubmit={updateProfileSubmit}
       >
@@ -148,7 +173,8 @@ const UpdateInfo: React.FC<Props> = () => {
             </div>
             <SubmitButton
               disabled={!isValid || isSubmitting || !dirty}
-              onClick={handleSubmit as any}
+              loading={isSubmitting}
+              onClick={handleSubmit}
               className={isMobile ? css.updateBtnMobile : css.updateBtn}
             >
               CẬP NHẬT THÔNG TIN

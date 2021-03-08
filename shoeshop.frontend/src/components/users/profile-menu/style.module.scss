@@ -51,7 +51,8 @@
 
   .pointBox {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
     width: calc(100% - 34px);
     height: 52px;
     object-fit: contain;
@@ -61,27 +62,20 @@
     border-radius: 4px;
 
     .textP {
-      margin-top: 20px;
-      margin-left: 21px;
       font-family: SFUIDisplay;
       font-size: 12px;
       font-weight: 500;
       color: #ffffff;
+      margin-bottom: 0;
     }
 
     .pointValue {
-      margin-top: 14px;
-      margin-right: 13px;
       font-family: SFUIDisplay;
       font-size: 12px;
       font-weight: 200;
       color: #ffffff;
-
-      span:first-child {
-        font-size: 20px;
-        font-weight: 200;
-        margin-right: 5px;
-      }
+      margin-bottom: 0;
+      margin-left: 20px;
     }
   }
 

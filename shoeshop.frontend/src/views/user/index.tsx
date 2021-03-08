@@ -54,7 +54,7 @@ const User: NextPage<Props> = () => {
         </div>
         <div className={css.top}>
           <div className={css.left}>
-            <img src={profile.client?.avatar?.trim() || defaultAvatar} />
+            <img src={profile.client?.avatar || defaultAvatar} />
             <div className={css.nameWrap}>
               <div className={css.name}>
                 {profile.lastName} {profile.firstName}
