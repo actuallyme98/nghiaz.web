@@ -30,6 +30,9 @@ import { initializeStore } from '@redux/with-redux';
 // utils
 import { caculateDiscount } from '@helpers/app-util';
 
+// enums
+import { AppRouteEnums } from '../../../enums/app-route.enum';
+
 interface IProps {}
 
 // mocks
@@ -221,7 +224,7 @@ const Payment: NextPage<IProps> = () => {
   // );
 
   return (
-    <Layout loading={false}>
+    <Layout loading={false} backUrl={AppRouteEnums.CHECKOUT_CART}>
       <div className={!isMobile ? css.background : ''}>
         <div className={isMobile ? css.contentMobile : css.contentDesktop}>
           {!isMobile && <Stepper step={2} className={css.stepper} />}

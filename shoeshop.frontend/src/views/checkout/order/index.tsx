@@ -20,6 +20,9 @@ import { RootState } from '@redux/stores/configure-store';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 
+// enums
+import { AppRouteEnums } from '../../../enums/app-route.enum';
+
 interface IProps {}
 
 // mocks
@@ -60,7 +63,10 @@ const Order: NextPage<IProps> = () => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
 
   return (
-    <Layout loading={String(route.query.id) !== 'error' && loading}>
+    <Layout
+      loading={String(route.query.id) !== 'error' && loading}
+      backUrl={AppRouteEnums.CHECKOUT_PAYMENT}
+    >
       <div className={!isMobile ? css.background : ''}>
         <div
           className={

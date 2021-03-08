@@ -21,9 +21,12 @@ import { RootState } from '../../redux/stores/configure-store';
 // enums
 import { AppRouteEnums } from '../../enums/app-route.enum';
 
-interface IProps {}
+interface IProps {
+  backUrl?: string;
+}
 
 const Header: React.FC<IProps> = (props) => {
+  const { backUrl } = props;
   const [openMenu, setOpenMenu] = useState(false);
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const profile = useSelector((store: RootState) => store.appState.profile);
@@ -47,6 +50,10 @@ const Header: React.FC<IProps> = (props) => {
     route.push('/blogs');
   }, []);
 
+  const goBack = useCallback(() => {
+    route.push(backUrl || AppRouteEnums.HOME);
+  }, [backUrl]);
+
   const profileMenu = useMemo(() => {
     if (!profile) {
       return (
@@ -69,9 +76,14 @@ const Header: React.FC<IProps> = (props) => {
   const profileLink = useMemo(() => {
     if (!profile) {
       return (
-        <Link href={AppRouteEnums.HOME}>
-          <a className={css.menuLinkDrawer}>Trang chủ</a>
-        </Link>
+        <>
+          <Link href={AppRouteEnums.HOME}>
+            <a className={css.menuLinkDrawer}>Trang chủ</a>
+          </Link>
+          <Link href={AppRouteEnums.USER}>
+            <a className={css.menuLinkDrawer}>Đăng nhập/ Đăng ký</a>
+          </Link>
+        </>
       );
     }
     return (
@@ -82,8 +94,20 @@ const Header: React.FC<IProps> = (props) => {
   }, [profile]);
 
   return (
-    <div>
-      <IconButton className={css.menuButton} onClick={handleCollapseMenu}>
+    <div className={css.rootMobile}>
+      {isMobile && backUrl && (
+        <IconButton shape="circle" className={css.backMenuButton} onClick={goBack}>
+          <img src="/assets/icons/back-menu.svg" alt="" />
+        </IconButton>
+      )}
+      <IconButton
+        shape="circle"
+        className={clsx({
+          [css.menuButton]: true,
+          [css.menuButtonMobile]: !isMobile || !backUrl,
+        })}
+        onClick={handleCollapseMenu}
+      >
         <img src="/assets/icons/menu-bar.svg" alt="" />
       </IconButton>
       <Drawer

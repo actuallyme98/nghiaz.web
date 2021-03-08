@@ -16,6 +16,9 @@ import { RootState } from '../../redux/stores/configure-store';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 
+// enums
+import { AppRouteEnums } from '../../enums/app-route.enum';
+
 interface IProps {
   statusCode?: number;
 }
@@ -24,7 +27,7 @@ const Error: NextPage<IProps> = ({ statusCode }) => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
 
   return (
-    <Layout>
+    <Layout backUrl={AppRouteEnums.HOME}>
       {statusCode ? (
         <div className={isMobile ? css.contentMobile : css.contentDesktop}>
           <img src="/assets/page-404/404err.jpg" className={css.imgError} />

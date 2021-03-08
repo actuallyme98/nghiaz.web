@@ -44,7 +44,7 @@ const UpdatePasswordMobile: NextPage<Props> = () => {
   }
 
   return (
-    <Layout loading={false}>
+    <Layout loading={false} backUrl={AppRouteEnums.USER}>
       <div className={css.rootMobile}>
         <div className={css.title}>
           <img src="/assets/icons/a-edit.svg" alt="" />

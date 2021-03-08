@@ -43,6 +43,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return {
     props: {
       title: 'Trang chủ',
+      initialReduxState: reduxStore.getState(),
     },
   };
 };

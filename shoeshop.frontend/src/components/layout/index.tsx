@@ -17,12 +17,13 @@ import { RootState } from '@redux/stores/configure-store';
 
 interface IProps {
   loading?: boolean;
+  backUrl?: string;
 }
 
 const whiteLists = ['/', '/contact', '/signin', '/blogs', '/signup'];
 
 const Layout: React.FC<IProps> = (props) => {
-  const { children, loading } = props;
+  const { children, loading, backUrl } = props;
   const route = useRouter();
   const dispatch = useDispatch();
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
@@ -43,7 +44,7 @@ const Layout: React.FC<IProps> = (props) => {
         [css.containerFluid]: isFluid && !isMobile,
       })}
     >
-      <Header />
+      <Header backUrl={backUrl} />
       <div className={css.content}>{loading ? <Loading /> : children}</div>
       <Footer />
     </div>

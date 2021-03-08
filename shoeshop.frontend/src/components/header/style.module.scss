@@ -1,3 +1,7 @@
+.rootMobile {
+  border-bottom: 1px solid #ecf0e8;
+}
+
 .container {
   max-width: 80%;
   margin: 0 auto;
@@ -9,7 +13,8 @@
   display: flex;
   align-items: center;
   @media screen and (max-width: 600px) {
-    justify-content: center;
+    justify-content: flex-end;
+    padding-right: 10px;
   }
 }
 
@@ -60,9 +65,6 @@
 
 .controlHeader {
   display: flex;
-  @media screen and (max-width: 600px) {
-    display: none;
-  }
 }
 .dFlexline {
   display: flex;
@@ -105,15 +107,19 @@
   & img {
     width: 50%;
   }
+  @media screen and (max-width: 600px) {
+    visibility: hidden;
+  }
   cursor: pointer;
 }
 
 .bagButton {
-  width: 42px;
-  height: 42px;
+  width: 32px;
+  height: 32px;
   margin-left: 10px;
+  margin-top: 4px;
   img {
-    width: 20px;
+    width: 16px;
   }
 }
 .mainMenu {
@@ -164,10 +170,27 @@
   }
 }
 
+.backMenuButton {
+  position: absolute;
+  background: transparent;
+  top: 18px;
+  left: 5px;
+  border: 0;
+  box-shadow: none;
+  & img {
+    width: 20px;
+  }
+}
+
+.menuButtonMobile {
+  left: 15px !important;
+}
+
 .menuButton {
   position: absolute;
+  background: transparent;
   top: 18px;
-  left: -5px;
+  left: 40px;
   display: none;
   & img {
     width: 20px;

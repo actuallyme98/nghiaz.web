@@ -12,11 +12,14 @@ import Layout from '../../components/layout';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 
+// enums
+import { AppRouteEnums } from '../../enums/app-route.enum';
+
 interface Props {}
 
 const Contact: React.FC<Props> = (props) => {
   return (
-    <Layout>
+    <Layout backUrl={AppRouteEnums.HOME}>
       <div className={clsx(css.container, 'container')}>
         <h1>Liên Hệ</h1>
         <div className={css.map}>

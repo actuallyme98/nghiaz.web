@@ -60,7 +60,7 @@ const DeliveryAddress: NextPage<Props> = () => {
   }, [deliveryAddresses]);
 
   return isMobile ? (
-    <Layout loading={loading || loadingDelivery}>
+    <Layout loading={loading || loadingDelivery} backUrl={AppRouteEnums.USER}>
       <div className={css.rootMobile}>
         <div className={css.title}>
           <img src="/assets/icons/red-delivery-fast.svg" alt="" />

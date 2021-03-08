@@ -18,11 +18,14 @@ import BlogRecruit from '../../components/blogs/blog-recruit/index';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 
+// enums
+import { AppRouteEnums } from '../../enums/app-route.enum';
+
 interface Props {}
 
 const Blogs: React.FC<Props> = (props) => {
   return (
-    <Layout>
+    <Layout backUrl={AppRouteEnums.HOME}>
       <BlogFirst />
       <BlogNew />
       <BlogLogist />

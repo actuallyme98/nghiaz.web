@@ -45,7 +45,7 @@ const EditProfile: NextPage<Props> = () => {
   }
 
   return isMobile ? (
-    <Layout loading={getProfilePending}>
+    <Layout loading={getProfilePending} backUrl={AppRouteEnums.USER}>
       <div className={css.rootMobile}>
         <div className={css.title}>
           <img src="/assets/icons/a-edit.svg" alt="" />

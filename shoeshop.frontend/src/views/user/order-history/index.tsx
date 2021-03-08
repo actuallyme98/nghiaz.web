@@ -78,7 +78,7 @@ const OrderHistory: NextPage<IProps> = () => {
 
   if (isMobile) {
     return (
-      <Layout loading={false}>
+      <Layout loading={false} backUrl={AppRouteEnums.USER}>
         <div className={css.rootMobile}>
           <div className={css.title}>
             <img src="/assets/icons/bag-delivery.svg" alt="" />

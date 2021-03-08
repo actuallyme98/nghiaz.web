@@ -49,7 +49,7 @@ const Login: React.FC<Props> = (props) => {
   );
 
   return (
-    <Layout>
+    <Layout backUrl={AppRouteEnums.HOME}>
       <div className={css.formLogin}>
         <div>
           <h1 className={css.sgn1}>Đăng Nhập</h1>

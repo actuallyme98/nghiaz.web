@@ -18,6 +18,9 @@ import { RootState } from '@redux/stores/configure-store';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 
+// enums
+import { AppRouteEnums } from '../../enums/app-route.enum';
+
 // mocks
 const BREADCRUMB_ITEMS: BreadcumbItem[] = [
   { title: 'Trang chủ', url: '/' },
@@ -72,7 +75,7 @@ const Shop: React.FC<Props> = (props) => {
   const breadcrumbs = useMemo(() => [...BREADCRUMB_ITEMS], []);
 
   return (
-    <Layout>
+    <Layout backUrl={AppRouteEnums.HOME}>
       {product && (
         <div className={isMobile ? css.contentMobile : css.contentDesktop}>
           {!isMobile && <Breadcrumb items={breadcrumbs} />}
