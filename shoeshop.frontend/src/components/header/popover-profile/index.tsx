@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -7,6 +7,10 @@ import css from './style.module.scss';
 
 // components
 import Popover from 'antd/lib/popover';
+
+// redux
+import { useDispatch } from 'react-redux';
+import * as AppActions from '@actions/app-action';
 
 // enums
 import { AppRouteEnums } from '../../../enums/app-route.enum';
@@ -21,9 +25,11 @@ const defaultAvatar = process.env.DEFAULT_AVATAR_URL || '';
 
 const Content: React.FC = () => {
   const route = useRouter();
-  const handleSignOut = async () => {
-    route.push('/');
-  };
+  const dispatch = useDispatch();
+
+  const handleSignOut = useCallback(async () => {
+    await dispatch(AppActions.logOutAction());
+  }, []);
 
   return (
     <div className={css.containerPopup}>

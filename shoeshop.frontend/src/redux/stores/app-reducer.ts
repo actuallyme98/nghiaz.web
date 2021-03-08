@@ -32,10 +32,20 @@ export const getProfile = AppActions.getProfileAction.reducer((state, action) =>
   };
 });
 
+export const logoutReducer = AppActions.logOutAction.reducer((state, action) => {
+  if (isError(action) || !action.payload) {
+    return {};
+  }
+  return {
+    profile: undefined,
+  };
+});
+
 export const reducer = createTypeReducer(
   initialState,
   detectMobileReducer,
   openCartDrawer,
   loginReducer,
   getProfile,
+  logoutReducer,
 );

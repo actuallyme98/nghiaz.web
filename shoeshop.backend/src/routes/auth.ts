@@ -2,8 +2,6 @@ import { Router, Express, Response, NextFunction } from 'express';
 import { AuthService } from '../services';
 import { APIRequest } from '../interfaces';
 
-import cookieParser from 'cookie-parser';
-
 const router = Router();
 
 module.exports = (app: Express) => {
@@ -34,4 +32,9 @@ router.get('/me', async (req: APIRequest, res: Response) => {
   } catch (err) {
     return res.json({ message: String(err), status: false });
   }
+});
+
+router.post('/logout', async (req: APIRequest, res: Response) => {
+  res.clearCookie('JWT');
+  res.json({ status: true });
 });

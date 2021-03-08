@@ -60,3 +60,7 @@ export const initializeAuthPage = createTypeAsyncAction<any, void, Store>(
     }
   },
 );
+
+export const logOutAction = createTypeAsyncAction('LOGOUT_ACTION', async () => {
+  return await ApiService.logout();
+});

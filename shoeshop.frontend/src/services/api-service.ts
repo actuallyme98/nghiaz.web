@@ -41,6 +41,9 @@ export class ApiService {
       withCredentials: true,
     });
   }
+  public async logout(): Promise<SHOES_API.LogoutResponse> {
+    return await this.axios.post(ApiRouteEnum.LOGOUT);
+  }
 }
 
 export default new ApiService();

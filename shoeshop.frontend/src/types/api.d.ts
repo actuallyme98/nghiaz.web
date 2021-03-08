@@ -27,4 +27,8 @@ declare namespace SHOES_API {
   interface GetProfileResponse extends BaseResponse {
     me: REDUX_STORE.Profile;
   }
+
+  interface LogoutResponse {
+    status: boolean;
+  }
 }
