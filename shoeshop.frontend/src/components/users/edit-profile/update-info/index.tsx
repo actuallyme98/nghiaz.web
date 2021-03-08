@@ -63,7 +63,6 @@ const UpdateInfo: React.FC<Props> = ({ profile }) => {
           await dispatch(
             AppActions.updateUserInfoAction({
               ...values,
-              userId: profile.id,
               dob: moment(values.birthday).format('YYYY-MM-DD HH:mm'),
             }),
           );
@@ -75,7 +74,7 @@ const UpdateInfo: React.FC<Props> = ({ profile }) => {
         });
       } catch (err) {
         notification.error({
-          message: String(err),
+          message: String(err).replace(/Error: /g, ''),
           placement: 'bottomRight',
         });
       }

@@ -39,7 +39,7 @@ const Login: React.FC<Props> = (props) => {
         route.push('/user');
       } catch (err) {
         notification.error({
-          message: String(err.message || err),
+          message: String(err).replace(/Error: /g, ''),
           placement: 'bottomRight',
         });
       }

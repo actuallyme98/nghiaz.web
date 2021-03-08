@@ -77,3 +77,16 @@ export const updateUserInfoAction = createTypeAsyncAction<SHOES_API.UpdateInfoPa
     }
   },
 );
+
+export const updatePasswordAction = createTypeAsyncAction<
+  SHOES_API.UpdatePasswordParams,
+  void,
+  Store
+>('UPDATE_USER_INFO_ACTION', async (args, { dispatch }) => {
+  try {
+    await ApiService.updatePassword(args);
+    await dispatch(getProfileAction());
+  } catch (err) {
+    throw new Error(err);
+  }
+});

@@ -1,5 +1,5 @@
 import { Router, Express, Response, NextFunction } from 'express';
-import { AuthService } from '../services';
+import { AuthService, authMiddleware } from '../services';
 import { APIRequest } from '../interfaces';
 
 const router = Router();
@@ -22,16 +22,8 @@ router.post('/token', async (req: APIRequest, res: Response, next: NextFunction)
   }
 });
 
-router.get('/me', async (req: APIRequest, res: Response) => {
-  try {
-    // validate request
-    const user = await AuthService.validateRequest(req);
-    if (user) {
-      return res.json({ me: user });
-    }
-  } catch (err) {
-    return res.json({ message: String(err), status: false });
-  }
+router.get('/me', authMiddleware, async (req: APIRequest, res: Response) => {
+  return res.json({ me: req.user });
 });
 
 router.post('/logout', async (req: APIRequest, res: Response) => {

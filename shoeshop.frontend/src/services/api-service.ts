@@ -51,6 +51,13 @@ export class ApiService {
     const response = await this.axios.post(ApiRouteEnum.UPDATE_USER_INFO, args);
     return await HanleResponse(response);
   }
+
+  public async updatePassword(
+    args: SHOES_API.UpdatePasswordParams,
+  ): Promise<SHOES_API.UpdatePasswordResponse> {
+    const response = await this.axios.post(ApiRouteEnum.UPDATE_PASSWORD, args);
+    return await HanleResponse(response);
+  }
 }
 
 export default new ApiService();

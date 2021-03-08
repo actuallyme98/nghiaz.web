@@ -33,7 +33,6 @@ declare namespace SHOES_API {
   }
 
   interface UpdateInfoParams {
-    userId: number;
     firstName: string;
     lastName: string;
     phoneNumber: string;
@@ -43,4 +42,11 @@ declare namespace SHOES_API {
   }
 
   interface UpdateInfoResponse extends BaseResponse {}
+
+  interface UpdatePasswordParams {
+    oldPassword: string;
+    newPassword: string;
+  }
+
+  interface UpdatePasswordResponse extends BaseResponse {}
 }

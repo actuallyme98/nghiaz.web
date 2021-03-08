@@ -14,7 +14,7 @@ import { EncryptHelper } from '../helpers';
 import { toGUser, GUser } from '../transforms';
 
 // dtos
-import { UpdateInfoArgs } from '../dtos';
+import { UpdateInfoArgs, UpdatePasswordArgs } from '../dtos';
 
 export class UserService {
   public async findOneByPhone(phoneNumber: string): Promise<GUser | undefined> {
@@ -28,7 +28,7 @@ export class UserService {
       throw new Error(err);
     }
   }
-  public async findOneById(id: string): Promise<GUser | undefined> {
+  public async findOneById(id: number): Promise<GUser | undefined> {
     try {
       const result = await Mssql.Find('users', 'id', id);
       if (!result) {
@@ -107,6 +107,33 @@ export class UserService {
       ];
       // update client table
       await Mssql.Update('client', { col: 'users_id', value: args.userId }, argsUpdated);
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  public async updatePassword(args: UpdatePasswordArgs) {
+    let user: GUser | undefined;
+    try {
+      user = await this.findOneById(args.userId);
+    } catch (err) {
+      throw new Error(err);
+    }
+    try {
+      if (!user) {
+        throw new Error('Unauthorized');
+      }
+      if (!EncryptHelper.compare(args.oldPassword, user.password)) {
+        throw new Error('Sai mật khẩu');
+      }
+      if (EncryptHelper.compare(args.newPassword, user.password)) {
+        throw new Error('Mật khẩu trùng với mật khẩu cũ');
+      }
+      const argsUpdated = [
+        { col: 'password', value: EncryptHelper.hash(args.newPassword) },
+        { col: 'updated_at', value: moment().format('YYYY-MM-DD HH:mm') },
+      ];
+      await Mssql.Update('users', { col: 'id', value: args.userId }, argsUpdated);
     } catch (err) {
       throw new Error(err);
     }

@@ -9,3 +9,9 @@ export interface UpdateInfoArgs {
   dob: string;
   gender: EnumGender;
 }
+
+export interface UpdatePasswordArgs {
+  userId: number;
+  oldPassword: string;
+  newPassword: string;
+}

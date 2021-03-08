@@ -15,12 +15,15 @@ import notification from 'antd/lib/notification';
 
 // redux
 import { RootState } from '../../../../redux/stores/configure-store';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as AppActions from '@actions/app-action';
 
 interface Props {}
 
 const UpdatePassword: React.FC<Props> = () => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const dispatch = useDispatch();
+
   const updatePasswordSubmit = useCallback(
     async (
       values: UpdatePasswordFormValues,
@@ -39,8 +42,25 @@ const UpdatePassword: React.FC<Props> = () => {
       if (Object.keys(validateFormResult).some((key) => validateFormResult[key])) {
         return;
       }
-      formikHelpers.setSubmitting(true);
-      // update password api
+      try {
+        const { oldPassword, newPassword } = values;
+        formikHelpers.setSubmitting(true);
+        await dispatch(AppActions.updatePasswordAction({ oldPassword, newPassword }));
+        notification.success({
+          message: 'Mật khẩu đã được thay đổi',
+          placement: 'bottomRight',
+        });
+      } catch (err) {
+        notification.error({
+          message: String(err).replace(/Error: /g, ''),
+          placement: 'bottomRight',
+        });
+      }
+      formikHelpers.setValues({
+        oldPassword: '',
+        newPassword: '',
+        confirmNewPassword: '',
+      });
       formikHelpers.setSubmitting(false);
     },
     [],
@@ -119,9 +139,9 @@ interface UpdatePasswordFormValues {
 
 const validateUpdatePasswordSchema = Yup.object().shape({
   oldPassword: Yup.string().required('Trường Bắt Buộc'),
-  newPassword: Yup.string().required('Trường Bắt Buộc').min(8, 'Mật khẩu không hợp lệ'),
+  newPassword: Yup.string().required('Trường Bắt Buộc').min(6, 'Mật khẩu không hợp lệ'),
   confirmNewPassword: Yup.string()
     .required('Trường Bắt Buộc')
     .oneOf([Yup.ref('newPassword')], 'Mật khẩu không khớp')
-    .min(8, 'Mật khẩu không hợp lệ'),
+    .min(6, 'Mật khẩu không hợp lệ'),
 });

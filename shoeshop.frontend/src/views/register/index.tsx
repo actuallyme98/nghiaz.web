@@ -47,7 +47,7 @@ const SignUp: React.FC<Props> = (props) => {
         });
       } catch (err) {
         notification.error({
-          message: String(err),
+          message: String(err).replace(/Error: /g, ''),
           placement: 'bottomRight',
         });
       }
