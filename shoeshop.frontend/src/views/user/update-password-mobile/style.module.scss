@@ -1,0 +1,23 @@
+.rootMobile {
+  padding-bottom: 60px;
+}
+.title {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  color: #4a4a4a;
+  padding: 0 16px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eef0f6;
+
+  img {
+    margin-right: 7px;
+  }
+}
+
+.updatePassword {
+  margin-top: 10px;
+  background-color: #ffffff;
+  padding: 20px;
+}

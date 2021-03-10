@@ -27,9 +27,11 @@
     }
     .btnClose {
       border: none;
-      min-width: 14px;
+      min-width: 14px !important;
+      visibility: visible !important;
+      box-shadow: none;
       height: 14px;
-      background-image: url("/images/icons/close.svg");
+      background-image: url('/assets/icons/close.svg');
       background-size: contain;
       background-repeat: no-repeat;
     }
@@ -55,7 +57,7 @@
   }
 
   .items {
-    overflow: scroll;
+    overflow-y: scroll;
     padding: 24px 38px 0px 38px;
     flex-grow: 1;
     .item {

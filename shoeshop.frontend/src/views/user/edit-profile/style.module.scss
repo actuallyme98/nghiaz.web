@@ -1,0 +1,84 @@
+.root {
+  padding: 20px 30px;
+  border: solid 1px #d9d9d9;
+  border-radius: 7px;
+  background-color: #ffffff;
+  min-height: 100%;
+
+  .title {
+    .logoImgTitleDesktop {
+      display: flex;
+
+      .text {
+        font-family: SFUIDisplay;
+        font-size: 26px;
+        font-weight: 300;
+        color: #384650;
+        margin-left: 14px;
+        line-height: 31px;
+      }
+    }
+  }
+
+  .content {
+    margin-top: 15px;
+    display: flex;
+  }
+
+  .separator {
+    position: relative;
+    border: dashed 0.5px #dbdbdb;
+  }
+}
+
+.rootMobile {
+  padding-bottom: 60px;
+  .title {
+    height: 52px;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    color: #4a4a4a;
+    padding: 0 16px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #eef0f6;
+
+    img {
+      margin-right: 7px;
+    }
+  }
+}
+
+.updateInfo {
+  padding: 0 30px;
+  width: 320px;
+  display: block;
+}
+
+.updatePassword {
+  margin-left: 65px;
+  width: 260px;
+}
+
+.contentMobile {
+  margin-top: 10px;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.updateInfoMobile {
+  width: 100%;
+}
+
+.bottomMobile {
+  margin-top: 10px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 50px;
+  color: #384650;
+  font-size: 14px;
+  font-weight: 500;
+}

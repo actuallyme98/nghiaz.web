@@ -25,6 +25,9 @@
   @media screen and (max-width: 900px) {
     width: 70%;
   }
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 }
 .col3 {
   width: 33%;
@@ -33,5 +36,6 @@
   }
   @media screen and (max-width: 600px) {
     margin-left: 0;
+    width: 100%;
   }
 }

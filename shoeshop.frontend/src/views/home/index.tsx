@@ -23,7 +23,7 @@ const Home: React.FC<Props> = (props) => {
   return (
     <Layout>
       <SliderBanner />
-      <div className={css.content}>
+      <div className="container">
         <TopCampaign />
         <TopNewestProducts />
         <TopListSeller />
@@ -42,7 +42,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      title: 'Shoes shop',
+      title: 'Trang chủ',
+      initialReduxState: reduxStore.getState(),
     },
   };
 };

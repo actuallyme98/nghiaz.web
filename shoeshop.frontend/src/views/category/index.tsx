@@ -21,6 +21,9 @@ import { initializeStore } from '@redux/with-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/stores/configure-store';
 
+// enums
+import { AppRouteEnums } from '../../enums/app-route.enum';
+
 // mocks
 const BREADCRUMB_ITEMS: BreadcumbItem[] = [
   { title: 'Trang chủ', url: '/' },
@@ -65,9 +68,8 @@ const Category: React.FC<Props> = (props) => {
   const onCloseFilterMenu = useCallback(() => setOpenFilterMenu(false), []);
 
   const breadcrumbs = useMemo(() => [...BREADCRUMB_ITEMS], []);
-
   return (
-    <Layout>
+    <Layout backUrl={AppRouteEnums.HOME}>
       <div className={isMobile ? css.contentMobile : css.contentDesktop}>
         {!isMobile && <Breadcrumb items={breadcrumbs} />}
         <div className={css.content}>
@@ -133,17 +135,19 @@ const Category: React.FC<Props> = (props) => {
 
 const Product: React.FC<{ product: any }> = ({ product }) => {
   return (
-    <a className={css.productLink} href="/shop/giay-the-thao-nam">
-      <ProductItem
-        data={{
-          category: '',
-          originalPrice: product.price,
-          currentPrice: product.currentPrice || product.price,
-          title: product.name,
-          thumbnail: product.thumbnail ? product.thumbnail : '',
-        }}
-      />
-    </a>
+    <Link href="/shop/giay-the-thao-nam">
+      <a className={css.productLink}>
+        <ProductItem
+          data={{
+            category: '',
+            originalPrice: product.price,
+            currentPrice: product.currentPrice || product.price,
+            title: product.name,
+            thumbnail: product.thumbnail ? product.thumbnail : '',
+          }}
+        />
+      </a>
+    </Link>
   );
 };
 
@@ -155,7 +159,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      title: 'Shoes shop',
+      title: 'Category - ',
+      initialReduxState: reduxStore.getState(),
     },
   };
 };

@@ -18,6 +18,8 @@
   .value {
     background-color: white;
     cursor: default;
+    visibility: visible;
+    width: 30px;
 
     &[class*='ant-input'] {
       &:focus {

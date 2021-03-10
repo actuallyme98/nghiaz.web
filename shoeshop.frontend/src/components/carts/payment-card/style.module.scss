@@ -1,0 +1,118 @@
+.contentDesktop {
+  .money {
+    padding: 25px 40px 25px 35px;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.08);
+    border: solid 1px #e1e1e1;
+    background-color: #ffffff;
+
+    .contentMoney {
+      display: flex;
+      justify-content: space-between;
+
+      .textContent {
+        font-family: SFUIDisplay;
+        font-size: 16px;
+        color: #384650;
+      }
+
+      .moneyContent {
+        font-family: SFUIDisplay;
+        font-size: 16px;
+        font-weight: 500;
+        text-align: right;
+        color: #384650;
+      }
+
+      .textContentTotal {
+        font-family: SFUIDisplay;
+        font-size: 20px;
+        font-weight: 500;
+        text-align: right;
+        color: #384650;
+      }
+
+      .moneyContentTotal {
+        font-family: SFUIDisplay;
+        font-size: 22px;
+        font-weight: 600;
+        text-align: right;
+        color: #f16728;
+      }
+    }
+
+    .borderContent {
+      height: 2px;
+      border: solid 1px #ececec;
+      margin-top: 18px;
+      margin-bottom: 18px;
+    }
+  }
+
+  .pay {
+    &:focus,
+    &:hover {
+      background-color: #f16728;
+    }
+
+    &:disabled {
+      color: rgba(0, 0, 0, 0.25);
+    }
+
+    height: unset;
+    padding: 15px 0;
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 5px;
+    background-color: #f16728;
+
+    font-family: SFUIDisplay;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    color: #ffffff;
+  }
+}
+
+.contentMobile {
+  display: flex;
+  flex-direction: column;
+  @extend .contentDesktop;
+  .money {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 12px 28px 19px 16px;
+    margin-top: 12px;
+
+    .borderContent {
+      margin-top: 14px;
+      margin-bottom: 14px;
+    }
+  }
+
+  .pay {
+    height: unset;
+    width: unset;
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: 17px;
+  }
+
+  .buyMoreMobile {
+    height: unset;
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: 16px;
+    padding: 15px 0;
+    border-radius: 5px;
+    border: solid 1px #2e3237;
+
+    font-family: SFUIDisplay;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    color: #384650;
+  }
+}

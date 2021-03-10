@@ -1,0 +1,30 @@
+.contentDesktop {
+  width: 1440px;
+  box-sizing: border-box;
+  padding: 40px 100px 0 100px;
+  margin: auto;
+  background-color: white;
+  .wrap {
+    display: flex;
+    // background-color: white;
+    padding: 40px 0 40px 0;
+    .left {
+      padding-right: 40px;
+    }
+  }
+}
+
+.contentMobile {
+  @extend .contentDesktop;
+  overflow: hidden;
+  width: 100%;
+  padding: 0px 0px 60px 0px;
+  background-color: #eef0f6;
+  .wrap {
+    display: block;
+    padding: 0;
+    .left {
+      padding: 0;
+    }
+  }
+}

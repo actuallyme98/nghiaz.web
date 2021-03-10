@@ -17,6 +17,9 @@ import * as AppActions from '@actions/app-action';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
 
+// enums
+import { AppRouteEnums } from '../../enums/app-route.enum';
+
 interface IProps extends DrawerProps {}
 
 // mocks
@@ -75,7 +78,7 @@ const CartDrawer: React.FC<IProps> = (props) => {
         )}
         <div className={css.head}>
           <div className={css.left}>
-            <img src="/images/icons/bag-red.svg" alt="" />
+            <img src="/assets/icons/bag-red.svg" alt="" />
             <span className={css.text}>Giỏ hàng </span>
             <Badge className={css.badge} count={totalItem} showZero />
           </div>
@@ -93,9 +96,9 @@ const CartDrawer: React.FC<IProps> = (props) => {
           ))}
         </div>
         <div className={css.bottom}>
-          <Link href="/checkout/cart">
+          <Link href={AppRouteEnums.CHECKOUT_CART}>
             <Button
-              type="danger"
+              type="ghost"
               disabled={cartItems.length < 1}
               className={css.btnOrder}
               onClick={handleClickOrder}

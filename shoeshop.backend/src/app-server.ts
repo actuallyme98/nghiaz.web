@@ -2,10 +2,10 @@ import express, { NextFunction, Request, Response, Express } from 'express';
 import bearerToken from 'express-bearer-token';
 import session from 'express-session';
 import path from 'path';
-import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import glob from 'glob';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 // load .env
 dotenv.config();
@@ -26,12 +26,17 @@ export class AppServer {
     // Bearer token middleware for express.
     app.use(bearerToken());
 
-    // logger
-    app.use(morgan('dev'));
+    // cors
+    app.use(
+      cors({
+        credentials: true,
+        origin: true,
+      }),
+    );
 
     // bodyParser
     app.use(express.json());
-    app.use(express.urlencoded({ extended: false }));
+    app.use(express.urlencoded({ extended: true }));
 
     // cookieParser
     app.use(cookieParser());
@@ -39,11 +44,8 @@ export class AppServer {
     // session
     let sess: session.SessionOptions = {
       secret: process.env.SESSION_SECRET || '',
-      resave: true,
-      saveUninitialized: true,
-      cookie: {
-        maxAge: parseInt(process.env.SESSION_COOKIE_MAXAGE || '86400'),
-      },
+      resave: false,
+      saveUninitialized: false,
     };
 
     app.use(session(sess));
@@ -64,7 +66,7 @@ export class AppServer {
     // Setup express routes
     let routes = glob.sync(__dirname + '/routes/*.+(js|ts)');
     for (let route of routes) {
-      console.log('Loading route : ' + route.split('src')[1]);
+      console.log('Loading route : ' + route);
       require(route)(app);
     }
 

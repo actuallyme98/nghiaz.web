@@ -236,7 +236,7 @@ const MenuFilterOption: React.ForwardRefRenderFunction<any, Props> = (
           <Button className={css.btnReset} onClick={onUnfiltered}>
             THIẾT LẬP LẠI
           </Button>
-          <Button className={css.btnApply} type="danger" onClick={onApply}>
+          <Button className={css.btnApply} type="ghost" onClick={onApply}>
             ÁP DỤNG
           </Button>
         </div>

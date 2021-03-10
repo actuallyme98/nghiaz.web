@@ -5,6 +5,7 @@ import {
   createTypeReduxInitialState,
   typeReduxMiddleware,
 } from '../type-redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import * as AppReducer from './app-reducer';
 
@@ -27,6 +28,6 @@ export const configureStore = (initialState?: RootState) => {
   return createStore(
     rootReducer,
     { ...InitialState, ...initialState },
-    applyMiddleware(...middlewares),
+    composeWithDevTools(applyMiddleware(...middlewares)),
   );
 };

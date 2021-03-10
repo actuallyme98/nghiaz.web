@@ -1,0 +1,529 @@
+.contentDesktop {
+  width: 589px;
+
+  & .title {
+    background-color: white;
+    font-family: SFUIDisplay;
+    font-size: 26px;
+    font-weight: 500;
+    color: #4a4a4a;
+  }
+
+  & .sumTwo {
+    flex-wrap: wrap;
+    background-color: white;
+    align-items: center;
+    padding-top: 11px;
+    display: flex;
+
+    & .priceCurent {
+      font-family: SFUIDisplay;
+      font-size: 32px;
+      font-weight: bold;
+      color: #4a4a4a;
+    }
+
+    & .price {
+      margin-left: 25px;
+      text-decoration: line-through;
+      font-family: SFUIDisplay;
+      font-size: 20px;
+      color: #848484;
+    }
+
+    & .discount {
+      margin-left: 20px;
+      align-items: center;
+      text-align: center;
+      width: 70px;
+      height: 24px;
+      border-radius: 8px;
+      background-color: #f16728;
+
+      & .discountText {
+        margin-top: 3px;
+        font-family: SFUIDisplay;
+        font-size: 12px;
+        font-weight: 600;
+        color: #ffffff;
+      }
+    }
+  }
+
+  .promotionCodeWrap {
+    width: 100%;
+    background-color: white;
+    cursor: pointer;
+
+    & .promotionCode {
+      background-color: white;
+      align-items: center;
+      display: flex;
+      width: 270px;
+      height: 33px;
+      border-radius: 3px;
+      border: solid 1px #ebebeb;
+      background-color: #f6f6f6;
+
+      &::before {
+        margin-left: 10px;
+        margin-right: 5px;
+        content: '';
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background-image: url('/assets/mocks/products/tags-stack.svg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        align-items: center;
+      }
+    }
+
+    & .promotionCodeLeft {
+      font-family: SFUIDisplay;
+      font-size: 12px;
+      color: #4a4a4a;
+    }
+
+    & .promotionCodeRight {
+      padding-left: 6px;
+      font-family: SFUIDisplay;
+      font-size: 12px;
+      font-weight: 600;
+      color: #323232;
+    }
+
+    img {
+      padding-left: 8px;
+    }
+  }
+
+  & .table {
+    &:empty {
+      display: none;
+    }
+    margin-top: 20px;
+    background-color: white;
+
+    & > div {
+      display: flex;
+    }
+
+    & .elementTd {
+      border-top: dashed 1px #d1d1d1;
+      border-bottom: dashed 1px #d1d1d1;
+
+      img {
+        margin-right: 6px;
+        display: inline-block;
+        width: 16px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        align-items: center;
+      }
+
+      height: 100px;
+      display: flex;
+      align-items: center;
+      min-width: 145px;
+      padding-left: 15px;
+
+      & .textTopTd {
+        font-family: SFUIDisplay;
+        font-size: 14px;
+        color: #848484;
+      }
+
+      .iconStar {
+        display: flex;
+        align-items: center;
+
+        .star {
+          font-size: 9.6px;
+          color: #efbb3f;
+        }
+
+        .starNumber {
+          padding-left: 9px;
+          font-family: SFUIDisplay;
+          font-size: 12px;
+          color: #4a4a4a;
+        }
+      }
+
+      & .textBottomTd {
+        font-family: SFUIDisplay;
+        font-size: 16px;
+        font-weight: 600;
+
+        color: #4a4a4a;
+      }
+    }
+  }
+
+  & .borderTwo {
+    margin-top: 14px;
+    width: 589px;
+    height: 2px;
+    border: solid 1px #d1d1d1;
+    border-style: dashed;
+  }
+
+  & .deliveryTime {
+    background-color: white;
+
+    &::before {
+      margin-right: 10px;
+      content: '';
+      display: inline-block;
+      width: 22px;
+      height: 16px;
+      background-image: url('/assets/mocks/products/ic-local-shipping-24-px.svg');
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    font-family: SFUIDisplay;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4a4a4a;
+  }
+
+  & .textDeliveryTime {
+    background-color: white;
+    padding-top: 8px;
+    font-family: SFUIDisplay;
+    font-size: 12px;
+    color: #4a4a4a;
+  }
+
+  & .borderThree {
+    margin-top: 15px;
+    width: 589px;
+    height: 2px;
+    border-bottom: dashed 1px #d1d1d1;
+  }
+
+  & .promotionRelated {
+    &::before {
+      margin-right: 10px;
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 12px;
+      background-image: url('/assets/mocks/products/coupon.svg');
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    padding-top: 10px;
+    font-family: SFUIDisplay;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4a4a4a;
+  }
+
+  & .imgSale {
+    padding-top: 13px;
+    width: 440px;
+    height: 120px;
+  }
+
+  & .description {
+    margin-top: 20px;
+    color: #4a4a4a;
+    font-family: SFUIDisplay;
+    font-size: 12px;
+    line-height: 1.58;
+  }
+
+  & .salaryAmount {
+    margin-top: 20px;
+    font-family: SFUIDisplay;
+    font-size: 14px;
+    color: #848484;
+  }
+
+  & .salaryAmount {
+    align-items: center;
+    display: flex;
+    font-size: 14px;
+    color: #848484;
+
+    & .buttonAddSub {
+      margin-left: 25px;
+      margin-right: 15px;
+    }
+  }
+
+  & .buyLike {
+    padding-top: 20px;
+    display: flex;
+
+    & .buy {
+      .icon {
+        margin-right: 10px;
+        content: '';
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background-image: url('/assets/mocks/products/add-to-cart-2.svg');
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      text-align: center;
+      width: 180px;
+      height: 41px;
+      border-radius: 2px;
+      border: solid 1px #d05922;
+      background-color: #f16728;
+
+      font-family: SFUIDisplay;
+      font-size: 15px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    & .like {
+      text-align: center;
+      margin-left: 10px;
+      width: 180px;
+      height: 41px;
+      border-radius: 2px;
+      box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08);
+      border: solid 1px #e9e9e9;
+      background-color: #fafafa;
+
+      .image2 {
+        width: 16px;
+        height: 16px;
+      }
+
+      .textLikeUnLike {
+        margin-left: 10px;
+        font-family: SFUIDisplay;
+        font-size: 15px;
+        font-weight: 600;
+        color: #384650;
+      }
+    }
+  }
+
+  & .borderFour {
+    margin-top: 18px;
+    margin-bottom: 17px;
+    width: 589px;
+    height: 2px;
+    border-bottom: dashed 1px #d1d1d1;
+  }
+
+  [class*='anticon-star'] {
+    margin-right: -4px;
+  }
+}
+
+.contentMobile {
+  @extend .contentDesktop;
+  width: 100%;
+
+  & .title {
+    padding-left: 15px;
+    padding-top: 14px;
+    padding-right: 7px;
+    font-family: SFUIDisplay;
+    font-size: 24px;
+    color: #384650;
+
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  & .sumTwo {
+    padding-left: 15px;
+    align-items: center;
+    padding-top: 9px;
+    display: flex;
+    padding-right: 15px;
+    justify-content: space-between;
+
+    & .priceCurent {
+      font-family: SFUIDisplay;
+      font-size: 32px;
+      font-weight: bold;
+      color: #4a4a4a;
+    }
+
+    & .price {
+      margin-left: 15px;
+      font-family: SFUIDisplay;
+      font-size: 20px;
+      color: #848484;
+    }
+
+    & .discount {
+      margin-left: 0;
+      width: 65px;
+      height: 24px;
+
+      & .discountText {
+        font-family: SFUIDisplay;
+        font-size: 12px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .promotionCodeWrap {
+    padding-top: 16px;
+
+    & .promotionCode {
+      margin: auto;
+      text-align: center;
+      display: flex;
+      width: 293px;
+    }
+  }
+
+  & .promotionRelated {
+    display: none;
+  }
+
+  & .imgSale {
+    display: none;
+  }
+
+  & .borderFour {
+    display: none;
+  }
+
+  & .borderThree {
+    display: none;
+  }
+
+  & .buyLike {
+    padding-top: 0;
+
+    .buy {
+      z-index: 10;
+      width: 50%;
+      height: 47px;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+    }
+
+    .like {
+      z-index: 10;
+      background-color: white;
+      margin-left: 0;
+      height: 47px;
+      width: 50%;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  & .description {
+    background-color: white;
+    padding: 15px;
+    margin: 10px 0 0 0;
+  }
+
+  & .salaryAmount {
+    display: none;
+  }
+
+  & .deliveryTime {
+    margin-top: 10px;
+    padding-left: 15px;
+    padding-top: 10px;
+    font-family: SFUIDisplay;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4a4a4a;
+  }
+
+  & .textDeliveryTime {
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-family: SFUIDisplay;
+    font-size: 14px;
+    line-height: 1.43;
+    color: #788995;
+  }
+
+  & .table {
+    margin-top: 0;
+    border: none;
+
+    & .tableChild {
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    .elementTd {
+      flex-grow: 1;
+      border: none;
+    }
+
+    .borderBetween {
+      margin: auto;
+      width: calc(100% - 50px);
+      width: 100%;
+      height: 1px;
+      border-bottom: dashed 1px #d1d1d1;
+    }
+  }
+
+  .borderOne {
+    display: none;
+  }
+}
+
+.detailContainer {
+  width: 357px;
+  height: 163px;
+  border-radius: 5px;
+  box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.08);
+  border: solid 1px #e1e1e1;
+  background-color: #ffffff;
+  padding: 13px 26px;
+
+  .title {
+    font-family: SFUIDisplay;
+    font-size: 14px;
+    line-height: 1.93;
+    color: #575757;
+    font-weight: bold;
+  }
+
+  .text {
+    font-family: SFUIDisplay;
+    font-size: 14px;
+    line-height: 1.93;
+    color: #575757;
+    margin-bottom: 10px;
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  .btnCopy {
+    width: 90px;
+    height: 33px;
+    border-radius: 2px;
+    background-color: #f4dbd0;
+    border: none;
+    font-family: SFUIDisplay;
+    font-size: 14px;
+    font-weight: bold;
+    color: #f16728;
+  }
+}

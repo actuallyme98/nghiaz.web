@@ -5,7 +5,7 @@ export interface User extends BaseModel {
   username: string;
   email?: string;
   password: string;
-  isSupperUser: boolean;
+  isSupperUser: number;
   firstName: string;
   lastName: string;
 }

@@ -20,7 +20,7 @@
       color: #f16728;
 
       & .imgArrowRight {
-        margin-top: 3px;
+        margin-top: 5px;
         margin-left: 8px;
         width: 6.7px;
         height: 10px;
@@ -157,10 +157,6 @@
   .firstFilter {
     margin-bottom: 0;
   }
-}
-
-[class*='ant-checkbox-wrapper'] {
-  margin-left: 0;
 }
 
 .star {

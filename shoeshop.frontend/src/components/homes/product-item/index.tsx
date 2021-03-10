@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import clsx from 'clsx';
 
 // styles
 import css from './style.module.scss';
 
 // components
-import IconButton from 'antd/lib/button';
+import Button from 'antd/lib/button';
+
+// redux
+import { useDispatch } from 'react-redux';
+import * as AppActions from '@actions/app-action';
 
 // types
 import { IProductItem } from '../../../types/gtypes';
@@ -17,13 +21,22 @@ interface IProps {
 
 const ProductItem: React.FC<IProps> = (props) => {
   const { className, product } = props;
+  const dispatch = useDispatch();
+
+  const handleAddToCart = useCallback(
+    async (event: React.MouseEvent<HTMLElement>) => {
+      event.preventDefault();
+      dispatch(AppActions.openCartDrawer(true));
+    },
+    [product],
+  );
 
   return (
     <div className={clsx(className, css.container)}>
       <img alt={product.title} src={product.thumbnail} className={css.imgProduct} />
       <div className={css.titleAndCart}>
         <div className={css.title}>{product.title}</div>
-        <IconButton shape="circle" className={css.btnAddToCart} />
+        <Button className={css.btnAddToCart} onClick={handleAddToCart} shape="circle" />
       </div>
       <div className={css.price}>
         <div className={css.currentPrice}>{product.currentPrice.toLocaleString('vi-VN')} đ</div>

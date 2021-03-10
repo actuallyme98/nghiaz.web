@@ -1,27 +1,28 @@
 .container {
-  margin: '50px 0 20px';
+  margin: 50px 0 20px;
 }
+
 .heading {
-  font-size: 26;
-  display: 'flex';
-  align-items: 'center';
-  justify-content: 'center';
-  margin-bottom: 20;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
   &::before {
     content: '';
     flex-grow: 1;
-    height: 2;
-    background: '#333';
-    margin-right: 20;
+    height: 2px;
+    background: #333;
+    margin-right: 20px;
   }
   &::after {
     content: '';
-    height: 2;
+    height: 2px;
     flex-grow: 1;
-    background: '#333';
-    margin-left: 20;
+    background: #333;
+    margin-left: 20px;
   }
 }
 .content {
-  text-align: 'center';
+  text-align: center;
 }

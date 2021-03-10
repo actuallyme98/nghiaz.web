@@ -1,3 +1,7 @@
+.rootMobile {
+  border-bottom: 1px solid #ecf0e8;
+}
+
 .container {
   max-width: 80%;
   margin: 0 auto;
@@ -9,7 +13,8 @@
   display: flex;
   align-items: center;
   @media screen and (max-width: 600px) {
-    justify-content: center;
+    justify-content: flex-end;
+    padding-right: 10px;
   }
 }
 
@@ -60,9 +65,6 @@
 
 .controlHeader {
   display: flex;
-  @media screen and (max-width: 600px) {
-    display: none;
-  }
 }
 .dFlexline {
   display: flex;
@@ -105,9 +107,21 @@
   & img {
     width: 50%;
   }
+  @media screen and (max-width: 600px) {
+    visibility: hidden;
+  }
   cursor: pointer;
 }
 
+.bagButton {
+  width: 32px;
+  height: 32px;
+  margin-left: 10px;
+  margin-top: 4px;
+  img {
+    width: 16px;
+  }
+}
 .mainMenu {
   background: #f7f7f7;
   @media screen and (max-width: 600px) {
@@ -156,20 +170,42 @@
   }
 }
 
+.backMenuButton {
+  position: absolute;
+  background: transparent;
+  top: 18px;
+  left: 5px;
+  border: 0;
+  box-shadow: none;
+  & img {
+    width: 20px;
+  }
+}
+
+.menuButtonMobile {
+  left: 15px !important;
+}
+
 .menuButton {
   position: absolute;
-  top: 5px;
-  left: 5px;
+  background: transparent;
+  top: 18px;
+  left: 40px;
   display: none;
+  & img {
+    width: 20px;
+  }
   @media screen and (max-width: 600px) {
     display: block;
+    border: 0;
+    box-shadow: none;
   }
 }
 .rootDrawer {
   background: #31373d;
   height: 100%;
-  width: 300px;
   padding-top: 50px;
+  font-family: 'SFUIDisplay';
 }
 .menuLinkDrawer {
   text-decoration: none;

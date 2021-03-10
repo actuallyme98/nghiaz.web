@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="69px" height="72px" viewBox="0 0 69 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 61.1 (101010) - https://sketch.com -->
+    <title>40F5F5A4-179B-4468-8410-F713F08B77E1</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <circle id="path-1" cx="34.5" cy="34.5" r="34.5"></circle>
+        <filter x="-2.2%" y="-2.2%" width="104.3%" height="108.7%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="3" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.0326086957 0" type="matrix" in="shadowOffsetOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Trang-ca-nhan--dia-chi-giao-hang" transform="translate(-1239.000000, -440.000000)">
+            <g id="Group-7" transform="translate(1239.000000, 440.000000)">
+                <g id="Oval">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <circle stroke="#E7E7E7" stroke-width="1" stroke-linejoin="square" fill="#FFFFFF" fill-rule="evenodd" cx="34.5" cy="34.5" r="34"></circle>
+                </g>
+                <g id="e-add" transform="translate(25.000000, 25.000000)" fill="#848484">
+                    <path d="M18.3333333,8.33333333 L11.6666667,8.33333333 L11.6666667,1.66666667 C11.6666667,0.746192084 10.9204746,0 10,0 C9.07952542,0 8.33333333,0.746192084 8.33333333,1.66666667 L8.33333333,8.33333333 L1.66666667,8.33333333 C0.746192084,8.33333333 0,9.07952542 0,10 C0,10.9204746 0.746192084,11.6666667 1.66666667,11.6666667 L8.33333333,11.6666667 L8.33333333,18.3333333 C8.33333333,19.2538079 9.07952542,20 10,20 C10.9204746,20 11.6666667,19.2538079 11.6666667,18.3333333 L11.6666667,11.6666667 L18.3333333,11.6666667 C19.2538079,11.6666667 20,10.9204746 20,10 C20,9.07952542 19.2538079,8.33333333 18.3333333,8.33333333 Z" id="Path"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
