@@ -1,6 +1,6 @@
 import { IResult, IColumnMetadata, IRecordSet } from 'mssql';
-// import { connection } from '../middlewares/db/connection';
-import { connection } from '../middlewares/mssql/seed-helpers/seed-city'; // for seed-data
+import { connection } from '../middlewares/db/connection';
+// import { connection } from '../middlewares/mssql/seed-helpers/seed-city'; // for seed-data
 
 type T = any;
 
