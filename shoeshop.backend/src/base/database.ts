@@ -11,7 +11,7 @@ interface KeyUpdate {
 
 const transformValue = (value: any) => {
   if (typeof value !== 'number') {
-    value = `N'${value}'`; // trim spaces
+    value = `N'${value}'`;
   }
   return value;
 };
@@ -35,6 +35,19 @@ export class Mssql {
     return data[0];
   }
 
+  public async FindAllBy(table: string, column: string, value: any): Promise<any> {
+    if (typeof value !== 'number') {
+      value = `'${value}'`;
+    }
+    const query = `select * from ${table} where ${column} = ${value}`;
+    const result = await connection.query(query);
+    const data = this.toColumnMetadata(result);
+    if (data.length === 0) {
+      return;
+    }
+    return data;
+  }
+
   public async Insert(table: string, args: any): Promise<number> {
     args = Object.values(args);
     const argsMapped = args.map((value: any) => transformValue(value));
@@ -53,6 +66,11 @@ export class Mssql {
       .join(', ');
 
     const query = `update ${table} set ${valueSetted} where ${key.col} = ${key.value}`;
+    await connection.query(query);
+  }
+
+  public async Delete(table: string, key: string, value: any): Promise<void> {
+    const query = `delete from ${table} where ${key} = ${transformValue(value)}`;
     await connection.query(query);
   }
 

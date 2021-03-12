@@ -49,4 +49,66 @@ declare namespace SHOES_API {
   }
 
   interface UpdatePasswordResponse extends BaseResponse {}
+
+  interface CreateDeliveryAddressParams {
+    fullName: string;
+    phone: string;
+    address: string;
+    clientId: string;
+    cityId: number;
+    districtId: number;
+    wardId: number;
+    isDefault: boolean;
+  }
+
+  interface CreateDeliveryAddressResponse extends BaseResponse {}
+
+  interface GCity {
+    id: number;
+    code: number;
+    name: string;
+    isActive: boolean;
+  }
+
+  interface GDistrict {
+    id: number;
+    cityId: number;
+    code: number;
+    name: string;
+    isActive: boolean;
+  }
+
+  interface GWard {
+    id: number;
+    districtID: number;
+    code: number;
+    name: string;
+    isActive: boolean;
+  }
+
+  interface GDeliveryAddress {
+    id: number;
+    fullName: string;
+    phone: string;
+    address: string;
+    client: GClient;
+    city: GCity;
+    district: GDistrict;
+    ward: GWard;
+    isDefault: boolean;
+  }
+  interface GetListDeliveryAddressResponse extends BaseResponse {
+    data: [GDeliveryAddress];
+  }
+
+  interface UpdateDeliveryAddressArgs {
+    id: number;
+    name: string;
+    phone: string;
+    city: number;
+    district: number;
+    ward: number;
+    address: string;
+    isDefault: boolean;
+  }
 }

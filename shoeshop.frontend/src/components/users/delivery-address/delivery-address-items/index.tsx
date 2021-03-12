@@ -9,8 +9,15 @@ import Button from 'antd/lib/button';
 import UpdateDeliveryAddressModal from '../../../../components/update-delivery';
 import notification from 'antd/lib/notification';
 
+// redux
+import * as AppActions from '@actions/app-action';
+import { useDispatch } from 'react-redux';
+
+// types
+import { GDeliveryAddress } from '../../../../types/gtypes';
+
 interface Iprops {
-  address: any;
+  address: GDeliveryAddress;
   index: number;
   isMobile: boolean;
   onUpdateSuccess?: () => void;
@@ -21,12 +28,36 @@ const DeliveryAddressItem: React.FC<Iprops> = ({ isMobile, address, index, onUpd
   const onOpenEditDeliveryAddress = useCallback(() => setOpenEditModal(true), []);
   const onCloseEditDeliveryAddress = useCallback(() => setOpenEditModal(false), []);
 
+  const dispatch = useDispatch();
+
   const onSetDefaultBtnClick = useCallback(async () => {
-    // pending
+    try {
+      await dispatch(AppActions.setDefaultDeliveryAddressAction(address.id));
+      notification.success({
+        message: 'Địa chỉ mặc định đã thay đổi',
+        placement: 'bottomRight',
+      });
+    } catch (err) {
+      notification.error({
+        message: String(err).replace(/Error: /g, ''),
+        placement: 'bottomRight',
+      });
+    }
   }, [address, onUpdateSuccess]);
 
   const onRemoveAddress = useCallback(async () => {
-    // pending
+    try {
+      await dispatch(AppActions.deleteDeliveryAddressAction(address.id));
+      notification.success({
+        message: 'Đã xóa địa chỉ',
+        placement: 'bottomRight',
+      });
+    } catch (err) {
+      notification.error({
+        message: String(err).replace(/Error: /g, ''),
+        placement: 'bottomRight',
+      });
+    }
   }, [address, onUpdateSuccess]);
   return (
     <div className={isMobile ? css.rootMobile : css.rootDesktop}>
@@ -54,11 +85,11 @@ const DeliveryAddressItem: React.FC<Iprops> = ({ isMobile, address, index, onUpd
           <div className={css.name}>{address.fullName}</div>
           <div className={css.boxButton}>
             <Button
-              className={clsx(css.defaultButton, !address.default && css.selected)}
+              className={clsx(css.defaultButton, !address.isDefault && css.selected)}
               onClick={onSetDefaultBtnClick}
-              disabled={address.default}
+              disabled={address.isDefault}
             >
-              {address.default ? 'Mặc định' : 'Đặt làm mặc định'}
+              {address.isDefault ? 'Mặc định' : 'Đặt làm mặc định'}
             </Button>
           </div>
         </div>
@@ -69,12 +100,9 @@ const DeliveryAddressItem: React.FC<Iprops> = ({ isMobile, address, index, onUpd
         <div className={css.address}>
           <img src="/assets/icons/location-delivery-address.svg" alt="" />
           <div className={css.textAddress}>
-            {[
-              address.address?.address,
-              address.address?.ward?.name,
-              address.address?.district?.name,
-              address.address?.city?.name,
-            ].join(', ')}
+            {[address.address, address.ward?.name, address.district?.name, address.city?.name].join(
+              ', ',
+            )}
           </div>
         </div>
       </div>

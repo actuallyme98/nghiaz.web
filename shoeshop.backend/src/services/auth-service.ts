@@ -50,19 +50,19 @@ export class AuthService {
         user_id: user.id,
       },
       getEnv('JWT_SECRET'),
-      parseInt(getEnv('TOKEN_EXPIRES')),
+      getEnv('TOKEN_EXPIRES'),
     );
     const refreshTokenObj = await TokenHelper.generate(
       {
         user_id: user.id,
       },
       `refresh_${getEnv('JWT_SECRET')}`,
-      parseInt(getEnv('REFRESH_TOKEN_EXPIRES')),
+      getEnv('REFRESH_TOKEN_EXPIRES'),
     );
 
     return {
       token: tokenObj.token,
-      expires: tokenObj.expires * 1000, // convert from seconds to miliseconds
+      expires: tokenObj.expires, // convert from seconds to miliseconds
       refresh_token: refresh_token.length > 0 ? refresh_token : refreshTokenObj.token,
       user: {
         client: user.client,

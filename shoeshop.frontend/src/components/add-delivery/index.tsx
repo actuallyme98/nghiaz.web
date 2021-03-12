@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 // formik
 import { Formik, Form, Field, FieldProps, FormikHelpers } from 'formik';
@@ -16,22 +16,18 @@ import CheckboxField from '../checkbox-field';
 import css from './style.module.scss';
 
 // redux
-import { useSelector } from 'react-redux';
+import * as AppActions from '@actions/app-action';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
+
+// types
+import { GCity, GDistrict, GWard } from '../../types/gtypes';
 
 interface Props {
   open: boolean;
   onClose: () => void;
   onSuccess?: () => void;
 }
-
-// mocks
-const cities: any[] = [];
-const districts: any[] = [];
-const wards: any[] = [];
-const loadingCities = false;
-const loadingCity = false;
-const loadingDistrict = false;
 
 const AddDeliveryAddressModal: React.FC<Props> = (props) => {
   const { open, onClose, ...others } = props;
@@ -54,24 +50,40 @@ const AddDeliveryAddressModal: React.FC<Props> = (props) => {
 };
 
 const AddDeliveryAddressModalContent: React.FC<Omit<Props, 'open'>> = (props) => {
-  const { onClose, onSuccess } = props;
-
-  const onSelectCity = useCallback(
-    (cityId: string) => {
-      const city = cities.find((city) => city.id === cityId);
-      if (city) {
-        // query get city
-      }
-    },
-    [cities],
-  );
-  const onSelectDistrict = useCallback((districtId: number) => {
-    const district = districts.find((district) => district.id === String(districtId));
-    if (district) {
-      // query get district
-    }
-  }, []);
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const profile = useSelector((store: RootState) => store.appState.profile);
+  const loadingCities = useSelector((store: RootState) =>
+    AppActions.listCitiesAction.isPending(store),
+  );
+  const loadingCity = useSelector((store: RootState) =>
+    AppActions.listDistrictsAction.isPending(store),
+  );
+  const loadingDistrict = useSelector((store: RootState) =>
+    AppActions.listWardsAction.isPending(store),
+  );
+  const { onClose, onSuccess } = props;
+  const [cities, setCities] = useState<GCity[]>([]);
+  const [districts, setDistricts] = useState<GDistrict[]>([]);
+  const [wards, setWards] = useState<GWard[]>([]);
+  const dispatch = useDispatch();
+
+  const loadCities = useCallback(async () => {
+    const response = await dispatch(AppActions.listCitiesAction());
+    setCities(response.data);
+  }, []);
+
+  useEffect(() => {
+    loadCities();
+  }, []);
+
+  const onSelectCity = useCallback(async (cityId: string) => {
+    const response = await dispatch(AppActions.listDistrictsAction(parseInt(cityId)));
+    setDistricts(response.data);
+  }, []);
+  const onSelectDistrict = useCallback(async (districtId: string) => {
+    const response = await dispatch(AppActions.listWardsAction(parseInt(districtId)));
+    setWards(response.data);
+  }, []);
 
   const addDeliveryFormSubmit = useCallback(
     async (values: AddDeliveryFormValues, formikHelpers: FormikHelpers<AddDeliveryFormValues>) => {
@@ -88,8 +100,33 @@ const AddDeliveryAddressModalContent: React.FC<Omit<Props, 'open'>> = (props) =>
       if (Object.keys(validateFormResult).some((key) => validateFormResult[key])) {
         return;
       }
+      if (!profile) {
+        return;
+      }
       formikHelpers.setSubmitting(true);
-      // pending
+      try {
+        await dispatch(
+          AppActions.createDeliveryAddressAction({
+            address: values.street,
+            cityId: parseInt(values.city),
+            districtId: parseInt(values.district),
+            wardId: parseInt(values.ward),
+            fullName: values.name,
+            phone: values.phone,
+            isDefault: values.isDefault,
+            clientId: profile.client.id,
+          }),
+        );
+        notification.success({
+          message: 'Đã lưu địa chỉ',
+          placement: 'bottomRight',
+        });
+      } catch (err) {
+        notification.error({
+          message: String(err).replace(/Error: /g, ''),
+          placement: 'bottomRight',
+        });
+      }
       formikHelpers.setSubmitting(false);
       onClose();
     },
@@ -140,7 +177,7 @@ const AddDeliveryAddressModalContent: React.FC<Omit<Props, 'open'>> = (props) =>
               {({ field, form, meta }: FieldProps) => (
                 <SelectField
                   label="Tỉnh/ Thành Phố"
-                  selectItems={cities.map((c) => ({ label: c.name, value: c.id })) || []}
+                  selectItems={cities.map((c) => ({ label: c.name, value: String(c.code) })) || []}
                   input={{
                     ...field,
                     value: loadingCities ? 'Đang tải' : field.value,
@@ -165,7 +202,8 @@ const AddDeliveryAddressModalContent: React.FC<Omit<Props, 'open'>> = (props) =>
                 <SelectField
                   label="Quận/ Huyện"
                   selectItems={
-                    (formikValues.city && districts.map((d) => ({ label: d.name, value: d.id }))) ||
+                    (formikValues.city &&
+                      districts.map((d) => ({ label: d.name, value: String(d.code) }))) ||
                     []
                   }
                   input={{
@@ -175,7 +213,7 @@ const AddDeliveryAddressModalContent: React.FC<Omit<Props, 'open'>> = (props) =>
                     onChange: (value: string) => {
                       form.setFieldValue(field.name, value);
                       form.setFieldValue('ward', '');
-                      onSelectDistrict(parseInt(value));
+                      onSelectDistrict(value);
                     },
                     loading: loadingCity,
                   }}
@@ -193,7 +231,7 @@ const AddDeliveryAddressModalContent: React.FC<Omit<Props, 'open'>> = (props) =>
                   selectItems={
                     (formikValues.district &&
                       !loadingDistrict &&
-                      wards.map((w) => ({ label: w.name, value: w.id }))) ||
+                      wards.map((w) => ({ label: w.name, value: String(w.code) }))) ||
                     []
                   }
                   input={{
@@ -236,7 +274,7 @@ const AddDeliveryAddressModalContent: React.FC<Omit<Props, 'open'>> = (props) =>
 
           <SubmitButton
             disabled={!isValid || isSubmitting || !dirty}
-            onClick={handleSubmit as any}
+            onClick={handleSubmit}
             className={isMobile ? css.updateBtnMobile : css.updateBtn}
             loading={isSubmitting}
           >

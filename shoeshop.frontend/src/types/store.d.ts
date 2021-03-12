@@ -1,11 +1,4 @@
 declare namespace REDUX_STORE {
-  interface Store {
-    isMobile: boolean;
-    openCartDrawer: boolean;
-    initializeAuthPage?: boolean;
-    profile?: Profile;
-  }
-
   interface Profile {
     id: number;
     firstName: string;

@@ -2,7 +2,7 @@ import { ConnectionPool, config as MSSQLConfig } from 'mssql';
 import XLSX from 'xlsx';
 import glob from 'glob';
 
-import { CitesService } from '../../../services';
+import { CitySeedService } from '../../../services';
 
 import groupBy from 'lodash/groupBy';
 
@@ -54,7 +54,7 @@ const replaceWardPrefix = (name: string) => {
 export const seedDataCityCreator = async () => {
   await pool.connect();
 
-  const rows = await CitesService.getCities();
+  const rows = await CitySeedService.getCities();
   if (rows > 0) {
     console.log('not execute if exists data');
     pool.close();
@@ -67,7 +67,7 @@ export const seedDataCityCreator = async () => {
     const xlData: IXlsData[] = XLSX.utils.sheet_to_json(workbook.Sheets[sheetNameList[0]]);
 
     try {
-      await CitesService.creatCity({
+      await CitySeedService.creatCity({
         code: parseInt(xlData[0]['Mã TP']),
         name: replaceCityPrefix(xlData[0]['Tỉnh Thành Phố']),
         isActive: 1,
@@ -82,7 +82,7 @@ export const seedDataCityCreator = async () => {
 export const seedDataDistrictCreator = async () => {
   await pool.connect();
 
-  const rows = await CitesService.getDistricts();
+  const rows = await CitySeedService.getDistricts();
   if (rows > 0) {
     console.log('not execute if exists data');
     pool.close();
@@ -98,7 +98,7 @@ export const seedDataDistrictCreator = async () => {
 
     for (const [index, path] of groupedDistrict.entries()) {
       try {
-        await CitesService.creatDistrict({
+        await CitySeedService.creatDistrict({
           cityId: parseInt(path[0]['Mã TP']),
           code: parseInt(path[0]['Mã QH']),
           name: replaceDistPrefix(path[0]['Quận Huyện']),
@@ -115,7 +115,7 @@ export const seedDataDistrictCreator = async () => {
 export const seedDataWardCreator = async () => {
   await pool.connect();
 
-  const rows = await CitesService.getWards();
+  const rows = await CitySeedService.getWards();
   if (rows > 0) {
     console.log('not execute if exists data');
     pool.close();
@@ -132,7 +132,7 @@ export const seedDataWardCreator = async () => {
     for (let y = 0; y < groupedDistrict.length; y++) {
       for (const [index, path] of groupedDistrict[y].entries()) {
         try {
-          await CitesService.creatWard({
+          await CitySeedService.creatWard({
             districtId: parseInt(path['Mã QH']),
             code: parseInt(path['Mã PX']),
             name: replaceWardPrefix(path['Phường Xã']),

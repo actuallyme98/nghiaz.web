@@ -90,3 +90,97 @@ export const updatePasswordAction = createTypeAsyncAction<
     throw new Error(err);
   }
 });
+
+export const listCitiesAction = createTypeAsyncAction('LIST_CITIES_ACTION', async () => {
+  try {
+    return await ApiService.listCities();
+  } catch (err) {
+    throw new Error(err);
+  }
+});
+
+export const listDistrictsAction = createTypeAsyncAction(
+  'LIST_DISTRICTS_ACTION',
+  async (id: number) => {
+    try {
+      return await ApiService.listDistricts(id);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const listWardsAction = createTypeAsyncAction('LIST_WARDS_ACTION', async (id: number) => {
+  try {
+    return await ApiService.listWards(id);
+  } catch (err) {
+    throw new Error(err);
+  }
+});
+
+export const listDeliveryAddressAction = createTypeAsyncAction(
+  'LIST_DELIVERY_ADDRESS',
+  async () => {
+    try {
+      return await ApiService.listDeliveryAddress();
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const createDeliveryAddressAction = createTypeAsyncAction<
+  SHOES_API.CreateDeliveryAddressParams,
+  void,
+  Store
+>(
+  'CREATE_DELIVERY_ADDRESS_ACTION',
+  async (args: SHOES_API.CreateDeliveryAddressParams, { dispatch }) => {
+    try {
+      await ApiService.createDeliveryAddress(args);
+      await dispatch(listDeliveryAddressAction());
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const setDefaultDeliveryAddressAction = createTypeAsyncAction<number, void, Store>(
+  'SET_DEFAULT_DELIVERY_ADDRESS_ACTION',
+  async (id: number, { dispatch }) => {
+    try {
+      await ApiService.setDefaultDeliveryAddress(id);
+      await dispatch(listDeliveryAddressAction());
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const deleteDeliveryAddressAction = createTypeAsyncAction<number, void, Store>(
+  'DELETE_DELIVERY_ADDRESS_ACTION',
+  async (id: number, { dispatch }) => {
+    try {
+      await ApiService.deleteDeliveryAddress(id);
+      await dispatch(listDeliveryAddressAction());
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const updateDeliveryAddressAction = createTypeAsyncAction<
+  SHOES_API.UpdateDeliveryAddressArgs,
+  void,
+  Store
+>(
+  'UPDATE_DELIVERY_ADDRESS_ACTION',
+  async (args: SHOES_API.UpdateDeliveryAddressArgs, { dispatch }) => {
+    try {
+      await ApiService.updateDeliveryAddress(args);
+      await dispatch(listDeliveryAddressAction());
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);

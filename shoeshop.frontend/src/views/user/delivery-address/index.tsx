@@ -16,7 +16,7 @@ import AddDeliveryAddressModal from '../../../components/add-delivery';
 import Loading from '../../../components/loading';
 
 // redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../redux/stores/configure-store';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
@@ -26,18 +26,24 @@ import { AppRouteEnums } from '../../../enums/app-route.enum';
 
 interface Props {}
 
-// mocks
-const loading = false;
-const loadingDelivery = false;
-
 const DeliveryAddress: NextPage<Props> = () => {
-  const deliveryAddresses = useMemo(() => [], []);
-  const [openDeliveryAddressModal, setOpenDeliveryAddressModal] = useState(false);
-  const onOpenDeliveryAddressModal = useCallback(() => setOpenDeliveryAddressModal(true), []);
-  const onCloseDeliveryAddressModal = useCallback(() => setOpenDeliveryAddressModal(false), []);
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const profile = useSelector((store: RootState) => store.appState.profile);
+  const profilePending = useSelector((store: RootState) =>
+    AppActions.getProfileAction.isPending(store),
+  );
+  const deliveryAddresses = useSelector((store: RootState) => store.appState.deliveryAddresses);
+  const [openDeliveryAddressModal, setOpenDeliveryAddressModal] = useState(false);
+
   const route = useRouter();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(AppActions.listDeliveryAddressAction());
+  }, []);
+
+  const onOpenDeliveryAddressModal = useCallback(() => setOpenDeliveryAddressModal(true), []);
+  const onCloseDeliveryAddressModal = useCallback(() => setOpenDeliveryAddressModal(false), []);
 
   useEffect(() => {
     if (!profile) {
@@ -60,7 +66,7 @@ const DeliveryAddress: NextPage<Props> = () => {
   }, [deliveryAddresses]);
 
   return isMobile ? (
-    <Layout loading={loading || loadingDelivery} backUrl={AppRouteEnums.USER}>
+    <Layout loading={profilePending} backUrl={AppRouteEnums.USER}>
       <div className={css.rootMobile}>
         <div className={css.title}>
           <img src="/assets/icons/red-delivery-fast.svg" alt="" />
@@ -72,7 +78,7 @@ const DeliveryAddress: NextPage<Props> = () => {
   ) : (
     <UserLayout
       breadcumb={[{ title: 'Địa chỉ nhận hàng', url: '' }]}
-      loading={loading || loadingDelivery}
+      loading={profilePending}
       profile={profile}
     >
       <div className={isMobile ? css.rootMobile : css.rootDesktop}>

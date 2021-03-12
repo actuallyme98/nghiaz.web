@@ -3,6 +3,7 @@ import { BaseModel } from './base-model';
 export interface DeliveryAddress extends BaseModel {
   id?: number;
   fullName: string;
+  phone: string;
   address: string;
   clientId: string;
   cityId: number;

@@ -51,11 +51,44 @@ export class ApiService {
     const response = await this.axios.post(ApiRouteEnum.UPDATE_USER_INFO, args);
     return await HanleResponse(response);
   }
-
   public async updatePassword(
     args: SHOES_API.UpdatePasswordParams,
   ): Promise<SHOES_API.UpdatePasswordResponse> {
     const response = await this.axios.post(ApiRouteEnum.UPDATE_PASSWORD, args);
+    return await HanleResponse(response);
+  }
+  public async listCities() {
+    const response = await this.axios.get(ApiRouteEnum.LIST_CITIES);
+    return await HanleResponse(response);
+  }
+  public async listDistricts(id: number) {
+    const response = await this.axios.get(`${ApiRouteEnum.LIST_DISTRICTS}/${id}`);
+    return await HanleResponse(response);
+  }
+  public async listWards(id: number) {
+    const response = await this.axios.get(`${ApiRouteEnum.LIST_WARDS}/${id}`);
+    return await HanleResponse(response);
+  }
+  public async listDeliveryAddress(): Promise<SHOES_API.GetListDeliveryAddressResponse> {
+    const response = await this.axios.get(ApiRouteEnum.LIST_DELIVERY_ADDRESS);
+    return await HanleResponse(response);
+  }
+  public async createDeliveryAddress(
+    args: SHOES_API.CreateDeliveryAddressParams,
+  ): Promise<SHOES_API.CreateDeliveryAddressResponse> {
+    const response = await this.axios.post(ApiRouteEnum.DELIVERY_ADDRESS, args);
+    return await HanleResponse(response);
+  }
+  public async setDefaultDeliveryAddress(id: number) {
+    const response = await this.axios.post(`${ApiRouteEnum.DELIVERY_ADDRESS_SET_DEFAULT}/${id}`);
+    return await HanleResponse(response);
+  }
+  public async deleteDeliveryAddress(id: number) {
+    const response = await this.axios.post(`${ApiRouteEnum.DELIVERY_ADDRESS_DELETE}/${id}`);
+    return await HanleResponse(response);
+  }
+  public async updateDeliveryAddress(args: SHOES_API.UpdateDeliveryAddressArgs) {
+    const response = await this.axios.post(ApiRouteEnum.DELIVERY_ADDRESS_UPDATE, args);
     return await HanleResponse(response);
   }
 }

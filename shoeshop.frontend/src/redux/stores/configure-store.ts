@@ -15,7 +15,7 @@ export const rootReducer = combineReducers({
 });
 
 export interface RootState {
-  appState: REDUX_STORE.Store;
+  appState: AppReducer.Store;
 }
 
 export const InitialState: RootState = Object.assign(createTypeReduxInitialState(), {
