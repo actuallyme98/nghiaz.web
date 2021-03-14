@@ -184,3 +184,16 @@ export const updateDeliveryAddressAction = createTypeAsyncAction<
     }
   },
 );
+
+export const updateAvatarAction = createTypeAsyncAction<
+FormData,
+void,
+Store
+>('UPDATE_AVATAR_ACTION', async (args: FormData,  { dispatch }) => {
+  try {
+    await ApiService.updateAvatar(args);
+    await dispatch(getProfileAction());
+  } catch (err) {
+    throw new Error(err);
+  }
+});

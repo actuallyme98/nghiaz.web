@@ -15,13 +15,14 @@ import * as AppActions from '@actions/app-action';
 // enums
 import { AppRouteEnums } from '../../../enums/app-route.enum';
 
+// utils
+import { pathAvatar } from '@helpers/app-util';
+
 interface Iprops {
   data: {
     avatar?: string;
   };
 }
-
-const defaultAvatar = process.env.DEFAULT_AVATAR_URL || '';
 
 const Content: React.FC = () => {
   const route = useRouter();
@@ -58,7 +59,7 @@ const PopoverUserProfile: React.FC<Iprops> = (props) => {
     >
       <div className={css.container}>
         <div className={css.avatar}>
-          <img src={data.avatar?.trim() || defaultAvatar} alt="" />
+          <img src={pathAvatar(data.avatar)} alt="" />
         </div>
       </div>
     </Popover>

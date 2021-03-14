@@ -91,6 +91,10 @@ export class ApiService {
     const response = await this.axios.post(ApiRouteEnum.DELIVERY_ADDRESS_UPDATE, args);
     return await HanleResponse(response);
   }
+  public async updateAvatar(args: FormData) {
+    const response = await this.axios.post(ApiRouteEnum.CHANGE_AVATAR, args);
+    return await HanleResponse(response);
+  }
 }
 
 export default new ApiService();

@@ -7,10 +7,12 @@ import css from './style.module.scss';
 // components
 import SubmitButton from '../../../../components/submit-button';
 import InputField from '../../../../components/input-field';
+import notification from 'antd/lib/notification';
 
 // redux
+import * as AppActions from '@actions/app-action';
+import { useDispatch } from 'react-redux';
 import { RootState } from '../../../../redux/stores/configure-store';
-import notification from 'antd/lib/notification';
 
 interface Props {}
 
@@ -21,8 +23,9 @@ const UpdateAvatar: React.FC<Props> = () => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const profile = useSelector((store: RootState) => store.appState.profile);
   const [avatarUrl, setAvatarUrl] = useState('');
-  const [avarartFile, setAvatarFile] = useState<File>();
+  const [avatarFile, setAvatarFile] = useState<File>();
   const avatar = process.env.DEFAULT_AVATAR_URL || '';
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setAvatarUrl(avatar);
@@ -38,10 +41,29 @@ const UpdateAvatar: React.FC<Props> = () => {
   };
 
   const handleUploadAvatar = useCallback(async () => {
-    if (avarartFile) {
-      // upload
+    const whiteList = ['image/jpeg', 'image/png'];
+    if (!avatarFile || !whiteList.includes(avatarFile.type)) {
+      notification.error({
+        message: 'INVALID FILE',
+        placement: 'bottomRight',
+      });
+      return;
     }
-  }, []);
+    const formData = new FormData();
+    formData.append('avatar', avatarFile, avatarFile.name);
+    try {
+      await dispatch(AppActions.updateAvatarAction(formData));
+      notification.success({
+        message: 'Cập nhật thông tin thành công',
+        placement: 'bottomRight',
+      });
+    } catch (err) {
+      notification.error({
+        message: String(err).replace(/Error: /g, ''),
+        placement: 'bottomRight',
+      });
+    }
+  }, [avatarFile]);
 
   return (
     <div className={isMobile ? css.rootMobile : css.rootDesktop}>

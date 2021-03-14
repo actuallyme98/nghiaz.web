@@ -17,3 +17,10 @@ export const caculateDiscount = (code: any, price: number, shipFree?: number) =>
       return 0;
   }
 };
+
+export const pathAvatar = (path?: string) => {
+  if (!path) {
+    return process.env.DEFAULT_AVATAR_URL || '';
+  }
+  return process.env.SERVER_URL + 'user/data/' + path;
+};

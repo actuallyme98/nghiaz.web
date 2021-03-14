@@ -39,6 +39,16 @@ export class ClientService {
       return false;
     }
   }
+  public async updateAvatar(path: string, id?: number) {
+    try {
+      const argsUpdated = [
+        { col: 'avatar', value: path }
+      ];
+      await Mssql.Update('client', { col: 'id', value: id }, argsUpdated);
+    } catch(err) {
+      throw new Error(err);
+    }
+  }
 }
 
 export default new ClientService();

@@ -5,6 +5,9 @@ import { useRouter } from 'next/router';
 // styles
 import css from './style.module.scss';
 
+// utils
+import { pathAvatar } from '@helpers/app-util';
+
 interface Iprops {
   data: {
     avatar: string;
@@ -12,8 +15,6 @@ interface Iprops {
     updatedAt?: string;
   };
 }
-
-const defaultAvatar = process.env.DEFAULT_AVATAR_URL || '';
 
 const ProfileMenu: React.FC<Iprops> = (props) => {
   const { pathname } = useRouter();
@@ -28,7 +29,7 @@ const ProfileMenu: React.FC<Iprops> = (props) => {
     <div className={css.rootDesktop}>
       <div className={css.flexHead}>
         <div className={css.avatar}>
-          <img src={data.avatar || defaultAvatar} alt={data.name} />
+          <img src={pathAvatar(data.avatar)} alt={data.name} />
         </div>
         <div className={css.text}>
           <h4>{data.name}</h4>
