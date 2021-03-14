@@ -31,4 +31,34 @@ declare namespace ADMIN_API {
   interface LogoutResponse {
     status: boolean;
   }
+
+  interface GetListSizeResponse extends BaseResponse {
+    id: number;
+    name: number;
+  }
+
+  interface CreateSizeParams {
+    name: number;
+  }
+  interface UpdateSizeParams {
+    id: number;
+    name: number;
+  }
+
+  interface GetListColorResponse extends BaseResponse {
+    id: number;
+    name: string;
+    code: string;
+  }
+
+  interface CreateColorParams {
+    name: string;
+    code: string;
+  }
+
+  interface UpdateColorParams {
+    id: number;
+    name: string;
+    code: string;
+  }
 }
