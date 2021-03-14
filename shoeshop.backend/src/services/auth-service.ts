@@ -5,7 +5,6 @@ import userService from './user-service';
 import { getEnv } from '../base/env-config';
 
 // types
-import { User } from '../models';
 import { TokenPayload, APIRequest } from '../interfaces';
 import { GUser } from '../transforms';
 
@@ -71,6 +70,7 @@ export class AuthService {
         lastName: user.lastName,
         userName: user.username,
         email: user.email,
+        isSupperUser: user.isSupperUser,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
       },
@@ -94,6 +94,7 @@ export class AuthService {
         lastName: user.lastName,
         userName: user.username,
         email: user.email,
+        isSupperUser: user.isSupperUser,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
       };
@@ -105,7 +106,7 @@ export class AuthService {
     }
   }
 
-  async validateRequest(req: APIRequest): Promise<User | any> {
+  async validateRequest(req: APIRequest) {
     const authorization = req.headers.authorization
       ? req.headers.authorization
       : String(req.cookies.JWT);

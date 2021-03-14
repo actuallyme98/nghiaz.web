@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { configureStore } from './redux/stores/configure-store';
 import Axios from 'axios';
 
-Axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
+Axios.defaults.baseURL = process.env.SERVER_URL || 'http://localhost:5000/admin/';
 Axios.defaults.withCredentials = true;
 
 Axios.interceptors.response.use((response) => {

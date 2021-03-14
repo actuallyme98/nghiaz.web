@@ -21,30 +21,6 @@ const lightTheme: Theme = createMuiTheme({
       main: '#f44336',
     },
   },
-  overrides: {
-    MuiButton: {
-      root: {
-        textTransform: 'none',
-      },
-      textPrimary: {
-        background: '#FDE937',
-        color: '#000000',
-        transition: '0.3s',
-        '&:hover': {
-          backgroundColor: '#000000',
-          color: '#FDE937',
-          '& svg': {
-            color: '#FDE937',
-          },
-        },
-      },
-    },
-    MuiSvgIcon: {
-      colorPrimary: {
-        color: '#428bca',
-      },
-    },
-  },
 });
 
 export default lightTheme;

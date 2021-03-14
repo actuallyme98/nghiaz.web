@@ -1,26 +1,32 @@
 import React from 'react';
 import { renderRoutes, RouteConfig } from 'react-router-config';
-import loadable from '@loadable/component';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import AuthenticationGuard from './components/AuthenticationGuard';
 import PageError from './components/PageError';
 import { SnackbarProvider } from 'notistack';
 
 // pages
 import Home from './pages/home';
+import Login from './pages/login';
+import Product from './pages/product';
 
 // themes
-import theme from './themes/light-theme';
-
-// const AdminPage = loadable(() => import('./views/pages/admin'), {
-//   fallback: <div>Loading...</div>,
-// });
+import theme from './themes/dark-theme';
 
 const routes: RouteConfig[] = [
   {
     component: Home,
     path: '/',
+    exact: true,
+  },
+  {
+    component: Login,
+    path: '/login',
+    exact: true,
+  },
+  {
+    component: Product,
+    path: '/products/:tab?',
     exact: true,
   },
   {
@@ -31,9 +37,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AuthenticationGuard>
-        <SnackbarProvider>{renderRoutes(routes)}</SnackbarProvider>
-      </AuthenticationGuard>
+      <SnackbarProvider maxSnack={3}>{renderRoutes(routes)}</SnackbarProvider>
     </ThemeProvider>
   );
 }

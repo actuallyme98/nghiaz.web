@@ -5,12 +5,12 @@ import { RouteConfigComponentProps } from 'react-router-config';
 // components
 import Layout from '../../components/layout';
 
-const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
+const Product: React.FC<RouteConfigComponentProps<any>> = (props) => {
   const classes = useStyles();
 
-  return <Layout title="BLUEWIND ADMIN"></Layout>;
+  return <Layout title="Quản lí sản phẩm"></Layout>;
 };
 
 const useStyles = makeStyles((theme) => ({}));
 
-export default Home;
+export default Product;
