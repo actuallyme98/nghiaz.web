@@ -19,11 +19,16 @@ import Toolbar from '@material-ui/core/Toolbar';
 import HomeSharpIcon from '@material-ui/icons/HomeSharp';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 
+// redux
+import * as AppActions from '../redux/actions/app-action';
+import { useDispatch } from 'react-redux';
+
 interface IProps {}
 
 const Header: React.FC<IProps> = (props) => {
-  const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
+  const classes = useStyles();
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const collapseMenu = useCallback(() => {
@@ -35,6 +40,7 @@ const Header: React.FC<IProps> = (props) => {
   }, []);
 
   const handleLogout = useCallback(() => {
+    dispatch(AppActions.logOutAction());
     history.push('/login');
   }, []);
 
