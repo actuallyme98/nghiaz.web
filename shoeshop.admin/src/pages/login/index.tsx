@@ -23,13 +23,15 @@ import { IStore } from '../../redux/stores/configure-store';
 
 import { useSnackbar } from 'notistack';
 
+// enums
+import { AppRouteEnum } from '../../enums/app-route';
+
 interface SignInFormValues {
   username: string;
   password: string;
 }
 
 const Login: React.FC<RouteConfigComponentProps<any>> = (props) => {
-  const profile = useSelector((store: IStore) => store.appState.profile);
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -39,22 +41,12 @@ const Login: React.FC<RouteConfigComponentProps<any>> = (props) => {
     document.title = 'Đăng nhập';
   }, []);
 
-  useEffect(() => {
-    dispatch(AppActions.getProfileAction());
-  }, []);
-
-  useEffect(() => {
-    if (profile) {
-      history.push('/');
-    }
-  }, [profile]);
-
   const onFormSubmit = useCallback(
     async (values: SignInFormValues, formikHelpers: FormikHelpers<SignInFormValues>) => {
       formikHelpers.setSubmitting(true);
       try {
         await dispatch(AppActions.loginAction(values));
-        history.push('/');
+        history.push(AppRouteEnum.HOME);
       } catch (err) {
         const message = String(err).replace(/Error: /g, '');
         enqueueSnackbar(message, {

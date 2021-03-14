@@ -23,6 +23,9 @@ import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import * as AppActions from '../redux/actions/app-action';
 import { useDispatch } from 'react-redux';
 
+// enums
+import { AppRouteEnum } from '../enums/app-route';
+
 interface IProps {}
 
 const Header: React.FC<IProps> = (props) => {
@@ -41,7 +44,7 @@ const Header: React.FC<IProps> = (props) => {
 
   const handleLogout = useCallback(() => {
     dispatch(AppActions.logOutAction());
-    history.push('/login');
+    history.push(AppRouteEnum.LOGIN);
   }, []);
 
   return (
@@ -68,7 +71,7 @@ const Header: React.FC<IProps> = (props) => {
             BLUEWIND ADMIN
           </Typography>
 
-          <Link to="/" className={classes.link}>
+          <Link to={AppRouteEnum.HOME} className={classes.link}>
             <ListItem button>
               <ListItemIcon>
                 <HomeSharpIcon color="primary" />
@@ -77,7 +80,7 @@ const Header: React.FC<IProps> = (props) => {
             </ListItem>
           </Link>
 
-          <Link to="/products" className={classes.link}>
+          <Link to={AppRouteEnum.PRODUCTS} className={classes.link}>
             <ListItem button>
               <ListItemIcon>
                 <DonutSmallRoundedIcon color="primary" />
