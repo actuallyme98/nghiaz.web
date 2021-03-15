@@ -8,22 +8,14 @@ import { toGClient, GClient } from '../transforms';
 
 export class ClientService {
   public async findOneByUserId(userId: number): Promise<GClient | undefined> {
-    try {
-      const result = await Mssql.Find('client', 'users_id', userId);
-      if (!result) {
-        return;
-      }
-      return toGClient(result);
-    } catch (err) {
-      throw new Error(err);
+    const result = await Mssql.Find('client', 'users_id', userId);
+    if (!result) {
+      return;
     }
+    return toGClient(result);
   }
   public async findOneById(id: number): Promise<any> {
-    try {
-      return await Mssql.Find('client', 'id', id);
-    } catch (err) {
-      throw new Error(err);
-    }
+    return await Mssql.Find('client', 'id', id);
   }
   public async createClient(args: Client): Promise<boolean> {
     try {
@@ -40,14 +32,8 @@ export class ClientService {
     }
   }
   public async updateAvatar(path: string, id?: number) {
-    try {
-      const argsUpdated = [
-        { col: 'avatar', value: path }
-      ];
-      await Mssql.Update('client', { col: 'id', value: id }, argsUpdated);
-    } catch(err) {
-      throw new Error(err);
-    }
+    const argsUpdated = [{ col: 'avatar', value: path }];
+    await Mssql.Update('client', { col: 'id', value: id }, argsUpdated);
   }
 }
 

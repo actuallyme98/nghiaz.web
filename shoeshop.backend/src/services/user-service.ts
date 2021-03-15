@@ -18,26 +18,18 @@ import { UpdateInfoArgs, UpdatePasswordArgs } from '../dtos';
 
 export class UserService {
   public async findOneByPhone(phoneNumber: string): Promise<GUser | undefined> {
-    try {
-      const result = await Mssql.Find('users', 'username', phoneNumber);
-      if (!result) {
-        return;
-      }
-      return toGUser(result);
-    } catch (err) {
-      throw new Error(err);
+    const result = await Mssql.Find('users', 'username', phoneNumber);
+    if (!result) {
+      return;
     }
+    return toGUser(result);
   }
   public async findOneById(id: number): Promise<GUser | undefined> {
-    try {
-      const result = await Mssql.Find('users', 'id', id);
-      if (!result) {
-        return;
-      }
-      return toGUser(result);
-    } catch (err) {
-      throw new Error(err);
+    const result = await Mssql.Find('users', 'id', id);
+    if (!result) {
+      return;
     }
+    return toGUser(result);
   }
   public async createUser(
     args: User,
@@ -100,16 +92,12 @@ export class UserService {
       throw new Error(err);
     }
 
-    try {
-      const argsUpdated = [
-        { col: 'gender', value: args.gender },
-        { col: 'dob', value: args.dob },
-      ];
-      // update client table
-      await Mssql.Update('client', { col: 'users_id', value: args.userId }, argsUpdated);
-    } catch (err) {
-      throw new Error(err);
-    }
+    const argsUpdated = [
+      { col: 'gender', value: args.gender },
+      { col: 'dob', value: args.dob },
+    ];
+    // update client table
+    await Mssql.Update('client', { col: 'users_id', value: args.userId }, argsUpdated);
   }
 
   public async updatePassword(args: UpdatePasswordArgs) {
@@ -119,24 +107,20 @@ export class UserService {
     } catch (err) {
       throw new Error(err);
     }
-    try {
-      if (!user) {
-        throw new Error('Unauthorized');
-      }
-      if (!EncryptHelper.compare(args.oldPassword, user.password)) {
-        throw new Error('Sai mật khẩu');
-      }
-      if (EncryptHelper.compare(args.newPassword, user.password)) {
-        throw new Error('Mật khẩu trùng với mật khẩu cũ');
-      }
-      const argsUpdated = [
-        { col: 'password', value: EncryptHelper.hash(args.newPassword) },
-        { col: 'updated_at', value: moment().format('YYYY-MM-DD HH:mm') },
-      ];
-      await Mssql.Update('users', { col: 'id', value: args.userId }, argsUpdated);
-    } catch (err) {
-      throw new Error(err);
+    if (!user) {
+      throw new Error('Unauthorized');
     }
+    if (!EncryptHelper.compare(args.oldPassword, user.password)) {
+      throw new Error('Sai mật khẩu');
+    }
+    if (EncryptHelper.compare(args.newPassword, user.password)) {
+      throw new Error('Mật khẩu trùng với mật khẩu cũ');
+    }
+    const argsUpdated = [
+      { col: 'password', value: EncryptHelper.hash(args.newPassword) },
+      { col: 'updated_at', value: moment().format('YYYY-MM-DD HH:mm') },
+    ];
+    await Mssql.Update('users', { col: 'id', value: args.userId }, argsUpdated);
   }
 }
 

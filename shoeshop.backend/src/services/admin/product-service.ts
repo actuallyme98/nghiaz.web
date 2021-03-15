@@ -5,87 +5,47 @@ import { UpdateColorArgs, UpdateSizeArgs } from '../../dtos';
 
 export class ProductService {
   public async listSizes() {
-    try {
-      return await Mssql.FindAll('size');
-    } catch (err) {
-      throw new Error(err);
-    }
+    return await Mssql.FindAll('size');
   }
   public async getSize(size: number) {
-    try {
-      return await Mssql.Find('size', 'name', size);
-    } catch (err) {
-      throw new Error(err);
-    }
+    return await Mssql.Find('size', 'name', size);
   }
   public async createSize(args: ProductSize) {
-    try {
-      const size = await this.getSize(args.name);
-      if (size) {
-        throw new Error('Size already exist');
-      }
-      return await Mssql.Insert('size', args);
-    } catch (err) {
-      throw new Error(err);
+    const size = await this.getSize(args.name);
+    if (size) {
+      throw new Error('Size already exist');
     }
+    return await Mssql.Insert('size', args);
   }
   public async updateSize(args: UpdateSizeArgs) {
-    try {
-      const argsUpdated = [{ col: 'name', value: args.name }];
-      await Mssql.Update('size', { col: 'id', value: args.id }, argsUpdated);
-    } catch (err) {
-      throw new Error(err);
-    }
+    const argsUpdated = [{ col: 'name', value: args.name }];
+    await Mssql.Update('size', { col: 'id', value: args.id }, argsUpdated);
   }
   public async deleteSize(id: number) {
-    try {
-      return await Mssql.Delete('size', 'id', id);
-    } catch (err) {
-      throw new Error(err);
-    }
+    return await Mssql.Delete('size', 'id', id);
   }
   public async listColors() {
-    try {
-      return await Mssql.FindAll('color');
-    } catch (err) {
-      throw new Error(err);
-    }
+    return await Mssql.FindAll('color');
   }
   public async getColor(name: string) {
-    try {
-      return await Mssql.Find('color', 'name', name);
-    } catch (err) {
-      throw new Error(err);
-    }
+    return await Mssql.Find('color', 'name', name);
   }
   public async createColor(args: ProductColor) {
-    try {
-      const color = await this.getColor(args.name);
-      if (!!color) {
-        throw new Error('Color already exist');
-      }
-      return await Mssql.Insert('color', args);
-    } catch (err) {
-      throw new Error(err);
+    const color = await this.getColor(args.name);
+    if (!!color) {
+      throw new Error('Color already exist');
     }
+    return await Mssql.Insert('color', args);
   }
   public async updateColor(args: UpdateColorArgs) {
-    try {
-      const argsUpdated = [
-        { col: 'name', value: args.name },
-        { col: 'code', value: args.code },
-      ];
-      await Mssql.Update('color', { col: 'id', value: args.id }, argsUpdated);
-    } catch (err) {
-      throw new Error(err);
-    }
+    const argsUpdated = [
+      { col: 'name', value: args.name },
+      { col: 'code', value: args.code },
+    ];
+    await Mssql.Update('color', { col: 'id', value: args.id }, argsUpdated);
   }
   public async deleteColor(id: number) {
-    try {
-      return await Mssql.Delete('color', 'id', id);
-    } catch (err) {
-      throw new Error(err);
-    }
+    return await Mssql.Delete('color', 'id', id);
   }
 }
 

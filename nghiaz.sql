@@ -59,6 +59,10 @@ create table product(
 	sole_detail nvarchar(150),
 	priority int,
 	vat int,
+	color_id int,
+	size_id int,
+	tag_id int,
+	category_id int
 );
 
 create table product_image(
@@ -91,6 +95,20 @@ create table color(
 	name nvarchar(20) not null,
 	code char(6),
 );
+
+---------------------------------------- TRIGGER ----------------------------------------
+CREATE TRIGGER trigger_insert_product
+ON product FOR INSERT
+as 
+  declare @product_id int;
+  declare @color_id int;
+
+  select @product_id=i.id from inserted i;	
+  select @color_id=i.color_id from inserted i;	
+
+  insert into product_color (product_id, color_id) values (@product_id, @color_id)
+go
+-----------------------------------------------------------------------------------------
 
 create table product_color(
 	id int primary key not null,
