@@ -48,6 +48,10 @@ const Layout: React.FC<IProps> = (props) => {
     loadProfile();
   }, []);
 
+  useEffect(() => {
+    dispatch(AppActions.initializeApp());
+  }, []);
+
   if (getProfilePending) {
     return (
       <Backdrop open={true}>

@@ -61,4 +61,11 @@ declare namespace ADMIN_API {
     name: string;
     code: string;
   }
+
+  interface GetListCategoryResponse {
+    id?: number;
+    name: string;
+    image?: string;
+    slug?: string;
+  }
 }

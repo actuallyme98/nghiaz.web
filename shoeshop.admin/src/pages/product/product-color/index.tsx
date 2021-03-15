@@ -38,10 +38,6 @@ const ProductColor: React.FC<Props> = (props) => {
   const { enqueueSnackbar } = useSnackbar();
   const colors = useSelector((store: IStore) => store.appState.colors);
 
-  useEffect(() => {
-    dispatch(AppActions.listColorsAction());
-  }, []);
-
   const onOpenAddColor = useCallback(() => {
     setOpenAdd(true);
   }, []);

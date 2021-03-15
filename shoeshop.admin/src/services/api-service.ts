@@ -2,7 +2,6 @@ import Axios from 'axios';
 import { ApiRouteEnum } from '../enums/api-route';
 
 const HanleResponse = async (response: any) => {
-  console.log(response);
   const { status, message } = response;
   if (status === false) {
     throw new Error(message);
@@ -53,6 +52,10 @@ export class ApiService {
   }
   public async deleteColor(id: number) {
     const response = await Axios.delete(`${ApiRouteEnum.COLORS}/${id}`);
+    return await HanleResponse(response);
+  }
+  public async listCategories(): Promise<ADMIN_API.GetListCategoryResponse[]> {
+    const response = await Axios.get(ApiRouteEnum.CATEGORIES);
     return await HanleResponse(response);
   }
 }

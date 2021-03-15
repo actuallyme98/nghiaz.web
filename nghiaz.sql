@@ -58,12 +58,14 @@ create table product(
 	body_detail nvarchar(150),
 	sole_detail nvarchar(150),
 	priority int,
+	quantity int,
 	vat int,
 	color_id int,
 	size_id int,
 	tag_id int,
 	category_id int
 );
+
 
 create table product_image(
 	id int primary key not null,

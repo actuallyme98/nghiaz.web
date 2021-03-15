@@ -37,10 +37,6 @@ const ProductSize: React.FC<Props> = (props) => {
   const { enqueueSnackbar } = useSnackbar();
   const sizes = useSelector((store: IStore) => store.appState.sizes);
 
-  useEffect(() => {
-    dispatch(AppActions.listSizesAction());
-  }, []);
-
   const onOpenAddSize = useCallback(() => {
     setOpenAdd(true);
   }, []);

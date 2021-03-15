@@ -7,5 +7,6 @@ export enum ApiRouteEnum {
   SIZES = '/products/size',
   LIST_COLORS = '/products/color/list',
   UPDATE_COLOR = '/products/color/update',
-  COLORS = '/products/color'
+  COLORS = '/products/color',
+  CATEGORIES = '/category/list',
 }

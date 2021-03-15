@@ -1,11 +1,14 @@
 import { Mssql } from '../../base';
 import { ProductColor, ProductSize } from '../../models';
 
+import { StringHelper } from '../../helpers';
+
 import { UpdateColorArgs, UpdateSizeArgs } from '../../dtos';
 
 export class ProductService {
   public async listSizes() {
-    return await Mssql.FindAll('size');
+    const datas = await Mssql.FindAll('size');
+    return datas.map((data) => StringHelper.deepTrim(data));
   }
   public async getSize(size: number) {
     return await Mssql.Find('size', 'name', size);
@@ -25,7 +28,8 @@ export class ProductService {
     return await Mssql.Delete('size', 'id', id);
   }
   public async listColors() {
-    return await Mssql.FindAll('color');
+    const datas = await Mssql.FindAll('color');
+    return datas.map((data) => StringHelper.deepTrim(data));
   }
   public async getColor(name: string) {
     return await Mssql.Find('color', 'name', name);

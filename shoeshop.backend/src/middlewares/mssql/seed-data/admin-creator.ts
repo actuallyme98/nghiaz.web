@@ -8,14 +8,13 @@ const seedDataList = [
     firstName: 'ADMIN',
     lastName: '',
     password: '12345',
-    isSupperUser: 1
-  }
+    isSupperUser: 1,
+  },
 ];
 
 interface ISeedCreator {
   isDataExist(): Promise<boolean>;
   createSeed(): Promise<void>;
-  getSeedData(): any[];
 }
 
 const seedCreator: ISeedCreator = {
@@ -25,19 +24,18 @@ const seedCreator: ISeedCreator = {
   },
 
   async createSeed(): Promise<void> {
-    try {
-      for (const seedData of seedDataList) {
-        await UserService.createUser(seedData);
+    const isExist = await this.isDataExist();
+    if (!isExist) {
+      try {
+        for (const seedData of seedDataList) {
+          await UserService.createUser(seedData);
+        }
+      } catch (err) {
+        console.log('Can not create admin seed: ', err);
+        return;
       }
-    } catch (err) {
-      console.log('Can not create admin seed: ', err);
-      return;
     }
   },
-
-  getSeedData(): any[] {
-    return seedDataList;
-  }
 };
 
 module.exports = async (app: Express) => {

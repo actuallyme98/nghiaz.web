@@ -23,4 +23,5 @@ export interface Product extends BaseModel {
   colorId?: string;
   bodyDetail?: string;
   soleDetail?: string;
+  quantity: number;
 }

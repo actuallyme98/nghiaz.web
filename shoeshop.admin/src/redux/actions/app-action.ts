@@ -19,6 +19,19 @@ export const logOutAction = createTypeAsyncAction('LOGOUT_ACTION', async () => {
   return await ApiService.logout();
 });
 
+export const initializeApp = createTypeAsyncAction<any, void, Store>(
+  'INITIALIZE_APP',
+  async (args, { dispatch }) => {
+    try {
+      await dispatch(listSizesAction());
+      await dispatch(listColorsAction());
+      await dispatch(listCategoriesAction());
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
 export const listSizesAction = createTypeAsyncAction('LIST_SIZES_ACTION', async () => {
   try {
     return await ApiService.listSizes();
@@ -106,3 +119,11 @@ export const deleteColorAction = createTypeAsyncAction<number, void, Store>(
     }
   },
 );
+
+export const listCategoriesAction = createTypeAsyncAction('LIST_CATEGORIES_ACTION', async () => {
+  try {
+    return await ApiService.listCategories();
+  } catch (err) {
+    throw new Error(err);
+  }
+});

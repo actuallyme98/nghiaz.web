@@ -5,11 +5,15 @@ export interface Store {
   profile?: REDUX_STORE.Profile;
   sizes: REDUX_STORE.ProductSize[];
   colors: REDUX_STORE.ProductColor[];
+  products: REDUX_STORE.IProduct[];
+  categories: REDUX_STORE.ICategory[];
 }
 
 export const initialState: Store = {
   sizes: [],
   colors: [],
+  products: [],
+  categories: [],
 };
 
 export const loginReducer = AppActions.loginAction.reducer<Store>((state, action) => {
@@ -38,6 +42,8 @@ export const logoutReducer = AppActions.logOutAction.reducer<Store>((state, acti
     profile: undefined,
     sizes: [],
     colors: [],
+    products: [],
+    categories: [],
   };
 });
 
@@ -59,6 +65,17 @@ export const listColorsReducer = AppActions.listColorsAction.reducer<Store>((sta
   };
 });
 
+export const listCategoriesReducer = AppActions.listCategoriesAction.reducer<Store>(
+  (state, action) => {
+    if (isError(action) || !action.payload) {
+      return {};
+    }
+    return {
+      categories: action.payload,
+    };
+  },
+);
+
 export const reducer = createTypeReducer(
   initialState,
   loginReducer,
@@ -66,4 +83,5 @@ export const reducer = createTypeReducer(
   logoutReducer,
   listSizesReducer,
   listColorsReducer,
+  listCategoriesReducer,
 );
