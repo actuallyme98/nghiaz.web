@@ -9,6 +9,7 @@ import { SnackbarProvider } from 'notistack';
 import Home from './pages/home';
 import Login from './pages/login';
 import Product from './pages/product';
+import AddProduct from './pages/product/list-product/add-product';
 
 // themes
 import theme from './themes/dark-theme';
@@ -27,6 +28,11 @@ const routes: RouteConfig[] = [
   {
     component: Product,
     path: '/products/:tab?',
+    exact: true,
+  },
+  {
+    component: AddProduct,
+    path: '/product/create',
     exact: true,
   },
   {

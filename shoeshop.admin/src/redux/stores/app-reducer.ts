@@ -76,6 +76,15 @@ export const listCategoriesReducer = AppActions.listCategoriesAction.reducer<Sto
   },
 );
 
+export const listProductsReducer = AppActions.listProductsAction.reducer<Store>((state, action) => {
+  if (isError(action) || !action.payload) {
+    return {};
+  }
+  return {
+    products: action.payload,
+  };
+});
+
 export const reducer = createTypeReducer(
   initialState,
   loginReducer,
@@ -84,4 +93,5 @@ export const reducer = createTypeReducer(
   listSizesReducer,
   listColorsReducer,
   listCategoriesReducer,
+  listProductsReducer,
 );

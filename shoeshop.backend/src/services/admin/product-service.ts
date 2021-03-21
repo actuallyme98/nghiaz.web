@@ -3,7 +3,8 @@ import { ProductColor, ProductSize } from '../../models';
 
 import { StringHelper } from '../../helpers';
 
-import { UpdateColorArgs, UpdateSizeArgs } from '../../dtos';
+import { UpdateColorArgs, UpdateSizeArgs, CreateProductArgs } from '../../dtos';
+import { toGProduct } from '../../transforms/product.transform';
 
 export class ProductService {
   public async listSizes() {
@@ -50,6 +51,154 @@ export class ProductService {
   }
   public async deleteColor(id: number) {
     return await Mssql.Delete('color', 'id', id);
+  }
+  //----------------------------------------- PRODUCTS-----------------------------------------------------
+  //-------------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------------
+  public async listImageByProduct(id: number) {
+    return await Mssql.FindAllBy('product_image', 'product_id', id);
+  }
+  public async triggerInsertPrCl(productId: number, colorIds: number[]) {
+    for (const color of colorIds) {
+      try {
+        await Mssql.Insert('product_color', { productId, color });
+      } catch (err) {
+        continue;
+      }
+    }
+  }
+  public async triggerInsertPrSz(productId: number, sizeIds: number[]) {
+    for (const size of sizeIds) {
+      try {
+        await Mssql.Insert('product_size', { productId, size });
+      } catch (err) {
+        continue;
+      }
+    }
+  }
+  public async triggerInsertPrCg(productId: number, categIds: number[]) {
+    for (const categ of categIds) {
+      try {
+        await Mssql.Insert('product_category', { productId, categ });
+      } catch (err) {
+        continue;
+      }
+    }
+  }
+  public async triggerInsertPrTag(productId: number, tagIds: number[]) {
+    for (const tag of tagIds) {
+      try {
+        await Mssql.Insert('product_tag', { productId, tag });
+      } catch (err) {
+        continue;
+      }
+    }
+  }
+
+  public async createProduct(args: CreateProductArgs) {
+    try {
+      const data = await Mssql.Find('product', 'slug', args.slug);
+      if (data) {
+        throw new Error('Sản phẩm đã tồn tại');
+      }
+    } catch (err) {
+      throw new Error(err);
+    }
+    const {
+      id,
+      name,
+      price,
+      status,
+      slug,
+      discountPrice,
+      currentPrice,
+      isSellWell,
+      isSpecial,
+      priority,
+      quantity,
+      vat,
+      bodyDetail,
+      description,
+      shortDescription,
+      soleDetail,
+      thumbnail,
+      categoryIds,
+      colorIds,
+      sizeIds,
+    } = args;
+    const createArgs = {
+      code: StringHelper.randomString(6),
+      name,
+      price,
+      status,
+      slug,
+      discountPrice,
+      currentPrice,
+      isSpecial,
+      isSellWell,
+      thumbnail,
+      shortDescription,
+      description,
+      bodyDetail,
+      soleDetail,
+      priority,
+      quantity,
+      vat,
+    };
+    try {
+      await Mssql.Insert('product', createArgs, id);
+      console.log('--------Running trigger---------------------');
+      await this.triggerInsertPrCl(id, colorIds);
+      await this.triggerInsertPrSz(id, sizeIds);
+      await this.triggerInsertPrCg(id, categoryIds);
+      console.log('--------Insert product successfully---------');
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+  public async updateThumbnail(path: string, id: number) {
+    const argsUpdated = [{ col: 'thumbnail', value: path }];
+    await Mssql.Update('product', { col: 'id', value: id }, argsUpdated);
+  }
+  public async insertImages(paths: string[], id: number) {
+    for (const url of paths) {
+      try {
+        const createArgs = {
+          productId: id,
+          url,
+        };
+        await Mssql.Insert('product_image', createArgs);
+      } catch (err) {
+        continue;
+      }
+    }
+  }
+  public async listProducts() {
+    try {
+      const datas = await Mssql.FindAll('product');
+      return Promise.all(datas.map(async (data) => await toGProduct(data)));
+    } catch (err) {
+      throw new Error();
+    }
+  }
+  public async triggerDeletePr(id: number, table: string) {
+    try {
+      return await Mssql.Delete(table, 'product_id', id);
+    } catch (err) {
+      throw new Error();
+    }
+  }
+  public async deleteProduct(id: number) {
+    try {
+      await Mssql.Delete('product', 'id', id);
+      await this.triggerDeletePr(id, 'product_image');
+      await this.triggerDeletePr(id, 'product_color');
+      await this.triggerDeletePr(id, 'product_size');
+      await this.triggerDeletePr(id, 'product_category');
+    } catch (err) {
+      throw new Error();
+    }
   }
 }
 

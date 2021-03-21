@@ -48,10 +48,10 @@ export class Mssql {
     return data;
   }
 
-  public async Insert(table: string, args: any): Promise<number> {
+  public async Insert(table: string, args: any, uid?: number): Promise<number> {
     args = Object.values(args);
     const argsMapped = args.map((value: any) => transformValue(value));
-    const id = Math.floor(Math.random() * 1e7); // workaround: id automatically generated
+    const id = uid || Math.floor(Math.random() * 1e7); // workaround: id automatically generated
     const values = `${id}, ${argsMapped.join(', ')}`;
     const query = `insert into ${table} values (${values})`;
     await connection.query(query);

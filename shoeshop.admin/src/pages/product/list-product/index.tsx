@@ -1,5 +1,6 @@
 import React, { useMemo, useEffect, useState, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 
 // components
 import Table from '@material-ui/core/Table';
@@ -16,13 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Tooliip from '@material-ui/core/Tooltip';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
-import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
+import CategoryForm from '../../../components/category-form';
 
 // redux
 import * as AppActions from '../../../redux/actions/app-action';
@@ -41,10 +36,8 @@ const ProductList: React.FC<Props> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+
   const products = useSelector((store: IStore) => store.appState.products);
-  const colors = useSelector((store: IStore) => store.appState.colors);
-  const sizes = useSelector((store: IStore) => store.appState.sizes);
-  const categories = useSelector((store: IStore) => store.appState.categories);
 
   const handleChangeColors = useCallback((event: React.ChangeEvent<{ value: any }>) => {
     setSelectedColors(event.target.value);
@@ -58,74 +51,19 @@ const ProductList: React.FC<Props> = (props) => {
     setSelectedCategories(event.target.value);
   }, []);
 
-  const getColorName = useCallback(
-    (id: number) => {
-      const color = colors.find((x) => x.id === id);
-      if (!color) return '';
-      return color.name;
-    },
-    [colors],
-  );
-
-  const getSizeName = useCallback(
-    (id: number) => {
-      const size = sizes.find((x) => x.id === id);
-      if (!size) return '';
-      return size.name;
-    },
-    [sizes],
-  );
-
-  const getCategoryName = useCallback(
-    (id: number) => {
-      const category = categories.find((x) => x.id === id);
-      if (!category) return '';
-      return category.name;
-    },
-    [categories],
-  );
-
-  const colorsMap = useMemo(
-    () =>
-      colors.map((color, index) => {
-        const checked = selectedColors.findIndex((x) => x === color.id) > -1;
-        return (
-          <MenuItem key={index} value={color.id}>
-            <Checkbox checked={checked} />
-            <ListItemText primary={color.code} />
-          </MenuItem>
-        );
-      }),
-    [colors, selectedColors],
-  );
-
-  const sizesMap = useMemo(
-    () =>
-      sizes.map((size, index) => {
-        const checked = selectedSizes.findIndex((x) => x === size.id) > -1;
-        return (
-          <MenuItem key={index} value={size.id}>
-            <Checkbox checked={checked} />
-            <ListItemText primary={size.name} />
-          </MenuItem>
-        );
-      }),
-    [sizes, selectedSizes],
-  );
-
-  const categoriesMap = useMemo(
-    () =>
-      categories.map((category, index) => {
-        const checked = selectedCategories.findIndex((x) => x === category.id) > -1;
-        return (
-          <MenuItem key={index} value={category.id}>
-            <Checkbox checked={checked} />
-            <ListItemText primary={category.name} />
-          </MenuItem>
-        );
-      }),
-    [categories, selectedCategories],
-  );
+  const onDelete = useCallback(async (id: number) => {
+    try {
+      await dispatch(AppActions.deleteProductAction(id));
+      enqueueSnackbar('Xóa thành công', {
+        variant: 'success',
+      });
+    } catch (err) {
+      const message = String(err).replace(/Error: /g, '');
+      enqueueSnackbar(message, {
+        variant: 'error',
+      });
+    }
+  }, []);
 
   const rows = useMemo(() => {
     return products.map((row, index) => (
@@ -143,7 +81,7 @@ const ProductList: React.FC<Props> = (props) => {
               </IconButton>
             </Tooliip>
             <Tooliip title="Xóa" placement="top" arrow>
-              <IconButton>
+              <IconButton onClick={() => onDelete(row.id)}>
                 <DeleteIcon />
               </IconButton>
             </Tooliip>
@@ -155,53 +93,22 @@ const ProductList: React.FC<Props> = (props) => {
 
   return (
     <Box className={classes.container}>
-      <FormControl className={classes.formControl}>
-        <InputLabel id="check_color">Màu sắc</InputLabel>
-        <Select
-          labelId="check_color"
-          multiple
-          value={selectedColors}
-          onChange={handleChangeColors}
-          input={<Input />}
-          renderValue={(selected) => (selected as number[]).map((x) => getColorName(x)).join(', ')}
-        >
-          {colorsMap}
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel id="check_size">Kích thước</InputLabel>
-        <Select
-          labelId="check_size"
-          multiple
-          value={selectedSizes}
-          onChange={handleChangeSizes}
-          input={<Input />}
-          renderValue={(selected) => (selected as number[]).map((x) => getSizeName(x)).join(', ')}
-        >
-          {sizesMap}
-        </Select>
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel id="check_category">Thể loại</InputLabel>
-        <Select
-          labelId="check_category"
-          multiple
-          value={selectedCategories}
-          onChange={handleChangeCategories}
-          input={<Input />}
-          renderValue={(selected) =>
-            (selected as number[]).map((x) => getCategoryName(x)).join(', ')
-          }
-        >
-          {categoriesMap}
-        </Select>
-      </FormControl>
+      <CategoryForm
+        selectedCategories={selectedCategories}
+        selectedColors={selectedColors}
+        selectedSizes={selectedSizes}
+        handleChangeCategories={handleChangeCategories}
+        handleChangeColors={handleChangeColors}
+        handleChangeSizes={handleChangeSizes}
+      />
 
       <Box display="flex" justifyContent="space-between">
         <Typography>Danh sách sản phẩm</Typography>
         <Tooliip title="Thêm mới" placement="top" arrow>
           <IconButton>
-            <AddCircleIcon />
+            <Link to="/product/create" className={classes.link}>
+              <AddCircleIcon />
+            </Link>
           </IconButton>
         </Tooliip>
       </Box>
@@ -233,6 +140,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
     maxWidth: 300,
+  },
+  link: {
+    color: 'unset',
   },
 }));
 

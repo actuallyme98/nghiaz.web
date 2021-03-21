@@ -58,6 +58,26 @@ export class ApiService {
     const response = await Axios.get(ApiRouteEnum.CATEGORIES);
     return await HanleResponse(response);
   }
+  public async createProduct(args: ADMIN_API.CreateProductParams) {
+    const response = await Axios.post(ApiRouteEnum.CREATE_PRODUCT, args);
+    return await HanleResponse(response);
+  }
+  public async updateThumbnailProduct(args: FormData, id: number) {
+    const response = await Axios.post(`${ApiRouteEnum.UPDATE_PRODUCT_THUMBNAIL}/${id}`, args);
+    return await HanleResponse(response);
+  }
+  public async updateImagesProduct(args: FormData, id: number) {
+    const response = await Axios.post(`${ApiRouteEnum.UPDATE_PRODUCT_IMAGES}/${id}`, args);
+    return await HanleResponse(response);
+  }
+  public async listProducts(): Promise<ADMIN_API.ListProductsResponse[]> {
+    const response = await Axios.get(ApiRouteEnum.LIST_PRODUCTS);
+    return await HanleResponse(response);
+  }
+  public async deleteProduct(id: number) {
+    const response = await Axios.delete(`${ApiRouteEnum.DELETE_PRODUCT}/${id}`);
+    return await HanleResponse(response);
+  }
 }
 
 export default new ApiService();

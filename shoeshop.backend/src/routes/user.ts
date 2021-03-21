@@ -8,12 +8,12 @@ const router = Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './public/avatars')
+    cb(null, './public/avatars');
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null, file.fieldname + '-' + uniqueSuffix)
-  }
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, file.fieldname + '-' + uniqueSuffix);
+  },
 });
 
 const upload = multer({ storage });
@@ -56,21 +56,23 @@ router.post('/update-password', authMiddleware, async (req: APIRequest, res: Res
   }
 });
 
-router.post('/update-avatar', authMiddleware, upload.single('avatar'), async (req: APIRequest, res: Response) => {
-  const { file, user } = req;
-  if(!user) {
-    return res.json({ status: false, message: 'Unauthorized' });
-  }
-  if (!file) {
-    return res.json({ status: false, message: 'Please select file' });
-  }
-  try {
-    await ClientService.updateAvatar(file.filename, user.client?.id);
-    return res.json({ status: true, message: '' });
-  } catch(err) {
-    return res.json({ status: false, message: String(err) });
-  }
-});
+router.post(
+  '/update-avatar',
+  authMiddleware,
+  upload.single('avatar'),
+  async (req: APIRequest, res: Response) => {
+    const { file, user } = req;
+    if (!user) {
+      return res.json({ status: false, message: 'Unauthorized' });
+    }
+    try {
+      await ClientService.updateAvatar(file.filename, user.client?.id);
+      return res.json({ status: true, message: '' });
+    } catch (err) {
+      return res.json({ status: false, message: String(err) });
+    }
+  },
+);
 
 router.get('/data/:fileName', async (req: APIRequest, res: Response) => {
   const payload = req.params.fileName;
@@ -81,4 +83,4 @@ router.get('/data/:fileName', async (req: APIRequest, res: Response) => {
 
   res.contentType('image/jpeg');
   res.send(img);
-})
+});

@@ -107,6 +107,7 @@ const ProductSize: React.FC<Props> = (props) => {
           <TableHead>
             <TableRow>
               <TableCell>Kích thước</TableCell>
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>{rows}</TableBody>

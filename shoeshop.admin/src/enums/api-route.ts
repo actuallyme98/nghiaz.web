@@ -8,5 +8,10 @@ export enum ApiRouteEnum {
   LIST_COLORS = '/products/color/list',
   UPDATE_COLOR = '/products/color/update',
   COLORS = '/products/color',
+  CREATE_PRODUCT = '/products/create',
+  DELETE_PRODUCT = '/products/delete',
+  UPDATE_PRODUCT_THUMBNAIL = '/products/thumbnail/update',
+  UPDATE_PRODUCT_IMAGES = '/products/images/update',
+  LIST_PRODUCTS = '/products/list',
   CATEGORIES = '/category/list',
 }

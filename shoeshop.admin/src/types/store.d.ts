@@ -12,7 +12,7 @@ declare namespace REDUX_STORE {
   }
 
   interface IProduct {
-    id?: string;
+    id: number;
     code?: string;
     name: string;
     price: number;
@@ -24,14 +24,9 @@ declare namespace REDUX_STORE {
     isSellWell: boolean;
     isSpecial: boolean;
     priority: number;
-    weight: number;
     thumbnail?: string;
     shortDescription?: string;
     description?: string;
-    originId?: number;
-    materialId?: number;
-    sizeId?: string;
-    colorId?: string;
     bodyDetail?: string;
     soleDetail?: string;
     quantity: number;

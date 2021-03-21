@@ -26,6 +26,7 @@ export const initializeApp = createTypeAsyncAction<any, void, Store>(
       await dispatch(listSizesAction());
       await dispatch(listColorsAction());
       await dispatch(listCategoriesAction());
+      await dispatch(listProductsAction());
     } catch (err) {
       throw new Error(err);
     }
@@ -127,3 +128,58 @@ export const listCategoriesAction = createTypeAsyncAction('LIST_CATEGORIES_ACTIO
     throw new Error(err);
   }
 });
+
+export const createProductAction = createTypeAsyncAction(
+  'CREATE_PRODUCT_ACTION',
+  async (args: ADMIN_API.CreateProductParams) => {
+    try {
+      return await ApiService.createProduct(args);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const updateThumbnailProductAction = createTypeAsyncAction(
+  'UPDATE_THUMBNAIL_ACTION',
+  async (args: { data: FormData; id: number }) => {
+    try {
+      const { data, id } = args;
+      return await ApiService.updateThumbnailProduct(data, id);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const updateImagesProductAction = createTypeAsyncAction(
+  'UPDATE_THUMBNAIL_ACTION',
+  async (args: { data: FormData; id: number }) => {
+    try {
+      const { data, id } = args;
+      return await ApiService.updateImagesProduct(data, id);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const listProductsAction = createTypeAsyncAction('LIST_PRODUCTS_ACTION', async () => {
+  try {
+    return await ApiService.listProducts();
+  } catch (err) {
+    throw new Error(err);
+  }
+});
+
+export const deleteProductAction = createTypeAsyncAction<number, void, Store>(
+  'DELETE_COLOR_ACION',
+  async (args: number, { dispatch }) => {
+    try {
+      await ApiService.deleteProduct(args);
+      await dispatch(listProductsAction());
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
