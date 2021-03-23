@@ -1,5 +1,6 @@
 import { Mssql } from '../../base';
 import { ProductColor, ProductSize } from '../../models';
+import moment from 'moment';
 
 import { StringHelper } from '../../helpers';
 
@@ -145,6 +146,8 @@ export class ProductService {
       priority,
       quantity,
       vat,
+      createdAt: moment().format('YYYY-MM-DD HH:mm'),
+      updatedAt: moment().format('YYYY-MM-DD HH:mm'),
     };
     try {
       await Mssql.Insert('product', createArgs, id);

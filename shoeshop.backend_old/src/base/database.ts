@@ -2,6 +2,8 @@ import { IResult, IColumnMetadata, IRecordSet } from 'mssql';
 import { connection } from '../middlewares/db/connection';
 // import { connection } from '../middlewares/mssql/seed-helpers/seed-city'; // for seed-data
 
+import { ListProductArgs } from '../dtos';
+
 type T = any;
 
 interface KeyUpdate {
@@ -76,6 +78,20 @@ export class Mssql {
 
   public toColumnMetadata(data: IResult<T>): IRecordSet<T> {
     return data.recordset;
+  }
+
+  public async listProducts({ filters, sort, paging = { limit: 12, page: 0 } }: ListProductArgs) {
+    let query = 'select * from product';
+    let hasPrev = false;
+    if (filters) {
+      const { category, isSellWell, isSpecial, name, prices, tag } = filters;
+      if (category) {
+        if (!hasPrev) {
+          query += ` left join product_category on product.id where category.id = ${category}`;
+        }
+      }
+    }
+    return [];
   }
 }
 

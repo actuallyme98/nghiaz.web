@@ -60,8 +60,9 @@ create table product(
 	priority int,
 	quantity int,
 	vat int,
+	created_at char(20),
+	updated_at char(20)
 );
-
 
 create table product_image(
 	id int primary key not null,

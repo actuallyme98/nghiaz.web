@@ -32,3 +32,35 @@ export interface CreateProductArgs {
   categoryIds: number[];
   sizeIds: number[];
 }
+
+export enum SortEnums {
+  CURRENT_PRICE_DOWN = '-currentPrice',
+  CURRENT_PRICE_UP = 'currentPrice',
+  CREATED_AT = '-createdAt',
+  PRIORITY = '-priority',
+}
+
+export interface IFilerPrice {
+  min: number;
+  max: number;
+}
+
+export interface IPaging {
+  page: number;
+  limit: number;
+}
+
+export interface ListProductArgs {
+  sort?: SortEnums;
+  filters?: {
+    prices?: IFilerPrice;
+    category?: string;
+    tag?: string;
+    name?: string;
+    isSellWell?: boolean;
+    isSpecial?: boolean;
+    colors?: number[];
+    sizes?: number[];
+  };
+  paging?: IPaging;
+}

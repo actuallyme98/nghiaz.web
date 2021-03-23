@@ -1,25 +1,19 @@
-# How to run code
+### development
+docker-compose up
 
-### install packages:
+yarn install
 
+yarn setup
+
+yarn start:dev
+
+### production
+docker-compose -f docker-compose.prod.yaml --env-file=.env.prod up
+
+swagger: http://localhost:3000/doc/#/
+
+### Allow front-end container connect with back-end container
+Create a network if it doesn't exist:
 ```
-yarn
-```
-
-### dev:
-
-```
-yarn dev
-```
-
-### buid:
-
-```
-yarn build
-```
-
-### start:
-
-```
-yarn start
+docker network create any-ex-network
 ```

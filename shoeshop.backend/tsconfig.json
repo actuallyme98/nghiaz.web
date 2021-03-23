@@ -1,13 +1,28 @@
 {
   "compilerOptions": {
-    "target": "es6",
     "module": "commonjs",
-    "rootDir": "./",
-    "outDir": "./build",
-    "esModuleInterop": true,
-    "strict": true,
-    "noUnusedLocals": false,
-    "noImplicitAny": true,
-    "strictPropertyInitialization": false
-  }
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "paths": {
+      "~/*": ["src/*"],
+      "@config": ["src/config"],
+      "@base/*": ["src/base/*"],
+      "@modules/*": ["src/modules/*"],
+      "@shared/*": ["src/modules/shared/*"],
+      "@api/*": ["src/modules/api/*"],
+      "@admin/*": ["src/modules/admin/*"],
+      "@batch/*": ["src/modules/batch/*"],
+      "*": ["./node_modules/*"]
+    },
+    "incremental": true
+  },
+  "exclude": ["node_modules", "dist"]
 }

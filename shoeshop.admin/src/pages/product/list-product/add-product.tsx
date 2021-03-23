@@ -144,7 +144,7 @@ const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
       }
       formikHelpers.setSubmitting(false);
     },
-    [singleFile, multiFiles, selectedColors, selectedCategories, selectedSizes],
+    [singleFile, multiFiles, selectedColors, selectedCategories, selectedSizes, special, sellWell],
   );
 
   return (
