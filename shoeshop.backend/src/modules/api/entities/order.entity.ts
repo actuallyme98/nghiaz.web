@@ -19,6 +19,7 @@ export class Order extends BaseModel {
 
   @Column({
     type: 'int',
+    default: 1,
   })
   status: number;
 

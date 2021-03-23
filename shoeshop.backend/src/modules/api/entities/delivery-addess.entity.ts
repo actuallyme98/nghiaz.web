@@ -1,6 +1,7 @@
-import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { BaseModel } from './base-model.entity';
 
+import { Client, Ward, City, District } from '@api/entities';
 @Entity('delivery_address')
 export class DeliveryAddress extends BaseModel {
   constructor(partial: Partial<DeliveryAddress>) {
@@ -30,37 +31,26 @@ export class DeliveryAddress extends BaseModel {
   address: string;
 
   @Column({
-    name: 'client_id',
-    type: 'int',
-    length: 30,
-  })
-  clientId: string;
-
-  @Column({
-    name: 'city_id',
-    type: 'int',
-    length: 30,
-  })
-  cityId: string;
-
-  @Column({
-    name: 'district_id',
-    type: 'int',
-    length: 30,
-  })
-  districtId: string;
-
-  @Column({
-    name: 'ward_id',
-    type: 'int',
-    length: 30,
-  })
-  wardId: string;
-
-  @Column({
     name: 'is_default',
     type: 'int',
-    length: 30,
+    default: 0,
   })
-  isDefault: string;
+  isDefault: number;
+
+  // Relationship
+  @ManyToOne(() => Client)
+  @JoinColumn()
+  client: Client;
+
+  @ManyToOne(() => City)
+  @JoinColumn()
+  city: City;
+
+  @ManyToOne(() => District)
+  @JoinColumn()
+  district: District;
+
+  @ManyToOne(() => Ward)
+  @JoinColumn()
+  ward: Ward;
 }

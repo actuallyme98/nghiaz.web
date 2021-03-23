@@ -1,16 +1,21 @@
-import { MaxLength, IsNotEmpty, IsOptional, MinLength, IsEmail } from 'class-validator';
+import { IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { UserStatusType } from '@api/entities/user.entity';
 
 export class UserDTO {
   @ApiProperty()
-  id: string;
+  id: number;
 
   @ApiProperty()
-  email: string;
+  @IsString({ message: 'Họ và tên phải là chuỗi ký tự' })
+  firstName: string;
 
   @ApiProperty()
-  status: UserStatusType;
+  @IsString({ message: 'Họ và tên phải là chuỗi ký tự' })
+  lastName: string;
+
+  @ApiProperty()
+  @IsString({ message: 'Số điện thoại phải là chuỗi ký tự' })
+  phone: string;
 
   @ApiProperty()
   createdAt: Date;

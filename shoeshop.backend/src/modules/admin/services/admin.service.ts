@@ -4,14 +4,12 @@ import { EncryptHelper } from '@base/helpers';
 import { classToPlain } from 'class-transformer';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserStatusType } from '@api/entities/user.entity';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { formatDate } from '../utils';
 
 export interface UserResponse {
   id: string;
-  email: string;
-  status: UserStatusType;
+  username: string;
   createdAt: Date;
   updatedAt: Date;
 }

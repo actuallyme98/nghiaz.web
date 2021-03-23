@@ -9,7 +9,7 @@ import {
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 
-import { CONTROLLERS } from '@api/controlers';
+import { CONTROLLERS } from '@api/controllers';
 import { SERVICES, EXPORT_SERVICES } from '@api/services';
 import { ENTITIES } from './entities';
 import { AuthMiddleware } from '@api/middlewares';

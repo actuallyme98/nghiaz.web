@@ -19,6 +19,8 @@ export class District extends BaseModel {
 
   @Column({
     type: 'int',
+    unique: true,
+    nullable: false,
   })
   code: number;
 

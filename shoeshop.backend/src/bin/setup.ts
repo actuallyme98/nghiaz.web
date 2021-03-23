@@ -63,6 +63,9 @@ const ormconfig: ConnectionOptions & {
   },
   seeds: ['src/db/seeding/seeds/**/*{.ts,.js}'],
   factories: ['src/db/seeding/factories/**/*{.ts,.js}'],
+  options: {
+    enableArithAbort: true,
+  },
 };
 
 log(chalk.blue('STARTING SETUP'));

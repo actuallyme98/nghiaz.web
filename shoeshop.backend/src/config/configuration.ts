@@ -8,7 +8,7 @@ export default () => {
 
   return {
     app: {
-      port: parseInt(env.PORT, 10) || 3000,
+      port: parseInt(env.PORT, 10) || 5000,
       environment: env.NODE_ENV || 'development',
       auth: {
         secret: env.SECRET || 'kdp@n34ldn',

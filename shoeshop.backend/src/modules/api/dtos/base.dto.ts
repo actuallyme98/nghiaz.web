@@ -10,7 +10,7 @@ export class BaseDTO {
   updatedAt: string;
 
   constructor(entity: BaseModel) {
-    this.createdAt = entity.createdAt;
-    this.updatedAt = entity.updatedAt;
+    this.createdAt = entity.createdAt.toISOString();
+    this.updatedAt = entity.updatedAt.toISOString();
   }
 }

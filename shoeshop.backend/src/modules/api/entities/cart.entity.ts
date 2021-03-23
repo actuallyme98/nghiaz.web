@@ -1,4 +1,4 @@
-import { Column, PrimaryGeneratedColumn, Entity, OneToOne, JoinColumn, OneToMany } from 'typeorm';
+import { PrimaryGeneratedColumn, Entity, JoinColumn, OneToMany, ManyToOne } from 'typeorm';
 import { BaseModel } from './base-model.entity';
 
 import { Client, CartItem } from '@api/entities';
@@ -14,7 +14,7 @@ export class Cart extends BaseModel {
   id: number;
 
   // Relationship
-  @OneToOne(type => Client)
+  @ManyToOne(type => Client)
   @JoinColumn()
   client: Client;
 

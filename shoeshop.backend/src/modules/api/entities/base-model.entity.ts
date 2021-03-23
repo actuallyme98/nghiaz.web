@@ -1,25 +1,18 @@
-import {
-  BaseEntity,
-  Column,
-  BeforeInsert,
-  BeforeUpdate,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { BaseEntity, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { BaseDTO } from '@api/dtos/base.dto';
 
 export abstract class BaseModel<DTO extends BaseDTO = BaseDTO, DTOOption = any> extends BaseEntity {
   @CreateDateColumn({
     name: 'created_at',
-    type: 'char',
+    type: 'datetime',
   })
-  createdAt: string;
+  createdAt: Date;
 
   @UpdateDateColumn({
     name: 'updated_at',
-    type: 'char',
+    type: 'datetime',
   })
-  updatedAt: string;
+  updatedAt: Date;
 
   dtoClass?: new (entity: BaseModel, options?: any) => DTO;
 

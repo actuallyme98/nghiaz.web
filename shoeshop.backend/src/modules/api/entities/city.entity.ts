@@ -13,6 +13,8 @@ export class City extends BaseModel {
 
   @Column({
     type: 'int',
+    unique: true,
+    nullable: false,
   })
   code: number;
 

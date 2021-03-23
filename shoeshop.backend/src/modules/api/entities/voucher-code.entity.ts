@@ -25,6 +25,7 @@ export class VoucherCode extends BaseModel {
 
   @Column({
     type: 'int',
+    default: 1,
   })
   status: number;
 

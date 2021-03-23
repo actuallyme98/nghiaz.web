@@ -16,11 +16,10 @@ export class Client extends BaseModel {
   @Column({
     name: 'users_id',
     type: 'int',
-    length: 60,
     unique: true,
     nullable: false,
   })
-  usersId: string;
+  usersId: number;
 
   @Column({
     type: 'char',

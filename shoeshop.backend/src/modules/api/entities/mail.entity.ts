@@ -24,15 +24,15 @@ export class Mail extends BaseModel {
 
   @Column({
     name: 'status',
-    type: 'enum',
-    enum: MailStatusType,
+    type: 'char',
+    length: 30,
     default: MailStatusType.PENDING,
   })
   status: MailStatusType;
 
   @Column({
-    type: 'enum',
-    enum: MailType,
+    type: 'char',
+    length: 30,
   })
   type: MailType;
 

@@ -6,8 +6,6 @@ create database bluewind
 -- run this query before execute any.
 use bluewind
 
-select * from users
-
 create table users(
 	id int primary key not null,
 	username char(50) not null,

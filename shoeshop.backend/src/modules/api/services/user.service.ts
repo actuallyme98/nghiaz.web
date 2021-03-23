@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { paginate, Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
 import { classToPlain } from 'class-transformer';
-import { UserStatusType } from '@api/entities/user.entity';
 
 import { User } from '@api/entities';
 
@@ -15,9 +14,8 @@ export interface CreateUserInput {
 }
 
 export interface UserResponse {
-  id: string;
-  email: string;
-  status: UserStatusType;
+  id: number;
+  username: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -33,7 +31,7 @@ export class UserService {
     const queryBuilder = this.userRepository.createQueryBuilder('c');
     s = s.trim();
     if (s.length > 0) {
-      queryBuilder.orWhere('email like :s', { s: `%${s}%` });
+      queryBuilder.orWhere('username like :s', { s: `%${s}%` });
     }
     let records = await paginate<UserResponse>(queryBuilder, options);
     const items = classToPlain(records.items);
@@ -49,8 +47,8 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
-  async findOneByEmail(email: string) {
-    return this.userRepository.findOne({ email });
+  async findOneByPhone(phone: string) {
+    return this.userRepository.findOne({ username: phone });
   }
 
   async findOneById(id: string) {

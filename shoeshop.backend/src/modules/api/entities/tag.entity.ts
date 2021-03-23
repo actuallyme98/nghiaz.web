@@ -25,6 +25,7 @@ export class Tag extends BaseModel {
 
   @Column({
     type: 'int',
+    default: 1,
   })
   status: number;
 }

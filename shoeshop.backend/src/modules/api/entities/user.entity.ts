@@ -1,4 +1,4 @@
-import { Column, PrimaryGeneratedColumn, Entity, OneToOne, JoinColumn } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { BaseModel } from './base-model.entity';
 import { EncryptHelper } from '@base/helpers';
 import { Exclude } from 'class-transformer';
@@ -38,7 +38,6 @@ export class User extends BaseModel {
   @Column({
     name: 'is_supperuser',
     type: 'int',
-    length: 60,
   })
   isSupperUser: number;
 
@@ -57,7 +56,7 @@ export class User extends BaseModel {
   lastName: string;
 
   // Relationship
-  @OneToOne(type => Client)
+  @ManyToOne((type) => Client)
   @JoinColumn()
   client: Client;
 }

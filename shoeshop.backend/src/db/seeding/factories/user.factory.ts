@@ -4,8 +4,10 @@ import * as Faker from 'faker';
 
 define(User, () => {
   return new User({
-    email: Faker.internet.email().toLowerCase(),
+    username: Faker.phone.phoneNumber(),
     password: Faker.internet.password(),
+    firstName: Faker.name.firstName(),
+    lastName: Faker.name.lastName(),
     createdAt: Faker.date.recent(),
     updatedAt: Faker.date.recent(),
   });

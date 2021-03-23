@@ -1,4 +1,4 @@
-import { Column, PrimaryGeneratedColumn, Entity, OneToOne, JoinColumn } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { BaseModel } from './base-model.entity';
 
 import { Product } from '@api/entities';
@@ -25,7 +25,7 @@ export class CartItem extends BaseModel {
   amount: number;
 
   // Relationship
-  @OneToOne(type => Product)
+  @ManyToOne(type => Product)
   @JoinColumn()
   product: Product;
 }

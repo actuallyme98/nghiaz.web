@@ -44,16 +44,6 @@ export class AuthController {
   }
 
   @ApiResponse({
-    description: 'Register user',
-    status: 200,
-    isArray: false,
-  })
-  @Post('sign-up')
-  async signUp(@Body() payload: AuthValidateDTO) {
-    return this.authService.register(payload.email, payload.password);
-  }
-
-  @ApiResponse({
     description: 'Sign out',
     status: 200,
   })

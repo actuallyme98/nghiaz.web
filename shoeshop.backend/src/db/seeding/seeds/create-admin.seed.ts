@@ -1,12 +1,12 @@
 import { Connection } from 'typeorm';
 import { Seeder } from 'typeorm-seeding';
-import { Admin } from '@api/entities';
+import { User } from '@api/entities';
 import { EncryptHelper } from '@base/helpers';
 import * as adminData from './data/admins.json';
 
 export default class CreateAdmin implements Seeder {
   public async run({}, connection: Connection): Promise<any> {
-    const qb = connection.getRepository(Admin).createQueryBuilder();
+    const qb = connection.getRepository(User).createQueryBuilder();
     if (await qb.getOne()) {
       return;
     }

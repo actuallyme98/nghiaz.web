@@ -26,7 +26,7 @@ const routes: Routes = [
   imports: [
     // load config
     ConfigModule.forRoot({
-      envFilePath: process.env.NODE_ENV === 'development' ? '.env' : '.env.prod',
+      envFilePath: '.env',
       load: [configuration],
     }),
     // DB Connection

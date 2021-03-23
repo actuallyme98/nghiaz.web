@@ -15,6 +15,11 @@ import { Size } from './size.entity';
 import { Tag } from './tag.entity';
 import { Ward } from './ward.entity';
 import { CartItem } from './cart-item.entity';
+import { FlashSale } from './flash-sale.entity';
+import { FlashSaleItem } from './flash-sale-item.entity';
+import { Order } from './order.entity';
+import { Blog } from './blog.entity';
+import { BlogCategory } from './blog-category.entity';
 
 const ENTITIES = [
   User,
@@ -34,6 +39,11 @@ const ENTITIES = [
   Size,
   Ward,
   CartItem,
+  FlashSale,
+  FlashSaleItem,
+  Order,
+  Blog,
+  BlogCategory,
 ];
 
 export {
@@ -54,5 +64,10 @@ export {
   Size,
   Ward,
   CartItem,
+  FlashSale,
+  FlashSaleItem,
+  Order,
+  Blog,
+  BlogCategory,
   ENTITIES,
 };

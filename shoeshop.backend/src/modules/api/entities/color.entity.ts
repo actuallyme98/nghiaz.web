@@ -13,6 +13,7 @@ export class Color extends BaseModel {
 
   @Column({
     type: 'nvarchar',
+    length: 50,
   })
   name: string;
 }

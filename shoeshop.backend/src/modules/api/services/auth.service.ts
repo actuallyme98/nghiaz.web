@@ -2,7 +2,6 @@ import { Injectable, Inject } from '@nestjs/common';
 import { User } from '@api/entities';
 import { TokenHelper, ErrorHelper, EncryptHelper } from '@base/helpers';
 import { UserService, MailService } from '@api/services';
-import { UserStatusType } from '@api/entities/user.entity';
 import { TokenPayload } from '@api/interfaces';
 import { ConfigService } from '@nestjs/config';
 import { APIRequest } from '@api/interfaces';
@@ -22,17 +21,14 @@ export class AuthService {
     private readonly mailService: MailService,
   ) {}
 
-  async login(email: string, password: string) {
+  async login(phone: string, password: string) {
     // find user
-    const user = await this.userService.findOneByEmail(email);
+    const user = await this.userService.findOneByPhone(phone);
     if (!user) {
-      ErrorHelper.BadRequestException('User does not exist');
-    }
-    if (user.status === UserStatusType.INACTIVE) {
-      ErrorHelper.BadRequestException('Please verify this account in your mail');
+      ErrorHelper.BadRequestException('Số điện thoại này chưa được đăng kí');
     }
     if (!(await EncryptHelper.compare(password, user.password))) {
-      ErrorHelper.BadRequestException('Password was wrong');
+      ErrorHelper.BadRequestException('Tài khoản hoặc mật khẩu không chính xác');
     }
     return await this.generatedAccessToken(user);
   }
