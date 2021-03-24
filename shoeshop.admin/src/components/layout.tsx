@@ -32,7 +32,7 @@ const Layout: React.FC<IProps> = (props) => {
   const loadProfile = useCallback(async () => {
     try {
       const data = await dispatch(AppActions.getProfileAction());
-      if (!data.me) {
+      if (!data) {
         history.push(AppRouteEnum.LOGIN);
       }
     } catch (err) {

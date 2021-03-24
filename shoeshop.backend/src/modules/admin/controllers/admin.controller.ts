@@ -1,29 +1,16 @@
-import {
-  Controller,
-  Get,
-  Render,
-  Post,
-  Req,
-  Res,
-  UseGuards,
-  UseFilters,
-  Redirect,
-  Query,
-  Param,
-} from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AdminService } from '@admin/services';
-import {} from '@api/dtos';
-import { Response, Request } from 'express';
 
-import { LoginGuard } from '../common/guards/login.guard';
-import { AuthenticatedGuard } from '../common/guards/authenticated.guard';
-import { AuthExceptionFilter } from '../common/filters/auth-exceptions.filter';
-
+import { AuthService } from '@api/services';
+import { APIRequest } from '~/modules/api/interfaces';
+import { classToPlain } from 'class-transformer';
 @ApiBearerAuth()
 @ApiTags('admin')
 @Controller()
-@UseFilters(AuthExceptionFilter)
 export class AdminController {
-  constructor(private adminService: AdminService) {}
+  constructor(private authService: AuthService) {}
+  @Get('/auth/me')
+  async profile(@Req() req: APIRequest) {
+    return classToPlain((req as any).user);
+  }
 }

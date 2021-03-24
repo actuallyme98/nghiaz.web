@@ -3,13 +3,13 @@ import { BaseModel } from '@api/entities/base-model.entity';
 
 export class BaseDTO {
   @ApiProperty()
-  createdAt: string;
+  createdAt: Date;
 
   @ApiProperty()
-  updatedAt: string;
+  updatedAt: Date;
 
   constructor(entity: BaseModel) {
-    this.createdAt = entity.createdAt.toISOString();
-    this.updatedAt = entity.updatedAt.toISOString();
+    this.createdAt = entity.createdAt;
+    this.updatedAt = entity.updatedAt;
   }
 }

@@ -16,4 +16,10 @@ export class Color extends BaseModel {
     length: 50,
   })
   name: string;
+
+  @Column({
+    type: 'char',
+    length: 20,
+  })
+  code: string;
 }

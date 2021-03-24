@@ -1,10 +1,8 @@
 import { Controller, Post, Body, Res } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags, ApiResponse } from '@nestjs/swagger';
-import { AuthResponseDTO, AuthValidateDTO, AuthRefreshTokenDTO } from '@api/dtos';
+import { AuthResponseDTO, AuthValidateDTO, AuthRefreshTokenDTO, CreateUserDTO } from '@api/dtos';
 import { AuthService, UserService } from '@api/services';
 import { Response } from 'express';
-
-import { CreateUserDTO } from '@api/dtos';
 
 @ApiBearerAuth()
 @ApiTags('auth')

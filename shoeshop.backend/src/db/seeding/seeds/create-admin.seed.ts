@@ -11,14 +11,12 @@ export default class CreateAdmin implements Seeder {
       return;
     }
 
-    const arr = await Promise.all(
-      adminData.map(
-        (item) =>
-          new User({
-            ...item,
-            password: EncryptHelper.hash(item.password),
-          }),
-      ),
+    const arr = adminData.map(
+      (item) =>
+        new User({
+          ...item,
+          password: EncryptHelper.hash(item.password),
+        }),
     );
     await qb.insert().values(arr).execute();
   }

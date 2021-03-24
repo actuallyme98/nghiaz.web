@@ -26,11 +26,11 @@ export const loginReducer = AppActions.loginAction.reducer<Store>((state, action
 });
 
 export const getProfile = AppActions.getProfileAction.reducer<Store>((state, action) => {
-  if (isError(action) || !action.payload || !action.payload.me) {
+  if (isError(action) || !action.payload) {
     return {};
   }
   return {
-    profile: action.payload.me,
+    profile: action.payload,
   };
 });
 

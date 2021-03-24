@@ -2,10 +2,6 @@ import Axios from 'axios';
 import { ApiRouteEnum } from '../enums/api-route';
 
 const HanleResponse = async (response: any) => {
-  const { status, message } = response;
-  if (status === false) {
-    throw new Error(message);
-  }
   if (response.data) {
     return response.data;
   }
@@ -30,8 +26,8 @@ export class ApiService {
     const response = await Axios.post(ApiRouteEnum.SIZES, payload);
     return await HanleResponse(response);
   }
-  public async updateSize(payload: ADMIN_API.CreateSizeParams) {
-    const response = await Axios.post(ApiRouteEnum.UPDATE_SIZE, payload);
+  public async updateSize(payload: ADMIN_API.UpdateSizeParams) {
+    const response = await Axios.put(ApiRouteEnum.UPDATE_SIZE, payload);
     return await HanleResponse(response);
   }
   public async deleteSize(id: number) {
@@ -46,8 +42,8 @@ export class ApiService {
     const response = await Axios.post(ApiRouteEnum.COLORS, payload);
     return await HanleResponse(response);
   }
-  public async updateColor(payload: ADMIN_API.CreateColorParams) {
-    const response = await Axios.post(ApiRouteEnum.UPDATE_COLOR, payload);
+  public async updateColor(payload: ADMIN_API.UpdateColorParams) {
+    const response = await Axios.put(ApiRouteEnum.UPDATE_COLOR, payload);
     return await HanleResponse(response);
   }
   public async deleteColor(id: number) {
@@ -63,11 +59,11 @@ export class ApiService {
     return await HanleResponse(response);
   }
   public async updateThumbnailProduct(args: FormData, id: number) {
-    const response = await Axios.post(`${ApiRouteEnum.UPDATE_PRODUCT_THUMBNAIL}/${id}`, args);
+    const response = await Axios.put(`${ApiRouteEnum.UPDATE_PRODUCT_THUMBNAIL}/${id}`, args);
     return await HanleResponse(response);
   }
   public async updateImagesProduct(args: FormData, id: number) {
-    const response = await Axios.post(`${ApiRouteEnum.UPDATE_PRODUCT_IMAGES}/${id}`, args);
+    const response = await Axios.put(`${ApiRouteEnum.UPDATE_PRODUCT_IMAGES}/${id}`, args);
     return await HanleResponse(response);
   }
   public async listProducts(): Promise<ADMIN_API.ListProductsResponse[]> {

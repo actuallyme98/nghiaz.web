@@ -1,4 +1,3 @@
-import { MaxLength, IsNotEmpty, IsOptional, MinLength, IsEmail } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseModel } from '@api/entities/base-model.entity';
 

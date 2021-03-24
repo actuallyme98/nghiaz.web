@@ -1,18 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@api/entities';
-import { EncryptHelper } from '@base/helpers';
-import { classToPlain } from 'class-transformer';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { paginate, Pagination } from 'nestjs-typeorm-paginate';
-import { formatDate } from '../utils';
 
-export interface UserResponse {
-  id: string;
-  username: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { User } from '@api/entities';
+
+import { ErrorHelper } from '@base/helpers';
+
 @Injectable()
 export class AdminService {
   constructor(
@@ -20,14 +13,24 @@ export class AdminService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.userRepository.findOne({});
-    if (!user) {
-      return null;
+  async findOneByPhone(phone: string) {
+    const data = await this.userRepository
+      .createQueryBuilder('user')
+      .where('username = :phone', { phone })
+      .leftJoinAndSelect('user.client', 'client')
+      .getOne();
+
+    if (!data || !data.isSupperUser) {
+      throw ErrorHelper.BadRequestException('Hãy đăng nhập với tài khoản supper user');
     }
-    if (!EncryptHelper.compare(password, user.password)) {
-      return null;
-    }
-    return classToPlain(user);
+    return data;
+  }
+
+  async findOneById(id: string) {
+    return this.userRepository
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id })
+      .leftJoinAndSelect('user.client', 'client')
+      .getOne();
   }
 }

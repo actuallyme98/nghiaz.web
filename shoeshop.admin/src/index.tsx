@@ -5,17 +5,22 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from './redux/stores/configure-store';
-import Axios from 'axios';
+import Axios, { AxiosError } from 'axios';
 
 Axios.defaults.baseURL = process.env.SERVER_URL || 'http://localhost:5000/admin/';
 Axios.defaults.withCredentials = true;
 
-Axios.interceptors.response.use((response) => {
-  if (response.status === 200 || response.status === 201) {
-    return response.data;
-  }
-  return response;
-});
+Axios.interceptors.response.use(
+  (response) => {
+    if (response.status === 200 || response.status === 201) {
+      return response.data;
+    }
+    return response;
+  },
+  (err: AxiosError) => {
+    throw new Error(err.response?.data.message || err);
+  },
+);
 
 const store = configureStore();
 

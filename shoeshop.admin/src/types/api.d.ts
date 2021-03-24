@@ -10,29 +10,27 @@ declare namespace ADMIN_API {
     lastName: string;
     password: string;
   }
-  interface RegisterResponse extends BaseResponse {}
+  interface RegisterResponse {}
 
   interface LoginParams {
     username: string;
     password: string;
   }
 
-  interface LoginResponse extends BaseResponse {
+  interface LoginResponse {
     expires: number;
     refresh_token: string;
     token: string;
     user: REDUX_STORE.Profile;
   }
 
-  interface GetProfileResponse extends BaseResponse {
-    me: REDUX_STORE.Profile;
-  }
+  interface GetProfileResponse extends REDUX_STORE.Profile {}
 
   interface LogoutResponse {
     status: boolean;
   }
 
-  interface GetListSizeResponse extends BaseResponse {
+  interface GetListSizeResponse {
     id: number;
     name: number;
   }
@@ -45,7 +43,7 @@ declare namespace ADMIN_API {
     name: number;
   }
 
-  interface GetListColorResponse extends BaseResponse {
+  interface GetListColorResponse {
     id: number;
     name: string;
     code: string;

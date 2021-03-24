@@ -67,8 +67,8 @@ const EditColorModal: React.FC<IProps> = (props) => {
       <div className={classes.paper}>
         <Formik
           initialValues={{
-            name: color?.name || '',
-            code: color?.code || '',
+            name: color?.name.trim() || '',
+            code: color?.code.trim() || '',
           }}
           onSubmit={onFormSubmit}
           validationSchema={validateForm}

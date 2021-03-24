@@ -25,7 +25,7 @@ async function bootstrap() {
   // enable cors
   app.enableCors({
     credentials: true,
-    origin: 'http://localhost:3000',
+    origin: true,
   }); // TODO: Remove when run production
   app.use(cookieParser());
   app.use(
