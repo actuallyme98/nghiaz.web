@@ -16,7 +16,7 @@ export enum EnumGender {
 }
 
 export interface GClient {
-  id?: number;
+  id: number;
   userId: number;
   gender?: EnumGender;
   avatar?: string;

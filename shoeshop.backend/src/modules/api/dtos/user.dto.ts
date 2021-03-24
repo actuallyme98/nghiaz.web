@@ -87,3 +87,13 @@ export class UpdateInfoDTO {
   @IsNotEmpty({ message: 'Required' })
   gender: string;
 }
+
+export class UpdatePasswordDTO {
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  oldPassword: string;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  newPassword: string;
+}

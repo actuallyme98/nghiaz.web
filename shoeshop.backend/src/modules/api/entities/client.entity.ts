@@ -1,7 +1,9 @@
-import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, Entity, OneToMany, JoinColumn } from 'typeorm';
 import { BaseModel } from './base-model.entity';
 
 import { GenderEnum } from '@api/enums';
+
+import { DeliveryAddress } from '@api/entities';
 @Entity('client')
 export class Client extends BaseModel {
   constructor(partial: Partial<Client>) {
@@ -32,4 +34,9 @@ export class Client extends BaseModel {
     default: '',
   })
   dob: string;
+
+  // Relationship
+  @OneToMany((type) => DeliveryAddress, (address) => address.client)
+  @JoinColumn()
+  addresses: DeliveryAddress[];
 }

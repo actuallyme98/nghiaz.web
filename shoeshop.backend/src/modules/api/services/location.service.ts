@@ -34,19 +34,4 @@ export class LocationService {
       },
     });
   }
-
-  async createCity(args: City) {
-    const city = new City(args);
-    await city.save();
-  }
-
-  async createDistrict(args: District) {
-    const dist = new District(args);
-    await dist.save();
-  }
-
-  async createWard(args: Ward) {
-    const ward = new Ward(args);
-    await ward.save();
-  }
 }

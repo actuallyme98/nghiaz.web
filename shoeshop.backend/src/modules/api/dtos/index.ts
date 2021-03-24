@@ -1,7 +1,7 @@
-import { UserDTO, ClientDTO, CreateUserDTO, UpdateInfoDTO } from './user.dto';
+import { UserDTO, ClientDTO, CreateUserDTO, UpdateInfoDTO, UpdatePasswordDTO } from './user.dto';
 import { AuthValidateDTO, AuthRefreshTokenDTO, AuthResponseDTO } from './auth.dto';
 import { PaginationDTO } from './pagination.dto';
-import { DeliveryAddressDTO, CreateAddressDTO } from './delivery-address.dto';
+import { DeliveryAddressDTO, CreateAddressDTO, UpdateAddressDTO } from './delivery-address.dto';
 
 export {
   UserDTO,
@@ -14,4 +14,6 @@ export {
   UpdateInfoDTO,
   DeliveryAddressDTO,
   CreateAddressDTO,
+  UpdateAddressDTO,
+  UpdatePasswordDTO,
 };

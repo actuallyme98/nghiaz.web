@@ -31,6 +31,6 @@ export class ApiModule implements NestModule {
     consumer.apply(AuthMiddleware).forRoutes({ path: 'api/users', method: RequestMethod.ALL });
     consumer
       .apply(AuthMiddleware)
-      .forRoutes({ path: 'api/delivery-address', method: RequestMethod.ALL });
+      .forRoutes({ path: '/api/delivery-address', method: RequestMethod.ALL });
   }
 }

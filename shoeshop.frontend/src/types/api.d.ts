@@ -102,12 +102,13 @@ declare namespace SHOES_API {
 
   interface UpdateDeliveryAddressArgs {
     id: number;
-    name: string;
+    fullName: string;
     phone: string;
-    city: number;
-    district: number;
-    ward: number;
     address: string;
+    clientId: number;
+    cityId: number;
+    districtId: number;
+    wardId: number;
     isDefault: boolean;
   }
 }

@@ -65,3 +65,41 @@ export class CreateAddressDTO {
   @IsNotEmpty({ message: 'Required' })
   isDefault: number;
 }
+
+export class UpdateAddressDTO {
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  id: number;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  fullName: string;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  phone: string;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  address: string;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  clientId: string;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  cityId: number;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  districtId: number;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  wardId: number;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  isDefault: number;
+}

@@ -1,12 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { paginate, Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
-import { classToPlain } from 'class-transformer';
 
 import { ErrorHelper } from '@base/helpers';
 
-import { DeliveryAddressDTO, CreateAddressDTO } from '@api/dtos';
+import { DeliveryAddressDTO, CreateAddressDTO, UpdateAddressDTO } from '@api/dtos';
 
 import { DeliveryAddress, City, Ward, District, Client } from '@api/entities';
 
@@ -29,10 +27,10 @@ export class AddressService {
     return await this.addressRepository
       .createQueryBuilder('address')
       .where('clientId = :id', { id })
-      .leftJoinAndSelect('address.clientId', 'client')
-      .leftJoinAndSelect('address.cityId', 'city')
-      .leftJoinAndSelect('address.districtId', 'district')
-      .leftJoinAndSelect('address.wardId', 'ward')
+      .leftJoinAndSelect('address.client', 'client')
+      .leftJoinAndSelect('address.city', 'city')
+      .leftJoinAndSelect('address.district', 'district')
+      .leftJoinAndSelect('address.ward', 'ward')
       .getMany();
   }
 
@@ -42,17 +40,20 @@ export class AddressService {
     if (!client) {
       throw ErrorHelper.BadRequestException('Unauthorized');
     }
-    const city = await this.cityRepository.findOne(cityId);
+    const city = await this.cityRepository.findOne({ code: cityId });
     if (!city) {
       throw ErrorHelper.BadRequestException('Unauthorized');
     }
-    const district = await this.districtRepository.findOne(districtId);
+    const district = await this.districtRepository.findOne({ code: districtId });
     if (!district) {
       throw ErrorHelper.BadRequestException('Unauthorized');
     }
-    const ward = await this.wardRepository.findOne(wardId);
+    const ward = await this.wardRepository.findOne({ code: wardId });
     if (!ward) {
       throw ErrorHelper.BadRequestException('Unauthorized');
+    }
+    if (isDefault) {
+      await this.removeOtherDefault();
     }
     const newAddress = new DeliveryAddress({
       fullName,
@@ -65,5 +66,60 @@ export class AddressService {
       client,
     });
     await newAddress.save();
+  }
+
+  async deleteAddress(id: number) {
+    this.addressRepository.delete(id);
+  }
+
+  async updateAddress(args: UpdateAddressDTO) {
+    const { id, cityId, districtId, wardId, isDefault, fullName, phone, address } = args;
+    const data = await this.addressRepository.findOne(id);
+    if (!data) {
+      throw ErrorHelper.BadRequestException('Unauthorized');
+    }
+    const city = await this.cityRepository.findOne({ code: cityId });
+    if (!city) {
+      throw ErrorHelper.BadRequestException('Unauthorized');
+    }
+    const district = await this.districtRepository.findOne({ code: districtId });
+    if (!district) {
+      throw ErrorHelper.BadRequestException('Unauthorized');
+    }
+    const ward = await this.wardRepository.findOne({ code: wardId });
+    if (!ward) {
+      throw ErrorHelper.BadRequestException('Unauthorized');
+    }
+    if (isDefault) {
+      await this.removeOtherDefault();
+    }
+    Object.assign(data, {
+      fullName,
+      phone,
+      address,
+      city,
+      district,
+      ward,
+      isDefault,
+    });
+    await data.save();
+  }
+
+  async removeOtherDefault() {
+    await this.addressRepository
+      .createQueryBuilder()
+      .update()
+      .set({ isDefault: 0 })
+      .where('isDefault = 1')
+      .execute();
+  }
+
+  async setDefaultAddress(id: number) {
+    await this.removeOtherDefault();
+    const address = await this.addressRepository.findOne(id);
+    Object.assign(address, {
+      isDefault: 1,
+    });
+    await address.save();
   }
 }

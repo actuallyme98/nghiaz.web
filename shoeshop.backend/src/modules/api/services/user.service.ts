@@ -4,9 +4,9 @@ import { Repository } from 'typeorm';
 import { paginate, Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
 import { classToPlain } from 'class-transformer';
 
-import { ErrorHelper } from '@base/helpers';
+import { EncryptHelper, ErrorHelper } from '@base/helpers';
 
-import { CreateUserDTO, UserDTO, UpdateInfoDTO } from '@api/dtos';
+import { CreateUserDTO, UserDTO, UpdateInfoDTO, UpdatePasswordDTO } from '@api/dtos';
 
 import { User, Client } from '@api/entities';
 
@@ -99,5 +99,20 @@ export class UserService {
       avatar: url,
     });
     await client.save();
+  }
+
+  async updatePassword(id: number, args: UpdatePasswordDTO) {
+    const { oldPassword, newPassword } = args;
+    const user = await this.userRepository.findOne(id);
+    if (!user) {
+      throw ErrorHelper.BadRequestException('Unauthorized');
+    }
+    if (!EncryptHelper.compare(oldPassword, user.password)) {
+      throw ErrorHelper.BadRequestException('Mật khẩu cũ sai');
+    }
+    Object.assign(user, {
+      password: EncryptHelper.hash(newPassword),
+    });
+    await user.save();
   }
 }

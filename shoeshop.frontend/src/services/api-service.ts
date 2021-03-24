@@ -48,7 +48,7 @@ export class ApiService {
   public async updatePassword(
     args: SHOES_API.UpdatePasswordParams,
   ): Promise<SHOES_API.UpdatePasswordResponse> {
-    return await this.axios.post(ApiRouteEnum.UPDATE_PASSWORD, args);
+    return await this.axios.put(ApiRouteEnum.UPDATE_PASSWORD, args);
   }
   public async listCities() {
     return await this.axios.get(ApiRouteEnum.LIST_CITIES);
@@ -68,13 +68,13 @@ export class ApiService {
     return await this.axios.post(ApiRouteEnum.DELIVERY_ADDRESS, args);
   }
   public async setDefaultDeliveryAddress(id: number) {
-    return await this.axios.post(`${ApiRouteEnum.DELIVERY_ADDRESS_SET_DEFAULT}/${id}`);
+    return await this.axios.put(`${ApiRouteEnum.DELIVERY_ADDRESS_SET_DEFAULT}/${id}`);
   }
   public async deleteDeliveryAddress(id: number) {
-    return await this.axios.post(`${ApiRouteEnum.DELIVERY_ADDRESS_DELETE}/${id}`);
+    return await this.axios.delete(`${ApiRouteEnum.DELIVERY_ADDRESS_DELETE}/${id}`);
   }
   public async updateDeliveryAddress(args: SHOES_API.UpdateDeliveryAddressArgs) {
-    return await this.axios.post(ApiRouteEnum.DELIVERY_ADDRESS_UPDATE, args);
+    return await this.axios.put(ApiRouteEnum.DELIVERY_ADDRESS_UPDATE, args);
   }
   public async updateAvatar(args: FormData) {
     return await this.axios.post(ApiRouteEnum.UPDATE_AVATAR, args);

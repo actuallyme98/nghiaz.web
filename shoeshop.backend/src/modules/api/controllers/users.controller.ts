@@ -15,7 +15,7 @@ import { ConfigService } from '@nestjs/config';
 import { APIRequest } from '@api/interfaces';
 
 import { UserService } from '@api/services/user.service';
-import { UpdateInfoDTO } from '../dtos';
+import { UpdateInfoDTO, UpdatePasswordDTO } from '../dtos';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { Response } from 'express';
@@ -52,5 +52,11 @@ export class UserController {
     const { client } = req.user;
     await this.userService.updateAvatar(client.id, file.filename);
     return res.json({ ok: true });
+  }
+
+  @Put('/update-password')
+  async updatePassword(@Body() payload: UpdatePasswordDTO, @Req() req: APIRequest) {
+    const { id } = req.user;
+    return await this.userService.updatePassword(id, payload);
   }
 }

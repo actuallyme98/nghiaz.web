@@ -116,12 +116,13 @@ const UpdateDeliveryAddressModalContent: React.FC<Omit<Props, 'open'>> = (props)
           AppActions.updateDeliveryAddressAction({
             id: address.id,
             address: values.street,
-            city: parseInt(values.city),
-            district: parseInt(values.district),
-            ward: parseInt(values.ward),
-            name: values.name,
+            cityId: parseInt(values.city),
+            districtId: parseInt(values.district),
+            wardId: parseInt(values.ward),
+            fullName: values.name,
             phone: values.phone,
             isDefault: values.isDefault,
+            clientId: address.client.id,
           }),
         );
         notification.success({
