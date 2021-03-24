@@ -9,7 +9,7 @@ export class DeliveryAddress extends BaseModel {
     Object.assign(this, partial);
   }
 
-  @PrimaryGeneratedColumn('rowid')
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({

@@ -23,7 +23,10 @@ async function bootstrap() {
     }),
   );
   // enable cors
-  app.enableCors(); // TODO: Remove when run production
+  app.enableCors({
+    credentials: true,
+    origin: 'http://localhost:3000',
+  }); // TODO: Remove when run production
   app.use(cookieParser());
   app.use(
     session({
@@ -41,13 +44,12 @@ async function bootstrap() {
   // swagger
   const options = new DocumentBuilder()
     .setTitle('Bluewind API')
-    .setDescription('BLUEWIND BACKEND API')
     .setVersion('0.1')
     .addBearerAuth()
     .addCookieAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('doc', app, document);
+  SwaggerModule.setup('swagger', app, document);
   // listen
   await app.listen(configService.get('app.port'));
 }

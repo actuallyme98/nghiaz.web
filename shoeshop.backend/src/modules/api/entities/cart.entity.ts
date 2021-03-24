@@ -10,19 +10,15 @@ export class Cart extends BaseModel {
     Object.assign(this, partial);
   }
 
-  @PrimaryGeneratedColumn('rowid')
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   // Relationship
-  @ManyToOne(type => Client)
+  @ManyToOne((type) => Client)
   @JoinColumn()
   client: Client;
 
-  @OneToMany(
-    type => CartItem,
-    cartItem => cartItem.cartId,
-    { cascade: true },
-  )
+  @OneToMany((type) => CartItem, (cartItem) => cartItem.cartId, { cascade: true })
   @JoinColumn({ name: 'id', referencedColumnName: 'cart_id' })
   items: CartItem[];
 }

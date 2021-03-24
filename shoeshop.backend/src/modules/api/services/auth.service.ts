@@ -27,7 +27,7 @@ export class AuthService {
     if (!user) {
       ErrorHelper.BadRequestException('Số điện thoại này chưa được đăng kí');
     }
-    if (!(await EncryptHelper.compare(password, user.password))) {
+    if (!EncryptHelper.compare(password, user.password)) {
       ErrorHelper.BadRequestException('Tài khoản hoặc mật khẩu không chính xác');
     }
     return await this.generatedAccessToken(user);

@@ -47,6 +47,9 @@ const routes: Routes = [
           // entities: ENTITIES,
           // use cli and run schema:sync is better for secured data
           synchronize: false,
+          options: {
+            enableArithAbort: true,
+          },
         };
       },
       inject: [ConfigService],

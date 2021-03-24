@@ -10,7 +10,7 @@ export class FlashSaleItem extends BaseModel {
     Object.assign(this, partial);
   }
 
-  @PrimaryGeneratedColumn('rowid')
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({
@@ -37,7 +37,7 @@ export class FlashSaleItem extends BaseModel {
   soldQuantity: number;
 
   // Relationship
-  @ManyToOne(type => Product, {
+  @ManyToOne((type) => Product, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })

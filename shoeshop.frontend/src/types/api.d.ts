@@ -10,29 +10,28 @@ declare namespace SHOES_API {
     lastName: string;
     password: string;
   }
-  interface RegisterResponse extends BaseResponse {}
+  interface RegisterResponse {}
 
   interface LoginParams {
     username: string;
     password: string;
   }
 
-  interface LoginResponse extends BaseResponse {
+  interface LoginResponse {
     expires: number;
     refresh_token: string;
     token: string;
     user: REDUX_STORE.Profile;
   }
 
-  interface GetProfileResponse extends BaseResponse {
-    me: REDUX_STORE.Profile;
-  }
+  interface GetProfileResponse extends REDUX_STORE.Profile {}
 
   interface LogoutResponse {
     status: boolean;
   }
 
   interface UpdateInfoParams {
+    id: number;
     firstName: string;
     lastName: string;
     phoneNumber: string;
@@ -41,14 +40,14 @@ declare namespace SHOES_API {
     gender: EnumGender;
   }
 
-  interface UpdateInfoResponse extends BaseResponse {}
+  interface UpdateInfoResponse {}
 
   interface UpdatePasswordParams {
     oldPassword: string;
     newPassword: string;
   }
 
-  interface UpdatePasswordResponse extends BaseResponse {}
+  interface UpdatePasswordResponse {}
 
   interface CreateDeliveryAddressParams {
     fullName: string;
@@ -61,7 +60,7 @@ declare namespace SHOES_API {
     isDefault: boolean;
   }
 
-  interface CreateDeliveryAddressResponse extends BaseResponse {}
+  interface CreateDeliveryAddressResponse {}
 
   interface GCity {
     id: number;
@@ -97,7 +96,7 @@ declare namespace SHOES_API {
     ward: GWard;
     isDefault: boolean;
   }
-  interface GetListDeliveryAddressResponse extends BaseResponse {
+  interface GetListDeliveryAddressResponse {
     data: [GDeliveryAddress];
   }
 

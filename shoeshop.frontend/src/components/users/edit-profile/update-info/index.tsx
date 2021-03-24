@@ -29,13 +29,20 @@ const UpdateInfo: React.FC<Props> = ({ profile }) => {
   const dispatch = useDispatch();
 
   const initialValues = useMemo(() => {
+    const {
+      firstName,
+      lastName,
+      username,
+      email,
+      client: { gender, dob },
+    } = profile;
     return {
-      firstName: profile?.firstName || '',
-      lastName: profile?.lastName || '',
-      phoneNumber: profile?.userName || '',
-      email: profile?.email || '',
-      birthday: profile?.client.dob ? moment(profile?.client.dob).toDate() : new Date(),
-      gender: profile?.client.gender || 'UNDEFINED',
+      firstName: firstName || '',
+      lastName: lastName || '',
+      phoneNumber: username || '',
+      email: email?.trim() || '',
+      birthday: dob?.trim() ? moment(dob.trim()).toDate() : new Date(),
+      gender: gender.trim() || 'UNDEFINED',
     };
   }, [profile]);
 
@@ -62,6 +69,7 @@ const UpdateInfo: React.FC<Props> = ({ profile }) => {
         if (profile) {
           await dispatch(
             AppActions.updateUserInfoAction({
+              id: profile.client.id,
               ...values,
               dob: moment(values.birthday).format('YYYY-MM-DD HH:mm'),
             }),

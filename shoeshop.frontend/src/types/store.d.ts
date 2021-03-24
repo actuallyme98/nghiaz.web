@@ -3,16 +3,15 @@ declare namespace REDUX_STORE {
     id: number;
     firstName: string;
     lastName: string;
-    userName: string;
+    username: string;
     email?: string;
-    createdAt?: String;
+    createdAt?: string;
     updatedAt?: string;
     client: Client;
   }
 
   interface Client {
-    id: string;
-    userId: string;
+    id: number;
     avatar?: string;
     dob?: string;
     gender: EnumGender;

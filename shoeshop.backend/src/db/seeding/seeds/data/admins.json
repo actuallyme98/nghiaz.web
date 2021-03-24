@@ -1,4 +1,7 @@
 [{
+  "firstName": "",
+  "lastName": "",
   "username": "root",
-  "password": "12345"
+  "password": "12345",
+  "isSupperUser": 1
 }]

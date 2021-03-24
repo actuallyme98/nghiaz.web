@@ -33,7 +33,11 @@ export const loginAction = createTypeAsyncAction(
 export const getProfileAction = createTypeAsyncAction(
   'GET_PROFILE_ACTION',
   async (cookie?: string) => {
-    return await ApiService.getProfile(cookie);
+    try {
+      return await ApiService.getProfile(cookie);
+    } catch (err) {
+      // ignore err
+    }
   },
 );
 
@@ -185,15 +189,14 @@ export const updateDeliveryAddressAction = createTypeAsyncAction<
   },
 );
 
-export const updateAvatarAction = createTypeAsyncAction<
-FormData,
-void,
-Store
->('UPDATE_AVATAR_ACTION', async (args: FormData,  { dispatch }) => {
-  try {
-    await ApiService.updateAvatar(args);
-    await dispatch(getProfileAction());
-  } catch (err) {
-    throw new Error(err);
-  }
-});
+export const updateAvatarAction = createTypeAsyncAction<FormData, void, Store>(
+  'UPDATE_AVATAR_ACTION',
+  async (args: FormData, { dispatch }) => {
+    try {
+      await ApiService.updateAvatar(args);
+      await dispatch(getProfileAction());
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);

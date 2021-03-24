@@ -17,7 +17,7 @@ export class Product extends BaseModel {
     Object.assign(this, partial);
   }
 
-  @PrimaryGeneratedColumn('rowid')
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({
@@ -126,19 +126,11 @@ export class Product extends BaseModel {
   vat: number;
 
   // Relationship
-  @OneToMany(
-    type => ProductImage,
-    image => image.productId,
-    { cascade: true },
-  )
+  @OneToMany((type) => ProductImage, (image) => image.productId, { cascade: true })
   @JoinColumn({ name: 'id', referencedColumnName: 'product_id' })
   images: ProductImage[];
 
-  @OneToMany(
-    type => ProductVideo,
-    video => video.productId,
-    { cascade: true },
-  )
+  @OneToMany((type) => ProductVideo, (video) => video.productId, { cascade: true })
   @JoinColumn({ name: 'id', referencedColumnName: 'product_id' })
   videos: ProductVideo[];
 

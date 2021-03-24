@@ -10,7 +10,7 @@ export class CartItem extends BaseModel {
     Object.assign(this, partial);
   }
 
-  @PrimaryGeneratedColumn('rowid')
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({
@@ -25,7 +25,7 @@ export class CartItem extends BaseModel {
   amount: number;
 
   // Relationship
-  @ManyToOne(type => Product)
+  @ManyToOne((type) => Product)
   @JoinColumn()
   product: Product;
 }

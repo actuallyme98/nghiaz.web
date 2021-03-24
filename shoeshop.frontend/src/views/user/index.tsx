@@ -20,6 +20,9 @@ import { RootState } from '@redux/stores/configure-store';
 // enums
 import { AppRouteEnums } from '../../enums/app-route.enum';
 
+// utils
+import { toDateTime } from '../../helpers/app-util';
+
 interface Props {}
 
 const defaultAvatar = process.env.DEFAULT_AVATAR_URL || '';
@@ -67,7 +70,7 @@ const User: NextPage<Props> = () => {
           <div className={css.right}>
             <div className={css.accumulatedPoints}>Cập nhật lúc: </div>
             <div className={css.point}>
-              <span>{profile.createdAt}</span>
+              <span>{toDateTime(profile.updatedAt)}</span>
             </div>
           </div>
         </div>

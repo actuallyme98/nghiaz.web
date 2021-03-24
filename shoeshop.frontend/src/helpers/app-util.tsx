@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const caculateDiscount = (code: any, price: number, shipFree?: number) => {
   if (!code) {
     return 0;
@@ -19,8 +21,15 @@ export const caculateDiscount = (code: any, price: number, shipFree?: number) =>
 };
 
 export const pathAvatar = (path?: string) => {
-  if (!path) {
+  if (!path?.trim()) {
     return process.env.DEFAULT_AVATAR_URL || '';
   }
-  return process.env.SERVER_URL + 'user/data/' + path;
+  return process.env.SERVER_URL + 'static/avatar/' + path;
+};
+
+export const toDateTime = (date?: string) => {
+  if (!date) {
+    return '';
+  }
+  return moment(date).format('YYYY-MM-DD HH:mm');
 };

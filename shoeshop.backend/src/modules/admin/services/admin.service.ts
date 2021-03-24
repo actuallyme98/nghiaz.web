@@ -25,7 +25,7 @@ export class AdminService {
     if (!user) {
       return null;
     }
-    if (!(await EncryptHelper.compare(password, user.password))) {
+    if (!EncryptHelper.compare(password, user.password)) {
       return null;
     }
     return classToPlain(user);

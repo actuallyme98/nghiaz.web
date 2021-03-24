@@ -10,15 +10,16 @@ export default class CreateAdmin implements Seeder {
     if (await qb.getOne()) {
       return;
     }
+
     const arr = await Promise.all(
-      adminData.map(async item => ({
-        ...item,
-        password: await EncryptHelper.hash(item.password),
-      })),
+      adminData.map(
+        (item) =>
+          new User({
+            ...item,
+            password: EncryptHelper.hash(item.password),
+          }),
+      ),
     );
-    await qb
-      .insert()
-      .values(arr as any)
-      .execute();
+    await qb.insert().values(arr).execute();
   }
 }

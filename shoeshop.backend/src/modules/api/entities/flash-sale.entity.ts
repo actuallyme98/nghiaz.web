@@ -10,7 +10,7 @@ export class FlashSale extends BaseModel {
     Object.assign(this, partial);
   }
 
-  @PrimaryGeneratedColumn('rowid')
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({
@@ -40,10 +40,7 @@ export class FlashSale extends BaseModel {
   status: number;
 
   // Relationship
-  @OneToMany(
-    type => FlashSaleItem,
-    item => item.flashSaleId,
-  )
+  @OneToMany((type) => FlashSaleItem, (item) => item.flashSaleId)
   @JoinColumn({ name: 'id', referencedColumnName: 'flash_sale_id' })
   items: FlashSaleItem[];
 }

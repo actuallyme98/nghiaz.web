@@ -1,4 +1,4 @@
-import { Column, PrimaryGeneratedColumn, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { BaseModel } from './base-model.entity';
 import { EncryptHelper } from '@base/helpers';
 import { Exclude } from 'class-transformer';
@@ -12,7 +12,7 @@ export class User extends BaseModel {
     Object.assign(this, partial);
   }
 
-  @PrimaryGeneratedColumn('rowid')
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({
@@ -22,6 +22,13 @@ export class User extends BaseModel {
     nullable: false,
   })
   username: string;
+
+  @Column({
+    type: 'char',
+    length: 50,
+    default: '',
+  })
+  email: string;
 
   @Exclude()
   @Column({
@@ -38,6 +45,7 @@ export class User extends BaseModel {
   @Column({
     name: 'is_supperuser',
     type: 'int',
+    default: 0,
   })
   isSupperUser: number;
 
@@ -56,7 +64,7 @@ export class User extends BaseModel {
   lastName: string;
 
   // Relationship
-  @ManyToOne((type) => Client)
+  @OneToOne((type) => Client)
   @JoinColumn()
   client: Client;
 }

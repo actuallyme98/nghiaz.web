@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import css from './style.module.scss';
 
 // utils
-import { pathAvatar } from '@helpers/app-util';
+import { pathAvatar, toDateTime } from '@helpers/app-util';
 
 interface Iprops {
   data: {
@@ -41,7 +41,7 @@ const ProfileMenu: React.FC<Iprops> = (props) => {
       </div>
       <div className={css.pointBox}>
         <p className={css.textP}>Cập nhật lúc: </p>
-        <p className={css.pointValue}>{data.updatedAt}</p>
+        <p className={css.pointValue}>{toDateTime(data.updatedAt)}</p>
       </div>
       <div className={css.flexBody}>
         <Link href="/user/edit-profile">

@@ -1,10 +1,9 @@
-import * as bcrypt from 'bcrypt';
-
+import Sha512 from '../hashing/sha512';
 export class EncryptHelper {
-  static async hash(str, saltRounds = 10) {
-    return await bcrypt.hash(str, saltRounds);
+  static hash(str: string) {
+    return Sha512.hash(str);
   }
-  static compare(str, hash) {
-    return bcrypt.compare(str, hash);
+  static compare(str: string, hash: string) {
+    return this.hash(str) === hash;
   }
 }
