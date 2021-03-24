@@ -12,18 +12,34 @@ import ProductItem from '../product-item';
 // types
 import { IProductItem } from '../../../types/gtypes';
 
+// redux
+import { useSelector } from 'react-redux';
+import { RootState } from '@redux/stores/configure-store';
+
 interface IProps {}
 
 const TopListSeller: React.FC<IProps> = (props) => {
+  const products = useSelector((store: RootState) => store.appState.products);
+
   const listProducts = useMemo(() => {
-    return products.map((product, index) => (
+    return products.slice(0, 8).map((product, index) => (
       <Col key={index} className={css.listItem} xs={24} sm={12} md={8} xl={6}>
-        <a className={css.productLink} href="/shop/giay-the-thao-nam">
-          <ProductItem product={product} />
+        <a className={css.productLink} href={`/shop/${product.slug}`}>
+          <ProductItem
+            product={{
+              id: product.id as any,
+              category: '/giay-nam',
+              currentPrice: product.currentPrice,
+              originalPrice: product.price,
+              pk: 1,
+              thumbnail: product.thumbnail,
+              title: product.name,
+            }}
+          />
         </a>
       </Col>
     ));
-  }, []);
+  }, [products]);
 
   return (
     <div className={css.container}>
@@ -37,13 +53,3 @@ const TopListSeller: React.FC<IProps> = (props) => {
 };
 
 export default TopListSeller;
-
-const products: IProductItem[] = Array.from({ length: 8 }, () => ({
-  id: '1',
-  category: '/',
-  currentPrice: 1000,
-  originalPrice: 100000,
-  pk: 1,
-  thumbnail: '/assets/mocks/products/product1.jpg',
-  title: 'GIÀY VẢI DỆT NỮ 68742 GIÀY THỂ THAO NỮ 68741 ĐỘN ĐẾ',
-}));

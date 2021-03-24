@@ -111,6 +111,7 @@ const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
           AppActions.createProductAction({
             id,
             ...values,
+            discountPrice: values.discountPrice || 0,
             categoryIds: selectedCategories,
             colorIds: selectedColors,
             sizeIds: selectedSizes,

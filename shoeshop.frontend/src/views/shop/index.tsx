@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 
 // styles
 import css from './style.module.scss';
@@ -13,7 +14,7 @@ import ProductInformation from '../../components/shops/product-information';
 import ProductDetails from '../../components/shops/product-details';
 
 // redux
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
@@ -21,58 +22,36 @@ import { initializeStore } from '@redux/with-redux';
 // enums
 import { AppRouteEnums } from '../../enums/app-route.enum';
 
+import { pathAvatar } from '../../helpers/app-util';
+
 // mocks
 const BREADCRUMB_ITEMS: BreadcumbItem[] = [
   { title: 'Trang chủ', url: '/' },
   { title: 'Giày nam', url: '/shop/giay-the-thao-nam' },
 ];
 
-const mediaFiles = [
-  {
-    thumbnail: '/assets/mocks/products/product2.jpg',
-    type: 'image',
-    url: '/assets/mocks/products/product2.jpg',
-  },
-  {
-    thumbnail: '/assets/mocks/products/product2.jpg',
-    type: 'image',
-    url: '/assets/mocks/products/product2.jpg',
-  },
-  {
-    thumbnail: '/assets/mocks/products/product2.jpg',
-    type: 'image',
-    url: '/assets/mocks/products/product2.jpg',
-  },
-  {
-    thumbnail: '/assets/mocks/products/product2.jpg',
-    type: 'image',
-    url: '/assets/mocks/products/product2.jpg',
-  },
-  {
-    thumbnail: '/assets/mocks/products/product2.jpg',
-    type: 'image',
-    url: '/assets/mocks/products/product2.jpg',
-  },
-  {
-    thumbnail: '/assets/mocks/products/product2.jpg',
-    type: 'image',
-    url: '/assets/mocks/products/product2.jpg',
-  },
-  {
-    thumbnail: '/assets/mocks/products/product2.jpg',
-    type: 'image',
-    url: '/assets/mocks/products/product2.jpg',
-  },
-];
-
 interface Props {}
 
 const Shop: React.FC<Props> = (props) => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
-
-  // mocks
-  const product = true;
+  const [product, setProduct] = useState<REDUX_STORE.Product>();
   const breadcrumbs = useMemo(() => [...BREADCRUMB_ITEMS], []);
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const getProduct = useCallback(async () => {
+    const { slug }: any = router.query;
+    const response = await dispatch(AppActions.getProductAction(slug));
+    if (response.data) {
+      setProduct(response.data);
+    } else {
+      router.push('/');
+    }
+  }, []);
+
+  useEffect(() => {
+    getProduct();
+  }, []);
 
   return (
     <Layout backUrl={AppRouteEnums.HOME}>
@@ -81,22 +60,27 @@ const Shop: React.FC<Props> = (props) => {
           {!isMobile && <Breadcrumb items={breadcrumbs} />}
           <div className={css.wrap}>
             <div className={css.left}>
-              <MediaGallery mediaFiles={mediaFiles} />
+              <MediaGallery
+                mediaFiles={product.images.map((image) => ({
+                  thumbnail: pathAvatar(image.url),
+                  type: 'image',
+                  url: pathAvatar(image.url),
+                }))}
+              />
             </div>
             <div>
               <ProductInformation
                 voucher="MOCK"
                 data={{
-                  id: '',
-                  name: 'GIÀY THỂ THAO NỮ 68741 ĐỘN ĐẾ',
-                  sizes: [40, 41, 42, 43, 44],
+                  id: product.id as any,
+                  name: product.name,
+                  sizes: product.sizes.map((x) => x.name),
                   remain: 2,
-                  price: 10000000,
-                  currentPrice: 100000,
-                  colors: ['Trắng', 'Đen', 'Đỏ'],
-                  shortDescription:
-                    'Kiểu dáng năng động, trẻ trung phù hợp với mọi tính chất công việc',
-                  thumbnail: '',
+                  price: product.currentPrice,
+                  currentPrice: product.discountPrice,
+                  colors: product.colors.map((x) => x.name),
+                  shortDescription: product.shortDescription,
+                  thumbnail: product.thumbnail,
                   isFavorite: false,
                 }}
               />
@@ -119,14 +103,14 @@ const Shop: React.FC<Props> = (props) => {
       />} */}
           <ProductDetails
             data={{
-              sizes: [40, 41, 42, 43, 44],
+              sizes: product.sizes.map((x) => x.name),
               category: 'Giày nam',
               material: 'Vải',
               weight: 100,
               origin: 'China',
-              colors: ['Trắng', 'Đen', 'Đỏ'],
-              body: 'Chất liệu da lộn kết hợp vải lưới thoáng khí',
-              sole: 'Bằng cao su non mềm cao 5cm chống trơn trượt, tạo độ ma sát tối đa',
+              colors: product.colors.map((x) => x.name),
+              body: product.bodyDetail,
+              sole: product.soleDetail,
             }}
           />
         </div>

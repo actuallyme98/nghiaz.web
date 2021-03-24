@@ -14,6 +14,9 @@ import * as AppActions from '@actions/app-action';
 // types
 import { IProductItem } from '../../../types/gtypes';
 
+// utils
+import { pathAvatar } from '../../../helpers/app-util';
+
 interface IProps {
   className?: string;
   product: IProductItem;
@@ -33,7 +36,7 @@ const ProductItem: React.FC<IProps> = (props) => {
 
   return (
     <div className={clsx(className, css.container)}>
-      <img alt={product.title} src={product.thumbnail} className={css.imgProduct} />
+      <img alt={product.title} src={pathAvatar(product.thumbnail)} className={css.imgProduct} />
       <div className={css.titleAndCart}>
         <div className={css.title}>{product.title}</div>
         <Button className={css.btnAddToCart} onClick={handleAddToCart} shape="circle" />

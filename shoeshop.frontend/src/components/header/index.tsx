@@ -67,7 +67,7 @@ const Header: React.FC<IProps> = (props) => {
     return (
       <PopoverProfile
         data={{
-          avatar: profile.client.avatar,
+          avatar: profile.client?.avatar,
         }}
       />
     );

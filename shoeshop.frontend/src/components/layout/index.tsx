@@ -32,6 +32,10 @@ const Layout: React.FC<IProps> = (props) => {
     dispatch(AppActions.getProfileAction());
   }, []);
 
+  useEffect(() => {
+    dispatch(AppActions.listProductsAction());
+  }, []);
+
   const isFluid = useMemo(() => {
     const path = route.pathname;
     return !whiteLists.includes(path);

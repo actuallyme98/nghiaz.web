@@ -79,6 +79,14 @@ export class ApiService {
   public async updateAvatar(args: FormData) {
     return await this.axios.post(ApiRouteEnum.UPDATE_AVATAR, args);
   }
+
+  // products
+  public async listProducts() {
+    return await this.axios.get(ApiRouteEnum.LIST_PRODUCT);
+  }
+  public async product(slug: string) {
+    return await this.axios.get(`${ApiRouteEnum.PRODUCT}/${slug}`);
+  }
 }
 
 export default new ApiService();

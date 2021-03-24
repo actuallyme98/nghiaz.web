@@ -200,3 +200,14 @@ export const updateAvatarAction = createTypeAsyncAction<FormData, void, Store>(
     }
   },
 );
+
+export const listProductsAction = createTypeAsyncAction('LIST_PRODUCTS_ACTION', async () => {
+  return await ApiService.listProducts();
+});
+
+export const getProductAction = createTypeAsyncAction(
+  'GET_PRODUCT_ACTION',
+  async (slug: string) => {
+    return await ApiService.product(slug);
+  },
+);

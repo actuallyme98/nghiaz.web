@@ -7,12 +7,14 @@ export interface Store {
   initializeAuthPage?: boolean;
   profile?: REDUX_STORE.Profile;
   deliveryAddresses: SHOES_API.GDeliveryAddress[];
+  products: REDUX_STORE.Product[];
 }
 
 export const initialState: Store = {
   isMobile: false,
   openCartDrawer: false,
   deliveryAddresses: [],
+  products: [],
 };
 
 export const detectMobileReducer = AppActions.detectMobile.reducer<Store>((state, action) => ({
@@ -62,6 +64,15 @@ export const listDeliveryAddressReducer = AppActions.listDeliveryAddressAction.r
   },
 );
 
+export const listProductsReducer = AppActions.listProductsAction.reducer<Store>((state, action) => {
+  if (isError(action) || !action.payload.data) {
+    return {};
+  }
+  return {
+    products: action.payload.data,
+  };
+});
+
 export const reducer = createTypeReducer(
   initialState,
   detectMobileReducer,
@@ -70,4 +81,5 @@ export const reducer = createTypeReducer(
   getProfile,
   logoutReducer,
   listDeliveryAddressReducer,
+  listProductsReducer,
 );

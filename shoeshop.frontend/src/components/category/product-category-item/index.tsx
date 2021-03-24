@@ -8,6 +8,8 @@ import css from './style.module.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
 
+import { pathAvatar } from '../../../helpers/app-util';
+
 interface IProps {
   className?: string;
   data: {
@@ -26,7 +28,7 @@ const ProductItem: React.FC<IProps> = (props) => {
     <div className={clsx(isMobile ? css.productMobile : css.productDesktop, className)}>
       <div className={css.category}>{data.category}</div>
 
-      <img alt={data.title} src={data.thumbnail} className={css.imgProduct}></img>
+      <img alt={data.title} src={pathAvatar(data.thumbnail)} className={css.imgProduct}></img>
 
       <div className={css.titleAndCart}>
         <div className={css.title}> {data.title} </div>

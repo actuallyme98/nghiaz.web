@@ -3,6 +3,7 @@ import { AuthController } from './auth.controller';
 import { StaticController } from './static.controller';
 import { AddressController } from './delivery-address.controller';
 import { LocationController } from './location.controller';
+import { ProductsController } from './products.controller';
 
 const CONTROLLERS = [
   UserController,
@@ -10,6 +11,7 @@ const CONTROLLERS = [
   StaticController,
   AddressController,
   LocationController,
+  ProductsController,
 ];
 
 export {
@@ -18,5 +20,6 @@ export {
   StaticController,
   AddressController,
   LocationController,
+  ProductsController,
   CONTROLLERS,
 };

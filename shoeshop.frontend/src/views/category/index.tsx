@@ -30,19 +30,13 @@ const BREADCRUMB_ITEMS: BreadcumbItem[] = [
   { title: 'Danh mục', url: '/category' },
 ];
 
-const products: any[] = Array.from({ length: 14 }, (_, index) => ({
-  price: 100000,
-  currentPrice: 1000,
-  thumbnail: '/assets/mocks/products/product1.jpg',
-  name: 'GIÀY VẢI DỆT NỮ 68742 GIÀY THỂ THAO NỮ 68741 ĐỘN ĐẾ',
-}));
-
 const getProductsLoading = false;
 
 interface Props {}
 
 const Category: React.FC<Props> = (props) => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const products = useSelector((store: RootState) => store.appState.products);
   const [openFilterMenu, setOpenFilterMenu] = useState(false);
   const menuFilterRef = useRef();
   const sortRef = useRef();
@@ -57,8 +51,8 @@ const Category: React.FC<Props> = (props) => {
   }, [menuFilterRef, sortRef]);
 
   const listProductMemo = useMemo(() => {
-    return products.map((eage, index) => <Product key={index} product={eage} />);
-  }, []);
+    return products.slice(0, 12).map((eage, index) => <Product key={index} product={eage} />);
+  }, [products]);
 
   const onOpenCloseMenu = useCallback(() => {
     document.documentElement.scrollTop = 0;
