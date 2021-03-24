@@ -26,6 +26,15 @@ export class ProductService {
 
   async createProduct(args: CreateProductDTO) {
     const { colorIds, categoryIds, sizeIds } = args;
+    const product = await this.productRepository.findOne({
+      where: {
+        slug: args.slug,
+      },
+    });
+    if (product) {
+      throw ErrorHelper.BadRequestException('Sản phẩm đã tồn tại');
+    }
+
     const colors = await Promise.all(
       colorIds.map(async (id) => await this.colorRepository.findOne(id)),
     );
