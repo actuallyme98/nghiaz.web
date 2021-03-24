@@ -33,11 +33,6 @@ export class Product extends BaseModel {
   name: string;
 
   @Column({
-    type: 'ntext',
-  })
-  address: string;
-
-  @Column({
     type: 'int',
   })
   price: number;
@@ -126,12 +121,14 @@ export class Product extends BaseModel {
   vat: number;
 
   // Relationship
-  @OneToMany((type) => ProductImage, (image) => image.productId, { cascade: true })
-  @JoinColumn({ name: 'id', referencedColumnName: 'product_id' })
+  @OneToMany((type) => ProductImage, (image) => image.product, {
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn()
   images: ProductImage[];
 
-  @OneToMany((type) => ProductVideo, (video) => video.productId, { cascade: true })
-  @JoinColumn({ name: 'id', referencedColumnName: 'product_id' })
+  @OneToMany((type) => ProductVideo, (video) => video.product)
+  @JoinColumn()
   videos: ProductVideo[];
 
   @ManyToMany(() => Size)

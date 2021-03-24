@@ -1,4 +1,5 @@
-import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne, JoinColumn } from 'typeorm';
+import { Product } from '.';
 import { BaseModel } from './base-model.entity';
 
 @Entity('product_image')
@@ -12,14 +13,15 @@ export class ProductImage extends BaseModel {
   id: number;
 
   @Column({
-    name: 'product_id',
-    type: 'int',
-  })
-  productId: number;
-
-  @Column({
     type: 'char',
     length: 150,
   })
   url: string;
+
+  // Relationship
+  @ManyToOne((type) => Product, (product) => product.images, {
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn()
+  product: Product;
 }

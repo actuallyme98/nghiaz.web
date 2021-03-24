@@ -7,7 +7,7 @@ export class CreateProductDTO {
   id: number;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
+  @IsEmpty()
   code?: string;
 
   @ApiProperty()
@@ -51,7 +51,7 @@ export class CreateProductDTO {
   priority: number;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
+  @IsEmpty()
   thumbnail?: string;
 
   @ApiProperty()

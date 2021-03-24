@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import { Category, Color, Product, Size, ProductImage } from '@api/entities';
 
-import { ErrorHelper } from '@base/helpers';
+import { ErrorHelper, StringHelper } from '@base/helpers';
 import { CreateProductDTO } from '../dtos';
 
 @Injectable()
@@ -37,6 +37,7 @@ export class ProductService {
     );
     const newProduct = new Product({
       ...args,
+      code: StringHelper.randomString(6),
       colors,
       sizes,
       categories,
@@ -67,10 +68,9 @@ export class ProductService {
     const images = await Promise.all(
       urls.map(
         async (url) =>
-          new ProductImage({
-            productId: id,
+          await new ProductImage({
             url,
-          }),
+          }).save(),
       ),
     );
     Object.assign(data, {

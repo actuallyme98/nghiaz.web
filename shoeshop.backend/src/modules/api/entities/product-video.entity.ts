@@ -1,4 +1,5 @@
-import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne, JoinColumn } from 'typeorm';
+import { Product } from '.';
 import { BaseModel } from './base-model.entity';
 
 @Entity('product_video')
@@ -10,12 +11,6 @@ export class ProductVideo extends BaseModel {
 
   @PrimaryGeneratedColumn('increment')
   id: number;
-
-  @Column({
-    name: 'product_id',
-    type: 'int',
-  })
-  productId: number;
 
   @Column({
     type: 'char',
@@ -34,4 +29,9 @@ export class ProductVideo extends BaseModel {
     length: 150,
   })
   youtube_url: string;
+
+  // Relationship
+  @ManyToOne((type) => Product, (product) => product.videos)
+  @JoinColumn()
+  product: Product;
 }
