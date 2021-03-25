@@ -23,7 +23,7 @@ const TopNewestProducts: React.FC<IProps> = (props) => {
   const listProducts = useMemo(() => {
     return products.slice(0, 8).map((product, index) => (
       <Col key={index} className={css.listItem} xs={24} sm={12} md={8} xl={6}>
-        <a className={css.productLink} href="/shop/giay-the-thao-nam">
+        <a className={css.productLink} href={`/shop/${product.slug}`}>
           <ProductItem
             product={{
               id: product.id as any,

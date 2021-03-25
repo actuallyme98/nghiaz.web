@@ -129,7 +129,7 @@ const Category: React.FC<Props> = (props) => {
 
 const Product: React.FC<{ product: any }> = ({ product }) => {
   return (
-    <Link href="/shop/giay-the-thao-nam">
+    <Link href={`/shop/${product.slug}`}>
       <a className={css.productLink}>
         <ProductItem
           data={{
