@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 // styles
 import css from './style.module.scss';
@@ -9,22 +9,35 @@ import Col from 'antd/lib/col';
 import Button from 'antd/lib/button';
 import ProductItem from '../product-item';
 
-// types
-import { IProductItem } from '../../../types/gtypes';
-
 // redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
+import * as AppActions from '@actions/app-action';
 
 interface IProps {}
 
 const TopListSeller: React.FC<IProps> = (props) => {
-  const products = useSelector((store: RootState) => store.appState.products);
+  const products = useSelector((store: RootState) => store.appState.sellWellProducts);
+  const [page, setPage] = useState(1);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(AppActions.listProductSellWellsAction());
+  }, []);
+
+  const onLoadMore = useCallback(async () => {
+    await dispatch(AppActions.listProductSellWellsAction(page + 1));
+    setPage(page + 1);
+  }, [page]);
 
   const listProducts = useMemo(() => {
-    return products.slice(0, 8).map((product, index) => (
+    return products.items.map((product, index) => (
       <Col key={index} className={css.listItem} xs={24} sm={12} md={8} xl={6}>
-        <a className={css.productLink} href={`/shop/${product.slug}`}>
+        <a
+          className={css.productLink}
+          href={`/shop/${product.slug.trim()}?code=${product.code.trim()}`}
+        >
           <ProductItem
             product={{
               id: product.id as any,
@@ -45,9 +58,13 @@ const TopListSeller: React.FC<IProps> = (props) => {
     <div className={css.container}>
       <div className={css.heading}>SẢN PHẨM BÁN CHẠY</div>
       <Row className={css.listArea}>{listProducts}</Row>
-      <div className={css.loadMoreArea}>
-        <Button className={css.loadMoreBtn}>Xem thêm</Button>
-      </div>
+      {products.meta.totalPages > 1 && (
+        <div className={css.loadMoreArea}>
+          <Button className={css.loadMoreBtn} onClick={onLoadMore}>
+            Xem thêm
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

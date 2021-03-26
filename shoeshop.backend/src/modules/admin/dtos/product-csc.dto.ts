@@ -40,3 +40,39 @@ export class UpdateColorDTO {
   @IsNotEmpty({ message: 'Required' })
   code: string;
 }
+
+export class CreateCategoryDTO {
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  id: number;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  name: string;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  pk: number;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  slug: string;
+}
+
+export class UpdateCategoryDTO {
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  id: number;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  name: string;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  pk: number;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Required' })
+  slug: string;
+}

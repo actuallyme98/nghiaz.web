@@ -8,6 +8,7 @@ import Layout from '../../components/layout';
 import ListProduct from './list-product';
 import ProductSize from './product-size';
 import ProductColor from './product-color';
+import Categories from './categories';
 import TabLink, { ITabs } from '../../components/tab-link';
 
 const tabItems: ITabs[] = [
@@ -28,6 +29,12 @@ const tabItems: ITabs[] = [
     component: <ProductColor />,
     tabName: 'color',
     url: '/products/color',
+  },
+  {
+    title: 'Thể loại',
+    component: <Categories />,
+    tabName: 'category',
+    url: '/products/category',
   },
 ];
 

@@ -33,9 +33,10 @@ declare namespace REDUX_STORE {
   }
 
   interface ICategory {
-    id?: number;
+    id: number;
+    pk: number;
     name: string;
     image?: string;
-    slug?: string;
+    slug: string;
   }
 }

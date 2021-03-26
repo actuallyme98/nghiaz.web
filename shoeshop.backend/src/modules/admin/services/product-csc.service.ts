@@ -2,13 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Color, Size, Category } from '@api/entities';
-import { TokenHelper, ErrorHelper, EncryptHelper } from '@base/helpers';
-import { AdminService } from '@admin/services';
-import { ConfigService } from '@nestjs/config';
-import { APIRequest } from '@api/interfaces';
-import { classToPlain } from 'class-transformer';
+import { ErrorHelper } from '@base/helpers';
 
-import { CreateColorDTO, CreateSizeDTO, UpdateColorDTO, UpdateSizeDTO } from '@admin/dtos';
+import {
+  CreateCategoryDTO,
+  CreateColorDTO,
+  CreateSizeDTO,
+  UpdateCategoryDTO,
+  UpdateColorDTO,
+  UpdateSizeDTO,
+} from '@admin/dtos';
 
 @Injectable()
 export class ProductCSC {
@@ -40,6 +43,13 @@ export class ProductCSC {
     const newColor = new Color(args);
     await newColor.save();
   }
+  async createCategory(args: CreateCategoryDTO) {
+    const newCateg = new Category({
+      ...args,
+      thumbnail: '',
+    });
+    await newCateg.save();
+  }
   // update
   async updateSize(args: UpdateSizeDTO) {
     const size = await this.sizeRepository.findOne(args.id);
@@ -57,11 +67,32 @@ export class ProductCSC {
     Object.assign(color, args);
     await color.save();
   }
+  async updateCategory(args: UpdateCategoryDTO) {
+    const category = await this.categoryRepository.findOne(args.id);
+    if (!category) {
+      throw ErrorHelper.BadRequestException('Not found');
+    }
+    Object.assign(category, args);
+    await category.save();
+  }
+  async updateThumbnailCategory(id: number, thumbnail: string) {
+    const category = await this.categoryRepository.findOne(id);
+    if (!category) {
+      throw ErrorHelper.BadRequestException('Not found');
+    }
+    Object.assign(category, {
+      thumbnail,
+    });
+    return category.save;
+  }
   // delete
   async deleteSize(id: number) {
     await this.sizeRepository.delete(id);
   }
   async deleteColor(id: number) {
     await this.colorRepository.delete(id);
+  }
+  async deleteCategory(id: number) {
+    await this.categoryRepository.delete(id);
   }
 }

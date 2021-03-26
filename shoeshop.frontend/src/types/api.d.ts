@@ -1,7 +1,19 @@
 declare namespace SHOES_API {
-  interface BaseResponse {
-    status?: boolean;
-    message?: string;
+  interface PaginationResponse<T> {
+    items: T[];
+    meta: {
+      totalItems: number;
+      itemCount: number;
+      itemsPerPage: number;
+      totalPages: number;
+      currentPage: number;
+    };
+    links?: {
+      first: string;
+      previous: string;
+      next: string;
+      last: string;
+    };
   }
 
   interface RegisterParams {
@@ -111,4 +123,20 @@ declare namespace SHOES_API {
     wardId: number;
     isDefault: boolean;
   }
+
+  interface SearchOptions {
+    code?: string;
+    name?: string;
+    categories?: number[];
+    colors?: number[];
+    sizes?: number[];
+    price?: {
+      start: number;
+      end: number;
+    };
+    isSpecial?: boolean;
+    isSellWell?: boolean;
+  }
+
+  type SortOptions = '-currentPrice' | 'currentPrice' | '-createdAt' | '-priority';
 }

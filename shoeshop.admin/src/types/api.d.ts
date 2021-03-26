@@ -61,10 +61,11 @@ declare namespace ADMIN_API {
   }
 
   interface GetListCategoryResponse {
-    id?: number;
+    id: number;
+    pk: number;
     name: string;
     image?: string;
-    slug?: string;
+    slug: string;
   }
 
   interface CreateProductParams {
@@ -110,5 +111,12 @@ declare namespace ADMIN_API {
     bodyDetail?: string;
     soleDetail?: string;
     quantity: number;
+  }
+
+  interface CreateCategoryParams {
+    id?: number;
+    pk: number;
+    name: string;
+    slug: string;
   }
 }

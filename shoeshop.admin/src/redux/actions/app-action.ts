@@ -183,3 +183,53 @@ export const deleteProductAction = createTypeAsyncAction<number, void, Store>(
     }
   },
 );
+
+export const createCategoryAction = createTypeAsyncAction<
+  ADMIN_API.CreateCategoryParams,
+  void,
+  Store
+>('CREATE_CATEGORY_ACTION', async (args: ADMIN_API.CreateCategoryParams, { dispatch }) => {
+  try {
+    await ApiService.createCategory(args);
+    await dispatch(listCategoriesAction());
+  } catch (err) {
+    throw new Error(err);
+  }
+});
+
+export const updateCategoryAction = createTypeAsyncAction<
+  ADMIN_API.CreateCategoryParams,
+  void,
+  Store
+>('CREATE_CATEGORY_ACTION', async (args: ADMIN_API.CreateCategoryParams, { dispatch }) => {
+  try {
+    await ApiService.updateCategory(args);
+    await dispatch(listCategoriesAction());
+  } catch (err) {
+    throw new Error(err);
+  }
+});
+
+export const deleteCategoryAction = createTypeAsyncAction<number, void, Store>(
+  'CREATE_CATEGORY_ACTION',
+  async (id: number, { dispatch }) => {
+    try {
+      await ApiService.deleteCategory(id);
+      await dispatch(listCategoriesAction());
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const updateThumnailCategoryAction = createTypeAsyncAction(
+  'UPDATE_THUMNAIL_CATEGORY_ACTION',
+  async (args: { id: number; data: FormData }) => {
+    try {
+      const { id, data } = args;
+      await ApiService.updateThumnailCategory(data, id);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);

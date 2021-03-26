@@ -15,7 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Tooliip from '@material-ui/core/Tooltip';
+import Tooltip from '@material-ui/core/Tooltip';
 import AddSizeModal from './add-size-modal';
 import EditSizeModal from './edit-size-modal';
 
@@ -74,16 +74,16 @@ const ProductSize: React.FC<Props> = (props) => {
         <TableCell>{row.name}</TableCell>
         <TableCell>
           <Box>
-            <Tooliip title="Sửa" placement="top" arrow>
+            <Tooltip title="Sửa" placement="top" arrow>
               <IconButton onClick={() => onOpenEditSize(row)}>
                 <EditRoundedIcon />
               </IconButton>
-            </Tooliip>
-            <Tooliip title="Xóa" placement="top" arrow>
+            </Tooltip>
+            <Tooltip title="Xóa" placement="top" arrow>
               <IconButton onClick={() => onDeleteSize(row.id)}>
                 <DeleteIcon />
               </IconButton>
-            </Tooliip>
+            </Tooltip>
           </Box>
         </TableCell>
       </TableRow>
@@ -96,11 +96,11 @@ const ProductSize: React.FC<Props> = (props) => {
       <EditSizeModal size={sizeSelected} open={openEdit} onClose={onCloseEditSize} />
       <Box display="flex" justifyContent="space-between">
         <Typography>Danh sách kích thước</Typography>
-        <Tooliip title="Thêm mới" placement="top" arrow>
+        <Tooltip title="Thêm mới" placement="top" arrow>
           <IconButton onClick={onOpenAddSize}>
             <AddCircleIcon />
           </IconButton>
-        </Tooliip>
+        </Tooltip>
       </Box>
       <TableContainer component={Paper}>
         <Table className={classes.table}>

@@ -18,10 +18,15 @@ export class Category extends BaseModel {
   name: string;
 
   @Column({
+    type: 'int',
+  })
+  pk: number;
+
+  @Column({
     type: 'char',
     length: 150,
   })
-  image: string;
+  thumbnail: string;
 
   @Column({
     type: 'char',

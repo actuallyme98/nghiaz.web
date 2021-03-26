@@ -40,12 +40,13 @@ const Shop: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
 
   const getProduct = useCallback(async () => {
-    const { slug }: any = router.query;
-    const response = await dispatch(AppActions.getProductAction(slug));
+    const { code }: any = router.query;
+    if (!code) {
+      return router.push('/');
+    }
+    const response = await dispatch(AppActions.getProductAction(code));
     if (response.data) {
       setProduct(response.data);
-    } else {
-      router.push('/');
     }
   }, []);
 
@@ -55,7 +56,7 @@ const Shop: React.FC<Props> = (props) => {
 
   return (
     <Layout backUrl={AppRouteEnums.HOME}>
-      {product && (
+      {product ? (
         <div className={isMobile ? css.contentMobile : css.contentDesktop}>
           {!isMobile && <Breadcrumb items={breadcrumbs} />}
           <div className={css.wrap}>
@@ -114,8 +115,9 @@ const Shop: React.FC<Props> = (props) => {
             }}
           />
         </div>
+      ) : (
+        <div className="m-5 text-center">Sản phẩm không tồn tại</div>
       )}
-      <div className="m-5 text-center">Facebook comment come here ...</div>
     </Layout>
   );
 };

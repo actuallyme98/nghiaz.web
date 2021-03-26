@@ -13,5 +13,7 @@ export enum ApiRouteEnum {
   UPDATE_PRODUCT_THUMBNAIL = '/products/thumbnail/update',
   UPDATE_PRODUCT_IMAGES = '/products/images/update',
   LIST_PRODUCTS = '/products/list',
-  CATEGORIES = '/products-csc/category/list',
+  CATEGORIES_LIST = '/products-csc/category/list',
+  CATEGORIES = '/products-csc/category',
+  CATEGORIES_THUMBNAIL = '/products-csc/category/thumbnail',
 }

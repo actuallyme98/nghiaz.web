@@ -1,10 +1,29 @@
-import { Controller, Post, Res, Body, Get, Put, Delete, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Res,
+  Body,
+  Get,
+  Put,
+  Delete,
+  Param,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 
-import { CreateColorDTO, CreateSizeDTO, UpdateSizeDTO, UpdateColorDTO } from '@admin/dtos';
+import {
+  CreateColorDTO,
+  CreateSizeDTO,
+  UpdateSizeDTO,
+  UpdateColorDTO,
+  UpdateCategoryDTO,
+  CreateCategoryDTO,
+} from '@admin/dtos';
 
 import { ProductCSC } from '@admin/services';
+import { FileInterceptor } from '@nestjs/platform-express';
 @ApiBearerAuth()
 @ApiTags('products-csc')
 @Controller('products-csc')
@@ -66,5 +85,30 @@ export class ProductCSCController {
   async listCategory(@Res() res: Response) {
     const data = await this.productCscService.listCategories();
     return res.json({ data });
+  }
+
+  @Post('/category')
+  async createCategory(@Body() payload: CreateCategoryDTO) {
+    return await this.productCscService.createCategory(payload);
+  }
+
+  @Put('/category')
+  async editCategory(@Body() payload: UpdateCategoryDTO) {
+    return await this.productCscService.updateCategory(payload);
+  }
+
+  @Delete('/category/:id')
+  async deleteCategory(@Param('id') id: number) {
+    return await this.productCscService.deleteCategory(id);
+  }
+  @Put('/category/thumbnail/:id')
+  @UseInterceptors(FileInterceptor('thumbnail'))
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Res() res: Response,
+    @Param('id') id: number,
+  ) {
+    await this.productCscService.updateThumbnailCategory(id, file.filename);
+    return res.json({ ok: true });
   }
 }

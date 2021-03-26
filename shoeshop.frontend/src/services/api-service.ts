@@ -81,8 +81,19 @@ export class ApiService {
   }
 
   // products
-  public async listProducts() {
-    return await this.axios.get(ApiRouteEnum.LIST_PRODUCT);
+  public async listProducts(args: {
+    page?: number;
+    filters?: SHOES_API.SearchOptions;
+    sorts?: SHOES_API.SortOptions;
+  }) {
+    const { page = 1, sorts, filters } = args;
+    return await this.axios.get(ApiRouteEnum.LIST_PRODUCT, {
+      params: {
+        page,
+        sorts,
+        filters,
+      },
+    });
   }
   public async product(slug: string) {
     return await this.axios.get(`${ApiRouteEnum.PRODUCT}/${slug}`);

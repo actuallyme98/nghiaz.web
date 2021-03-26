@@ -201,13 +201,36 @@ export const updateAvatarAction = createTypeAsyncAction<FormData, void, Store>(
   },
 );
 
-export const listProductsAction = createTypeAsyncAction('LIST_PRODUCTS_ACTION', async () => {
-  return await ApiService.listProducts();
-});
+export const listProductSpecialsAction = createTypeAsyncAction(
+  'LIST_PRODUCTS_SPECIAL_ACTION',
+  async (page?: number) => {
+    return await ApiService.listProducts({
+      page,
+      filters: { isSpecial: true },
+    });
+  },
+);
+
+export const listProductSellWellsAction = createTypeAsyncAction(
+  'LIST_PRODUCTS_SELL_WELL_ACTION',
+  async (page?: number) => {
+    return await ApiService.listProducts({
+      page,
+      filters: { isSellWell: true },
+    });
+  },
+);
+
+export const listProductCategoryAction = createTypeAsyncAction(
+  'LIST_PRODUCTS_CATEGORY_ACTION',
+  async (args: { filters: SHOES_API.SearchOptions; sorts: SHOES_API.SortOptions }) => {
+    return await ApiService.listProducts(args);
+  },
+);
 
 export const getProductAction = createTypeAsyncAction(
   'GET_PRODUCT_ACTION',
-  async (slug: string) => {
-    return await ApiService.product(slug);
+  async (code: string) => {
+    return await ApiService.product(code);
   },
 );

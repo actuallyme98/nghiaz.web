@@ -1,20 +1,35 @@
 import { createTypeReducer, isError } from '../type-redux';
 import * as AppActions from '../actions/app-action';
 
+export const initialProduct = {
+  items: [],
+  meta: {
+    currentPage: 0,
+    itemCount: 0,
+    itemsPerPage: 0,
+    totalItems: 0,
+    totalPages: 0,
+  },
+};
+
 export interface Store {
   isMobile: boolean;
   openCartDrawer: boolean;
   initializeAuthPage?: boolean;
   profile?: REDUX_STORE.Profile;
   deliveryAddresses: SHOES_API.GDeliveryAddress[];
-  products: REDUX_STORE.Product[];
+  specialProducts: SHOES_API.PaginationResponse<REDUX_STORE.Product>;
+  sellWellProducts: SHOES_API.PaginationResponse<REDUX_STORE.Product>;
+  categoryProducts: SHOES_API.PaginationResponse<REDUX_STORE.Product>;
 }
 
 export const initialState: Store = {
   isMobile: false,
   openCartDrawer: false,
   deliveryAddresses: [],
-  products: [],
+  specialProducts: initialProduct,
+  sellWellProducts: initialProduct,
+  categoryProducts: initialProduct,
 };
 
 export const detectMobileReducer = AppActions.detectMobile.reducer<Store>((state, action) => ({
@@ -64,14 +79,38 @@ export const listDeliveryAddressReducer = AppActions.listDeliveryAddressAction.r
   },
 );
 
-export const listProductsReducer = AppActions.listProductsAction.reducer<Store>((state, action) => {
-  if (isError(action) || !action.payload.data) {
-    return {};
-  }
-  return {
-    products: action.payload.data,
-  };
-});
+export const listSpecialProductsReducer = AppActions.listProductSpecialsAction.reducer<Store>(
+  (state, action) => {
+    if (isError(action) || !action.payload.data) {
+      return {};
+    }
+    return {
+      specialProducts: action.payload.data,
+    };
+  },
+);
+
+export const listSellWellProductsReducer = AppActions.listProductSellWellsAction.reducer<Store>(
+  (state, action) => {
+    if (isError(action) || !action.payload.data) {
+      return {};
+    }
+    return {
+      sellWellProducts: action.payload.data,
+    };
+  },
+);
+
+export const listCategoryProductsReducer = AppActions.listProductCategoryAction.reducer<Store>(
+  (state, action) => {
+    if (isError(action) || !action.payload.data) {
+      return {};
+    }
+    return {
+      categoryProducts: action.payload.data,
+    };
+  },
+);
 
 export const reducer = createTypeReducer(
   initialState,
@@ -81,5 +120,7 @@ export const reducer = createTypeReducer(
   getProfile,
   logoutReducer,
   listDeliveryAddressReducer,
-  listProductsReducer,
+  listSpecialProductsReducer,
+  listSellWellProductsReducer,
+  listCategoryProductsReducer,
 );
