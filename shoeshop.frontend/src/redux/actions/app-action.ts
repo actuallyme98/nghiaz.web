@@ -41,6 +41,29 @@ export const getProfileAction = createTypeAsyncAction(
   },
 );
 
+export const initializeApp = createTypeAsyncAction<any, void, Store>(
+  'INITIALIZE_APP',
+  async (args, { dispatch }) => {
+    try {
+      await dispatch(listCategoriesAction());
+    } catch (err) {
+      // ignore err
+    }
+  },
+);
+
+export const initializeCategory = createTypeAsyncAction<any, void, Store>(
+  'INITIALIZE_CATEGORY',
+  async (args, { dispatch }) => {
+    try {
+      await dispatch(listColorsAction());
+      await dispatch(listSizesAction());
+    } catch (err) {
+      // ignore err
+    }
+  },
+);
+
 export const initializeAuthPage = createTypeAsyncAction<
   REDUX_STORE.InitializeAuthPageArgs,
   REDUX_STORE.InitializeAuthPagePayload,
@@ -223,7 +246,11 @@ export const listProductSellWellsAction = createTypeAsyncAction(
 
 export const listProductCategoryAction = createTypeAsyncAction(
   'LIST_PRODUCTS_CATEGORY_ACTION',
-  async (args: { filters: SHOES_API.SearchOptions; sorts: SHOES_API.SortOptions }) => {
+  async (args: {
+    page: number;
+    filters?: SHOES_API.SearchOptions;
+    sorts?: SHOES_API.SortOptions;
+  }) => {
     return await ApiService.listProducts(args);
   },
 );
@@ -232,5 +259,29 @@ export const getProductAction = createTypeAsyncAction(
   'GET_PRODUCT_ACTION',
   async (code: string) => {
     return await ApiService.product(code);
+  },
+);
+
+export const listColorsAction = createTypeAsyncAction('LIST_COLORS_ACTION', async () => {
+  return await ApiService.listColors();
+});
+
+export const listSizesAction = createTypeAsyncAction('LIST_SIZES_ACTION', async () => {
+  return await ApiService.listsizes();
+});
+
+export const listCategoriesAction = createTypeAsyncAction('LIST_CATEGORY_ACTION', async () => {
+  return await ApiService.listCategories();
+});
+
+export const getCategoryAction = createTypeAsyncAction(
+  'GET_CATEGORY_ACTION',
+  async (slug: string) => {
+    try {
+      const response = await ApiService.getCategory(slug);
+      return response.data;
+    } catch (err) {
+      // ignore err
+    }
   },
 );

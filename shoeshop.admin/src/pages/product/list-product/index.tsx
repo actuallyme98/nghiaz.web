@@ -70,6 +70,7 @@ const ProductList: React.FC<Props> = (props) => {
       <TableRow key={index}>
         <TableCell>{row.code}</TableCell>
         <TableCell>{row.name}</TableCell>
+        <TableCell>{row.categories.map((x) => x.name).join('')}</TableCell>
         <TableCell>{row.price}</TableCell>
         <TableCell>{row.currentPrice}</TableCell>
         <TableCell>{row.quantity}</TableCell>
@@ -118,6 +119,7 @@ const ProductList: React.FC<Props> = (props) => {
             <TableRow>
               <TableCell>Mã sản phẩm</TableCell>
               <TableCell>Tên sản phẩm</TableCell>
+              <TableCell>Category</TableCell>
               <TableCell>Giá nhập</TableCell>
               <TableCell>Giá bán</TableCell>
               <TableCell>Số lượng</TableCell>

@@ -1,12 +1,13 @@
-export interface IProductItem {
-  id: string;
-  pk: number;
-  category: string;
-  title: string;
-  currentPrice: number;
-  originalPrice: number;
-  thumbnail: string;
-  createdAt?: Date;
+export interface QueryToProductsArgs {
+  isSellWell?: boolean;
+  isSpecial?: boolean;
+  status?: boolean;
+  currentPrice?: number;
+  colors?: number[];
+  sizes?: number[];
+  priceGte?: number;
+  priceLte?: number;
+  orderBy?: SHOES_API.SortOptions;
 }
 
 export enum EnumGender {

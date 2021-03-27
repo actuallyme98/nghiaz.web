@@ -44,6 +44,7 @@ const routes: Routes = [
           autoLoadEntities: true,
           // {module}/entities/entity.entity.ts
           entities: [__dirname + '/**/entities/*.entity{.ts,.js}'],
+          requestTimeout: 30000,
           // entities: ENTITIES,
           // use cli and run schema:sync is better for secured data
           synchronize: false,

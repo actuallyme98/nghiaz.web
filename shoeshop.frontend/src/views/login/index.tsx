@@ -49,7 +49,7 @@ const Login: React.FC<Props> = (props) => {
   );
 
   return (
-    <Layout backUrl={AppRouteEnums.HOME}>
+    <Layout backUrl={AppRouteEnums.HOME} title="Đăng nhập">
       <div className={css.formLogin}>
         <div>
           <h1 className={css.sgn1}>Đăng Nhập</h1>
@@ -122,7 +122,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      title: 'Đăng nhập',
       initialReduxState: reduxStore.getState(),
     },
   };

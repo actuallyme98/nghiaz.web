@@ -45,7 +45,7 @@ const EditProfile: NextPage<Props> = () => {
   }
 
   return isMobile ? (
-    <Layout loading={getProfilePending} backUrl={AppRouteEnums.USER}>
+    <Layout loading={getProfilePending} backUrl={AppRouteEnums.USER} title="Cập nhật thông tin">
       <div className={css.rootMobile}>
         <div className={css.title}>
           <img src="/assets/icons/a-edit.svg" alt="" />
@@ -101,7 +101,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   await dispatch(AppActions.initializeAuthPage({ req }));
   return {
     props: {
-      title: 'Cập nhật thông tin',
       initialReduxState: reduxStore.getState(),
     },
   };

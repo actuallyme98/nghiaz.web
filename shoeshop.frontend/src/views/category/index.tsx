@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback, useState, useRef, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 // styles
 import css from './style.module.scss';
@@ -9,6 +10,7 @@ import css from './style.module.scss';
 import Button from 'antd/lib/button';
 import Drawer from 'antd/lib/drawer';
 import Layout from '../../components/layout';
+import InfinityScroll from '../../components/infinity-scroll';
 import Breadcrumb, { BreadcumbItem } from '../../components/breadcrumb';
 import MenuFilterOption from '../../components/category/menu-filter-options';
 import LoadingIcon from '../../components/loading-icon';
@@ -18,28 +20,38 @@ import ProductItem from '../../components/category/product-category-item';
 // redux
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import notification from 'antd/lib/notification';
 import { RootState } from '../../redux/stores/configure-store';
 
 // enums
 import { AppRouteEnums } from '../../enums/app-route.enum';
 
-// mocks
-const BREADCRUMB_ITEMS: BreadcumbItem[] = [
-  { title: 'Trang chủ', url: '/' },
-  { title: 'Danh mục', url: '/category' },
-];
-
-const getProductsLoading = false;
+// types
+import { QueryToProductsArgs } from '../../types/gtypes';
 
 interface Props {}
 
 const Category: React.FC<Props> = (props) => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
-  const products = useSelector((store: RootState) => store.appState.products);
+  const products = useSelector((store: RootState) => store.appState.categoryProducts);
+  const getProductsLoading = useSelector((store: RootState) =>
+    AppActions.listProductCategoryAction.isPending(store),
+  );
+
+  const [page, setPage] = useState(1);
+  const [category, setCategory] = useState<REDUX_STORE.ICategory>();
   const [openFilterMenu, setOpenFilterMenu] = useState(false);
+  const [argsToQuery, setArgsToQuery] = useState<QueryToProductsArgs>();
+
   const menuFilterRef = useRef();
   const sortRef = useRef();
+  const route = useRouter();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(AppActions.initializeCategory());
+  }, [route]);
 
   useEffect(() => {
     if (menuFilterRef && menuFilterRef.current && (menuFilterRef.current as any).reset) {
@@ -50,8 +62,102 @@ const Category: React.FC<Props> = (props) => {
     }
   }, [menuFilterRef, sortRef]);
 
+  useEffect(() => {
+    const { slug }: any = route.query;
+    if (!slug[0]) {
+      route.push(AppRouteEnums.HOME);
+    }
+    loadCategory(slug[0]);
+  }, [route]);
+
+  const loadCategory = useCallback(
+    async (slug: string) => {
+      try {
+        const response: REDUX_STORE.ICategory = await dispatch(AppActions.getCategoryAction(slug));
+        if (!response) {
+          route.push(AppRouteEnums.HOME);
+        }
+        setCategory(response);
+        await dispatch(
+          AppActions.listProductCategoryAction({
+            page,
+            filters: {
+              categories: [response.id],
+            },
+            sorts: '-priority',
+          }),
+        );
+      } catch (err) {
+        route.push(AppRouteEnums.HOME);
+      }
+    },
+    [route],
+  );
+
+  const onLoadMore = useCallback(async () => {
+    if (!category) {
+      return;
+    }
+    await dispatch(
+      AppActions.listProductCategoryAction({
+        page: page + 1,
+        filters: {
+          categories: [category.id],
+          colors: argsToQuery?.colors,
+          sizes: argsToQuery?.sizes,
+          price:
+            argsToQuery?.priceGte !== undefined && argsToQuery?.priceLte
+              ? {
+                  start: argsToQuery.priceGte,
+                  end: argsToQuery.priceLte,
+                }
+              : undefined,
+        },
+        sorts: argsToQuery?.orderBy,
+      }),
+    );
+    setPage(page + 1);
+  }, [page, category, argsToQuery]);
+
+  const onRefetch = useCallback(
+    async (args: QueryToProductsArgs) => {
+      if (!category) {
+        return;
+      }
+      const objArgs = Object.assign(argsToQuery || {}, args);
+      setArgsToQuery(objArgs);
+      const { colors, sizes, priceGte, priceLte, orderBy } = objArgs;
+      try {
+        await dispatch(
+          AppActions.listProductCategoryAction({
+            page,
+            filters: {
+              categories: [category.id],
+              colors,
+              sizes,
+              price:
+                priceGte !== undefined && priceLte
+                  ? {
+                      start: priceGte,
+                      end: priceLte,
+                    }
+                  : undefined,
+            },
+            sorts: orderBy || '-priority',
+          }),
+        );
+      } catch (err) {
+        notification.error({
+          message: String(err).replace(/Error: /g, ''),
+          placement: 'bottomRight',
+        });
+      }
+    },
+    [page, category, argsToQuery],
+  );
+
   const listProductMemo = useMemo(() => {
-    return products.slice(0, 12).map((eage, index) => <Product key={index} product={eage} />);
+    return products.items.map((eage, index) => <Product key={index} product={eage} />);
   }, [products]);
 
   const onOpenCloseMenu = useCallback(() => {
@@ -61,15 +167,21 @@ const Category: React.FC<Props> = (props) => {
 
   const onCloseFilterMenu = useCallback(() => setOpenFilterMenu(false), []);
 
-  const breadcrumbs = useMemo(() => [...BREADCRUMB_ITEMS], []);
   return (
-    <Layout backUrl={AppRouteEnums.HOME}>
+    <Layout backUrl={AppRouteEnums.HOME} title={'Danh mục - ' + (category?.name || '')}>
       <div className={isMobile ? css.contentMobile : css.contentDesktop}>
-        {!isMobile && <Breadcrumb items={breadcrumbs} />}
+        {!isMobile && (
+          <Breadcrumb
+            items={[
+              { title: 'Trang chủ', url: '/' },
+              { title: category?.name || 'Danh mục', url: `/category/${category?.slug}` },
+            ]}
+          />
+        )}
         <div className={css.content}>
           {!isMobile && (
             <div className={css.leftMenu}>
-              <MenuFilterOption ref={menuFilterRef} />
+              <MenuFilterOption onChange={onRefetch} ref={menuFilterRef} />
             </div>
           )}
           <div className={css.rightContent}>
@@ -80,22 +192,38 @@ const Category: React.FC<Props> = (props) => {
                 </div>
               )}
             </div>
-            {/* {category.image && <img alt={category.name} className={css.banner} src={category.image} />} */}
-            {!isMobile && <SortOptionBar totalProductReview={0} ref={sortRef} />}
+            {category?.thumbnail?.trim() && (
+              <img alt={category.name} className={css.banner} src={category.thumbnail} />
+            )}
+            {!isMobile && (
+              <SortOptionBar
+                onChange={onRefetch}
+                totalProductReview={products.meta.itemCount}
+                ref={sortRef}
+              />
+            )}
             {isMobile ? (
-              // <InfinityScroll
-              //   isLoading={getProductsLoading}
-              //   loadMore={onLoadMore}
-              //   hasMore={productsData?.products.pageInfo.hasNextPage}
-              // >
-              <div className={css.listProductMobile}>{listProductMemo}</div>
+              <InfinityScroll
+                isLoading={getProductsLoading}
+                loadMore={onLoadMore}
+                hasMore={products.meta.totalPages > 1}
+              >
+                <div className={css.listProductMobile}>
+                  {products.items.map((eage, index) => (
+                    <Product key={index} product={eage} />
+                  ))}
+                </div>
+              </InfinityScroll>
             ) : (
-              // </InfinityScroll>
               <>
                 <div className={css.listProduct}>{listProductMemo}</div>
-                <div className={css.loadMoreBtnArea}>
-                  <Button className={css.loadMoreBtn}>Xem thêm</Button>
-                </div>
+                {products.meta.totalPages > 1 && (
+                  <div className={css.loadMoreBtnArea}>
+                    <Button className={css.loadMoreBtn} onClick={onLoadMore}>
+                      Xem thêm
+                    </Button>
+                  </div>
+                )}
               </>
             )}
             {getProductsLoading && (
@@ -120,24 +248,24 @@ const Category: React.FC<Props> = (props) => {
           }}
           className={css.mobileMenu}
         >
-          <MenuFilterOption onClose={onCloseFilterMenu} />
+          <MenuFilterOption onChange={onRefetch} onClose={onCloseFilterMenu} />
         </Drawer>
       )}
     </Layout>
   );
 };
 
-const Product: React.FC<{ product: any }> = ({ product }) => {
+const Product: React.FC<{ product: REDUX_STORE.Product }> = ({ product }) => {
   return (
-    <Link href={`/shop/${product.slug}`}>
+    <Link href={`/shop/${product.slug.trim()}/${product.code}`}>
       <a className={css.productLink}>
         <ProductItem
           data={{
-            category: '',
-            originalPrice: product.price,
-            currentPrice: product.currentPrice || product.price,
+            category: product.categories[0].name,
+            originalPrice: product.currentPrice,
+            currentPrice: product.discountPrice || product.currentPrice,
             title: product.name,
-            thumbnail: product.thumbnail ? product.thumbnail : '',
+            thumbnail: product.thumbnail || '',
           }}
         />
       </a>

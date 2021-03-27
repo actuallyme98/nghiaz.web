@@ -224,7 +224,7 @@ const Payment: NextPage<IProps> = () => {
   // );
 
   return (
-    <Layout loading={false} backUrl={AppRouteEnums.CHECKOUT_CART}>
+    <Layout loading={false} backUrl={AppRouteEnums.CHECKOUT_CART} title="Payment - ">
       <div className={!isMobile ? css.background : ''}>
         <div className={isMobile ? css.contentMobile : css.contentDesktop}>
           {!isMobile && <Stepper step={2} className={css.stepper} />}
@@ -371,7 +371,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      title: 'Payment - ',
       initialReduxState: reduxStore.getState(),
     },
   };

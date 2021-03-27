@@ -19,7 +19,7 @@ interface Props {}
 
 const Contact: React.FC<Props> = (props) => {
   return (
-    <Layout backUrl={AppRouteEnums.HOME}>
+    <Layout backUrl={AppRouteEnums.HOME} title="Liện hệ">
       <div className={clsx(css.container, 'container')}>
         <h1>Liên Hệ</h1>
         <div className={css.map}>
@@ -111,7 +111,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      title: 'Liện hệ',
       initialReduxState: reduxStore.getState(),
     },
   };

@@ -25,7 +25,7 @@ interface Props {}
 
 const Blogs: React.FC<Props> = (props) => {
   return (
-    <Layout backUrl={AppRouteEnums.HOME}>
+    <Layout backUrl={AppRouteEnums.HOME} title="Bài viết">
       <BlogFirst />
       <BlogNew />
       <BlogLogist />
@@ -45,7 +45,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      title: 'Bài viết',
       initialReduxState: reduxStore.getState(),
     },
   };

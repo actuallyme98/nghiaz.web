@@ -6,6 +6,7 @@ import css from './style.module.scss';
 // components
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
+import LoadingIcon from '../../loading-icon';
 import Button from 'antd/lib/button';
 import ProductItem from '../product-item';
 
@@ -18,6 +19,9 @@ interface IProps {}
 
 const TopListSeller: React.FC<IProps> = (props) => {
   const products = useSelector((store: RootState) => store.appState.sellWellProducts);
+  const getProductsLoading = useSelector((store: RootState) =>
+    AppActions.listProductSellWellsAction.isPending(store),
+  );
   const [page, setPage] = useState(1);
 
   const dispatch = useDispatch();
@@ -34,16 +38,13 @@ const TopListSeller: React.FC<IProps> = (props) => {
   const listProducts = useMemo(() => {
     return products.items.map((product, index) => (
       <Col key={index} className={css.listItem} xs={24} sm={12} md={8} xl={6}>
-        <a
-          className={css.productLink}
-          href={`/shop/${product.slug.trim()}?code=${product.code.trim()}`}
-        >
+        <a className={css.productLink} href={`/shop/${product.slug.trim()}/${product.code.trim()}`}>
           <ProductItem
             product={{
               id: product.id as any,
               category: '/giay-nam',
-              currentPrice: product.currentPrice,
-              originalPrice: product.price,
+              currentPrice: product.discountPrice,
+              originalPrice: product.currentPrice,
               pk: 1,
               thumbnail: product.thumbnail,
               title: product.name,
@@ -63,6 +64,11 @@ const TopListSeller: React.FC<IProps> = (props) => {
           <Button className={css.loadMoreBtn} onClick={onLoadMore}>
             Xem thêm
           </Button>
+        </div>
+      )}
+      {getProductsLoading && (
+        <div className={css.loadingArea}>
+          <LoadingIcon />
         </div>
       )}
     </div>

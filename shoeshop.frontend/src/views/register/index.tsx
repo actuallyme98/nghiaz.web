@@ -57,7 +57,7 @@ const SignUp: React.FC<Props> = (props) => {
   );
 
   return (
-    <Layout backUrl={AppRouteEnums.HOME}>
+    <Layout backUrl={AppRouteEnums.HOME} title="Tạo tài khoản">
       <div className={css.formLogin}>
         <div>
           <h1 className={css.sgn1}>Đăng Ký</h1>
@@ -166,7 +166,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      title: 'Tạo tài khoản',
       initialReduxState: reduxStore.getState(),
     },
   };

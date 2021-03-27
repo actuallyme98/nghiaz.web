@@ -44,6 +44,14 @@ export class ProductCSC {
     await newColor.save();
   }
   async createCategory(args: CreateCategoryDTO) {
+    const category = await this.categoryRepository.findOne({
+      where: {
+        slug: args.slug,
+      },
+    });
+    if (category) {
+      throw ErrorHelper.BadRequestException('Thể loại đã tồn tại');
+    }
     const newCateg = new Category({
       ...args,
       thumbnail: '',

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 // components
@@ -35,12 +35,18 @@ interface FormikValues {
 
 const EditCategoryModal: React.FC<IProps> = (props) => {
   const { open, onClose, category } = props;
-  const [pk, setPk] = useState(category?.pk || 0);
+  const [pk, setPk] = useState(0);
   const [singleUrl, setSingleUrl] = useState('');
   const [singleFile, setSingleFile] = useState<File>();
   const classes = useStyles();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    if (category) {
+      setPk(category.pk);
+    }
+  }, [category]);
 
   const onChangeSingleFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.currentTarget;

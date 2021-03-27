@@ -9,9 +9,12 @@ import Select from 'antd/lib/select';
 // utils
 import { sortOptions } from '../../../configs/product-sort-options';
 
+// types
+import { QueryToProductsArgs } from '../../../types/gtypes';
+
 interface IProps {
   totalProductReview: number;
-  onChange?: (args: any) => void;
+  onChange: (args: QueryToProductsArgs) => void;
 }
 
 const SortOptionBar: React.ForwardRefRenderFunction<any, IProps> = (
@@ -20,9 +23,9 @@ const SortOptionBar: React.ForwardRefRenderFunction<any, IProps> = (
 ) => {
   const [orderBy, setOrderBy] = useState<string | undefined>('-createdAt');
   const onOrderByChange = useCallback(
-    (value: string) => {
+    (value: any) => {
       setOrderBy(value);
-      // onChange({ orderBy: value });
+      onChange({ orderBy: value });
     },
     [onChange],
   );

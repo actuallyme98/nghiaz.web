@@ -66,7 +66,7 @@ const DeliveryAddress: NextPage<Props> = () => {
   }, [deliveryAddresses]);
 
   return isMobile ? (
-    <Layout loading={profilePending} backUrl={AppRouteEnums.USER}>
+    <Layout loading={profilePending} backUrl={AppRouteEnums.USER} title="Địa chỉ giao hàng">
       <div className={css.rootMobile}>
         <div className={css.title}>
           <img src="/assets/icons/red-delivery-fast.svg" alt="" />
@@ -107,7 +107,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   await dispatch(AppActions.initializeAuthPage({ req }));
   return {
     props: {
-      title: 'Địa chỉ giao hàng',
       initialReduxState: reduxStore.getState(),
     },
   };

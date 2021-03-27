@@ -30,6 +30,7 @@ const Header: React.FC<IProps> = (props) => {
   const [openMenu, setOpenMenu] = useState(false);
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const profile = useSelector((store: RootState) => store.appState.profile);
+  const categories = useSelector((store: RootState) => store.appState.categories);
   const openCartDrawer = useSelector((store: RootState) => store.appState.openCartDrawer);
   const dispatch = useDispatch();
   const route = useRouter();
@@ -53,6 +54,36 @@ const Header: React.FC<IProps> = (props) => {
   const goBack = useCallback(() => {
     route.push(backUrl || AppRouteEnums.HOME);
   }, [backUrl]);
+
+  const listMainMenu = useMemo(() => {
+    return categories
+      .filter((categ) => categ.pk !== 1)
+      .map((x) => (
+        <Link href={`/category/${x.slug.trim()}`}>
+          <a className={css.menuLink}>{x.name}</a>
+        </Link>
+      ));
+  }, [categories]);
+
+  const listPk = useMemo(() => {
+    return categories
+      .filter((categ) => categ.pk !== 0)
+      .map((x) => (
+        <Link href={`/category/${x.slug.trim()}`}>
+          <a className={css.dropDownItem}>{x.name}</a>
+        </Link>
+      ));
+  }, [categories]);
+
+  const menuDrawer = useMemo(() => {
+    return categories
+      .filter((categ) => categ.pk !== 1)
+      .map((x) => (
+        <Link href={`/category/${x.slug.trim()}`}>
+          <a className={css.menuLinkDrawer}>{x.name}</a>
+        </Link>
+      ));
+  }, [categories]);
 
   const profileMenu = useMemo(() => {
     if (!profile) {
@@ -120,18 +151,7 @@ const Header: React.FC<IProps> = (props) => {
       >
         <div className={css.rootDrawer}>
           {profileLink}
-          <Link href="/category/giay-nam">
-            <a className={css.menuLinkDrawer}>Giày nam</a>
-          </Link>
-          <Link href="/category/giay-nu">
-            <a className={css.menuLinkDrawer}>Giày nữ</a>
-          </Link>
-          <Link href="/category/giay-doi">
-            <a className={css.menuLinkDrawer}>Giày đôi</a>
-          </Link>
-          <Link href="/category/tui-xach">
-            <a className={css.menuLinkDrawer}>Phụ kiện</a>
-          </Link>
+          {menuDrawer}
           <Link href={AppRouteEnums.HOME}>
             <a className={css.menuLinkDrawer}>Khuyến mại</a>
           </Link>
@@ -190,37 +210,10 @@ const Header: React.FC<IProps> = (props) => {
             <Link href={AppRouteEnums.HOME}>
               <a className={css.menuLink}>Trang chủ</a>
             </Link>
-            <Link href="/category/giay-nam">
-              <a className={css.menuLink}>Giày nam</a>
-            </Link>
-            <Link href="/category/giay-nu">
-              <a className={css.menuLink}>Giày nữ</a>
-            </Link>
-            <Link href="/category/giay-doi">
-              <a className={css.menuLink}>Giày đôi</a>
-            </Link>
+            {listMainMenu}
             <div className={clsx(css.menuLink, css.menuDropDown)}>
               Phụ kiện
-              <div className={css.dropDown}>
-                <Link href="/category/tui-xach">
-                  <a className={css.dropDownItem}>Túi xách</a>
-                </Link>
-                <Link href="/category/day-giay">
-                  <a className={css.dropDownItem}>Dây giày</a>
-                </Link>
-                <Link href="/category/binh-xit">
-                  <a className={css.dropDownItem}>Bình xịt</a>
-                </Link>
-                <Link href="/category/kinh">
-                  <a className={css.dropDownItem}>Kính</a>
-                </Link>
-                <Link href="/category/lot-giay">
-                  <a className={css.dropDownItem}>Lót giày</a>
-                </Link>
-                <Link href="/category/qua-tang">
-                  <a className={css.dropDownItem}>Qùa tặng</a>
-                </Link>
-              </div>
+              <div className={css.dropDown}>{listPk}</div>
             </div>
             <Link href={AppRouteEnums.HOME}>
               <a className={css.menuLink}>Khuyến mại</a>

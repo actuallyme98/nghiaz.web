@@ -16,36 +16,31 @@ import { RootState } from '@redux/stores/configure-store';
 // utils
 import { priceOptions } from '../../../configs/product-filter-options';
 
+// types
+import { QueryToProductsArgs } from '../../../types/gtypes';
+
 interface Props {
-  onChange?: (args: any) => void;
+  onChange: (args: QueryToProductsArgs) => void;
   onClose?: () => void;
 }
-
-// mocks
-const colors: any[] = Array.from({ length: 6 }, (_, index) => ({
-  id: index,
-  label: 'XMCA',
-}));
-
-const sizes: any[] = Array.from({ length: 6 }, (_, index) => ({
-  id: index,
-  label: 40 + index,
-}));
 
 const MenuFilterOption: React.ForwardRefRenderFunction<any, Props> = (
   { onChange, onClose },
   ref,
 ) => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const colors = useSelector((store: RootState) => store.appState.colors);
+  const sizes = useSelector((store: RootState) => store.appState.sizes);
+
   const [selectedPriceId, setSelectedPriceId] = useState<number>(0);
-  const [selectedColors, setSelectedColors] = useState<string[]>([]);
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+  const [selectedColors, setSelectedColors] = useState<number[]>([]);
+  const [selectedSizes, setSelectedSizes] = useState<number[]>([]);
 
   const onChangePrice = useCallback(
     (event: RadioChangeEvent) => {
       const { value } = event.target;
       setSelectedPriceId(parseInt(value));
-      // !isMobile && onChange(getPriceArgs(e.target.value));
+      !isMobile && onChange(getPriceArgs(event.target.value));
     },
     [onChange],
   );
@@ -53,7 +48,7 @@ const MenuFilterOption: React.ForwardRefRenderFunction<any, Props> = (
   const onChangeColors = useCallback(
     (checkedValue: any[]) => {
       setSelectedColors(checkedValue);
-      //   !isMobile && onChange(getColorsArgs(checkedValue));
+      !isMobile && onChange(getColorsArgs(checkedValue));
     },
     [onChange],
   );
@@ -61,51 +56,52 @@ const MenuFilterOption: React.ForwardRefRenderFunction<any, Props> = (
   const onChangeSizes = useCallback(
     (checkedValue: any[]) => {
       setSelectedSizes(checkedValue);
-      //   !isMobile && onChange(getSizesArgs(checkedValue));
+      !isMobile && onChange(getSizesArgs(checkedValue));
     },
     [onChange],
   );
 
-  const getPriceArgs = useCallback((id: number): any => {
+  const getPriceArgs = useCallback((id: number) => {
     const option = priceOptions.find((option) => option.id === id);
     return option ? { priceGte: option.value.start, priceLte: option.value.end } : {};
   }, []);
 
-  const getColorsArgs = useCallback((colors: string[]): any => ({ colors }), []);
+  const getColorsArgs = useCallback((colors: number[]) => ({ colors }), []);
 
-  const getSizesArgs = useCallback((sizes: string[]): any => ({ sizes }), []);
+  const getSizesArgs = useCallback((sizes: number[]) => ({ sizes }), []);
 
   const onUnfilteredPrice = useCallback(() => {
     setSelectedPriceId(0);
-    // onChange({
-    //   priceLte: undefined,
-    //   priceGte: undefined,
-    // });
+    onChange({
+      priceLte: undefined,
+      priceGte: undefined,
+    });
   }, [onChange]);
 
   const onUnfilteredColor = useCallback(() => {
     setSelectedColors([]);
-    // onChange({
-    //   types: [],
-    // });
+    onChange({
+      colors: [],
+    });
   }, [onChange]);
 
   const onUnfilteredSize = useCallback(() => {
     setSelectedSizes([]);
-    // onChange({
-    //   types: [],
-    // });
+    onChange({
+      sizes: [],
+    });
   }, [onChange]);
 
   const onUnfiltered = useCallback(() => {
     setSelectedPriceId(0);
     setSelectedColors([]);
     setSelectedSizes([]);
-    // onChange({
-    //   priceGte: undefined,
-    //   priceLte: undefined,
-    //   types: [],
-    // });
+    onChange({
+      priceGte: undefined,
+      priceLte: undefined,
+      colors: [],
+      sizes: [],
+    });
   }, [onChange]);
 
   useImperativeHandle(ref, () => ({
@@ -117,7 +113,7 @@ const MenuFilterOption: React.ForwardRefRenderFunction<any, Props> = (
   }));
 
   const onApply = useCallback(() => {
-    let args: any = {};
+    let args: QueryToProductsArgs = {};
     if (selectedPriceId) {
       args = { ...args, ...getPriceArgs(selectedPriceId) };
     }
@@ -127,9 +123,9 @@ const MenuFilterOption: React.ForwardRefRenderFunction<any, Props> = (
     if (selectedSizes) {
       args = { ...args, ...getSizesArgs(selectedSizes) };
     }
-    // onChange(args);
+    onChange(args);
     onClose && onClose();
-  }, [selectedPriceId, selectedColors]);
+  }, [selectedPriceId, selectedColors, selectedSizes, onChange]);
 
   const listPrices = useMemo(() => {
     return priceOptions.map((option, index) => (
@@ -139,27 +135,27 @@ const MenuFilterOption: React.ForwardRefRenderFunction<any, Props> = (
         </Radio>
       </div>
     ));
-  }, []);
+  }, [onChange]);
 
   const listColors = useMemo(() => {
     return colors.map((color, index) => (
       <div key={index}>
         <Checkbox value={color.id} className={css.checkbox}>
-          {color.label}
+          {color.name}
         </Checkbox>
       </div>
     ));
-  }, []);
+  }, [colors]);
 
   const listSizes = useMemo(() => {
     return sizes.map((size, index) => (
       <div key={index}>
         <Checkbox className={css.checkbox} value={size.id}>
-          {size.label}
+          {size.name}
         </Checkbox>
       </div>
     ));
-  }, []);
+  }, [sizes]);
 
   return (
     <div className={isMobile ? css.rootMobile : css.rootDesktop}>

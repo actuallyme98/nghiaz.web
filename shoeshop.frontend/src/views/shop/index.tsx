@@ -40,11 +40,11 @@ const Shop: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
 
   const getProduct = useCallback(async () => {
-    const { code }: any = router.query;
-    if (!code) {
+    const { slug }: any = router.query;
+    if (!slug[1]) {
       return router.push('/');
     }
-    const response = await dispatch(AppActions.getProductAction(code));
+    const response = await dispatch(AppActions.getProductAction(slug[1]));
     if (response.data) {
       setProduct(response.data);
     }

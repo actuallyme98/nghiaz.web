@@ -3,7 +3,7 @@ import { paginate, Pagination, IPaginationOptions } from 'nestjs-typeorm-paginat
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Product } from '@api/entities';
+import { Category, Color, Product, Size } from '@api/entities';
 import { classToPlain } from 'class-transformer';
 
 import { SearchOptions, SortOptions } from '@api/dtos';
@@ -13,7 +13,32 @@ export class ProductService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
+    @InjectRepository(Size)
+    private readonly sizeRepository: Repository<Size>,
+    @InjectRepository(Color)
+    private readonly colorRepository: Repository<Color>,
   ) {}
+
+  async listSizes() {
+    return await this.sizeRepository.find();
+  }
+  async listColors() {
+    return await this.colorRepository.find();
+  }
+
+  async listCategories() {
+    return this.categoryRepository.find();
+  }
+
+  async getCategory(slug: string) {
+    return await this.categoryRepository.findOne({
+      where: {
+        slug,
+      },
+    });
+  }
 
   async findAll(
     options: IPaginationOptions,
@@ -35,24 +60,24 @@ export class ProductService {
       if (name) {
         queryBuilder.andWhere('p.name like :s', { s: `%${name}%` });
       }
-      if (colors) {
-        queryBuilder.andWhere('p.colors @> :colors', { colors });
+      if (colors && colors.length > 0) {
+        queryBuilder.andWhere('color.id IN (:...colors)', { colors });
       }
-      if (sizes) {
-        queryBuilder.andWhere('p.sizes @> :sizes', { sizes });
+      if (sizes && sizes.length > 0) {
+        queryBuilder.andWhere('size.id IN (:...sizes)', { sizes });
       }
-      if (categories) {
-        queryBuilder.andWhere('p.categories @> :categories', { categories });
+      if (categories && categories.length > 0) {
+        queryBuilder.andWhere('category.id IN (:...categories)', { categories });
       }
       if (isSellWell) {
-        queryBuilder.andWhere('p.isSellWell = 1');
+        queryBuilder.andWhere('p.isSellWell = :pk', { pk: 1 });
       }
       if (isSpecial) {
-        queryBuilder.andWhere('p.isSpecial = 1');
+        queryBuilder.andWhere('p.isSpecial = :pk', { pk: 1 });
       }
       if (price) {
         const { start, end } = price;
-        queryBuilder.andWhere('p. price between :start and :end', { start, end });
+        queryBuilder.andWhere('p.currentPrice BETWEEN :start AND :end', { start, end });
       }
     }
 
@@ -64,10 +89,10 @@ export class ProductService {
         queryBuilder.orderBy('p.priority', 'ASC');
         break;
       case '-currentPrice':
-        queryBuilder.orderBy('p.currentPrice', 'ASC');
+        queryBuilder.orderBy('p.currentPrice', 'DESC');
         break;
       case 'currentPrice':
-        queryBuilder.orderBy('p.currentPrice', 'DESC');
+        queryBuilder.orderBy('p.currentPrice', 'ASC');
         break;
       default:
         queryBuilder.orderBy('p.createdAt', 'ASC');

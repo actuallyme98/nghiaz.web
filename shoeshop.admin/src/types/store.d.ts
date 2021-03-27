@@ -13,23 +13,28 @@ declare namespace REDUX_STORE {
 
   interface IProduct {
     id: number;
-    code?: string;
+    code: string;
     name: string;
     price: number;
-    vat: number;
-    status: boolean;
-    slug?: string;
-    discountPrice?: number;
-    currentPrice?: number;
-    isSellWell: boolean;
-    isSpecial: boolean;
+    discountPrice: number;
+    currentPrice: number;
+    isSpecial: number;
+    isSellWell: number;
+    status: number;
+    thumbnail: string;
+    slug: string;
+    shortDescription: string;
+    description: string;
+    bodyDetail: string;
+    soleDetail: string;
     priority: number;
-    thumbnail?: string;
-    shortDescription?: string;
-    description?: string;
-    bodyDetail?: string;
-    soleDetail?: string;
     quantity: number;
+    vat: number;
+    images: ProductImage[];
+    videos: ProductVideo[];
+    sizes: Size[];
+    colors: Color[];
+    categories: Category[];
   }
 
   interface ICategory {

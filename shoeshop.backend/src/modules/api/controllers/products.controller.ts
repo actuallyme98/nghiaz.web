@@ -25,7 +25,7 @@ export class ProductsController {
     @Query('page') page = 1,
     @Query('limit') limit = 8,
     @Query('sorts') sorts: SortOptions,
-    @Query('filters') filters: SearchOptions,
+    @Query('filters') filters: string,
   ) {
     limit = limit > 100 ? 100 : limit;
     const data = await this.productService.findAll(
@@ -34,7 +34,7 @@ export class ProductsController {
         limit: page * limit,
       },
       sorts,
-      filters,
+      JSON.parse(filters),
     );
     return res.json({ data });
   }
@@ -42,6 +42,30 @@ export class ProductsController {
   @Get('/detail/:slug')
   async getProduct(@Param('slug') slug: string, @Res() res: Response) {
     const data = await this.productService.getProduct(slug);
+    return res.json({ data });
+  }
+
+  @Get('/color/list')
+  async listColors(@Res() res: Response) {
+    const data = await this.productService.listColors();
+    return res.json({ data });
+  }
+
+  @Get('/size/list')
+  async listSizes(@Res() res: Response) {
+    const data = await this.productService.listSizes();
+    return res.json({ data });
+  }
+
+  @Get('/category/list')
+  async listCategories(@Res() res: Response) {
+    const data = await this.productService.listCategories();
+    return res.json({ data });
+  }
+
+  @Get('/category/:slug')
+  async getCategory(@Param('slug') slug: string, @Res() res: Response) {
+    const data = await this.productService.getCategory(slug);
     return res.json({ data });
   }
 }

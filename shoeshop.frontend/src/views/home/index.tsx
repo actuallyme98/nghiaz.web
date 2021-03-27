@@ -21,7 +21,7 @@ interface Props {}
 
 const Home: React.FC<Props> = (props) => {
   return (
-    <Layout>
+    <Layout title="Trang chủ">
       <SliderBanner />
       <div className="container">
         <TopCampaign />
@@ -42,7 +42,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      title: 'Trang chủ',
       initialReduxState: reduxStore.getState(),
     },
   };

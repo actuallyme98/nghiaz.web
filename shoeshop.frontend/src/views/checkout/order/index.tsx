@@ -66,6 +66,7 @@ const Order: NextPage<IProps> = () => {
     <Layout
       loading={String(route.query.id) !== 'error' && loading}
       backUrl={AppRouteEnums.CHECKOUT_PAYMENT}
+      title="Order - "
     >
       <div className={!isMobile ? css.background : ''}>
         <div
@@ -115,7 +116,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      title: 'Order - ',
       initialReduxState: reduxStore.getState(),
     },
   };

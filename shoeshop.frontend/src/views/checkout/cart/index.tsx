@@ -30,7 +30,7 @@ const Cart: NextPage<IProps> = () => {
   const cartItems = useMemo(() => [], []);
   const totalPrice = useMemo(() => 0, []);
   return (
-    <Layout>
+    <Layout title="Giỏ hàng">
       <div className={!isMobile ? css.background : ''}>
         <div className={isMobile ? css.contentMobile : css.contentDesktop}>
           {!isMobile && <Stepper step={1} className={css.stepper} />}
@@ -80,7 +80,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      title: 'Giỏ hàng',
       initialReduxState: reduxStore.getState(),
     },
   };

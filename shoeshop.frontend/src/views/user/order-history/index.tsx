@@ -78,7 +78,7 @@ const OrderHistory: NextPage<IProps> = () => {
 
   if (isMobile) {
     return (
-      <Layout loading={false} backUrl={AppRouteEnums.USER}>
+      <Layout loading={false} backUrl={AppRouteEnums.USER} title="Trang cá nhân">
         <div className={css.rootMobile}>
           <div className={css.title}>
             <img src="/assets/icons/bag-delivery.svg" alt="" />
@@ -160,7 +160,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   await dispatch(AppActions.initializeAuthPage({ req }));
   return {
     props: {
-      title: 'Trang cá nhân',
       initialReduxState: reduxStore.getState(),
     },
   };

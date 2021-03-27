@@ -71,6 +71,7 @@ const Categories: React.FC<Props> = (props) => {
   const rows = useMemo(() => {
     return categories.map((row, index) => (
       <TableRow key={index}>
+        <TableCell>{row.id}</TableCell>
         <TableCell>{row.name}</TableCell>
         <TableCell>{row.slug}</TableCell>
         <TableCell>
@@ -111,6 +112,7 @@ const Categories: React.FC<Props> = (props) => {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
+              <TableCell>ID</TableCell>
               <TableCell>Tên</TableCell>
               <TableCell>Slug</TableCell>
               <TableCell />

@@ -73,4 +73,12 @@ declare namespace REDUX_STORE {
     colors: Color[];
     categories: Category[];
   }
+
+  interface ICategory {
+    id: number;
+    name: string;
+    pk: number;
+    thumbnail?: string;
+    slug: string;
+  }
 }

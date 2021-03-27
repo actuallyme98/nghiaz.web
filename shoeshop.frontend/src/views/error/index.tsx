@@ -27,7 +27,7 @@ const Error: NextPage<IProps> = ({ statusCode }) => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
 
   return (
-    <Layout backUrl={AppRouteEnums.HOME}>
+    <Layout backUrl={AppRouteEnums.HOME} title="Page not found 404">
       {statusCode ? (
         <div className={isMobile ? css.contentMobile : css.contentDesktop}>
           <img src="/assets/page-404/404err.jpg" className={css.imgError} />
@@ -50,7 +50,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   dispatch(AppActions.detectMobile(userAgent));
   return {
     props: {
-      title: 'Page not found 404',
       initialReduxState: reduxStore.getState(),
       statusCode: res.statusCode,
     },

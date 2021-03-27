@@ -95,8 +95,20 @@ export class ApiService {
       },
     });
   }
-  public async product(slug: string) {
-    return await this.axios.get(`${ApiRouteEnum.PRODUCT}/${slug}`);
+  public async product(code: string) {
+    return await this.axios.get(`${ApiRouteEnum.PRODUCT}/${code}`);
+  }
+  public async listsizes() {
+    return await this.axios.get(ApiRouteEnum.LIST_SIZES);
+  }
+  public async listColors() {
+    return await this.axios.get(ApiRouteEnum.LIST_COLORS);
+  }
+  public async listCategories() {
+    return await this.axios.get(ApiRouteEnum.LIST_CATEGORIES);
+  }
+  public async getCategory(slug: string) {
+    return await this.axios.get(`${ApiRouteEnum.CATEGORY}/${slug}`);
   }
 }
 

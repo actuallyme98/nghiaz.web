@@ -21,6 +21,9 @@ export interface Store {
   specialProducts: SHOES_API.PaginationResponse<REDUX_STORE.Product>;
   sellWellProducts: SHOES_API.PaginationResponse<REDUX_STORE.Product>;
   categoryProducts: SHOES_API.PaginationResponse<REDUX_STORE.Product>;
+  categories: REDUX_STORE.ICategory[];
+  sizes: REDUX_STORE.Size[];
+  colors: REDUX_STORE.Color[];
 }
 
 export const initialState: Store = {
@@ -30,6 +33,9 @@ export const initialState: Store = {
   specialProducts: initialProduct,
   sellWellProducts: initialProduct,
   categoryProducts: initialProduct,
+  categories: [],
+  sizes: [],
+  colors: [],
 };
 
 export const detectMobileReducer = AppActions.detectMobile.reducer<Store>((state, action) => ({
@@ -112,6 +118,35 @@ export const listCategoryProductsReducer = AppActions.listProductCategoryAction.
   },
 );
 
+export const listCategoryReducer = AppActions.listCategoriesAction.reducer<Store>(
+  (state, action) => {
+    if (isError(action) || !action.payload.data) {
+      return {};
+    }
+    return {
+      categories: action.payload.data,
+    };
+  },
+);
+
+export const listColorsReducer = AppActions.listColorsAction.reducer<Store>((state, action) => {
+  if (isError(action) || !action.payload.data) {
+    return {};
+  }
+  return {
+    colors: action.payload.data,
+  };
+});
+
+export const listSizesReducer = AppActions.listSizesAction.reducer<Store>((state, action) => {
+  if (isError(action) || !action.payload.data) {
+    return {};
+  }
+  return {
+    sizes: action.payload.data,
+  };
+});
+
 export const reducer = createTypeReducer(
   initialState,
   detectMobileReducer,
@@ -123,4 +158,7 @@ export const reducer = createTypeReducer(
   listSpecialProductsReducer,
   listSellWellProductsReducer,
   listCategoryProductsReducer,
+  listCategoryReducer,
+  listColorsReducer,
+  listSizesReducer,
 );

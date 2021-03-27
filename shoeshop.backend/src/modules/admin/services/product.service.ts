@@ -21,7 +21,12 @@ export class ProductService {
   ) {}
 
   async listProducts() {
-    return this.productRepository.find();
+    return this.productRepository
+      .createQueryBuilder('p')
+      .leftJoinAndSelect('p.categories', 'category')
+      .leftJoinAndSelect('p.colors', 'color')
+      .leftJoinAndSelect('p.sizes', 'size')
+      .getMany();
   }
 
   async createProduct(args: CreateProductDTO) {

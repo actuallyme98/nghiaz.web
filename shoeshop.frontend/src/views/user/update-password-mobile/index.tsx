@@ -44,7 +44,7 @@ const UpdatePasswordMobile: NextPage<Props> = () => {
   }
 
   return (
-    <Layout loading={false} backUrl={AppRouteEnums.USER}>
+    <Layout loading={false} backUrl={AppRouteEnums.USER} title="Cập nhật mật khẩu">
       <div className={css.rootMobile}>
         <div className={css.title}>
           <img src="/assets/icons/a-edit.svg" alt="" />
@@ -64,7 +64,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   await dispatch(AppActions.initializeAuthPage({ req }));
   return {
     props: {
-      title: 'Cập nhật mật khẩu',
       initialReduxState: reduxStore.getState(),
     },
   };

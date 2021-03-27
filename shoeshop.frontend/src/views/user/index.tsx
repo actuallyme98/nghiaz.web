@@ -49,7 +49,7 @@ const User: NextPage<Props> = () => {
   }
 
   return (
-    <Layout loading={false}>
+    <Layout loading={false} title="Trang cá nhân">
       <div className={css.rootMobile}>
         <div className={css.title}>
           <img src="/assets/icons/a-edit.svg" alt="" />
@@ -137,7 +137,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   await dispatch(AppActions.initializeAuthPage({ req }));
   return {
     props: {
-      title: 'Trang cá nhân',
       initialReduxState: reduxStore.getState(),
     },
   };

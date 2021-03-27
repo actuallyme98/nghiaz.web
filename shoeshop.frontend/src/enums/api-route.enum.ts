@@ -14,8 +14,10 @@ export const ApiRouteEnum = {
   DELIVERY_ADDRESS_SET_DEFAULT: '/delivery-address/set-default',
   DELIVERY_ADDRESS_DELETE: '/delivery-address/delete',
   DELIVERY_ADDRESS_UPDATE: '/delivery-address/update',
-
-  // dummy
   LIST_PRODUCT: '/products/list',
   PRODUCT: '/products/detail',
+  LIST_CATEGORIES: '/products/category/list',
+  LIST_SIZES: '/products/size/list',
+  LIST_COLORS: '/products/color/list',
+  CATEGORY: '/products/category',
 };
