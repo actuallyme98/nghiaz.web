@@ -6,15 +6,17 @@ import css from './style.module.scss';
 // components
 import Button from 'antd/lib/button';
 import InputNumberSpinner from '../../../components/input-number-spinner';
+import notification from 'antd/lib/notification';
 
 // redux
 import * as AppActions from '@actions/app-action';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
+import { getKeyCategory } from '@helpers/local-storage-util';
 
 interface Props {
   data: {
-    id: string;
+    id: number;
     name: string;
     currentPrice: number;
     price: number;
@@ -35,6 +37,8 @@ const ProductInformation: React.FC<Props> = (props) => {
   const { data } = props;
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const [amount, setAmount] = useState(1);
+  const cartline = useSelector((store: RootState) => store.appState.cartline);
+  const profile = useSelector((store: RootState) => store.appState.profile);
   // const [isFavorite, setIsFavorite] = useState(data.isFavorite);
   const dispatch = useDispatch();
 
@@ -50,9 +54,31 @@ const ProductInformation: React.FC<Props> = (props) => {
     // pending
   }, []);
 
-  const handleAddToCart = useCallback(async () => {
-    dispatch(AppActions.openCartDrawer(true));
-  }, []);
+  const handleAddToCart = useCallback(
+    async (event: React.MouseEvent<HTMLElement>) => {
+      event.preventDefault();
+      try {
+        if (!cartline) {
+          return;
+        }
+        await dispatch(
+          AppActions.addCartLineAction({
+            cartId: cartline?.id,
+            productId: data.id,
+            clientId: profile?.client.id || getKeyCategory(),
+            amount,
+          }),
+        );
+        dispatch(AppActions.openCartDrawer(true));
+      } catch (err) {
+        notification.error({
+          message: String(err).replace(/Error: /g, ''),
+          placement: 'bottomRight',
+        });
+      }
+    },
+    [data],
+  );
 
   const handleChangeAmount = useCallback((value: number) => {
     setAmount(value);

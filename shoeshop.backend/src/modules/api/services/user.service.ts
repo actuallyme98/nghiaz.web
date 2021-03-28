@@ -112,6 +112,7 @@ export class UserService {
     }
     Object.assign(user, {
       password: EncryptHelper.hash(newPassword),
+      updatedAt: new Date(),
     });
     await user.save();
   }

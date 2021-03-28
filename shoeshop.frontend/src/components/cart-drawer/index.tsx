@@ -22,34 +22,55 @@ import { AppRouteEnums } from '../../enums/app-route.enum';
 
 interface IProps extends DrawerProps {}
 
-// mocks
-const data: any[] = [];
-const loading = false;
-const loadingDelete = false;
-const loadingUpdate = false;
-
 const CartDrawer: React.FC<IProps> = (props) => {
   const { ...others } = props;
   const dispatch = useDispatch();
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const cartline = useSelector((store: RootState) => store.appState.cartline);
+  const cartLineLoading = useSelector((store: RootState) =>
+    AppActions.getCartAction.isPending(store),
+  );
 
   const cartItems = useMemo(
     () =>
-      data
-        .map((edge) => edge!.node!)
-        .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) || [],
-    [data],
+      cartline?.cartItems.sort(
+        (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+      ) || [],
+    [cartline],
   );
   const handleChangeAmount = useCallback(
-    (cartLineId: string) => async (amount: number) => {
-      //
+    (cartItemId: number) => async (amount: number) => {
+      try {
+        await dispatch(
+          AppActions.updateCartLineItemAction({
+            cartItemId,
+            amount,
+          }),
+        );
+      } catch (err) {
+        notification.error({
+          message: String(err).replace(/Error: /g, ''),
+          placement: 'bottomRight',
+        });
+      }
     },
     [],
   );
 
   const handleDelete = useCallback(
-    (cartLineId: string) => async () => {
-      //
+    (id: number) => async () => {
+      try {
+        await dispatch(AppActions.delteCartLineItemAction(id));
+        notification.error({
+          message: String('deleted').replace(/Error: /g, ''),
+          placement: 'bottomRight',
+        });
+      } catch (err) {
+        notification.error({
+          message: String(err).replace(/Error: /g, ''),
+          placement: 'bottomRight',
+        });
+      }
     },
     [],
   );
@@ -57,11 +78,11 @@ const CartDrawer: React.FC<IProps> = (props) => {
   const totalPrice = useMemo(
     () =>
       cartItems
-        .reduce((sum, item) => sum + item.product.currentPrice! * item.quantity, 0)
+        .reduce((sum, item) => sum + item.product.currentPrice! * item.amount, 0)
         .toLocaleString('vi-VN'),
     [cartItems],
   );
-  const totalItem = useMemo(() => cartItems.reduce((sum, item) => sum + item.quantity, 0), [
+  const totalItem = useMemo(() => cartItems.reduce((sum, item) => sum + item.amount, 0), [
     cartItems,
   ]);
   const handleClickOrder = () => {
@@ -71,7 +92,7 @@ const CartDrawer: React.FC<IProps> = (props) => {
   return (
     <Drawer {...others}>
       <div className={isMobile ? css.rootMobile : css.rootDesktop}>
-        {(loading || loadingDelete || loadingUpdate) && (
+        {cartLineLoading && (
           <div className={css.wrapLoading}>
             <LoadingIcon />
           </div>

@@ -3,6 +3,7 @@ import { AuthValidateDTO, AuthRefreshTokenDTO, AuthResponseDTO } from './auth.dt
 import { PaginationDTO } from './pagination.dto';
 import { DeliveryAddressDTO, CreateAddressDTO, UpdateAddressDTO } from './delivery-address.dto';
 import { SearchOptions, SortOptions } from './product.dto';
+import { AddCartLineDTO, UpdateCartLineDTO } from './cart.dto';
 
 export {
   UserDTO,
@@ -19,4 +20,6 @@ export {
   UpdatePasswordDTO,
   SearchOptions,
   SortOptions,
+  AddCartLineDTO,
+  UpdateCartLineDTO,
 };

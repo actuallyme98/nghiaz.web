@@ -23,7 +23,7 @@ const Home: React.FC<Props> = (props) => {
   return (
     <Layout title="Trang chủ">
       <SliderBanner />
-      <div className="container">
+      <div className={css.container}>
         <TopCampaign />
         <TopNewestProducts />
         <TopListSeller />

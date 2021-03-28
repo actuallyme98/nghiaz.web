@@ -21,7 +21,7 @@ import { RootState } from '@redux/stores/configure-store';
 import { AppRouteEnums } from '../../enums/app-route.enum';
 
 // utils
-import { toDateTime } from '../../helpers/app-util';
+import { pathAvatar, toDateTime } from '../../helpers/app-util';
 
 interface Props {}
 
@@ -49,7 +49,7 @@ const User: NextPage<Props> = () => {
   }
 
   return (
-    <Layout loading={false} title="Trang cá nhân">
+    <Layout loading={false} title="Trang cá nhân" backUrl={AppRouteEnums.HOME}>
       <div className={css.rootMobile}>
         <div className={css.title}>
           <img src="/assets/icons/a-edit.svg" alt="" />
@@ -57,7 +57,7 @@ const User: NextPage<Props> = () => {
         </div>
         <div className={css.top}>
           <div className={css.left}>
-            <img src={profile.client?.avatar || defaultAvatar} />
+            <img src={pathAvatar(profile.client?.avatar)} />
             <div className={css.nameWrap}>
               <div className={css.name}>
                 {profile.lastName} {profile.firstName}

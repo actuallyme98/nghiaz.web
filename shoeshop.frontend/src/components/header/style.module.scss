@@ -3,19 +3,21 @@
 }
 
 .container {
-  max-width: 80%;
+  width: 80%;
   margin: 0 auto;
-  @media screen and (max-width: 600px) {
-    max-width: 90%;
+  @media screen and (max-width: 500px) {
+    width: 100%;
   }
 }
+
 .wrapper {
   display: flex;
   align-items: center;
-  @media screen and (max-width: 600px) {
-    justify-content: flex-end;
-    padding-right: 10px;
-  }
+}
+
+.wrapperMb {
+  justify-content: flex-end;
+  padding-right: 10px;
 }
 
 .logoLink {
@@ -23,6 +25,9 @@
   width: 160px;
   img {
     width: 100%;
+  }
+  @media screen and (max-width: 500px) {
+    margin-right: 20px;
   }
 }
 
@@ -33,9 +38,10 @@
   background: #fff;
   flex-grow: 1;
   margin: 0 40px;
-  @media screen and (max-width: 600px) {
-    display: none;
-  }
+}
+
+.boxInputMb {
+  display: none;
 }
 
 .inputGroupSearch {
@@ -70,10 +76,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  @media screen and (max-width: 760px) {
-    display: block;
-  }
 }
+
+.dFlexlineMb {
+  display: block;
+}
+
 .phoneText {
   display: flex;
   align-items: center;
@@ -85,15 +93,11 @@
     color: #428bca;
   }
 }
-.phoneLink {
-  @media screen and (max-width: 900px) {
-    display: none;
-  }
+.phoneLinkMb {
+  display: none;
 }
-.orderLink {
-  @media screen and (max-width: 1280px) {
-    display: none;
-  }
+.orderLinkMb {
+  display: none;
 }
 .borderBox {
   display: flex;
@@ -107,10 +111,11 @@
   & img {
     width: 50%;
   }
-  @media screen and (max-width: 600px) {
-    visibility: hidden;
-  }
   cursor: pointer;
+}
+
+.borderBoxMb {
+  visibility: hidden;
 }
 
 .bagButton {
@@ -124,9 +129,10 @@
 }
 .mainMenu {
   background: #f7f7f7;
-  @media screen and (max-width: 600px) {
-    display: none;
-  }
+}
+
+.mainMenuMb {
+  display: none;
 }
 
 .menuLink {
@@ -138,10 +144,12 @@
   &:hover {
     background: #f1f1f1;
   }
-  @media screen and (max-width: 940px) {
-    padding: 15px;
-  }
 }
+
+.menuLinkMb {
+  padding: 15px;
+}
+
 .menuDropDown {
   position: relative;
   &:hover {
@@ -195,12 +203,14 @@
   & img {
     width: 20px;
   }
-  @media screen and (max-width: 600px) {
-    display: block;
-    border: 0;
-    box-shadow: none;
-  }
 }
+
+.menuButtonMb {
+  display: block;
+  border: 0;
+  box-shadow: none;
+}
+
 .rootDrawer {
   background: #31373d;
   height: 100%;

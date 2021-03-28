@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Formik, Form, Field, FieldProps, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 
@@ -11,20 +11,16 @@ import InputField from '../../../components/input-field';
 import SelectField from '../../../components/select-field';
 
 // redux
-import { useSelector } from 'react-redux';
+import * as AppActions from '@actions/app-action';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
+
+// types
+import { GCity, GDistrict, GWard } from '../../../types/gtypes';
 
 interface Props {
   onSave: (values: AddDeliveryFormValues) => void;
 }
-
-// mocks
-const cities: any[] = [];
-const districts: any[] = [];
-const wards: any[] = [];
-const loadingCities = false;
-const loadingCity = false;
-const loadingDistrict = false;
 
 const DeliveryAddressForm: React.FC<Props> = (props) => {
   const { onSave } = props;
@@ -36,31 +32,40 @@ const DeliveryAddressForm: React.FC<Props> = (props) => {
     districtId: '',
     wardId: '',
   });
+  const [cities, setCities] = useState<GCity[]>([]);
+  const [districts, setDistricts] = useState<GDistrict[]>([]);
+  const [wards, setWards] = useState<GWard[]>([]);
 
-  const onSelectCity = useCallback(
-    (cityId: string) => {
-      const city = cities.find((city) => city.id === cityId);
-      if (city) {
-        // startGetCity({
-        //   variables: {
-        //     pk: city.id,
-        //   },
-        // });
-      }
-    },
-    [cities],
-  );
-  const onSelectDistrict = useCallback((districtId: number) => {
-    const district = districts.find((district) => district.id === String(districtId));
-    if (district) {
-      // startGetDistrict({
-      //   variables: {
-      //     pk: district.id,
-      //   },
-      // });
-    }
-  }, []);
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const loadingCities = useSelector((store: RootState) =>
+    AppActions.listCitiesAction.isPending(store),
+  );
+  const loadingCity = useSelector((store: RootState) =>
+    AppActions.listDistrictsAction.isPending(store),
+  );
+  const loadingDistrict = useSelector((store: RootState) =>
+    AppActions.listWardsAction.isPending(store),
+  );
+
+  const dispatch = useDispatch();
+
+  const loadCities = useCallback(async () => {
+    const response = await dispatch(AppActions.listCitiesAction());
+    setCities(response.data);
+  }, []);
+
+  useEffect(() => {
+    loadCities();
+  }, []);
+
+  const onSelectCity = useCallback(async (cityId: string) => {
+    const response = await dispatch(AppActions.listDistrictsAction(parseInt(cityId)));
+    setDistricts(response.data);
+  }, []);
+  const onSelectDistrict = useCallback(async (districtId: string) => {
+    const response = await dispatch(AppActions.listWardsAction(parseInt(districtId)));
+    setWards(response.data);
+  }, []);
 
   const addDeliveryFormSubmit = useCallback(
     async (values: AddDeliveryFormValues, formikHelpers: FormikHelpers<AddDeliveryFormValues>) => {
@@ -119,15 +124,15 @@ const DeliveryAddressForm: React.FC<Props> = (props) => {
               {({ field, form, meta }: FieldProps) => (
                 <SelectField
                   label="Tỉnh/ Thành Phố"
-                  selectItems={cities.map((c) => ({ label: c.name, value: c.id })) || []}
+                  selectItems={cities.map((c) => ({ label: c.name, value: String(c.code) })) || []}
                   input={{
                     ...field,
                     value: loadingCities ? 'Đang tải' : field.value,
                     disabled: loadingCities,
                     onChange: (value: string) => {
                       form.setFieldValue(field.name, value);
-                      form.setFieldValue('districtId', '');
-                      form.setFieldValue('wardId', '');
+                      form.setFieldValue('district', '');
+                      form.setFieldValue('ward', '');
                       onSelectCity(value);
                     },
                     loading: loadingCities,
@@ -145,7 +150,7 @@ const DeliveryAddressForm: React.FC<Props> = (props) => {
                   label="Quận/ Huyện"
                   selectItems={
                     (formikValues.cityId &&
-                      districts.map((d) => ({ label: d.name, value: d.id }))) ||
+                      districts.map((d) => ({ label: d.name, value: String(d.code) }))) ||
                     []
                   }
                   input={{
@@ -154,8 +159,8 @@ const DeliveryAddressForm: React.FC<Props> = (props) => {
                     disabled: loadingCity,
                     onChange: (value: string) => {
                       form.setFieldValue(field.name, value);
-                      form.setFieldValue('wardId', '');
-                      onSelectDistrict(parseInt(value));
+                      form.setFieldValue('ward', '');
+                      onSelectDistrict(value);
                     },
                     loading: loadingCity,
                   }}
@@ -173,7 +178,7 @@ const DeliveryAddressForm: React.FC<Props> = (props) => {
                   selectItems={
                     (formikValues.districtId &&
                       !loadingDistrict &&
-                      wards.map((w) => ({ label: w.name, value: w.id }))) ||
+                      wards.map((w) => ({ label: w.name, value: String(w.code) }))) ||
                     []
                   }
                   input={{

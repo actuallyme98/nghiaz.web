@@ -65,7 +65,7 @@ declare namespace SHOES_API {
     fullName: string;
     phone: string;
     address: string;
-    clientId: string;
+    clientId: number;
     cityId: number;
     districtId: number;
     wardId: number;
@@ -139,4 +139,16 @@ declare namespace SHOES_API {
   }
 
   type SortOptions = '-currentPrice' | 'currentPrice' | '-createdAt' | '-priority';
+
+  interface AddCartLineParams {
+    cartId: number;
+    clientId?: number;
+    productId: number;
+    amount: number;
+  }
+
+  interface UpdateCartLineParams {
+    cartItemId: number;
+    amount: number;
+  }
 }

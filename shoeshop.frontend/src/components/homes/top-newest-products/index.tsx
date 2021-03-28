@@ -4,8 +4,6 @@ import React, { useMemo, useEffect, useCallback, useState } from 'react';
 import css from './style.module.scss';
 
 // components
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
 import LoadingIcon from '../../loading-icon';
 import Button from 'antd/lib/button';
 import ProductItem from '../product-item';
@@ -36,28 +34,18 @@ const TopNewestProducts: React.FC<IProps> = (props) => {
 
   const listProducts = useMemo(() => {
     return products.items.map((product, index) => (
-      <Col key={index} className={css.listItem} xs={24} sm={12} md={8} xl={6}>
+      <div key={index} className={css.listItem}>
         <a className={css.productLink} href={`/shop/${product.slug.trim()}/${product.code.trim()}`}>
-          <ProductItem
-            product={{
-              id: product.id as any,
-              category: '/giay-nam',
-              currentPrice: product.discountPrice,
-              originalPrice: product.currentPrice,
-              pk: 1,
-              thumbnail: product.thumbnail,
-              title: product.name,
-            }}
-          />
+          <ProductItem product={product} />
         </a>
-      </Col>
+      </div>
     ));
   }, [products]);
 
   return (
     <div className={css.container}>
       <div className={css.heading}>SẢN PHẨM ĐẶC BIỆT</div>
-      <Row className={css.listArea}>{listProducts}</Row>
+      <div className={css.listArea}>{listProducts}</div>
       {products.meta.totalPages > 1 && (
         <div className={css.loadMoreArea} onClick={onLoadMore}>
           <Button className={css.loadMoreBtn}>Xem thêm</Button>

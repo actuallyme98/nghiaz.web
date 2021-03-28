@@ -22,11 +22,11 @@ const BREADCRUMB_ITEMS: BreadcumbItem[] = [
 
 const defaultAvatar = process.env.DEFAULT_AVATAR_URL || '';
 
-const UserLayout: React.FC<Props> = ({ children, breadcumb, loading, profile }) => {
+const UserLayout: React.FC<Props> = ({ children, breadcumb, loading, profile, title }) => {
   const items = useMemo(() => [...BREADCRUMB_ITEMS, ...breadcumb], [breadcumb]);
 
   return (
-    <Layout loading={loading}>
+    <Layout loading={loading} title={title}>
       <div className={css.root}>
         <div className={css.container}>
           <div className={css.breadcumbWrap}>
@@ -36,7 +36,7 @@ const UserLayout: React.FC<Props> = ({ children, breadcumb, loading, profile }) 
             <div className={css.left}>
               <ProfileMenu
                 data={{
-                  avatar: profile.client?.avatar || defaultAvatar,
+                  avatar: profile.client?.avatar,
                   name: profile.firstName + ' ' + profile.lastName,
                   updatedAt: profile.updatedAt,
                 }}

@@ -81,4 +81,26 @@ declare namespace REDUX_STORE {
     thumbnail?: string;
     slug: string;
   }
+
+  interface CartItem {
+    id: number;
+    product: Product;
+    amount: number;
+    createdAt: Date;
+    updateAt: Date;
+  }
+
+  interface ICartLine {
+    id: number;
+    client: Client;
+    cartItems: CartItem[];
+  }
+
+  interface ICarrier {
+    id: number;
+    name: string;
+    method: string;
+    fee: number;
+    description: string;
+  }
 }

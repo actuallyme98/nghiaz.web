@@ -58,8 +58,8 @@ const Header: React.FC<IProps> = (props) => {
   const listMainMenu = useMemo(() => {
     return categories
       .filter((categ) => categ.pk !== 1)
-      .map((x) => (
-        <Link href={`/category/${x.slug.trim()}`}>
+      .map((x, index) => (
+        <Link key={index} href={`/category/${x.slug.trim()}`}>
           <a className={css.menuLink}>{x.name}</a>
         </Link>
       ));
@@ -68,8 +68,8 @@ const Header: React.FC<IProps> = (props) => {
   const listPk = useMemo(() => {
     return categories
       .filter((categ) => categ.pk !== 0)
-      .map((x) => (
-        <Link href={`/category/${x.slug.trim()}`}>
+      .map((x, index) => (
+        <Link key={index} href={`/category/${x.slug.trim()}`}>
           <a className={css.dropDownItem}>{x.name}</a>
         </Link>
       ));
@@ -78,8 +78,8 @@ const Header: React.FC<IProps> = (props) => {
   const menuDrawer = useMemo(() => {
     return categories
       .filter((categ) => categ.pk !== 1)
-      .map((x) => (
-        <Link href={`/category/${x.slug.trim()}`}>
+      .map((x, index) => (
+        <Link key={index} href={`/category/${x.slug.trim()}`}>
           <a className={css.menuLinkDrawer}>{x.name}</a>
         </Link>
       ));
@@ -163,12 +163,22 @@ const Header: React.FC<IProps> = (props) => {
           </Link>
         </div>
       </Drawer>
-      <div className="container">
-        <div className={css.wrapper}>
+      <div className={css.container}>
+        <div
+          className={clsx({
+            [css.wrapper]: true,
+            [css.wrapperMb]: isMobile,
+          })}
+        >
           <a href={AppRouteEnums.HOME} className={css.logoLink}>
             <img src="/assets/icons/logo.png" alt="" />
           </a>
-          <div className={css.boxInput}>
+          <div
+            className={clsx({
+              [css.boxInput]: true,
+              [css.boxInputMb]: isMobile,
+            })}
+          >
             <div className={css.inputGroupSearch}>
               <input className={css.inputSearch} placeholder="Bạn cần tìm gì?" />
             </div>
@@ -177,15 +187,33 @@ const Header: React.FC<IProps> = (props) => {
             </button>
           </div>
           <div className={css.controlHeader}>
-            <a href="tel:0364589229" className={clsx(css.phoneText, css.phoneLink)}>
+            <a
+              href="tel:0364589229"
+              className={clsx({
+                [css.phoneText]: true,
+                [css.phoneLink]: true,
+                [css.phoneLinkMb]: isMobile,
+              })}
+            >
               <div className={css.borderBox}>
                 <img src="/assets/icons/phone.svg" alt="" />
               </div>
               <span>0364589229</span>
             </a>
             <Link href={AppRouteEnums.USER_ORER_HISTORY}>
-              <a className={clsx(css.phoneText, css.orderLink)}>
-                <div className={css.borderBox}>
+              <a
+                className={clsx({
+                  [css.phoneText]: true,
+                  [css.orderLink]: true,
+                  [css.orderLinkMb]: isMobile,
+                })}
+              >
+                <div
+                  className={clsx({
+                    [css.borderBox]: true,
+                    [css.borderBoxMb]: isMobile,
+                  })}
+                >
                   <img src="/assets/icons/bill.svg" alt="" />
                 </div>
                 <span>Kiểm tra đơn hàng</span>
@@ -204,9 +232,19 @@ const Header: React.FC<IProps> = (props) => {
           </div>
         </div>
       </div>
-      <div className={css.mainMenu}>
-        <div className="container">
-          <div className={css.dFlexline}>
+      <div
+        className={clsx({
+          [css.mainMenu]: true,
+          [css.mainMenuMb]: isMobile,
+        })}
+      >
+        <div>
+          <div
+            className={clsx({
+              [css.dFlexline]: true,
+              [css.dFlexlineMb]: isMobile,
+            })}
+          >
             <Link href={AppRouteEnums.HOME}>
               <a className={css.menuLink}>Trang chủ</a>
             </Link>

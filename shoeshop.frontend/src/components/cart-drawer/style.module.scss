@@ -78,7 +78,10 @@
       border: none;
       display: block;
       margin-bottom: 18px;
-    }
+      &:hover {
+        color: #000;
+      }
+     }
     .total {
       display: flex;
       justify-content: space-between;

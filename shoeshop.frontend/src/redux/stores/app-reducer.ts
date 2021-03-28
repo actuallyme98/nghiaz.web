@@ -24,6 +24,8 @@ export interface Store {
   categories: REDUX_STORE.ICategory[];
   sizes: REDUX_STORE.Size[];
   colors: REDUX_STORE.Color[];
+  cartline?: REDUX_STORE.ICartLine;
+  carriers: REDUX_STORE.ICarrier[];
 }
 
 export const initialState: Store = {
@@ -36,6 +38,7 @@ export const initialState: Store = {
   categories: [],
   sizes: [],
   colors: [],
+  carriers: [],
 };
 
 export const detectMobileReducer = AppActions.detectMobile.reducer<Store>((state, action) => ({
@@ -147,6 +150,15 @@ export const listSizesReducer = AppActions.listSizesAction.reducer<Store>((state
   };
 });
 
+export const getCartLineReducer = AppActions.getCartAction.reducer<Store>((state, action) => {
+  if (isError(action) || !action.payload) {
+    return {};
+  }
+  return {
+    cartline: action.payload,
+  };
+});
+
 export const reducer = createTypeReducer(
   initialState,
   detectMobileReducer,
@@ -161,4 +173,5 @@ export const reducer = createTypeReducer(
   listCategoryReducer,
   listColorsReducer,
   listSizesReducer,
+  getCartLineReducer,
 );

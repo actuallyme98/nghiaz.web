@@ -7,10 +7,11 @@ import css from './style.module.scss';
 
 // utils
 import { pathAvatar, toDateTime } from '@helpers/app-util';
+import { AppRouteEnums } from '../../../enums/app-route.enum';
 
 interface Iprops {
   data: {
-    avatar: string;
+    avatar?: string;
     name: string;
     updatedAt?: string;
   };
@@ -44,7 +45,7 @@ const ProfileMenu: React.FC<Iprops> = (props) => {
         <p className={css.pointValue}>{toDateTime(data.updatedAt)}</p>
       </div>
       <div className={css.flexBody}>
-        <Link href="/user/edit-profile">
+        <Link href={AppRouteEnums.USER_EDIT_PROFILE}>
           <a className={css.select}>
             <div>
               {isEditProfile ? (
@@ -58,7 +59,7 @@ const ProfileMenu: React.FC<Iprops> = (props) => {
             </div>
           </a>
         </Link>
-        <Link href="/user/delivery-address">
+        <Link href={AppRouteEnums.USER_DELIVERY_ADDRESS}>
           <a className={css.select}>
             <div>
               {isDeliveryAddress ? (
@@ -90,7 +91,7 @@ const ProfileMenu: React.FC<Iprops> = (props) => {
       <div className={css.lineDotted} />
       <ul className={css.list}>
         <li>
-          <Link href="/user/order-history">
+          <Link href={AppRouteEnums.USER_ORER_HISTORY}>
             <a>
               {isOrderHistory ? (
                 <img src="/assets/icons/bag-delivery.svg" alt="" />

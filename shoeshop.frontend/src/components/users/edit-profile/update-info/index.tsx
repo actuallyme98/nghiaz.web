@@ -31,9 +31,9 @@ const UpdateInfo: React.FC<Props> = ({ profile }) => {
   const initialValues = useMemo(() => {
     const { firstName, lastName, username, email, client } = profile;
     return {
-      firstName: firstName || '',
-      lastName: lastName || '',
-      phoneNumber: username || '',
+      firstName: firstName.trim() || '',
+      lastName: lastName.trim() || '',
+      phoneNumber: username.trim() || '',
       email: email?.trim() || '',
       birthday: client?.dob?.trim() ? moment(client?.dob.trim()).toDate() : new Date(),
       gender: client?.gender.trim() || 'UNDEFINED',

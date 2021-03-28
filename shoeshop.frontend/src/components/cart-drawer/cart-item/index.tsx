@@ -7,18 +7,19 @@ import css from './style.module.scss';
 
 // components
 import Button from 'antd/lib/button';
+import InputNumberSpinner from '../../input-number-spinner';
 
 // redux
 import { useSelector } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
 
-import InputNumberSpinner from '../../input-number-spinner';
+import { pathAvatar } from '@helpers/app-util';
 
 interface IProps {
   className?: string;
   onChangeAmount?: (amount: number) => Promise<any>;
   onDelete?: () => void;
-  data: any;
+  data: REDUX_STORE.CartItem;
 }
 
 const CartItem: React.FC<IProps> = (props) => {
@@ -30,23 +31,27 @@ const CartItem: React.FC<IProps> = (props) => {
       try {
         await onChangeAmount(amount);
       } catch {
-        inputRef.current?.setValue(data.quantity);
+        inputRef.current?.setValue(data.amount);
       }
     }
   };
   return (
     <div className={clsx(className, isMobile ? css.rootMobile : css.rootDesktop)}>
       <div className={css.divThumbnail}>
-        <img className={css.thumbnail} src={data.product.thumbnail} alt={data.product.name} />
+        <img
+          className={css.thumbnail}
+          src={pathAvatar(data.product.thumbnail)}
+          alt={data.product.name}
+        />
       </div>
       <div className={css.grow}>
-        <Link href={'/shop/[...slug]'} as={`/shop/${data.product.slug}/${data.product.id}`}>
+        <Link href={'/shop/[...slug]'} as={`/shop/${data.product.slug.trim()}/${data.id}`}>
           <a className={css.title}>{data.product.name}</a>
         </Link>
         <div className={css.price}>{data.product.currentPrice?.toLocaleString('vi-VN')} đ</div>
         <InputNumberSpinner
           ref={inputRef}
-          value={data.quantity}
+          value={data.amount}
           min={1}
           max={100}
           onChange={onChange}

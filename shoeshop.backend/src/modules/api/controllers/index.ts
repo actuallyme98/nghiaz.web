@@ -4,6 +4,7 @@ import { StaticController } from './static.controller';
 import { AddressController } from './delivery-address.controller';
 import { LocationController } from './location.controller';
 import { ProductsController } from './products.controller';
+import { CartController } from './cart.controller';
 
 const CONTROLLERS = [
   UserController,
@@ -12,6 +13,7 @@ const CONTROLLERS = [
   AddressController,
   LocationController,
   ProductsController,
+  CartController,
 ];
 
 export {
@@ -21,5 +23,6 @@ export {
   AddressController,
   LocationController,
   ProductsController,
+  CartController,
   CONTROLLERS,
 };

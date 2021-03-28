@@ -6,6 +6,7 @@ import ApiService from '../../services/api-service';
 
 // helpers
 import SystemHelper from '../../helpers/system.helper';
+import { getKeyCategory } from '@helpers/local-storage-util';
 
 export const detectMobile = createTypeAction<string, boolean>(
   'DETECT_MOBILE',
@@ -282,6 +283,55 @@ export const getCategoryAction = createTypeAsyncAction(
       return response.data;
     } catch (err) {
       // ignore err
+    }
+  },
+);
+
+export const getCartAction = createTypeAsyncAction('GET_CART_ACTION', async (id: number) => {
+  try {
+    const response = await ApiService.getCartLine(id);
+    return response.data;
+  } catch (err) {
+    // ignore err
+  }
+});
+
+export const addCartLineAction = createTypeAsyncAction<SHOES_API.AddCartLineParams, void, Store>(
+  'ADD_CART_LINE_ACTION',
+  async (args: SHOES_API.AddCartLineParams, { dispatch, getState }) => {
+    try {
+      const state = getState();
+      await ApiService.addCartLine(args);
+      await dispatch(getCartAction(state.appState.profile?.client.id || getKeyCategory()));
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const updateCartLineItemAction = createTypeAsyncAction<
+  SHOES_API.UpdateCartLineParams,
+  void,
+  Store
+>('UPDATE_CART_LINE_ITEM', async (args: SHOES_API.UpdateCartLineParams, { dispatch, getState }) => {
+  try {
+    const state = getState();
+    await ApiService.removeItemCartLine(args);
+    await dispatch(getCartAction(state.appState.profile?.client.id || getKeyCategory()));
+  } catch (err) {
+    throw new Error(err);
+  }
+});
+
+export const delteCartLineItemAction = createTypeAsyncAction<number, void, Store>(
+  'DELETE_CART_LINE_ITEM',
+  async (id: number, { dispatch, getState }) => {
+    try {
+      const state = getState();
+      await ApiService.deleteCartItem(id);
+      await dispatch(getCartAction(state.appState.profile?.client.id || getKeyCategory()));
+    } catch (err) {
+      throw new Error(err);
     }
   },
 );

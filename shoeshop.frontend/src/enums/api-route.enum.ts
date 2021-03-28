@@ -20,4 +20,5 @@ export const ApiRouteEnum = {
   LIST_SIZES: '/products/size/list',
   LIST_COLORS: '/products/color/list',
   CATEGORY: '/products/category',
+  CART_LINE: '/cart',
 };

@@ -20,6 +20,7 @@ import { FlashSaleItem } from './flash-sale-item.entity';
 import { Order } from './order.entity';
 import { Blog } from './blog.entity';
 import { BlogCategory } from './blog-category.entity';
+import { Cart } from './cart.entity';
 
 const ENTITIES = [
   User,
@@ -44,6 +45,7 @@ const ENTITIES = [
   Order,
   Blog,
   BlogCategory,
+  Cart,
 ];
 
 export {
@@ -69,5 +71,6 @@ export {
   Order,
   Blog,
   BlogCategory,
+  Cart,
   ENTITIES,
 };

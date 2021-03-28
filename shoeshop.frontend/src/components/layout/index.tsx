@@ -16,19 +16,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as AppActions from '@actions/app-action';
 import { RootState } from '@redux/stores/configure-store';
 
+// utils
+import { getKeyCategory } from '../../helpers/local-storage-util';
 interface IProps {
   loading?: boolean;
   backUrl?: string;
   title?: string;
 }
 
-const whiteLists = ['/', '/contact', '/signin', '/blogs', '/signup'];
-
 const Layout: React.FC<IProps> = (props) => {
   const { children, loading, backUrl, title } = props;
   const route = useRouter();
   const dispatch = useDispatch();
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const profile = useSelector((store: RootState) => store.appState.profile);
 
   useEffect(() => {
     dispatch(AppActions.getProfileAction());
@@ -38,10 +39,10 @@ const Layout: React.FC<IProps> = (props) => {
     dispatch(AppActions.initializeApp());
   }, [route]);
 
-  const isFluid = useMemo(() => {
-    const path = route.pathname;
-    return !whiteLists.includes(path);
-  }, [route]);
+  useEffect(() => {
+    const key = getKeyCategory();
+    dispatch(AppActions.getCartAction(profile?.client.id || key));
+  }, [profile]);
 
   return (
     <>
@@ -53,8 +54,7 @@ const Layout: React.FC<IProps> = (props) => {
       </Head>
       <div
         className={clsx({
-          [css.container]: true,
-          [css.containerFluid]: isFluid && !isMobile,
+          [css.container]: !isMobile,
         })}
       >
         <Header backUrl={backUrl} />

@@ -21,14 +21,17 @@ import { initializeStore } from '@redux/with-redux';
 
 interface IProps {}
 
-// mocks
-const loading = false;
-
 const Cart: NextPage<IProps> = () => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const cartline = useSelector((store: RootState) => store.appState.cartline);
+  const cartloading = useSelector((store: RootState) => AppActions.getCartAction.isPending(store));
 
-  const cartItems = useMemo(() => [], []);
-  const totalPrice = useMemo(() => 0, []);
+  const cartItems = useMemo(() => cartline?.cartItems || [], [cartline]);
+  const totalPrice = useMemo(
+    () => cartItems.reduce((sum, item) => sum + (item.product.currentPrice || 0) * item.amount, 0),
+    [cartItems],
+  );
+
   return (
     <Layout title="Giỏ hàng">
       <div className={!isMobile ? css.background : ''}>
@@ -37,7 +40,7 @@ const Cart: NextPage<IProps> = () => {
           <div className={css.title}>{isMobile ? 'Giỏ hàng' : 'Giỏ hàng của bạn'}</div>
           <div className={css.wrap}>
             <div className={css.col1}>
-              {loading ? (
+              {cartloading ? (
                 <LoadingIcon classes={{ root: css.loading }} />
               ) : cartItems.length ? (
                 <ListCartItem className={css.listCartItem} items={cartItems} />

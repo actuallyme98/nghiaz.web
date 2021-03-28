@@ -4,6 +4,7 @@ import { MailService } from './mail.service';
 import { AddressService } from './delivery-address.service';
 import { LocationService } from './location.service';
 import { ProductService } from './products.service';
+import { CartService } from './cart.service';
 
 const SERVICES = [
   UserService,
@@ -12,6 +13,7 @@ const SERVICES = [
   AddressService,
   LocationService,
   ProductService,
+  CartService,
 ];
 
 const EXPORT_SERVICES = [];
@@ -23,6 +25,7 @@ export {
   AddressService,
   LocationService,
   ProductService,
+  CartService,
   SERVICES,
   EXPORT_SERVICES,
 };

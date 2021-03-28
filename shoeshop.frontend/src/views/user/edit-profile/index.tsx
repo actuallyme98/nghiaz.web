@@ -67,7 +67,11 @@ const EditProfile: NextPage<Props> = () => {
       </div>
     </Layout>
   ) : (
-    <UserLayout breadcumb={[{ title: 'Chỉnh sửa thông tin', url: '' }]} profile={profile}>
+    <UserLayout
+      breadcumb={[{ title: 'Chỉnh sửa thông tin', url: '' }]}
+      profile={profile}
+      title="Chỉnh sửa thông tin"
+    >
       <div className={css.root}>
         <div className={css.title}>
           <div className={css.logoImgTitleDesktop}>

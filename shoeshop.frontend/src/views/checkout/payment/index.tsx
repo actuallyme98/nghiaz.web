@@ -35,9 +35,6 @@ import { AppRouteEnums } from '../../../enums/app-route.enum';
 
 interface IProps {}
 
-// mocks
-const carts: any[] = [];
-const addresses: any[] = [];
 const discountCode: {
   id?: number;
   code?: string;
@@ -62,31 +59,43 @@ const Payment: NextPage<IProps> = () => {
   const [selectedShipFee, setSelectedShipFree] = useState(0);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('COD');
   const [deliveryAddressData, setDeliveryAddressData] = useState<AddDeliveryFormValues>();
-
-  const isMobile = useSelector((store: RootState) => store.appState.isMobile);
-  const profile = useSelector((store: RootState) => store.appState.profile);
-
-  const cartItems = useMemo(() => carts.map((edge) => edge) || [], [carts]);
-
-  const deliveryAddresses = useMemo(
-    () => addresses.map((e) => e).sort((a, b) => (b.default ? 1 : 0) - (a.default ? 1 : 0)),
-    [addresses],
-  );
-
   const [openDeliveryAddressModal, setOpenDeliveryAddressModal] = useState(false);
   const onOpenDeliveryAddressModal = useCallback(() => setOpenDeliveryAddressModal(true), []);
   const onCloseDeliveryAddressModal = useCallback(() => setOpenDeliveryAddressModal(false), []);
 
-  const descriptionRef = useRef<HTMLTextAreaElement>(null);
+  const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const profile = useSelector((store: RootState) => store.appState.profile);
+  const cartline = useSelector((store: RootState) => store.appState.cartline);
+  const addresses = useSelector((store: RootState) => store.appState.deliveryAddresses);
+  const carriers = useSelector((store: RootState) => store.appState.carriers);
 
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
+  const route = useRouter();
+
+  const cartItems = useMemo(() => (cartline?.cartItems || []).map((edge) => edge) || [], [
+    cartline,
+  ]);
+  const deliveryAddresses = useMemo(
+    () => addresses.map((e) => e).sort((a, b) => (b.isDefault ? 1 : 0) - (a.isDefault ? 1 : 0)),
+    [addresses],
+  );
   const totalPrice = useMemo(
-    () =>
-      cartItems.reduce((sum, item) => sum + (item.product.currentPrice || 0) * item.quantity, 0),
+    () => cartItems.reduce((sum, item) => sum + (item.product.currentPrice || 0) * item.amount, 0),
     [cartItems],
   );
-  const shipFee = 0;
-  const discount = caculateDiscount(discountCode, totalPrice, shipFee);
-  const totalAll = Math.max(totalPrice + shipFee - discount, 0);
+
+  const shipFee = useMemo(() => carriers[selectedShipFee]?.fee || 0, [carriers]);
+  const discount = useMemo(() => caculateDiscount(discountCode, totalPrice, shipFee), [
+    discountCode,
+    totalPrice,
+    shipFee,
+  ]);
+  const totalAll = useMemo(() => Math.max(totalPrice + shipFee - discount, 0), [
+    totalPrice,
+    shipFee,
+    discount,
+  ]);
+
   const handleChange = useCallback((event: RadioChangeEvent) => {
     setSelectedDeliveryAddress(event.target.value);
   }, []);
@@ -100,69 +109,15 @@ const Payment: NextPage<IProps> = () => {
   }, []);
 
   const handleConfirmOrder = useCallback(async () => {
-    // pending
+    try {
+      route.push(AppRouteEnums.CHECKOUT_CART);
+    } catch (err) {
+      notification.error({
+        message: String(err).replace(/Error: /g, ''),
+        placement: 'bottomRight',
+      });
+    }
   }, []);
-
-  // useEffect(() => {
-  //   if (userData) {
-  //     if (selectedDeliveryAddress) {
-  //       if (cartItems.length > 0) {
-  //         const delivery = deliveryAddresses.find((d) => d.id === selectedDeliveryAddress);
-  //         if (delivery && delivery.address && delivery.address.district) {
-  //           addCityToCart({
-  //             variables: {
-  //               cityId: delivery.address.city.id,
-  //             },
-  //           });
-  //           caculateShipFee({
-  //             variables: {
-  //               toCityId: delivery.address.city.id,
-  //               toDistrictId: delivery.address.district.id,
-  //               products: cartItems.map((cart) => ({
-  //                 id: cart.product.id,
-  //                 quantity: cart.quantity,
-  //               })),
-  //             },
-  //           });
-  //         }
-  //       }
-  //     } else {
-  //       if (deliveryAddresses.length > 0) {
-  //         if (deliveryAddresses[0].address?.city.id) {
-  //           addCityToCart({
-  //             variables: {
-  //               cityId: deliveryAddresses[0].address.city.id,
-  //             },
-  //           });
-  //         }
-  //         setSelectedDeliveryAddress(deliveryAddresses[0].id);
-  //       }
-  //     }
-  //   } else {
-  //     if (deliveryAddressData && cartItems.length > 0) {
-  //       addCityToCart({
-  //         variables: {
-  //           cityId: deliveryAddressData.cityId,
-  //         },
-  //       });
-  //       caculateShipFee({
-  //         variables: {
-  //           toCityId: deliveryAddressData.cityId,
-  //           toDistrictId: deliveryAddressData.districtId,
-  //           products: cartItems.map((cart) => ({ id: cart.product.id, quantity: cart.quantity })),
-  //         },
-  //       });
-  //     }
-  //   }
-  // }, [
-  //   deliveryAddresses,
-  //   selectedDeliveryAddress,
-  //   JSON.stringify(cartItems),
-  //   deliveryAddressData,
-  //   userData,
-  //   caculateShipFee,
-  //   addCityToCart,
-  // ]);
 
   const renderDeliveryAddress = useMemo(
     () =>
@@ -180,48 +135,35 @@ const Payment: NextPage<IProps> = () => {
           </div>
           <div className={css.addressDetailsRightName}>
             {[
-              deliveryAddress.address?.address,
-              deliveryAddress.address?.ward?.name,
-              deliveryAddress.address?.district?.name,
-              deliveryAddress.address?.city?.name,
+              deliveryAddress.address,
+              deliveryAddress.ward?.name,
+              deliveryAddress.district?.name,
+              deliveryAddress.city?.name,
             ].join(', ')}
           </div>
-          {deliveryAddress.default ? <div className={css.default}>Mặc định</div> : ''}
+          {deliveryAddress.isDefault ? <div className={css.default}>Mặc định</div> : ''}
         </div>
       )),
     [deliveryAddresses],
   );
 
-  // useEffect(() => {
-  //   if (caculateShipFeeData) {
-  //     const x = caculateShipFeeData.caculateShipFee.find((c) => c.carrierId === selectedCarrier);
-  //     if (x) {
-  //       setSelectedShipFree(x.serviceId);
-  //     }
-  //   }
-  // }, [caculateShipFeeData, selectedCarrier]);
-
-  // const renderCaculateShipFee = useMemo(
-  //   () =>
-  //     caculateShipFeeData
-  //       ? caculateShipFeeData.caculateShipFee
-  //           .filter((c) => c.carrierId === selectedCarrier)
-  //           .map((ship) => (
-  //             <div className={css.btnRadio} key={ship.serviceId}>
-  //               <Radio value={ship.serviceId} />
-  //               <div className={css.fast}>
-  //                 <div className={css.name}>{ship.serviceName}</div>
-  //                 <div className={css.deliveryDetails}>
-  //                   <div>Phí vận chuyển: {ship.totalFee.toLocaleString('vi-VN')} đ</div>
-  //                   {!isMobile && <div className={css.dash}>-</div>}
-  //                   <div>Dự kiến thời gian: {ship.serviceDescription}</div>
-  //                 </div>
-  //               </div>
-  //             </div>
-  //           ))
-  //       : [],
-  //   [caculateShipFeeData, selectedCarrier],
-  // );
+  const renderCaculateShipFee = useMemo(
+    () =>
+      carriers.map((ship, index) => (
+        <div className={css.btnRadio} key={index}>
+          <Radio value={ship.id} />
+          <div className={css.fast}>
+            <div className={css.name}>{ship.name}</div>
+            <div className={css.deliveryDetails}>
+              <div>Phí vận chuyển: {ship.fee.toLocaleString('vi-VN')} đ</div>
+              {!isMobile && <div className={css.dash}>-</div>}
+              <div>Dự kiến thời gian: {ship.description}</div>
+            </div>
+          </div>
+        </div>
+      )),
+    [carriers],
+  );
 
   return (
     <Layout loading={false} backUrl={AppRouteEnums.CHECKOUT_CART} title="Payment - ">
@@ -298,6 +240,36 @@ const Payment: NextPage<IProps> = () => {
                   />
                   <div className={css.deliveryMethodsText}>PHƯƠNG THỨC GIAO HÀNG</div>
                 </div>
+                {false ? (
+                  <div className={css.center}>
+                    <LoadingIcon />
+                  </div>
+                ) : carriers.length > 0 ? (
+                  <>
+                    <SelectField
+                      label=""
+                      selectItems={carriers.map((c) => ({
+                        label: c.name,
+                        value: String(c.id),
+                      }))}
+                      input={{
+                        value: String(selectedCarrier),
+                        onChange: (value) => setSelectedCarrier(Number(value)),
+                      }}
+                    />
+                    <div className={css.methods}>
+                      <Radio.Group onChange={handleChangeDelivery} value={selectedShipFee}>
+                        {renderCaculateShipFee}
+                      </Radio.Group>
+                    </div>
+                  </>
+                ) : (
+                  <div>
+                    {!profile && !deliveryAddressData
+                      ? 'Bạn chưa nhập địa chỉ giao hàng'
+                      : 'Không tìm thấy phương thức giao hàng'}
+                  </div>
+                )}
               </div>
 
               <div className={css.paymentMethods}>
@@ -313,10 +285,10 @@ const Payment: NextPage<IProps> = () => {
                         Thanh toán bằng tiền mặt khi nhận hàng (COD)
                       </div>
                     </div>
-                    <div className={css.btnRadio}>
+                    {/* <div className={css.btnRadio}>
                       <Radio value="Online" />
                       <div className={css.nameMethods}>Thanh toán qua VNPAY</div>
-                    </div>
+                    </div> */}
                   </Radio.Group>
                 </div>
               </div>
@@ -351,7 +323,7 @@ const Payment: NextPage<IProps> = () => {
                 className={css.pay}
                 onClick={handleConfirmOrder}
                 loading={false}
-                disabled={false}
+                disabled={!!deliveryAddressData}
               >
                 XÁC NHẬN THANH TOÁN
               </Button>

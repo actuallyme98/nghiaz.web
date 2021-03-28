@@ -13,11 +13,14 @@ import InputNumberSpinner from '../../../../components/input-number-spinner';
 import { useSelector } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
 
+// utils
+import { pathAvatar } from '~/helpers/app-util';
+
 interface IProps {
   className?: string;
   onChangeAmount?: (amount: number) => void;
   onDelete?: () => void;
-  data: any;
+  data: REDUX_STORE.CartItem;
 }
 
 const CartItem: React.FC<IProps> = (props) => {
@@ -26,21 +29,26 @@ const CartItem: React.FC<IProps> = (props) => {
   const discountPercent = useMemo(
     () =>
       Math.ceil(
-        ((data.product.price - (data.product.currentPrice || data.product.price)) * 100) /
-          data.product.price,
+        ((data.product.discountPrice - (data.product.discountPrice || data.product.currentPrice)) *
+          100) /
+          data.product.discountPrice,
       ),
     [data],
   );
   return (
     <div className={clsx(className, isMobile ? css.rootMobile : css.rootDesktop)}>
-      <img alt={data.product.name} className={css.thumbnail} src={data.product.thumbnail} />
+      <img
+        alt={data.product.name}
+        className={css.thumbnail}
+        src={pathAvatar(data.product.thumbnail)}
+      />
       <div className={css.wrap}>
         <div className={css.col1}>
           <Link href={'/shop/[...slug]'} as={`/shop/${data.product.slug}/${data.product.id}`}>
             <a className={css.title}>{data.product.name}</a>
           </Link>
           <div className={css.amount}>Số lượng</div>
-          <InputNumberSpinner value={data.quantity} onChange={onChangeAmount} min={1} max={100} />
+          <InputNumberSpinner value={data.amount} onChange={onChangeAmount} min={1} max={100} />
         </div>
         <div className={css.col2}>
           <div className={css.price}>{data.product.currentPrice?.toLocaleString('vi-VN')} đ</div>
