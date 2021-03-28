@@ -39,7 +39,7 @@ declare namespace SHOES_API {
   interface GetProfileResponse extends REDUX_STORE.Profile {}
 
   interface LogoutResponse {
-    status: boolean;
+    ok: boolean;
   }
 
   interface UpdateInfoParams {
@@ -69,7 +69,7 @@ declare namespace SHOES_API {
     cityId: number;
     districtId: number;
     wardId: number;
-    isDefault: boolean;
+    isDefault: number;
   }
 
   interface CreateDeliveryAddressResponse {}
@@ -78,7 +78,7 @@ declare namespace SHOES_API {
     id: number;
     code: number;
     name: string;
-    isActive: boolean;
+    isActive: number;
   }
 
   interface GDistrict {
@@ -86,7 +86,7 @@ declare namespace SHOES_API {
     cityId: number;
     code: number;
     name: string;
-    isActive: boolean;
+    isActive: number;
   }
 
   interface GWard {
@@ -94,7 +94,7 @@ declare namespace SHOES_API {
     districtID: number;
     code: number;
     name: string;
-    isActive: boolean;
+    isActive: number;
   }
 
   interface GDeliveryAddress {
@@ -106,7 +106,7 @@ declare namespace SHOES_API {
     city: GCity;
     district: GDistrict;
     ward: GWard;
-    isDefault: boolean;
+    isDefault: number;
   }
   interface GetListDeliveryAddressResponse {
     data: [GDeliveryAddress];
@@ -121,7 +121,7 @@ declare namespace SHOES_API {
     cityId: number;
     districtId: number;
     wardId: number;
-    isDefault: boolean;
+    isDefault: number;
   }
 
   interface SearchOptions {
@@ -150,5 +150,29 @@ declare namespace SHOES_API {
   interface UpdateCartLineParams {
     cartItemId: number;
     amount: number;
+  }
+
+  type OrderStatusEnums = 'CONFIRMING' | 'PREPARING' | 'SHIPPING' | 'SUCCESS' | 'FAILED';
+
+  interface OrderItemParams {
+    productId: number;
+    amount: number;
+  }
+
+  interface CreateOrderParams {
+    status: OrderStatusEnums;
+    reason: string;
+    description: string;
+    price: number;
+    paymentMethod: string;
+    name: string;
+    phone: string;
+    address: string;
+    clientId: number;
+    carrierId: number;
+    cityId: number;
+    districtId: number;
+    wardId: number;
+    orderItems: OrderItemParams[];
   }
 }

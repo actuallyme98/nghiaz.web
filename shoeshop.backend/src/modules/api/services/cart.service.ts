@@ -48,6 +48,7 @@ export class CartService {
         gender: 'UNDEFINED' as any,
         dob: '',
         avatar: '',
+        clone: 0,
       });
       await client.save();
     }

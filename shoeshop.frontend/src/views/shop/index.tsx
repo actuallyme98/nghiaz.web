@@ -45,8 +45,8 @@ const Shop: React.FC<Props> = (props) => {
       return router.push('/');
     }
     const response = await dispatch(AppActions.getProductAction(slug[1]));
-    if (response.data) {
-      setProduct(response.data);
+    if (response) {
+      setProduct(response);
     }
   }, []);
 
@@ -55,7 +55,7 @@ const Shop: React.FC<Props> = (props) => {
   }, []);
 
   return (
-    <Layout backUrl={AppRouteEnums.HOME}>
+    <Layout backUrl={AppRouteEnums.HOME} title={'Sản phẩm - ' + (product?.name || '')}>
       {product ? (
         <div className={isMobile ? css.contentMobile : css.contentDesktop}>
           {!isMobile && <Breadcrumb items={breadcrumbs} />}

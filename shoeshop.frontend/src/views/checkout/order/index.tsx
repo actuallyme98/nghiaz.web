@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
@@ -15,52 +15,47 @@ import OrderInfo from '../../../components/order/order-info';
 import OrderCreateAcc from '../../../components/order/order-create';
 
 // redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 
 // enums
 import { AppRouteEnums } from '../../../enums/app-route.enum';
+import { getKeyCategory } from '~/helpers/local-storage-util';
 
 interface IProps {}
 
-// mocks
-const loading = false;
-const data: {
-  id: string;
-  status: string;
-  reason?: string;
-  description?: string;
-  shippingFee: number;
-  paymentMethod?: any;
-  price: number;
-  client?: any;
-  name?: string;
-  phone?: string;
-  address?: string;
-  city?: any;
-  district?: any;
-  ward?: any;
-  createdAt: string;
-  updatedAt: string;
-  orderItems: any;
-  onlinepayment?: any;
-  pk: number;
-} = {
-  id: '1',
-  createdAt: '',
-  updatedAt: '',
-  status: '',
-  shippingFee: 1,
-  pk: 1,
-  orderItems: [],
-  price: 1000,
-};
-
 const Order: NextPage<IProps> = () => {
   const route = useRouter();
+  const dispatch = useDispatch();
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const profile = useSelector((store: RootState) => store.appState.profile);
+  const loading = useSelector((store: RootState) => AppActions.getOrderAction.isPending(store));
+
+  const [order, setOrder] = useState<REDUX_STORE.IOrder>();
+
+  const loadOrder = useCallback(async () => {
+    const { id }: any = route.query;
+    try {
+      const response = await dispatch(
+        AppActions.getOrderAction({
+          clientId: profile?.client.id || getKeyCategory(),
+          code: id,
+        }),
+      );
+      // if (!response.id) {
+      //   return route.push(AppRouteEnums.HOME);
+      // }
+      setOrder(response);
+    } catch (err) {
+      route.push(AppRouteEnums.HOME);
+    }
+  }, [route, profile]);
+
+  useEffect(() => {
+    loadOrder();
+  }, [route, profile]);
 
   return (
     <Layout
@@ -73,7 +68,7 @@ const Order: NextPage<IProps> = () => {
           className={
             isMobile
               ? css.contentMobile
-              : clsx(css.contentDesktop, data && css.contentDesktopBackground)
+              : clsx(css.contentDesktop, order && css.contentDesktopBackground)
           }
         >
           {!isMobile && <Stepper step={3} className={css.stepper} />}
@@ -88,19 +83,21 @@ const Order: NextPage<IProps> = () => {
             )}
             <OrderInfo
               data={{
-                pk: data?.pk || '',
-                phoneNumber: data?.phone || '',
+                pk: order?.code || '',
+                phoneNumber: order?.phone || '',
                 pay: 'Thanh toán khi nhận hàng',
-                address: data
-                  ? [data.address, data.ward?.name, data.district?.name, data.city?.name].join(', ')
+                address: order
+                  ? [order.address, order.ward?.name, order.district?.name, order.city?.name].join(
+                      ', ',
+                    )
                   : '',
-                note: data?.description || '',
-                id: data?.id || '',
-                isClient: Boolean(data?.client),
+                note: order?.description || 'Không có ghi chú',
+                id: order?.id,
+                isClient: Boolean(order?.client),
               }}
             />
 
-            {!data?.client && <OrderCreateAcc />}
+            {!order?.client && <OrderCreateAcc />}
           </div>
         </div>
       </div>

@@ -32,6 +32,7 @@ const Header: React.FC<IProps> = (props) => {
   const profile = useSelector((store: RootState) => store.appState.profile);
   const categories = useSelector((store: RootState) => store.appState.categories);
   const openCartDrawer = useSelector((store: RootState) => store.appState.openCartDrawer);
+  const cartline = useSelector((store: RootState) => store.appState.cartline);
   const dispatch = useDispatch();
   const route = useRouter();
 
@@ -54,6 +55,10 @@ const Header: React.FC<IProps> = (props) => {
   const goBack = useCallback(() => {
     route.push(backUrl || AppRouteEnums.HOME);
   }, [backUrl]);
+
+  const totalItem = useMemo(() => cartline?.cartItems.reduce((sum, item) => sum + item.amount, 0), [
+    cartline,
+  ]);
 
   const listMainMenu = useMemo(() => {
     return categories
@@ -220,7 +225,7 @@ const Header: React.FC<IProps> = (props) => {
               </a>
             </Link>
             {profileMenu}
-            <Badge count={0}>
+            <Badge count={totalItem}>
               <IconButton
                 shape="circle"
                 className={css.bagButton}

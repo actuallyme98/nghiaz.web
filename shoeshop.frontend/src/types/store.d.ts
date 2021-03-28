@@ -15,6 +15,7 @@ declare namespace REDUX_STORE {
     avatar?: string;
     dob?: string;
     gender: EnumGender;
+    clone: number;
   }
 
   enum EnumGender {
@@ -102,5 +103,55 @@ declare namespace REDUX_STORE {
     method: string;
     fee: number;
     description: string;
+  }
+
+  interface City {
+    id: number;
+    code: number;
+    name: string;
+    isActive: number;
+  }
+
+  interface District {
+    id: number;
+    cityId: number;
+    code: number;
+    name: string;
+    isActive: number;
+  }
+
+  interface Ward {
+    id: number;
+    districtID: number;
+    code: number;
+    name: string;
+    isActive: number;
+  }
+
+  interface OrderItem {
+    id: number;
+    amount: number;
+    product: Product;
+  }
+
+  interface IOrder {
+    id: number;
+    code: string;
+    status: OrderStatusEnums;
+    reason: string;
+    description: string;
+    price: number;
+    paymentMethod: string;
+    name: string;
+    phone: string;
+    address: string;
+    city: City;
+    district: District;
+    ward: Ward;
+    client: Client;
+    carrier: ICarrier;
+    orderItems: OrderItem[];
+    createdAt: string;
+    updatedAt: string;
   }
 }

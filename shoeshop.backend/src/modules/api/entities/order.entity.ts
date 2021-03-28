@@ -1,5 +1,17 @@
-import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+import {
+  Column,
+  PrimaryGeneratedColumn,
+  Entity,
+  OneToMany,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+} from 'typeorm';
+import { Carrier, City, Client, District, Ward } from '.';
 import { BaseModel } from './base-model.entity';
+
+import { OrderItem } from '.';
+import { OrderStatusEnums } from '../dtos';
 
 @Entity('order')
 export class Order extends BaseModel {
@@ -12,16 +24,16 @@ export class Order extends BaseModel {
   id: number;
 
   @Column({
-    name: 'client_id',
-    type: 'int',
+    type: 'char',
+    length: 50,
   })
-  clientId: number;
+  status: OrderStatusEnums;
 
   @Column({
-    type: 'int',
-    default: 1,
+    type: 'char',
+    length: 20,
   })
-  status: number;
+  code: string;
 
   @Column({
     type: 'nvarchar',
@@ -37,13 +49,7 @@ export class Order extends BaseModel {
   @Column({
     type: 'int',
   })
-  price: string;
-
-  @Column({
-    name: 'shipping_fee',
-    type: 'int',
-  })
-  shippingFee: number;
+  price: number;
 
   @Column({
     name: 'payment_method',
@@ -69,18 +75,28 @@ export class Order extends BaseModel {
   })
   address: string;
 
-  @Column({
-    type: 'int',
-  })
-  wardId: number;
+  // Relationship
+  @ManyToOne(() => City)
+  @JoinColumn()
+  city: City;
 
-  @Column({
-    type: 'int',
-  })
-  districtId: number;
+  @ManyToOne(() => District)
+  @JoinColumn()
+  district: District;
 
-  @Column({
-    type: 'int',
-  })
-  cityId: number;
+  @ManyToOne(() => Ward)
+  @JoinColumn()
+  ward: Ward;
+
+  @ManyToOne(() => Client)
+  @JoinColumn()
+  client: Client;
+
+  @ManyToOne(() => Carrier)
+  @JoinColumn()
+  carrier: Carrier;
+
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
+  @JoinColumn()
+  orderItems: OrderItem[];
 }

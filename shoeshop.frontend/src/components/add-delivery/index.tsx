@@ -113,7 +113,7 @@ const AddDeliveryAddressModalContent: React.FC<Omit<Props, 'open'>> = (props) =>
             wardId: parseInt(values.ward),
             fullName: values.name,
             phone: values.phone,
-            isDefault: values.isDefault,
+            isDefault: values.isDefault ? 1 : 0,
             clientId: profile.client.id,
           }),
         );

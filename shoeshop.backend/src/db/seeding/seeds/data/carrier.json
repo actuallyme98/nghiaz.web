@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Viettel Post",
+    "method": "TMĐT PHS",
+    "fee": 30000,
+    "description": "Qua ngày"
+  },
+  {
+    "id": 2,
+    "name": "Giaohangnhanh",
+    "method": "Giao nội tỉnh",
+    "fee": 30000,
+    "description": "Qua ngày"
+  },
+  {
+    "id": 3,
+    "name": "Việt Nam Post HN",
+    "method": "Nhanh nội tỉnh",
+    "fee": 30000,
+    "description": "Qua ngày"
+  }
+]

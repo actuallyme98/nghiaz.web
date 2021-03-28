@@ -35,6 +35,12 @@ export class Client extends BaseModel {
   })
   dob: string;
 
+  @Column({
+    type: 'int',
+    default: 1,
+  })
+  clone: number;
+
   // Relationship
   @OneToMany(() => DeliveryAddress, (address) => address.client)
   @JoinColumn()

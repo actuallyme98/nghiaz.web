@@ -2,8 +2,8 @@ import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
 import { BaseModel } from './base-model.entity';
 
 @Entity('carrier')
-export class CartItem extends BaseModel {
-  constructor(partial: Partial<CartItem>) {
+export class Carrier extends BaseModel {
+  constructor(partial: Partial<Carrier>) {
     super();
     Object.assign(this, partial);
   }
@@ -26,7 +26,7 @@ export class CartItem extends BaseModel {
   @Column({
     type: 'int',
   })
-  fee: string;
+  fee: number;
 
   @Column({
     type: 'nvarchar',

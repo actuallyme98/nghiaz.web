@@ -4,6 +4,7 @@ import { PaginationDTO } from './pagination.dto';
 import { DeliveryAddressDTO, CreateAddressDTO, UpdateAddressDTO } from './delivery-address.dto';
 import { SearchOptions, SortOptions } from './product.dto';
 import { AddCartLineDTO, UpdateCartLineDTO } from './cart.dto';
+import { CreateOrderDTO, OrderItemDTO, OrderStatusEnums } from './order.dto';
 
 export {
   UserDTO,
@@ -22,4 +23,7 @@ export {
   SortOptions,
   AddCartLineDTO,
   UpdateCartLineDTO,
+  CreateOrderDTO,
+  OrderItemDTO,
+  OrderStatusEnums,
 };

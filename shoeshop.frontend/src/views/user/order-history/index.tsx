@@ -18,7 +18,7 @@ import Loading from '../../../components/loading';
 
 // redux
 import { RootState } from '../../../redux/stores/configure-store';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
 
@@ -30,13 +30,21 @@ interface IProps {}
 const OrderHistory: NextPage<IProps> = () => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const profile = useSelector((store: RootState) => store.appState.profile);
+  const orders = useSelector((store: RootState) => store.appState.orders);
   const [selected, setSelected] = useState(0);
   const route = useRouter();
+  const dispatch = useDispatch();
   const orderId = useMemo(() => route.query.order, [route]);
 
   useEffect(() => {
     if (!profile) {
       route.push(AppRouteEnums.SIGNIN);
+    }
+  }, [profile]);
+
+  useEffect(() => {
+    if (profile) {
+      dispatch(AppActions.listOrdersAction(profile.client.id));
     }
   }, [profile]);
 
@@ -65,11 +73,10 @@ const OrderHistory: NextPage<IProps> = () => {
 
   const renderProductsList = useMemo(
     () =>
-      ([] as any[]).map((edge) => {
-        const order = edge;
-        return <ItemOrdered data={order} key={order.id} open={orderId === order.id} />;
+      orders.map((order) => {
+        return <ItemOrdered data={order} key={order.id} open={orderId === order.code.trim()} />;
       }) || [],
-    [orderId],
+    [orderId, orders],
   );
 
   const onLoadMore = useCallback(() => {
@@ -78,7 +85,7 @@ const OrderHistory: NextPage<IProps> = () => {
 
   if (isMobile) {
     return (
-      <Layout loading={false} backUrl={AppRouteEnums.USER} title="Trang cá nhân">
+      <Layout loading={false} backUrl={AppRouteEnums.USER} title="Lịch sử đơn hàng">
         <div className={css.rootMobile}>
           <div className={css.title}>
             <img src="/assets/icons/bag-delivery.svg" alt="" />

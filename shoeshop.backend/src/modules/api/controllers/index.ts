@@ -5,6 +5,7 @@ import { AddressController } from './delivery-address.controller';
 import { LocationController } from './location.controller';
 import { ProductsController } from './products.controller';
 import { CartController } from './cart.controller';
+import { OrderController } from './order.controller';
 
 const CONTROLLERS = [
   UserController,
@@ -14,6 +15,7 @@ const CONTROLLERS = [
   LocationController,
   ProductsController,
   CartController,
+  OrderController,
 ];
 
 export {
@@ -24,5 +26,6 @@ export {
   LocationController,
   ProductsController,
   CartController,
+  OrderController,
   CONTROLLERS,
 };

@@ -13,17 +13,18 @@ import Badge from 'antd/lib/badge';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/stores/configure-store';
 
+// utils
+import { pathAvatar } from '@helpers/app-util';
+
 interface Iprops {
-  data: any;
+  data: REDUX_STORE.IOrder;
   open: boolean;
 }
 
-// mocks
-const orderItems: any[] = [];
-
 export const getOrderStatus = (
-  status: any,
+  status: string,
 ): { value: 'CONFIRMING' | 'PREPARING' | 'SHIPPING' | 'SUCCESS' | 'FAILED'; label: string } => {
+  status = status.trim();
   if (['NEW', 'CONFIRMING', 'CUSTOMERCONFIRMING'].includes(status)) {
     return { value: 'CONFIRMING', label: 'Đang xác nhận' };
   }
@@ -52,10 +53,10 @@ const ItemOrdered: React.FC<Iprops> = (props) => {
   }, []);
 
   const totalProductPrice = useMemo(
-    () => orderItems.reduce((s, i) => s + (i?.node?.price || 0) * (i?.node?.amount || 0), 0),
+    () => data.orderItems.reduce((s, i) => s + (i.product.currentPrice || 0) * (i.amount || 0), 0),
     [data],
   );
-  const discountPrice = data.price - data.shippingFee - totalProductPrice;
+  const discountPrice = data.price - data.carrier.fee - totalProductPrice;
   const contentBody = (
     <div className={isMobile ? css.costMobile : css.cost}>
       <div className={css.costDetail}>
@@ -64,7 +65,7 @@ const ItemOrdered: React.FC<Iprops> = (props) => {
       </div>
       <div className={css.costDetail}>
         <div className={css.text}>Phí vận chuyển:</div>
-        <div className={css.price}>{data.shippingFee.toLocaleString('vi')} đ</div>
+        <div className={css.price}>{data.carrier.fee.toLocaleString('vi')} đ</div>
       </div>
       {Boolean(discountPrice) && (
         <div className={css.costDetail}>
@@ -83,7 +84,7 @@ const ItemOrdered: React.FC<Iprops> = (props) => {
       <div className={isMobile ? css.boxMobile : css.box}>
         <div className={css.heading}>
           <div className={isMobile ? css.codeMobile : css.codeX} onClick={onOpenModal}>
-            #{data.pk}
+            #{data.code}
           </div>
           <ModalItemOrdered data={data} open={open} onClose={onCloseModal} />
 
@@ -105,50 +106,39 @@ const ItemOrdered: React.FC<Iprops> = (props) => {
         <div className={css.body}>
           <div className={css.products}>
             {isMobile
-              ? orderItems.map((edge, index) => {
-                  const orderItemMobile = edge!.node!;
+              ? data.orderItems.map((edge, index) => {
                   return (
                     <div className={css.boxProductMobile} key={index}>
                       <div className={css.imgOrderItemMobile}>
-                        <Badge count={orderItemMobile.amount > 1 ? orderItemMobile.amount : 0}>
-                          <img
-                            src={orderItemMobile.product?.thumbnail}
-                            alt={orderItemMobile.product?.name}
-                          />
+                        <Badge count={edge.amount > 1 ? edge.amount : 0}>
+                          <img src={pathAvatar(edge.product?.thumbnail)} alt={edge.product?.name} />
                         </Badge>
                       </div>
-                      <Link
-                        href={'/shop/[...slug]'}
-                        as={`/shop/${edge?.node?.product?.slug}/${edge?.node?.product?.id}`}
-                      >
+                      <Link href={`/shop/${edge.product.slug}/${edge.product.id}`}>
                         <a>
-                          <div className={css.nameMobile}>{orderItemMobile.product?.name}</div>
+                          <div className={css.nameMobile}>{edge.product?.name}</div>
                         </a>
                       </Link>
                     </div>
                   );
                 })
-              : orderItems.slice(0, 4).map((edge, index) => {
-                  const orderItem = edge!.node!;
-                  return data.orderItems.edges.length > 4 && index === 3 ? (
+              : data.orderItems.slice(0, 4).map((edge, index) => {
+                  return data.orderItems.length > 4 && index === 3 ? (
                     <div
                       className={css.boxHidden}
                       onClick={() => setOpenItemOrderHistory(true)}
                       key={index}
                     >
-                      +{data.orderItems.edges.length - 3}
+                      +{data.orderItems.length - 3}
                     </div>
                   ) : (
-                    <div className={css.boxProduct} key={orderItem.id}>
-                      <Badge count={orderItem.amount > 1 ? orderItem.amount : 0}>
-                        <img src={orderItem.product?.thumbnail} alt={orderItem.product?.name} />
+                    <div className={css.boxProduct} key={edge.id}>
+                      <Badge count={edge.amount > 1 ? edge.amount : 0}>
+                        <img src={pathAvatar(edge.product?.thumbnail)} alt={edge.product?.name} />
                       </Badge>
-                      <Link
-                        href={'/shop/[...slug]'}
-                        as={`/shop/${edge?.node?.product?.slug}/${edge?.node?.product?.id}`}
-                      >
+                      <Link href={`/shop/${edge.product.slug}/${edge.product.id}`}>
                         <a>
-                          <div className={css.name}>{orderItem.product?.name}</div>
+                          <div className={css.name}>{edge.product?.name}</div>
                         </a>
                       </Link>
                     </div>

@@ -16,12 +16,12 @@ import { RootState } from '@redux/stores/configure-store';
 
 interface Props {
   data: {
-    pk: React.ReactText;
+    pk: string;
     phoneNumber: string;
     pay: string;
     address: string;
     note: string;
-    id: string;
+    id?: number;
     isClient: boolean;
   };
 }
@@ -48,7 +48,7 @@ const OrderInfo: React.FC<Props> = (props) => {
       <div className={css.table}>
         <div className={css.sum}>
           <div className={css.col1Table}>Mã đơn hàng</div>
-          <div className={css.col2Table}>{data.pk}</div>
+          <div className={css.col2Table}>#{data.pk.toUpperCase()}</div>
         </div>
         <div className={css.sum}>
           <div className={css.col1Table}>Số điện thoại</div>

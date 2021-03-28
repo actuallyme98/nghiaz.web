@@ -80,6 +80,7 @@ const DeliveryAddress: NextPage<Props> = () => {
       breadcumb={[{ title: 'Địa chỉ nhận hàng', url: '' }]}
       loading={profilePending}
       profile={profile}
+      title="Địa chỉ giao hàng"
     >
       <div className={isMobile ? css.rootMobile : css.rootDesktop}>
         <div className={css.heading}>

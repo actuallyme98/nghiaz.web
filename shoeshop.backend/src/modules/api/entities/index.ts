@@ -21,6 +21,8 @@ import { Order } from './order.entity';
 import { Blog } from './blog.entity';
 import { BlogCategory } from './blog-category.entity';
 import { Cart } from './cart.entity';
+import { Carrier } from './carrier.entity';
+import { OrderItem } from './order-item.entity';
 
 const ENTITIES = [
   User,
@@ -46,6 +48,8 @@ const ENTITIES = [
   Blog,
   BlogCategory,
   Cart,
+  Carrier,
+  OrderItem,
 ];
 
 export {
@@ -72,5 +76,7 @@ export {
   Blog,
   BlogCategory,
   Cart,
+  Carrier,
+  OrderItem,
   ENTITIES,
 };

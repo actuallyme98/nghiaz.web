@@ -65,7 +65,7 @@ export class AddressService {
       ward,
       client,
     });
-    await newAddress.save();
+    return await newAddress.save();
   }
 
   async deleteAddress(id: number) {
@@ -102,7 +102,7 @@ export class AddressService {
       ward,
       isDefault,
     });
-    await data.save();
+    return await data.save();
   }
 
   async removeOtherDefault() {
@@ -120,6 +120,6 @@ export class AddressService {
     Object.assign(address, {
       isDefault: 1,
     });
-    await address.save();
+    return await address.save();
   }
 }

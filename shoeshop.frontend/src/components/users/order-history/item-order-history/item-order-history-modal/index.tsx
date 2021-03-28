@@ -15,24 +15,24 @@ import { getOrderStatus } from '..';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../../redux/stores/configure-store';
 
+// utils
+import { pathAvatar } from '@helpers/app-util';
+
 interface Iprops {
-  data: any;
+  data: REDUX_STORE.IOrder;
   open: boolean;
   onClose: () => void;
 }
-
-// mocks
-const orderItems: any[] = [];
 
 const ModalItemOrdered: React.FC<Iprops> = (props) => {
   const { data, open, onClose } = props;
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const status = getOrderStatus(data.status);
   const totalProductPrice = useMemo(
-    () => orderItems.reduce((s, i) => s + (i?.node?.price || 0) * (i?.node?.amount || 0), 0),
+    () => data.orderItems.reduce((s, i) => s + (i.product.currentPrice || 0) * (i.amount || 0), 0),
     [data],
   );
-  const discountPrice = data.price - data.shippingFee - totalProductPrice;
+  const discountPrice = data.price - data.carrier.fee - totalProductPrice;
   const step = useMemo(() => {
     switch (status.value) {
       case 'CONFIRMING':
@@ -57,7 +57,7 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
           <div className={css.headingMobile}>
             <div className={css.codeMobile}>
               Đơn hàng
-              <div className={css.idOrderMobile}>&nbsp;#{data.pk}</div>
+              <div className={css.idOrderMobile}>&nbsp;#{data.code}</div>
             </div>
             <div className={css.statusMobile}>
               <div
@@ -82,23 +82,21 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
         footer={null}
       >
         <div className={css.bodyMobile}>
-          <div className={clsx(css.productsMobile, orderItems.length > 8 ? css.scrollMobile : '')}>
-            {orderItems.map((edge, index) => {
-              const orderItem = edge!.node!;
+          <div
+            className={clsx(css.productsMobile, data.orderItems.length > 8 ? css.scrollMobile : '')}
+          >
+            {data.orderItems.map((edge, index) => {
               return (
                 <div className={css.boxProductMobile} key={index}>
-                  <Badge count={orderItem.amount > 1 ? orderItem.amount : 0}>
-                    <img src={orderItem.product?.thumbnail} alt={orderItem.product?.name} />
+                  <Badge count={edge.amount > 1 ? edge.amount : 0}>
+                    <img src={edge.product?.thumbnail} alt={edge.product?.name} />
                   </Badge>
-                  <Link
-                    href={'/shop/[...slug]'}
-                    as={`/shop/${orderItem.product?.slug}/${orderItem.product?.id}`}
-                  >
+                  <Link href={`/shop/${edge.product?.slug}/${edge.product?.id}`}>
                     <a>
-                      <div className={css.nameMobile}>{orderItem.product?.name}</div>
+                      <div className={css.nameMobile}>{edge.product?.name}</div>
                     </a>
                   </Link>
-                  <div className={css.priceMobile}>{orderItem.price.toLocaleString('vi')} đ</div>
+                  <div className={css.priceMobile}>{totalProductPrice.toLocaleString('vi')} đ</div>
                 </div>
               );
             })}
@@ -112,7 +110,7 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
                 <tbody>
                   <tr>
                     <td className={css.labelMobile}>Mã đơn hàng:</td>
-                    <td className={css.valueMobile}>{data.pk}</td>
+                    <td className={css.valueMobile}>{data.code}</td>
                   </tr>
                   <tr>
                     <td className={css.labelMobile}>Người nhận hàng:</td>
@@ -143,7 +141,7 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
                   <tr>
                     <td className={css.labelMobile}>Gói giao hàng:</td>
                     <td className={css.valueMobile}>
-                      {data.carrier?.name} - {data.carrierService?.name}
+                      {data.carrier?.name} - {data.carrier?.name}
                     </td>
                   </tr>
                   <tr>
@@ -163,7 +161,7 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
 
                 <div className={css.flexTextMobile}>
                   <div className={css.textMobilePayment}>Phí vận chuyển: </div>
-                  <div className={css.priceMobile}>{data.shippingFee.toLocaleString('vi')} đ</div>
+                  <div className={css.priceMobile}>{data.carrier.fee.toLocaleString('vi')} đ</div>
                 </div>
 
                 {Boolean(discountPrice) && (
@@ -235,7 +233,7 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
       <Modal
         title={
           <div className={css.heading}>
-            <div className={css.code}>Đơn hàng #{data.pk}</div>
+            <div className={css.code}>Đơn hàng #{data.code}</div>
             <div className={css.status}>
               <div
                 className={clsx(css.icon, {
@@ -260,23 +258,19 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
         width={900}
       >
         <div className={css.body}>
-          <div className={clsx(css.products, orderItems.length > 8 ? css.scroll : '')}>
-            {orderItems.map((edge, index) => {
-              const orderItem = edge!.node!;
+          <div className={clsx(css.products, data.orderItems.length > 8 ? css.scroll : '')}>
+            {data.orderItems.map((edge, index) => {
               return (
-                <div className={css.boxProduct} key={orderItem.id}>
-                  <Badge count={orderItem.amount > 1 ? orderItem.amount : 0}>
-                    <img src={edge?.node?.product?.thumbnail} alt={edge?.node?.product?.name} />
+                <div className={css.boxProduct} key={edge.id}>
+                  <Badge count={edge.amount > 1 ? edge.amount : 0}>
+                    <img src={pathAvatar(edge.product?.thumbnail)} alt={edge.product?.name} />
                   </Badge>
-                  <Link
-                    href={'/shop/[...slug]'}
-                    as={`/shop/${orderItem.product?.slug}/${orderItem.product?.id}`}
-                  >
+                  <Link href={`/shop/${edge.product?.slug}/${edge.product?.id}`}>
                     <a>
-                      <div className={css.name}>{orderItem.product?.name}</div>
+                      <div className={css.name}>{edge.product?.name}</div>
                     </a>
                   </Link>
-                  <div className={css.price}>{orderItem.price.toLocaleString('vi')} đ</div>
+                  <div className={css.price}>{totalProductPrice.toLocaleString('vi')} đ</div>
                 </div>
               );
             })}
@@ -290,7 +284,7 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
                 <tbody>
                   <tr>
                     <td className={css.label}>Mã đơn hàng:</td>
-                    <td className={css.value}>{data.pk}</td>
+                    <td className={css.value}>{data.code}</td>
                   </tr>
                   <tr>
                     <td className={css.label}>Người nhận hàng:</td>
@@ -321,7 +315,7 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
                   <tr>
                     <td className={css.label}>Gói giao hàng:</td>
                     <td className={css.value}>
-                      {data.carrier?.name} - {data.carrierService?.name}
+                      {data.carrier?.name} - {data.carrier.name}
                     </td>
                   </tr>
                   <tr>
@@ -341,7 +335,7 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
 
                 <div className={css.flexText}>
                   <div className={css.text}>Phí vận chuyển: </div>
-                  <div className={css.price}>{data.shippingFee.toLocaleString('vi')} đ</div>
+                  <div className={css.price}>{data.carrier.fee.toLocaleString('vi')} đ</div>
                 </div>
 
                 {Boolean(discountPrice) && (

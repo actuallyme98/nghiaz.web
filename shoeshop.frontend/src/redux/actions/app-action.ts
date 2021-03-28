@@ -150,7 +150,8 @@ export const listDeliveryAddressAction = createTypeAsyncAction(
   'LIST_DELIVERY_ADDRESS',
   async () => {
     try {
-      return await ApiService.listDeliveryAddress();
+      const response = await ApiService.listDeliveryAddress();
+      return response.data;
     } catch (err) {
       throw new Error(err);
     }
@@ -228,20 +229,30 @@ export const updateAvatarAction = createTypeAsyncAction<FormData, void, Store>(
 export const listProductSpecialsAction = createTypeAsyncAction(
   'LIST_PRODUCTS_SPECIAL_ACTION',
   async (page?: number) => {
-    return await ApiService.listProducts({
-      page,
-      filters: { isSpecial: true },
-    });
+    try {
+      const response = await ApiService.listProducts({
+        page,
+        filters: { isSpecial: true },
+      });
+      return response.data;
+    } catch (err) {
+      // ignore err
+    }
   },
 );
 
 export const listProductSellWellsAction = createTypeAsyncAction(
   'LIST_PRODUCTS_SELL_WELL_ACTION',
   async (page?: number) => {
-    return await ApiService.listProducts({
-      page,
-      filters: { isSellWell: true },
-    });
+    try {
+      const response = await ApiService.listProducts({
+        page,
+        filters: { isSellWell: true },
+      });
+      return response.data;
+    } catch (err) {
+      // ignore err
+    }
   },
 );
 
@@ -252,27 +263,52 @@ export const listProductCategoryAction = createTypeAsyncAction(
     filters?: SHOES_API.SearchOptions;
     sorts?: SHOES_API.SortOptions;
   }) => {
-    return await ApiService.listProducts(args);
+    try {
+      const response = await ApiService.listProducts(args);
+      return response.data;
+    } catch (err) {
+      // ignore err
+    }
   },
 );
 
 export const getProductAction = createTypeAsyncAction(
   'GET_PRODUCT_ACTION',
   async (code: string) => {
-    return await ApiService.product(code);
+    try {
+      const response = await ApiService.product(code);
+      return response.data;
+    } catch (err) {
+      // ignore err
+    }
   },
 );
 
 export const listColorsAction = createTypeAsyncAction('LIST_COLORS_ACTION', async () => {
-  return await ApiService.listColors();
+  try {
+    const response = await ApiService.listColors();
+    return response.data;
+  } catch (err) {
+    // ignore
+  }
 });
 
 export const listSizesAction = createTypeAsyncAction('LIST_SIZES_ACTION', async () => {
-  return await ApiService.listsizes();
+  try {
+    const response = await ApiService.listsizes();
+    return response.data;
+  } catch (err) {
+    // ignore
+  }
 });
 
 export const listCategoriesAction = createTypeAsyncAction('LIST_CATEGORY_ACTION', async () => {
-  return await ApiService.listCategories();
+  try {
+    const response = await ApiService.listCategories();
+    return response.data;
+  } catch (err) {
+    // ignore err
+  }
 });
 
 export const getCategoryAction = createTypeAsyncAction(
@@ -335,3 +371,46 @@ export const delteCartLineItemAction = createTypeAsyncAction<number, void, Store
     }
   },
 );
+
+export const listOrdersAction = createTypeAsyncAction('LIST_ORDERS_ACTION', async (id: number) => {
+  try {
+    const response = await ApiService.listOrders(id);
+    return response.data;
+  } catch (err) {
+    // ignore err
+  }
+});
+
+export const createOrder = createTypeAsyncAction(
+  'CREATE_ORDER_ACTION',
+  async (args: SHOES_API.CreateOrderParams) => {
+    try {
+      const response = await ApiService.createOrder(args);
+      return response.data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const getOrderAction = createTypeAsyncAction(
+  'GET_ORDER_ACTION',
+  async (args: { clientId: number; code: string }) => {
+    try {
+      const { clientId, code } = args;
+      const response = await ApiService.getOrder(clientId, code);
+      return response.data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const listCarriersAction = createTypeAsyncAction('LIST_CARRIERS_ACTION', async () => {
+  try {
+    const response = await ApiService.listCarriers();
+    return response.data;
+  } catch (err) {
+    // ignore err
+  }
+});

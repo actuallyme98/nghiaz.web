@@ -61,10 +61,6 @@ const CartDrawer: React.FC<IProps> = (props) => {
     (id: number) => async () => {
       try {
         await dispatch(AppActions.delteCartLineItemAction(id));
-        notification.error({
-          message: String('deleted').replace(/Error: /g, ''),
-          placement: 'bottomRight',
-        });
       } catch (err) {
         notification.error({
           message: String(err).replace(/Error: /g, ''),

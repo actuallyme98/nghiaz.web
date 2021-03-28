@@ -22,7 +22,7 @@ import DeliveryAddressForm, {
 } from '../../../components/payments/delivery-address-form';
 
 // redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
 import * as AppActions from '@actions/app-action';
 import { initializeStore } from '@redux/with-redux';
@@ -32,6 +32,7 @@ import { caculateDiscount } from '@helpers/app-util';
 
 // enums
 import { AppRouteEnums } from '../../../enums/app-route.enum';
+import { getKeyCategory } from '~/helpers/local-storage-util';
 
 interface IProps {}
 
@@ -54,9 +55,8 @@ const discountCode: {
 };
 
 const Payment: NextPage<IProps> = () => {
-  const [selectedCarrier, setSelectedCarrier] = useState(0);
+  const [selectedCarrier, setSelectedCarrier] = useState(1);
   const [selectedDeliveryAddress, setSelectedDeliveryAddress] = useState('');
-  const [selectedShipFee, setSelectedShipFree] = useState(0);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('COD');
   const [deliveryAddressData, setDeliveryAddressData] = useState<AddDeliveryFormValues>();
   const [openDeliveryAddressModal, setOpenDeliveryAddressModal] = useState(false);
@@ -68,23 +68,51 @@ const Payment: NextPage<IProps> = () => {
   const cartline = useSelector((store: RootState) => store.appState.cartline);
   const addresses = useSelector((store: RootState) => store.appState.deliveryAddresses);
   const carriers = useSelector((store: RootState) => store.appState.carriers);
+  const orderPending = useSelector((store: RootState) => AppActions.createOrder.isPending(store));
 
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const route = useRouter();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(AppActions.listCarriersAction());
+  }, []);
+
+  useEffect(() => {
+    if (profile) {
+      dispatch(AppActions.listDeliveryAddressAction());
+    }
+  }, [profile]);
+
+  useEffect(() => {
+    if (addresses) {
+      const addressDefault = addresses.find((x) => x.isDefault === 1);
+      if (addressDefault) {
+        setDeliveryAddressData({
+          address: addressDefault.address,
+          cityId: addressDefault.city.code,
+          districtId: addressDefault.district.code,
+          wardId: addressDefault.ward.code,
+          name: addressDefault.fullName,
+          phone: addressDefault.phone,
+        });
+      }
+    }
+  }, [profile, addresses]);
 
   const cartItems = useMemo(() => (cartline?.cartItems || []).map((edge) => edge) || [], [
     cartline,
   ]);
   const deliveryAddresses = useMemo(
-    () => addresses.map((e) => e).sort((a, b) => (b.isDefault ? 1 : 0) - (a.isDefault ? 1 : 0)),
+    () => addresses.map((e) => e).sort((a, b) => b.isDefault - a.isDefault),
     [addresses],
   );
   const totalPrice = useMemo(
     () => cartItems.reduce((sum, item) => sum + (item.product.currentPrice || 0) * item.amount, 0),
     [cartItems],
   );
-
-  const shipFee = useMemo(() => carriers[selectedShipFee]?.fee || 0, [carriers]);
+  const shipCarrier = useMemo(() => carriers.find((x) => x.id === selectedCarrier), [carriers]);
+  const shipFee = useMemo(() => shipCarrier?.fee || 0, [shipCarrier]);
   const discount = useMemo(() => caculateDiscount(discountCode, totalPrice, shipFee), [
     discountCode,
     totalPrice,
@@ -100,8 +128,8 @@ const Payment: NextPage<IProps> = () => {
     setSelectedDeliveryAddress(event.target.value);
   }, []);
 
-  const handleChangeDelivery = useCallback((event: RadioChangeEvent) => {
-    setSelectedShipFree(event.target.value);
+  const handleChangeCarrier = useCallback((event: RadioChangeEvent) => {
+    setSelectedCarrier(event.target.value);
   }, []);
 
   const handleChangePayment = useCallback((event: RadioChangeEvent) => {
@@ -110,14 +138,52 @@ const Payment: NextPage<IProps> = () => {
 
   const handleConfirmOrder = useCallback(async () => {
     try {
-      route.push(AppRouteEnums.CHECKOUT_CART);
+      if (!deliveryAddressData || !shipCarrier) {
+        return;
+      }
+      const { name, cityId, districtId, address, phone, wardId } = deliveryAddressData;
+      const orderItems = cartItems.map((item) => ({
+        productId: item.product.id,
+        amount: item.amount,
+      }));
+
+      const response: REDUX_STORE.IOrder | undefined = await dispatch(
+        AppActions.createOrder({
+          name,
+          phone,
+          cityId: cityId,
+          districtId: districtId,
+          wardId: wardId,
+          address,
+          status: 'CONFIRMING',
+          carrierId: shipCarrier.id,
+          clientId: profile?.client.id || getKeyCategory(),
+          description: descriptionRef.current?.value || '',
+          reason: '',
+          paymentMethod: selectedPaymentMethod,
+          price: totalPrice,
+          orderItems,
+        }),
+      );
+      if (!response) {
+        return route.push(AppRouteEnums.HOME);
+      }
+      route.push(`${AppRouteEnums.CHECKOUT_ORDER}/${response.code}`);
     } catch (err) {
       notification.error({
         message: String(err).replace(/Error: /g, ''),
         placement: 'bottomRight',
       });
     }
-  }, []);
+  }, [
+    deliveryAddressData,
+    selectedCarrier,
+    selectedPaymentMethod,
+    totalPrice,
+    shipCarrier,
+    descriptionRef,
+    cartItems,
+  ]);
 
   const renderDeliveryAddress = useMemo(
     () =>
@@ -147,17 +213,17 @@ const Payment: NextPage<IProps> = () => {
     [deliveryAddresses],
   );
 
-  const renderCaculateShipFee = useMemo(
+  const renderCarriers = useMemo(
     () =>
-      carriers.map((ship, index) => (
+      carriers.map((carrier, index) => (
         <div className={css.btnRadio} key={index}>
-          <Radio value={ship.id} />
+          <Radio value={carrier.id} />
           <div className={css.fast}>
-            <div className={css.name}>{ship.name}</div>
+            <div className={css.name}>{carrier.name}</div>
             <div className={css.deliveryDetails}>
-              <div>Phí vận chuyển: {ship.fee.toLocaleString('vi-VN')} đ</div>
+              <div>Phí vận chuyển: {carrier.fee.toLocaleString('vi-VN')} đ</div>
               {!isMobile && <div className={css.dash}>-</div>}
-              <div>Dự kiến thời gian: {ship.description}</div>
+              <div>Dự kiến thời gian: {carrier.description}</div>
             </div>
           </div>
         </div>
@@ -166,7 +232,7 @@ const Payment: NextPage<IProps> = () => {
   );
 
   return (
-    <Layout loading={false} backUrl={AppRouteEnums.CHECKOUT_CART} title="Payment - ">
+    <Layout loading={false} backUrl={AppRouteEnums.CHECKOUT_CART} title="Thanh toán">
       <div className={!isMobile ? css.background : ''}>
         <div className={isMobile ? css.contentMobile : css.contentDesktop}>
           {!isMobile && <Stepper step={2} className={css.stepper} />}
@@ -258,8 +324,8 @@ const Payment: NextPage<IProps> = () => {
                       }}
                     />
                     <div className={css.methods}>
-                      <Radio.Group onChange={handleChangeDelivery} value={selectedShipFee}>
-                        {renderCaculateShipFee}
+                      <Radio.Group onChange={handleChangeCarrier} value={selectedCarrier}>
+                        {renderCarriers}
                       </Radio.Group>
                     </div>
                   </>
@@ -323,7 +389,7 @@ const Payment: NextPage<IProps> = () => {
                 className={css.pay}
                 onClick={handleConfirmOrder}
                 loading={false}
-                disabled={!!deliveryAddressData}
+                disabled={!deliveryAddressData || !shipCarrier || orderPending}
               >
                 XÁC NHẬN THANH TOÁN
               </Button>

@@ -10,6 +10,8 @@ export interface QueryToProductsArgs {
   orderBy?: SHOES_API.SortOptions;
 }
 
+export type OrderStatusEnums = 'CONFIRMING' | 'PREPARING' | 'SHIPPING' | 'SUCCESS' | 'FAILED';
+
 export enum EnumGender {
   MALE = 'MALE',
   FEMALE = 'FEMALE',
@@ -33,14 +35,14 @@ export interface GDeliveryAddress {
   city: GCity;
   district: GDistrict;
   ward: GWard;
-  isDefault: boolean;
+  isDefault: number;
 }
 
 export interface GCity {
   id: number;
   code: number;
   name: string;
-  isActive: boolean;
+  isActive: number;
 }
 
 export interface GDistrict {
@@ -48,7 +50,7 @@ export interface GDistrict {
   cityId: number;
   code: number;
   name: string;
-  isActive: boolean;
+  isActive: number;
 }
 
 export interface GWard {
@@ -56,7 +58,7 @@ export interface GWard {
   districtID: number;
   code: number;
   name: string;
-  isActive: boolean;
+  isActive: number;
 }
 
 export interface GDeliveryAddress {
@@ -68,5 +70,5 @@ export interface GDeliveryAddress {
   city: GCity;
   district: GDistrict;
   ward: GWard;
-  isDefault: boolean;
+  isDefault: number;
 }

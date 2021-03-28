@@ -87,7 +87,7 @@ const DeliveryAddressItem: React.FC<Iprops> = ({ isMobile, address, index, onUpd
             <Button
               className={clsx(css.defaultButton, !address.isDefault && css.selected)}
               onClick={onSetDefaultBtnClick}
-              disabled={address.isDefault}
+              disabled={!!address.isDefault}
             >
               {address.isDefault ? 'Mặc định' : 'Đặt làm mặc định'}
             </Button>

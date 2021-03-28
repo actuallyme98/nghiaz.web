@@ -3,6 +3,7 @@ export const AppRouteEnums = {
   SIGNUP: '/signup',
   CHECKOUT_CART: '/checkout/cart',
   CHECKOUT_PAYMENT: '/checkout/payment',
+  CHECKOUT_ORDER: '/checkout/order',
   HOME: '/',
   USER: '/user',
   USER_EDIT_PROFILE: '/user/edit-profile',

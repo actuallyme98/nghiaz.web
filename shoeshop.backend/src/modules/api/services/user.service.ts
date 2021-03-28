@@ -45,7 +45,7 @@ export class UserService {
       password: await User.hashPassword(payload.password),
       client,
     });
-    await this.userRepository.save(user);
+    return await this.userRepository.save(user);
   }
 
   async findOneByPhone(phone: string) {
@@ -87,7 +87,7 @@ export class UserService {
       dob: birthday,
       gender,
     });
-    await client.save();
+    return await client.save();
   }
 
   async updateAvatar(id: number, url: string) {
@@ -98,7 +98,7 @@ export class UserService {
     Object.assign(client, {
       avatar: url,
     });
-    await client.save();
+    return await client.save();
   }
 
   async updatePassword(id: number, args: UpdatePasswordDTO) {
@@ -114,6 +114,6 @@ export class UserService {
       password: EncryptHelper.hash(newPassword),
       updatedAt: new Date(),
     });
-    await user.save();
+    return await user.save();
   }
 }

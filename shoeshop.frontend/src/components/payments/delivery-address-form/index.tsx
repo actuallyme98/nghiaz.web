@@ -28,9 +28,9 @@ const DeliveryAddressForm: React.FC<Props> = (props) => {
     name: '',
     phone: '',
     address: '',
-    cityId: '',
-    districtId: '',
-    wardId: '',
+    cityId: '' as any,
+    districtId: '' as any,
+    wardId: '' as any,
   });
   const [cities, setCities] = useState<GCity[]>([]);
   const [districts, setDistricts] = useState<GDistrict[]>([]);
@@ -131,8 +131,8 @@ const DeliveryAddressForm: React.FC<Props> = (props) => {
                     disabled: loadingCities,
                     onChange: (value: string) => {
                       form.setFieldValue(field.name, value);
-                      form.setFieldValue('district', '');
-                      form.setFieldValue('ward', '');
+                      form.setFieldValue('districtId', '');
+                      form.setFieldValue('wardId', '');
                       onSelectCity(value);
                     },
                     loading: loadingCities,
@@ -159,7 +159,7 @@ const DeliveryAddressForm: React.FC<Props> = (props) => {
                     disabled: loadingCity,
                     onChange: (value: string) => {
                       form.setFieldValue(field.name, value);
-                      form.setFieldValue('ward', '');
+                      form.setFieldValue('wardId', '');
                       onSelectDistrict(value);
                     },
                     loading: loadingCity,
@@ -228,9 +228,9 @@ export default DeliveryAddressForm;
 export interface AddDeliveryFormValues {
   name: string;
   phone: string;
-  cityId: string;
-  districtId: string;
-  wardId: string;
+  cityId: number;
+  districtId: number;
+  wardId: number;
   address: string;
 }
 
@@ -238,9 +238,9 @@ const validateAddDeliverySchema = Yup.object().shape({
   name: Yup.string().required('Trường Bắt Buộc').max(255, 'Tối đa 255 ký tự'),
   phone: Yup.string().required('Trường Bắt Buộc').matches(/\d+/, 'Sai dịnh dạng'),
   address: Yup.string().required('Trường Bắt Buộc').max(255, 'Tối đa 255 ký tự'),
-  cityId: Yup.string().required('Trường Bắt Buộc'),
-  districtId: Yup.string().required('Trường Bắt Buộc'),
-  wardId: Yup.string().required('Trường Bắt Buộc'),
+  cityId: Yup.number().required('Trường Bắt Buộc'),
+  districtId: Yup.number().required('Trường Bắt Buộc'),
+  wardId: Yup.number().required('Trường Bắt Buộc'),
 });
 
 export interface SelectItem {
