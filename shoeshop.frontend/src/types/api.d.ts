@@ -148,6 +148,7 @@ declare namespace SHOES_API {
   }
 
   interface UpdateCartLineParams {
+    clientId: number;
     cartItemId: number;
     amount: number;
   }
@@ -174,5 +175,13 @@ declare namespace SHOES_API {
     districtId: number;
     wardId: number;
     orderItems: OrderItemParams[];
+  }
+
+  interface ListOrderParams {
+    clientId: number;
+    page: number;
+    filters: {
+      status?: OrderStatusEnums;
+    };
   }
 }

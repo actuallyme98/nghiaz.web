@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsEmpty } from 'class-validator';
+import { IsNotEmpty, IsEmpty, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateProductDTO {
@@ -31,7 +31,7 @@ export class CreateProductDTO {
   slug?: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
+  @IsOptional()
   discountPrice?: number;
 
   @ApiProperty()
@@ -59,7 +59,7 @@ export class CreateProductDTO {
   shortDescription?: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
+  @IsOptional()
   description?: string;
 
   @ApiProperty()
@@ -75,14 +75,14 @@ export class CreateProductDTO {
   quantity: number;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
+  @IsNotEmpty({ message: 'Color required' })
   colorIds: number[];
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
+  @IsNotEmpty({ message: 'Category required' })
   categoryIds: number[];
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
+  @IsNotEmpty({ message: 'Size required' })
   sizeIds: number[];
 }

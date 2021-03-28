@@ -11,8 +11,24 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Get('/list/:id')
-  async listOrders(@Param('id') id: number, @Res() res: Response) {
-    const data = await this.orderService.listOrders(id);
+  @ApiQuery({ name: 'filters', required: false })
+  @ApiQuery({ name: 'page', required: false, type: 'number' })
+  @ApiQuery({ name: 'limit', required: false, type: 'number' })
+  async listOrders(
+    @Param('id') id: number,
+    @Res() res: Response,
+    @Query('page') page = 1,
+    @Query('limit') limit = 8,
+    @Query('filters') filters: string,
+  ) {
+    const data = await this.orderService.listOrders(
+      id,
+      {
+        limit: page * limit,
+        page: 1,
+      },
+      JSON.parse(filters),
+    );
     return res.json({ data });
   }
 

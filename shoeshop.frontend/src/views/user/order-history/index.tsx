@@ -15,6 +15,7 @@ import LoadingIcon from '../../../components/loading-icon';
 import Button from 'antd/lib/button';
 import InfinityScroll from '../../../components/infinity-scroll';
 import Loading from '../../../components/loading';
+import notification from 'antd/lib/notification';
 
 // redux
 import { RootState } from '../../../redux/stores/configure-store';
@@ -31,10 +32,15 @@ const OrderHistory: NextPage<IProps> = () => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const profile = useSelector((store: RootState) => store.appState.profile);
   const orders = useSelector((store: RootState) => store.appState.orders);
-  const [selected, setSelected] = useState(0);
+  const ordersLoading = useSelector((store: RootState) =>
+    AppActions.listOrdersAction.isPending(store),
+  );
+
+  const [page, setPage] = useState(1);
+  const [status, setStatus] = useState<SHOES_API.OrderStatusEnums>();
+
   const route = useRouter();
   const dispatch = useDispatch();
-  const orderId = useMemo(() => route.query.order, [route]);
 
   useEffect(() => {
     if (!profile) {
@@ -44,44 +50,92 @@ const OrderHistory: NextPage<IProps> = () => {
 
   useEffect(() => {
     if (profile) {
-      dispatch(AppActions.listOrdersAction(profile.client.id));
+      dispatch(
+        AppActions.listOrdersAction({
+          clientId: profile.client.id,
+          page,
+          filters: {},
+        }),
+      );
     }
   }, [profile]);
+
+  const onLoadMore = useCallback(async () => {
+    try {
+      if (profile) {
+        await dispatch(
+          AppActions.listOrdersAction({
+            clientId: profile.client.id,
+            page: page + 1,
+            filters: {
+              status,
+            },
+          }),
+        );
+        setPage(page + 1);
+      }
+    } catch (err) {
+      notification.error({
+        message: String(err).replace(/Error: /g, ''),
+        placement: 'bottomRight',
+      });
+    }
+  }, [profile, page, status]);
+
+  const orderId = useMemo(() => route.query.order, [route]);
+  const hasMore = useMemo(() => orders.meta.totalPages > 1, [orders]);
 
   if (!profile) {
     return <Loading />;
   }
 
   const onSelect = useCallback(
-    (nextSelect) => {
-      setSelected(nextSelect);
-      let status = '';
-      switch (nextSelect) {
-        case 2:
-          status =
-            'New,Confirming,CustomerConfirming,Confirmed,Packing,ChangeDepot,Pickup,Pickingup,Pickedup,Shipping,Returning';
-          break;
-        case 1:
-          status = 'Success';
-          break;
-        case 3:
-          status = 'Failed,Canceled,CarrierCanceled,SoldOut,Returned';
+    async (nextSelect) => {
+      setStatus(nextSelect);
+      try {
+        if (profile) {
+          await dispatch(
+            AppActions.listOrdersAction({
+              clientId: profile.client.id,
+              page,
+              filters: {
+                status: nextSelect,
+              },
+            }),
+          );
+        }
+      } catch (err) {
+        notification.error({
+          message: String(err).replace(/Error: /g, ''),
+          placement: 'bottomRight',
+        });
       }
     },
-    [selected],
+    [status, page],
   );
 
   const renderProductsList = useMemo(
     () =>
-      orders.map((order) => {
+      orders.items.map((order) => {
         return <ItemOrdered data={order} key={order.id} open={orderId === order.code.trim()} />;
       }) || [],
     [orderId, orders],
   );
 
-  const onLoadMore = useCallback(() => {
-    // pending
-  }, []);
+  const filterMenu = useMemo(() => {
+    return headingData.map((menu, index) => (
+      <div
+        key={index}
+        className={clsx({
+          [css.option]: true,
+          [css.active]: menu.status === status,
+        })}
+        onClick={() => onSelect(menu.status)}
+      >
+        {menu.title}
+      </div>
+    ));
+  }, [status]);
 
   if (isMobile) {
     return (
@@ -91,14 +145,10 @@ const OrderHistory: NextPage<IProps> = () => {
             <img src="/assets/icons/bag-delivery.svg" alt="" />
             Lịch sử đơn hàng
           </div>
-          <InfinityScroll
-            isLoading={false}
-            loadMore={onLoadMore}
-            // hasMore={orderData?.user.client?.orderSet.pageInfo.hasNextPage}
-          >
+          <InfinityScroll isLoading={ordersLoading} loadMore={onLoadMore} hasMore={hasMore}>
             {renderProductsList}
           </InfinityScroll>
-          {false && (
+          {ordersLoading && (
             <div className={css.center}>
               <LoadingIcon />
             </div>
@@ -120,46 +170,33 @@ const OrderHistory: NextPage<IProps> = () => {
             <img src="/assets/icons/bag-delivery-black.svg" alt="" />
             <span>Lịch sử đơn hàng</span>
           </div>
-          <div className={css.optionsBox}>
-            <div
-              className={clsx(css.option, selected === 0 && css.active)}
-              onClick={() => onSelect(0)}
-            >
-              TẤT CẢ
-            </div>
-            <div
-              className={clsx(css.option, selected === 2 && css.active)}
-              onClick={() => onSelect(2)}
-            >
-              ĐANG XỬ LÝ
-            </div>
-            <div
-              className={clsx(css.option, selected === 1 && css.active)}
-              onClick={() => onSelect(1)}
-            >
-              HOÀN THÀNH
-            </div>
-            <div
-              className={clsx(css.option, selected === 3 && css.active)}
-              onClick={() => onSelect(3)}
-            >
-              ĐÃ HỦY
-            </div>
-          </div>
+          <div className={css.optionsBox}>{filterMenu}</div>
         </div>
         <div className={css.body}>{renderProductsList}</div>
-        {false && (
+        {ordersLoading && (
           <div className={css.center}>
             <LoadingIcon />
           </div>
         )}
-        <Button type="ghost" className={css.loadMoreBtn} onClick={onLoadMore}>
-          Xem thêm
-        </Button>
+        {hasMore && (
+          <Button type="ghost" className={css.loadMoreBtn} onClick={onLoadMore}>
+            Xem thêm
+          </Button>
+        )}
       </div>
     </UserLayout>
   );
 };
+
+const headingData: {
+  status?: SHOES_API.OrderStatusEnums;
+  title: string;
+}[] = [
+  { status: undefined, title: 'TẤT CẢ' },
+  { status: 'CONFIRMING', title: 'ĐANG XỬ LÝ' },
+  { status: 'SUCCESS', title: 'HOÀN THÀNH' },
+  { status: 'FAILED', title: 'ĐÃ HỦY' },
+];
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const reduxStore = initializeStore();

@@ -114,6 +114,7 @@ export class ProductService {
       .leftJoinAndSelect('pr.images', 'product_image')
       .leftJoinAndSelect('pr.sizes', 'size')
       .leftJoinAndSelect('pr.colors', 'color')
+      .leftJoinAndSelect('pr.categories', 'category')
       .getOne();
   }
 }

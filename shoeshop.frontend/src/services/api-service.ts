@@ -122,8 +122,14 @@ export class ApiService {
   public async deleteCartItem(id: number) {
     return await this.axios.delete(`${ApiRouteEnum.CART_LINE}/${id}`);
   }
-  public async listOrders(id: number) {
-    return await this.axios.get(`${ApiRouteEnum.LIST_ORDER}/${id}`);
+  public async listOrders(args: SHOES_API.ListOrderParams) {
+    const { clientId, filters, page } = args;
+    return await this.axios.get(`${ApiRouteEnum.LIST_ORDER}/${clientId}`, {
+      params: {
+        page,
+        filters,
+      },
+    });
   }
   public async createOrder(args: SHOES_API.CreateOrderParams) {
     return await this.axios.post(ApiRouteEnum.ORDER, args);

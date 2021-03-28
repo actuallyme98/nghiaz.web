@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { paginate, Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
 
 import { EncryptHelper, ErrorHelper, StringHelper } from '@base/helpers';
 
-import { CreateOrderDTO, OrderItemDTO, OrderStatusEnums } from '@api/dtos';
+import { CreateOrderDTO, FilterOrderDTO, OrderItemDTO, OrderStatusEnums } from '@api/dtos';
 
 import {
   Client,
@@ -18,6 +19,7 @@ import {
   Cart,
   CartItem,
 } from '@api/entities';
+import { classToPlain } from 'class-transformer';
 
 @Injectable()
 export class OrderService {
@@ -44,12 +46,12 @@ export class OrderService {
     private readonly cartItemRepository: Repository<CartItem>,
   ) {}
 
-  async listOrders(clientId: number) {
+  async listOrders(clientId: number, options: IPaginationOptions, filters: FilterOrderDTO) {
     const client = await this.clientItemRepository.findOne(clientId);
     if (!client) {
       throw ErrorHelper.BadRequestException('Unauthorized');
     }
-    return await this.orderRepository
+    const queryBuilder = this.orderRepository
       .createQueryBuilder('o')
       .leftJoinAndSelect('o.client', 'client')
       .leftJoinAndSelect('o.city', 'city')
@@ -58,8 +60,17 @@ export class OrderService {
       .leftJoinAndSelect('o.orderItems', 'order_item')
       .leftJoinAndSelect('o.carrier', 'carrier')
       .leftJoinAndSelect('order_item.product', 'product')
-      .andWhere('client.id = :clientId', { clientId })
-      .getMany();
+      .andWhere('client.id = :clientId', { clientId });
+    const { status } = filters;
+    if (status) {
+      queryBuilder.andWhere('o.status = :status', { status });
+    }
+    let records = await paginate(queryBuilder, options);
+    const items = classToPlain(records.items);
+    records = Object.assign(records, {
+      items,
+    });
+    return records;
   }
 
   async getOrder(clientId: number, code: string) {
@@ -153,17 +164,21 @@ export class OrderService {
       status,
       carrier,
     });
-    await this.cartRepository
-      .createQueryBuilder('c')
-      .leftJoinAndSelect('c.client', 'client')
-      .andWhere('client.id = :clientId', { clientId })
-      .delete();
-    await this.cartItemRepository
+    const cartItems = await this.cartItemRepository
       .createQueryBuilder('c')
       .leftJoinAndSelect('c.cart', 'cart')
       .leftJoinAndSelect('cart.client', 'client')
       .andWhere('client.id = :clientId', { clientId })
-      .delete();
+      .getMany();
+    await this.cartItemRepository.remove(cartItems);
+
+    const cart = await this.cartRepository
+      .createQueryBuilder('c')
+      .leftJoinAndSelect('c.client', 'client')
+      .andWhere('client.id = :clientId', { clientId })
+      .getOne();
+    await this.cartItemRepository.delete(cart.id);
+
     return await newOrder.save();
   }
 

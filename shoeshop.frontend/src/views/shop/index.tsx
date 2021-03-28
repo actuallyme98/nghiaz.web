@@ -24,18 +24,12 @@ import { AppRouteEnums } from '../../enums/app-route.enum';
 
 import { pathAvatar } from '../../helpers/app-util';
 
-// mocks
-const BREADCRUMB_ITEMS: BreadcumbItem[] = [
-  { title: 'Trang chủ', url: '/' },
-  { title: 'Giày nam', url: '/shop/giay-the-thao-nam' },
-];
-
 interface Props {}
 
 const Shop: React.FC<Props> = (props) => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const loading = useSelector((store: RootState) => AppActions.getProductAction.isPending(store));
   const [product, setProduct] = useState<REDUX_STORE.Product>();
-  const breadcrumbs = useMemo(() => [...BREADCRUMB_ITEMS], []);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -55,10 +49,21 @@ const Shop: React.FC<Props> = (props) => {
   }, []);
 
   return (
-    <Layout backUrl={AppRouteEnums.HOME} title={'Sản phẩm - ' + (product?.name || '')}>
+    <Layout
+      backUrl={AppRouteEnums.HOME}
+      title={'Sản phẩm - ' + (product?.name || '')}
+      loading={loading}
+    >
       {product ? (
         <div className={isMobile ? css.contentMobile : css.contentDesktop}>
-          {!isMobile && <Breadcrumb items={breadcrumbs} />}
+          {!isMobile && (
+            <Breadcrumb
+              items={[
+                { title: 'Trang chủ', url: '/' },
+                { title: product.categories?.[0].name, url: product.categories?.[0].slug },
+              ]}
+            />
+          )}
           <div className={css.wrap}>
             <div className={css.left}>
               <MediaGallery
@@ -130,7 +135,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      title: 'Sản phẩm -',
       initialReduxState: reduxStore.getState(),
     },
   };

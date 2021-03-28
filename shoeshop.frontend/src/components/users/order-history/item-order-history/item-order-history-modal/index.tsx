@@ -86,6 +86,7 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
             className={clsx(css.productsMobile, data.orderItems.length > 8 ? css.scrollMobile : '')}
           >
             {data.orderItems.map((edge, index) => {
+              const totalPrice = edge.amount * edge.product.currentPrice;
               return (
                 <div className={css.boxProductMobile} key={index}>
                   <Badge count={edge.amount > 1 ? edge.amount : 0}>
@@ -96,7 +97,7 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
                       <div className={css.nameMobile}>{edge.product?.name}</div>
                     </a>
                   </Link>
-                  <div className={css.priceMobile}>{totalProductPrice.toLocaleString('vi')} đ</div>
+                  <div className={css.priceMobile}>{totalPrice.toLocaleString('vi')} đ</div>
                 </div>
               );
             })}
@@ -260,6 +261,7 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
         <div className={css.body}>
           <div className={clsx(css.products, data.orderItems.length > 8 ? css.scroll : '')}>
             {data.orderItems.map((edge, index) => {
+              const totalPrice = edge.amount * edge.product.currentPrice;
               return (
                 <div className={css.boxProduct} key={edge.id}>
                   <Badge count={edge.amount > 1 ? edge.amount : 0}>
@@ -270,7 +272,7 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
                       <div className={css.name}>{edge.product?.name}</div>
                     </a>
                   </Link>
-                  <div className={css.price}>{totalProductPrice.toLocaleString('vi')} đ</div>
+                  <div className={css.price}>{totalPrice.toLocaleString('vi')} đ</div>
                 </div>
               );
             })}

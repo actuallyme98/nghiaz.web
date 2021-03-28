@@ -13,6 +13,9 @@ import * as AppActions from '@actions/app-action';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
 
+// utils
+import { getKeyCategory } from '@helpers/local-storage-util';
+
 interface IProps {
   className?: string;
   items: REDUX_STORE.CartItem[];
@@ -21,6 +24,7 @@ interface IProps {
 const ListCartItem: React.FC<IProps> = (props) => {
   const { items, className } = props;
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const profile = useSelector((store: RootState) => store.appState.profile);
 
   const dispatch = useDispatch();
 
@@ -29,6 +33,7 @@ const ListCartItem: React.FC<IProps> = (props) => {
       try {
         await dispatch(
           AppActions.updateCartLineItemAction({
+            clientId: profile?.client.id || getKeyCategory(),
             cartItemId,
             amount,
           }),
@@ -40,13 +45,18 @@ const ListCartItem: React.FC<IProps> = (props) => {
         });
       }
     },
-    [items],
+    [items, profile],
   );
 
   const handleDelete = useCallback(
     (id: number) => async () => {
       try {
-        await dispatch(AppActions.delteCartLineItemAction(id));
+        await dispatch(
+          AppActions.delteCartLineItemAction({
+            clientId: profile?.client.id || getKeyCategory(),
+            itemId: id,
+          }),
+        );
         notification.error({
           message: String('deleted').replace(/Error: /g, ''),
           placement: 'bottomRight',
@@ -58,7 +68,7 @@ const ListCartItem: React.FC<IProps> = (props) => {
         });
       }
     },
-    [items],
+    [items, profile],
   );
 
   const listProduct = useMemo(

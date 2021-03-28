@@ -21,9 +21,7 @@ const ProfileMenu: React.FC<Iprops> = (props) => {
   const { pathname } = useRouter();
   const isEditProfile = useMemo(() => pathname.includes('edit-profile'), [pathname]);
   const isDeliveryAddress = useMemo(() => pathname.includes('delivery-address'), [pathname]);
-  const isManageNotification = useMemo(() => pathname.includes('manage-notification'), [pathname]);
   const isOrderHistory = useMemo(() => pathname.includes('order-history'), [pathname]);
-  const isFavoriteList = useMemo(() => pathname.includes('favorite-list'), [pathname]);
   const isShareFacebook = useMemo(() => pathname.includes('share'), [pathname]);
   const { data } = props;
   return (
@@ -73,51 +71,21 @@ const ProfileMenu: React.FC<Iprops> = (props) => {
             </div>
           </a>
         </Link>
-        <Link href="/user/manage-notification">
+        <Link href={AppRouteEnums.USER_ORER_HISTORY}>
           <a className={css.select}>
             <div>
-              {isManageNotification ? (
+              {isOrderHistory ? (
                 <img src="/assets/icons/alarm_orange.svg" alt="" />
               ) : (
                 <img src="/assets/icons/alarm-user.svg" alt="" />
               )}
-              <div className={isManageNotification ? css.textSSelected : css.textS}>
-                Quản lý Thông báo
-              </div>
+              <div className={isOrderHistory ? css.textSSelected : css.textS}>Lịch sử đơn hàng</div>
             </div>
           </a>
         </Link>
       </div>
       <div className={css.lineDotted} />
       <ul className={css.list}>
-        <li>
-          <Link href={AppRouteEnums.USER_ORER_HISTORY}>
-            <a>
-              {isOrderHistory ? (
-                <img src="/assets/icons/bag-delivery.svg" alt="" />
-              ) : (
-                <img src="/assets/icons/bag-delivery-user.svg" alt="" />
-              )}
-              <span className={isOrderHistory ? css.textSSelected : css.textS}>
-                Lịch sử đơn hàng
-              </span>
-            </a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/user/favorite-list">
-            <a>
-              {isFavoriteList ? (
-                <img src="/assets/icons/favorite-user-focus.svg" alt="" />
-              ) : (
-                <img src="/assets/icons/favorite-user.svg" alt="" />
-              )}
-              <span className={isFavoriteList ? css.textSSelected : css.textS}>
-                Danh sách yêu thích
-              </span>
-            </a>
-          </Link>
-        </li>
         <li>
           <Link href="/user/share">
             <a>

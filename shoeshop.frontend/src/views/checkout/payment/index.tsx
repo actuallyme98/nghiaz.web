@@ -389,7 +389,9 @@ const Payment: NextPage<IProps> = () => {
                 className={css.pay}
                 onClick={handleConfirmOrder}
                 loading={false}
-                disabled={!deliveryAddressData || !shipCarrier || orderPending}
+                disabled={
+                  !deliveryAddressData || !shipCarrier || orderPending || cartItems.length === 0
+                }
               >
                 XÁC NHẬN THANH TOÁN
               </Button>

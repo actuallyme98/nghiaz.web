@@ -27,22 +27,26 @@ export class AddressController {
   }
 
   @Post('/')
-  async createDeliveryAddress(@Body() payload: CreateAddressDTO) {
-    return await this.addressService.createAddress(payload);
+  async createDeliveryAddress(@Body() payload: CreateAddressDTO, @Res() res: Response) {
+    await this.addressService.createAddress(payload);
+    return res.json({ ok: true });
   }
 
   @Delete('/delete/:id')
-  async deleteDeliveryAddress(@Param('id') id: number) {
-    return await this.addressService.deleteAddress(id);
+  async deleteDeliveryAddress(@Param('id') id: number, @Res() res: Response) {
+    await this.addressService.deleteAddress(id);
+    return res.json({ ok: true });
   }
 
   @Put('/update')
-  async updateDeliveryAddress(@Body() payload: UpdateAddressDTO) {
-    return this.addressService.updateAddress(payload);
+  async updateDeliveryAddress(@Body() payload: UpdateAddressDTO, @Res() res: Response) {
+    await this.addressService.updateAddress(payload);
+    return res.json({ ok: true });
   }
 
   @Put('/set-default/:id')
-  async setDefaultDeliveryAddress(@Param('id') id: number) {
-    return this.addressService.setDefaultAddress(id);
+  async setDefaultDeliveryAddress(@Param('id') id: number, @Res() res: Response) {
+    this.addressService.setDefaultAddress(id);
+    return res.json({ ok: true });
   }
 }

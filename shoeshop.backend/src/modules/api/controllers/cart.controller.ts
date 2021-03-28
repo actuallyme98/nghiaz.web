@@ -16,17 +16,20 @@ export class CartController {
   }
 
   @Post('/')
-  async addCartLine(@Body() payload: AddCartLineDTO) {
-    return await this.cartService.addCartLine(payload);
+  async addCartLine(@Body() payload: AddCartLineDTO, @Res() res: Response) {
+    await this.cartService.addCartLine(payload);
+    return res.json({ ok: true });
   }
 
   @Put('/')
-  async updateCartLine(@Body() payload: UpdateCartLineDTO) {
-    return await this.cartService.updateCartItem(payload);
+  async updateCartLine(@Body() payload: UpdateCartLineDTO, @Res() res: Response) {
+    await this.cartService.updateCartItem(payload);
+    return res.json({ ok: true });
   }
 
   @Delete('/:id')
-  async deleteCartItem(@Param('id') id: number) {
-    return await this.cartService.deleteCartItem(id);
+  async deleteCartItem(@Param('id') id: number, @Res() res: Response) {
+    await this.cartService.deleteCartItem(id);
+    return res.json({ ok: true });
   }
 }

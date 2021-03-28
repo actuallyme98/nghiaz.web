@@ -36,7 +36,7 @@ export class CartService {
       .leftJoinAndSelect('c.client', 'client')
       .leftJoinAndSelect('c.cartItems', 'cart_item')
       .leftJoinAndSelect('cart_item.product', 'product')
-      .andWhere('client.id = :id', { id: clientId })
+      .andWhere('client.id = :clientId', { clientId })
       .getOne();
   }
 
@@ -52,7 +52,6 @@ export class CartService {
       });
       await client.save();
     }
-
     const newCart = new Cart({
       client,
       cartItems: [],
@@ -67,7 +66,9 @@ export class CartService {
     if (!product) {
       throw ErrorHelper.BadRequestException('Not found');
     }
-    let cart = await this.cartRepository.findOne(cartId);
+    let cart = await this.cartRepository.findOne(cartId, {
+      relations: ['cartItems'],
+    });
     if (!cart) {
       cart = await this.createCart(clientId);
     }
@@ -89,17 +90,11 @@ export class CartService {
     }
     await cartItem.save();
 
-    cart = await this.cartRepository
-      .createQueryBuilder('c')
-      .leftJoinAndSelect('c.cartItems', 'cart_item')
-      .andWhere('c.id = :id', { id: cart.id })
-      .getOne();
-
     Object.assign(cart, {
       cartItems: cart.cartItems.concat(cartItem),
     });
     try {
-      await cart.save();
+      return await cart.save();
     } catch (err) {
       throw ErrorHelper.BadRequestException(err);
     }

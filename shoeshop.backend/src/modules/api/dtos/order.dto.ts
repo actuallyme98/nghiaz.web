@@ -70,3 +70,7 @@ export class OrderItemDTO {
   @IsNotEmpty({ message: 'required' })
   amount: number;
 }
+
+export interface FilterOrderDTO {
+  status?: OrderStatusEnums;
+}

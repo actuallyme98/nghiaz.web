@@ -72,7 +72,7 @@ declare namespace REDUX_STORE {
     videos: ProductVideo[];
     sizes: Size[];
     colors: Color[];
-    categories: Category[];
+    categories: ICategory[];
   }
 
   interface ICategory {

@@ -30,29 +30,15 @@ interface Props {
   voucher?: string;
 }
 
-// mocks
-const loading = false;
-
 const ProductInformation: React.FC<Props> = (props) => {
   const { data } = props;
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const [amount, setAmount] = useState(1);
   const cartline = useSelector((store: RootState) => store.appState.cartline);
   const profile = useSelector((store: RootState) => store.appState.profile);
-  // const [isFavorite, setIsFavorite] = useState(data.isFavorite);
+  const loading = useSelector((store: RootState) => AppActions.getProductAction.isPending(store));
+
   const dispatch = useDispatch();
-
-  // const handleClickUnLike = useCallback(async () => {
-  //   setIsFavorite(!isFavorite);
-  // }, [isFavorite, data.isFavorite]);
-
-  // const handleClickLike = useCallback(async () => {
-  //   setIsFavorite(!isFavorite);
-  // }, [isFavorite, data.isFavorite]);
-
-  const copyToClipboard = useCallback(() => {
-    // pending
-  }, []);
 
   const handleAddToCart = useCallback(
     async (event: React.MouseEvent<HTMLElement>) => {
@@ -77,7 +63,7 @@ const ProductInformation: React.FC<Props> = (props) => {
         });
       }
     },
-    [data],
+    [data, amount, cartline],
   );
 
   const handleChangeAmount = useCallback((value: number) => {

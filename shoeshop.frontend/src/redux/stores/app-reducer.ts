@@ -1,7 +1,7 @@
 import { createTypeReducer, isError } from '../type-redux';
 import * as AppActions from '../actions/app-action';
 
-export const initialProduct = {
+export const initialPaging = {
   items: [],
   meta: {
     currentPage: 0,
@@ -26,21 +26,21 @@ export interface Store {
   colors: REDUX_STORE.Color[];
   cartline?: REDUX_STORE.ICartLine;
   carriers: REDUX_STORE.ICarrier[];
-  orders: REDUX_STORE.IOrder[];
+  orders: SHOES_API.PaginationResponse<REDUX_STORE.IOrder>;
 }
 
 export const initialState: Store = {
   isMobile: false,
   openCartDrawer: false,
   deliveryAddresses: [],
-  specialProducts: initialProduct,
-  sellWellProducts: initialProduct,
-  categoryProducts: initialProduct,
+  specialProducts: initialPaging,
+  sellWellProducts: initialPaging,
+  categoryProducts: initialPaging,
   categories: [],
   sizes: [],
   colors: [],
   carriers: [],
-  orders: [],
+  orders: initialPaging,
 };
 
 export const detectMobileReducer = AppActions.detectMobile.reducer<Store>((state, action) => ({
@@ -76,6 +76,7 @@ export const logoutReducer = AppActions.logOutAction.reducer<Store>((state, acti
   return {
     profile: undefined,
     deliveryAddresses: [],
+    orders: initialPaging,
   };
 });
 

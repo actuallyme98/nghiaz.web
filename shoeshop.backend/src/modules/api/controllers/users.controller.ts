@@ -38,8 +38,9 @@ export class UserController {
     status: 200,
   })
   @Put('/update-info')
-  async updateInfo(@Body() payload: UpdateInfoDTO, @Req() req: APIRequest) {
-    return await this.userService.updateInfo(req.user.id, payload);
+  async updateInfo(@Body() payload: UpdateInfoDTO, @Req() req: APIRequest, @Res() res: Response) {
+    await this.userService.updateInfo(req.user.id, payload);
+    return res.json({ ok: true });
   }
 
   @Post('/update-avatar')
@@ -55,8 +56,13 @@ export class UserController {
   }
 
   @Put('/update-password')
-  async updatePassword(@Body() payload: UpdatePasswordDTO, @Req() req: APIRequest) {
+  async updatePassword(
+    @Body() payload: UpdatePasswordDTO,
+    @Req() req: APIRequest,
+    @Res() res: Response,
+  ) {
     const { id } = req.user;
-    return await this.userService.updatePassword(id, payload);
+    await this.userService.updatePassword(id, payload);
+    return res.json({ ok: true });
   }
 }

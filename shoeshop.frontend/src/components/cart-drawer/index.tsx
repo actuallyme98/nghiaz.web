@@ -20,12 +20,16 @@ import { RootState } from '@redux/stores/configure-store';
 // enums
 import { AppRouteEnums } from '../../enums/app-route.enum';
 
+// utils
+import { getKeyCategory } from '@helpers/local-storage-util';
+
 interface IProps extends DrawerProps {}
 
 const CartDrawer: React.FC<IProps> = (props) => {
   const { ...others } = props;
   const dispatch = useDispatch();
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
+  const profile = useSelector((store: RootState) => store.appState.profile);
   const cartline = useSelector((store: RootState) => store.appState.cartline);
   const cartLineLoading = useSelector((store: RootState) =>
     AppActions.getCartAction.isPending(store),
@@ -43,6 +47,7 @@ const CartDrawer: React.FC<IProps> = (props) => {
       try {
         await dispatch(
           AppActions.updateCartLineItemAction({
+            clientId: profile?.client.id || getKeyCategory(),
             cartItemId,
             amount,
           }),
@@ -54,13 +59,18 @@ const CartDrawer: React.FC<IProps> = (props) => {
         });
       }
     },
-    [],
+    [profile],
   );
 
   const handleDelete = useCallback(
     (id: number) => async () => {
       try {
-        await dispatch(AppActions.delteCartLineItemAction(id));
+        await dispatch(
+          AppActions.delteCartLineItemAction({
+            clientId: profile?.client.id || getKeyCategory(),
+            itemId: id,
+          }),
+        );
       } catch (err) {
         notification.error({
           message: String(err).replace(/Error: /g, ''),
@@ -68,7 +78,7 @@ const CartDrawer: React.FC<IProps> = (props) => {
         });
       }
     },
-    [],
+    [profile],
   );
 
   const totalPrice = useMemo(

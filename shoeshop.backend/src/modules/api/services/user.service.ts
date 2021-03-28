@@ -8,7 +8,7 @@ import { EncryptHelper, ErrorHelper } from '@base/helpers';
 
 import { CreateUserDTO, UserDTO, UpdateInfoDTO, UpdatePasswordDTO } from '@api/dtos';
 
-import { User, Client } from '@api/entities';
+import { User, Client, Cart } from '@api/entities';
 
 @Injectable()
 export class UserService {
@@ -39,6 +39,11 @@ export class UserService {
 
     const client = new Client({});
     await this.clientRepository.save(client);
+
+    const cart = new Cart({
+      client,
+    });
+    await cart.save();
 
     const user = new User({
       ...payload,

@@ -334,11 +334,10 @@ export const getCartAction = createTypeAsyncAction('GET_CART_ACTION', async (id:
 
 export const addCartLineAction = createTypeAsyncAction<SHOES_API.AddCartLineParams, void, Store>(
   'ADD_CART_LINE_ACTION',
-  async (args: SHOES_API.AddCartLineParams, { dispatch, getState }) => {
+  async (args: SHOES_API.AddCartLineParams, { dispatch }) => {
     try {
-      const state = getState();
       await ApiService.addCartLine(args);
-      await dispatch(getCartAction(state.appState.profile?.client.id || getKeyCategory()));
+      await dispatch(getCartAction(args.clientId));
     } catch (err) {
       throw new Error(err);
     }
@@ -349,37 +348,44 @@ export const updateCartLineItemAction = createTypeAsyncAction<
   SHOES_API.UpdateCartLineParams,
   void,
   Store
->('UPDATE_CART_LINE_ITEM', async (args: SHOES_API.UpdateCartLineParams, { dispatch, getState }) => {
+>('UPDATE_CART_LINE_ITEM', async (args: SHOES_API.UpdateCartLineParams, { dispatch }) => {
   try {
-    const state = getState();
     await ApiService.removeItemCartLine(args);
-    await dispatch(getCartAction(state.appState.profile?.client.id || getKeyCategory()));
+    await dispatch(getCartAction(args.clientId));
   } catch (err) {
     throw new Error(err);
   }
 });
 
-export const delteCartLineItemAction = createTypeAsyncAction<number, void, Store>(
+interface DeleteCartItemArgs {
+  clientId: number;
+  itemId: number;
+}
+
+export const delteCartLineItemAction = createTypeAsyncAction<DeleteCartItemArgs, void, Store>(
   'DELETE_CART_LINE_ITEM',
-  async (id: number, { dispatch, getState }) => {
+  async (args: DeleteCartItemArgs, { dispatch }) => {
     try {
-      const state = getState();
-      await ApiService.deleteCartItem(id);
-      await dispatch(getCartAction(state.appState.profile?.client.id || getKeyCategory()));
+      const { itemId, clientId } = args;
+      await ApiService.deleteCartItem(itemId);
+      await dispatch(getCartAction(clientId));
     } catch (err) {
       throw new Error(err);
     }
   },
 );
 
-export const listOrdersAction = createTypeAsyncAction('LIST_ORDERS_ACTION', async (id: number) => {
-  try {
-    const response = await ApiService.listOrders(id);
-    return response.data;
-  } catch (err) {
-    // ignore err
-  }
-});
+export const listOrdersAction = createTypeAsyncAction(
+  'LIST_ORDERS_ACTION',
+  async (args: SHOES_API.ListOrderParams) => {
+    try {
+      const response = await ApiService.listOrders(args);
+      return response.data;
+    } catch (err) {
+      // ignore err
+    }
+  },
+);
 
 export const createOrder = createTypeAsyncAction(
   'CREATE_ORDER_ACTION',
