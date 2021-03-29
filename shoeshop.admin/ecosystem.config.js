@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'shoeshop.admin',
       script: 'yarn',
-      args: 'dev',
+      args: 'dev:linux',
       interpreter: 'none',
       watching: true,
     },
