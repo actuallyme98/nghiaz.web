@@ -10,6 +10,7 @@ import Home from './pages/home';
 import Login from './pages/login';
 import Product from './pages/product';
 import AddProduct from './pages/product/list-product/add-product';
+import ListVoucher from './pages/voucher';
 
 // themes
 import theme from './themes/dark-theme';
@@ -33,6 +34,11 @@ const routes: RouteConfig[] = [
   {
     component: AddProduct,
     path: '/product/create',
+    exact: true,
+  },
+  {
+    component: ListVoucher,
+    path: '/voucher',
     exact: true,
   },
   {

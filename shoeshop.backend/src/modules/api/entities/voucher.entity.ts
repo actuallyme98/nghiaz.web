@@ -1,5 +1,8 @@
-import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, Entity, OneToMany, JoinColumn } from 'typeorm';
 import { BaseModel } from './base-model.entity';
+import { VoucherCode } from './voucher-code.entity';
+
+export type VoucherType = 'discount_price' | 'discount_percentage' | 'free_ship';
 
 @Entity('voucher')
 export class Voucher extends BaseModel {
@@ -32,6 +35,12 @@ export class Voucher extends BaseModel {
   endDate: string;
 
   @Column({
+    type: 'char',
+    length: 30,
+  })
+  type: VoucherType;
+
+  @Column({
     name: 'percent_discount',
     type: 'int',
   })
@@ -50,24 +59,17 @@ export class Voucher extends BaseModel {
 
   @Column({
     type: 'int',
-    default: 1,
-  })
-  status: number;
-
-  @Column({
-    type: 'int',
   })
   quantity: number;
-
-  @Column({
-    name: 'require_max_price',
-    type: 'int',
-  })
-  requireMaxPrice: number;
 
   @Column({
     name: 'require_min_price',
     type: 'int',
   })
   requireMinPrice: number;
+
+  // Relationship
+  @OneToMany(() => VoucherCode, (code) => code.voucher)
+  @JoinColumn()
+  voucherCodes: VoucherCode[];
 }

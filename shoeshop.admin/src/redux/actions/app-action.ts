@@ -27,6 +27,7 @@ export const initializeApp = createTypeAsyncAction<any, void, Store>(
       await dispatch(listColorsAction());
       await dispatch(listCategoriesAction());
       await dispatch(listProductsAction());
+      await dispatch(listVoucherAction());
     } catch (err) {
       throw new Error(err);
     }
@@ -35,7 +36,8 @@ export const initializeApp = createTypeAsyncAction<any, void, Store>(
 
 export const listSizesAction = createTypeAsyncAction('LIST_SIZES_ACTION', async () => {
   try {
-    return await ApiService.listSizes();
+    const response = await ApiService.listSizes();
+    return response.data;
   } catch (err) {
     throw new Error(err);
   }
@@ -79,7 +81,8 @@ export const deleteSizeAction = createTypeAsyncAction<number, void, Store>(
 
 export const listColorsAction = createTypeAsyncAction('LIST_COLORS_ACTION', async () => {
   try {
-    return await ApiService.listColors();
+    const response = await ApiService.listColors();
+    return response.data;
   } catch (err) {
     throw new Error(err);
   }
@@ -123,7 +126,8 @@ export const deleteColorAction = createTypeAsyncAction<number, void, Store>(
 
 export const listCategoriesAction = createTypeAsyncAction('LIST_CATEGORIES_ACTION', async () => {
   try {
-    return await ApiService.listCategories();
+    const response = await ApiService.listCategories();
+    return response.data;
   } catch (err) {
     throw new Error(err);
   }
@@ -166,7 +170,8 @@ export const updateImagesProductAction = createTypeAsyncAction(
 
 export const listProductsAction = createTypeAsyncAction('LIST_PRODUCTS_ACTION', async () => {
   try {
-    return await ApiService.listProducts();
+    const response = await ApiService.listProducts();
+    return response.data;
   } catch (err) {
     throw new Error(err);
   }
@@ -228,6 +233,78 @@ export const updateThumnailCategoryAction = createTypeAsyncAction(
     try {
       const { id, data } = args;
       await ApiService.updateThumnailCategory(data, id);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const listVoucherAction = createTypeAsyncAction('LIST_VOUCHERS_ACTION', async () => {
+  try {
+    const response = await ApiService.listVouchers();
+    return response.data;
+  } catch (err) {
+    //ignore errr
+  }
+});
+
+export const createVoucherAction = createTypeAsyncAction<
+  ADMIN_API.CreateVoucherParams,
+  void,
+  Store
+>('CREATE_VOUCHER_ACTION', async (args: ADMIN_API.CreateVoucherParams, { dispatch }) => {
+  try {
+    await ApiService.createVoucher(args);
+    await dispatch(listVoucherAction());
+  } catch (err) {
+    throw new Error(err);
+  }
+});
+
+export const updateVoucherAction = createTypeAsyncAction<
+  ADMIN_API.UpdateVoucherParams,
+  void,
+  Store
+>('UPDATE_VOUCHER_ACTION', async (args: ADMIN_API.UpdateVoucherParams, { dispatch }) => {
+  try {
+    await ApiService.updateVoucher(args);
+    await dispatch(listVoucherAction());
+  } catch (err) {
+    throw new Error(err);
+  }
+});
+
+export const deleteVoucherAction = createTypeAsyncAction<number, void, Store>(
+  'DELETE_VOUCHER_ACTION',
+  async (args: number, { dispatch }) => {
+    try {
+      await ApiService.deleteVoucher(args);
+      await dispatch(listVoucherAction());
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const updateVoucherCodeAction = createTypeAsyncAction<
+  ADMIN_API.UpdateVoucherCodeParams,
+  void,
+  Store
+>('UPDATE_VOUCHER_CODE_ACTION', async (args: ADMIN_API.UpdateVoucherCodeParams, { dispatch }) => {
+  try {
+    await ApiService.updateVoucherCode(args);
+    await dispatch(listVoucherAction());
+  } catch (err) {
+    throw new Error(err);
+  }
+});
+
+export const deleteVoucherCodeAction = createTypeAsyncAction<number, void, Store>(
+  'DELETE_VOUCHER_CODE_ACTION',
+  async (args: number, { dispatch }) => {
+    try {
+      await ApiService.deleteVoucherCode(args);
+      await dispatch(listVoucherAction());
     } catch (err) {
       throw new Error(err);
     }

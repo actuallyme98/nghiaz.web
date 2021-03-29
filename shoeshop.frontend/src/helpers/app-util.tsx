@@ -1,17 +1,16 @@
 import moment from 'moment';
 
-export const caculateDiscount = (code: any, price: number, shipFree?: number) => {
+export const caculateDiscount = (price: number, code?: REDUX_STORE.IVoucher, shipFree?: number) => {
   if (!code) {
     return 0;
   }
-  const total = price + (shipFree || 0);
-  switch (code.discountType) {
+  switch (code.type.trim()) {
     case 'discount_price':
-      return Math.min(code.amount || 0, total);
+      return Math.min(code.amount || 0, price);
     case 'discount_percentage':
       return Math.min(
-        Math.floor(Math.min(code.maxAmount || 0, (code.percent || 0) * 0.01 * total)),
-        total,
+        Math.floor(Math.min(code.maxAmount || 0, (code.percentDiscount || 0) * 0.01 * price)),
+        price,
       );
     case 'free_ship':
       return Math.min(shipFree || 0, code.maxAmount || 0);

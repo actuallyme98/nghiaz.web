@@ -7,6 +7,7 @@ export interface Store {
   colors: REDUX_STORE.ProductColor[];
   products: REDUX_STORE.IProduct[];
   categories: REDUX_STORE.ICategory[];
+  vouchers: REDUX_STORE.Voucher[];
 }
 
 export const initialState: Store = {
@@ -14,6 +15,7 @@ export const initialState: Store = {
   colors: [],
   products: [],
   categories: [],
+  vouchers: [],
 };
 
 export const loginReducer = AppActions.loginAction.reducer<Store>((state, action) => {
@@ -85,6 +87,15 @@ export const listProductsReducer = AppActions.listProductsAction.reducer<Store>(
   };
 });
 
+export const listVouchersReducer = AppActions.listVoucherAction.reducer<Store>((state, action) => {
+  if (isError(action) || !action.payload) {
+    return {};
+  }
+  return {
+    vouchers: action.payload,
+  };
+});
+
 export const reducer = createTypeReducer(
   initialState,
   loginReducer,
@@ -94,4 +105,5 @@ export const reducer = createTypeReducer(
   listColorsReducer,
   listCategoriesReducer,
   listProductsReducer,
+  listVouchersReducer,
 );

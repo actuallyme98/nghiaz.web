@@ -166,6 +166,7 @@ declare namespace SHOES_API {
     description: string;
     price: number;
     paymentMethod: string;
+    discountPrice?: number;
     name: string;
     phone: string;
     address: string;
@@ -183,5 +184,12 @@ declare namespace SHOES_API {
     filters: {
       status?: OrderStatusEnums;
     };
+  }
+
+  interface ApplyVoucherParams {
+    clientId: number;
+    cartId?: number;
+    code: string;
+    price: number;
   }
 }

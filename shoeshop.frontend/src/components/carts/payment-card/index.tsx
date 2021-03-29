@@ -18,7 +18,6 @@ import { AppRouteEnums } from '../../../enums/app-route.enum';
 interface Props {
   className?: string;
   data: {
-    buyMore: number;
     totalMoney: number;
   };
 }

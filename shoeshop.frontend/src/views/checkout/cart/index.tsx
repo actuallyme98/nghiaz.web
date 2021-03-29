@@ -51,7 +51,6 @@ const Cart: NextPage<IProps> = () => {
               {isMobile && (
                 <PaymentCard
                   data={{
-                    buyMore: 538000,
                     totalMoney: totalPrice,
                   }}
                 />
@@ -62,7 +61,6 @@ const Cart: NextPage<IProps> = () => {
               <div className={css.col2}>
                 <PaymentCard
                   data={{
-                    buyMore: 538000,
                     totalMoney: totalPrice,
                   }}
                 />

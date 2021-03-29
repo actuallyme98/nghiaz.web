@@ -100,4 +100,36 @@ declare namespace ADMIN_API {
     name: string;
     slug: string;
   }
+
+  interface UpdateVoucherCodeParams {
+    id: number;
+    code: string;
+    isUsed: number;
+  }
+
+  type VoucherType = 'discount_price' | 'discount_percentage' | 'free_ship';
+
+  interface CreateVoucherParams {
+    title: string;
+    type: VoucherType;
+    percentDiscount: number;
+    amount: number;
+    maxAmount: number;
+    quantity: number;
+    requireMinPrice: number;
+    startDate: string;
+    endDate: string;
+  }
+
+  interface UpdateVoucherParams {
+    id: number;
+    title: string;
+    type: VoucherType;
+    percentDiscount: number;
+    amount: number;
+    maxAmount: number;
+    requireMinPrice: number;
+    startDate: string;
+    endDate: string;
+  }
 }

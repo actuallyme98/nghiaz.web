@@ -7,7 +7,7 @@ import {
   ManyToOne,
   OneToOne,
 } from 'typeorm';
-import { Carrier, City, Client, District, Ward } from '.';
+import { Carrier, City, Client, District, VoucherCode, Ward } from '.';
 import { BaseModel } from './base-model.entity';
 
 import { OrderItem } from '.';
@@ -45,6 +45,12 @@ export class Order extends BaseModel {
     type: 'ntext',
   })
   description: string;
+
+  @Column({
+    type: 'int',
+    default: 0,
+  })
+  discountPrice: number;
 
   @Column({
     type: 'int',
@@ -88,7 +94,9 @@ export class Order extends BaseModel {
   @JoinColumn()
   ward: Ward;
 
-  @ManyToOne(() => Client)
+  @ManyToOne(() => Client, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn()
   client: Client;
 

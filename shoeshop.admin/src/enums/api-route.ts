@@ -16,4 +16,10 @@ export enum ApiRouteEnum {
   CATEGORIES_LIST = '/products-csc/category/list',
   CATEGORIES = '/products-csc/category',
   CATEGORIES_THUMBNAIL = '/products-csc/category/thumbnail',
+  LIST_VOUCHER = '/voucher/list',
+  CREATE_VOUCHER = '/voucher/create',
+  UPDATE_VOUCHER = '/voucher/update',
+  DELETE_VOUCHER = '/voucher/delete',
+  UPDATE_VOUCHER_CODE = '/voucher/code/update',
+  DELETE_VOUCHER_CODE = '/voucher/code/delete',
 }

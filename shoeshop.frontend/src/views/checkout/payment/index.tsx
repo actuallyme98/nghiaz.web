@@ -36,24 +36,6 @@ import { getKeyCategory } from '~/helpers/local-storage-util';
 
 interface IProps {}
 
-const discountCode: {
-  id?: number;
-  code?: string;
-  title?: string;
-  start?: string;
-  end?: string;
-  isCoupon?: boolean;
-  discountType?: string;
-  amount?: number;
-  percent?: number;
-  maxAmount?: number;
-  description?: string;
-} = {
-  amount: 10,
-  percent: 10,
-  maxAmount: 20,
-};
-
 const Payment: NextPage<IProps> = () => {
   const [selectedCarrier, setSelectedCarrier] = useState(1);
   const [selectedDeliveryAddress, setSelectedDeliveryAddress] = useState('');
@@ -107,22 +89,25 @@ const Payment: NextPage<IProps> = () => {
     () => addresses.map((e) => e).sort((a, b) => b.isDefault - a.isDefault),
     [addresses],
   );
+
+  const shipCarrier = useMemo(() => carriers.find((x) => x.id === selectedCarrier), [carriers]);
+
+  // prices
   const totalPrice = useMemo(
-    () => cartItems.reduce((sum, item) => sum + (item.product.currentPrice || 0) * item.amount, 0),
+    () =>
+      cartItems.reduce(
+        (sum, item) =>
+          sum + (item.product.discountPrice || item.product.currentPrice || 0) * item.amount,
+        0,
+      ),
     [cartItems],
   );
-  const shipCarrier = useMemo(() => carriers.find((x) => x.id === selectedCarrier), [carriers]);
   const shipFee = useMemo(() => shipCarrier?.fee || 0, [shipCarrier]);
-  const discount = useMemo(() => caculateDiscount(discountCode, totalPrice, shipFee), [
-    discountCode,
-    totalPrice,
-    shipFee,
-  ]);
-  const totalAll = useMemo(() => Math.max(totalPrice + shipFee - discount, 0), [
-    totalPrice,
-    shipFee,
-    discount,
-  ]);
+  const discount = useMemo(
+    () => caculateDiscount(totalPrice, cartline?.voucherCode?.voucher, shipFee),
+    [cartline, totalPrice, shipFee],
+  );
+  const totalAll = useMemo(() => totalPrice - discount + shipFee, [totalPrice, discount, shipFee]);
 
   const handleChange = useCallback((event: RadioChangeEvent) => {
     setSelectedDeliveryAddress(event.target.value);
@@ -155,13 +140,14 @@ const Payment: NextPage<IProps> = () => {
           districtId: districtId,
           wardId: wardId,
           address,
+          discountPrice: discount,
           status: 'CONFIRMING',
           carrierId: shipCarrier.id,
           clientId: profile?.client.id || getKeyCategory(),
           description: descriptionRef.current?.value || '',
           reason: '',
           paymentMethod: selectedPaymentMethod,
-          price: totalPrice,
+          price: totalAll,
           orderItems,
         }),
       );
@@ -183,6 +169,8 @@ const Payment: NextPage<IProps> = () => {
     shipCarrier,
     descriptionRef,
     cartItems,
+    discount,
+    totalAll,
   ]);
 
   const renderDeliveryAddress = useMemo(
@@ -377,12 +365,13 @@ const Payment: NextPage<IProps> = () => {
             <div className={css.col2}>
               <PaymentCard
                 data={{
-                  buyMore: totalAll,
-                  discount: discount,
-                  totalMoney: totalPrice,
+                  cartId: cartline?.id,
+                  discount,
+                  totalPrice,
+                  totalMoney: totalAll,
                   shipFee: shipFee,
                 }}
-                // voucher={cart?.discountCode}
+                voucherCode={cartline?.voucherCode}
               />
               <Button
                 type="ghost"

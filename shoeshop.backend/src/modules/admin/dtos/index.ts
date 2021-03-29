@@ -8,6 +8,12 @@ import {
   UpdateCategoryDTO,
 } from './product-csc.dto';
 import { CreateProductDTO } from './product.dto';
+import {
+  CreateVoucherDTO,
+  VoucherType,
+  UpdateVoucherDTO,
+  UpdateVoucherCodeDTO,
+} from './voucher.dto';
 
 export {
   AuthValidateDTO,
@@ -18,4 +24,8 @@ export {
   CreateProductDTO,
   CreateCategoryDTO,
   UpdateCategoryDTO,
+  CreateVoucherDTO,
+  VoucherType,
+  UpdateVoucherDTO,
+  UpdateVoucherCodeDTO,
 };

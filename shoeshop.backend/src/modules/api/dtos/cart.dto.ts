@@ -28,3 +28,17 @@ export class UpdateCartLineDTO {
   @IsNotEmpty({ message: 'required' })
   amount: number;
 }
+
+export class ApplyVoucherDTO {
+  @ApiProperty()
+  @IsNotEmpty({ message: '[cartId] required' })
+  cartId: number;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: '[code] required' })
+  code: string;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: '[price] required' })
+  price: number;
+}

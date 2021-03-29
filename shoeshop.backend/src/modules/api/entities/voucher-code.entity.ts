@@ -1,5 +1,6 @@
-import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, Entity, ManyToOne, JoinColumn } from 'typeorm';
 import { BaseModel } from './base-model.entity';
+import { Voucher } from './voucher.entity';
 
 @Entity('voucher_code')
 export class VoucherCode extends BaseModel {
@@ -12,26 +13,20 @@ export class VoucherCode extends BaseModel {
   id: number;
 
   @Column({
-    name: 'voucher_id',
-    type: 'int',
-  })
-  voucherId: number;
-
-  @Column({
     type: 'char',
     length: 30,
   })
   code: string;
 
   @Column({
-    type: 'int',
-    default: 1,
-  })
-  status: number;
-
-  @Column({
     name: 'is_used',
     type: 'int',
+    default: 0,
   })
   isUsed: number;
+
+  // Relationship
+  @ManyToOne(() => Voucher, (voucher) => voucher.voucherCodes)
+  @JoinColumn()
+  voucher: Voucher;
 }

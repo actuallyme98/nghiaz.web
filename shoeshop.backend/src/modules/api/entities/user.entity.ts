@@ -64,7 +64,9 @@ export class User extends BaseModel {
   lastName: string;
 
   // Relationship
-  @OneToOne((type) => Client)
+  @OneToOne((type) => Client, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn()
   client: Client;
 }

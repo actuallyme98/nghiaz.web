@@ -44,4 +44,26 @@ declare namespace REDUX_STORE {
     image?: string;
     slug: string;
   }
+
+  type VoucherType = 'discount_price' | 'discount_percentage' | 'free_ship';
+
+  interface Voucher {
+    id: number;
+    title: string;
+    startDate: string;
+    endDate: string;
+    type: VoucherType;
+    percentDiscount: number;
+    amount: number;
+    maxAmount: number;
+    quantity: number;
+    requireMinPrice: number;
+    voucherCodes: VoucherCode[];
+  }
+
+  interface VoucherCode {
+    id: number;
+    code: string;
+    isUsed: number;
+  }
 }

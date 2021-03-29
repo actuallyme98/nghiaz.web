@@ -110,8 +110,8 @@ export class ApiService {
   public async getCategory(slug: string) {
     return await this.axios.get(`${ApiRouteEnum.CATEGORY}/${slug}`);
   }
-  public async getCartLine(id: number) {
-    return await this.axios.get(`${ApiRouteEnum.CART_LINE}/${id}`);
+  public async getCartLine(clientId: number) {
+    return await this.axios.get(`${ApiRouteEnum.CART_LINE}/${clientId}`);
   }
   public async addCartLine(args: SHOES_API.AddCartLineParams) {
     return await this.axios.post(ApiRouteEnum.CART_LINE, args);
@@ -144,6 +144,9 @@ export class ApiService {
   }
   public async listCarriers() {
     return await this.axios.get(ApiRouteEnum.LIST_CARRIER);
+  }
+  public async applyVoucher(args: SHOES_API.ApplyVoucherParams) {
+    return await this.axios.post(ApiRouteEnum.APPLY_VOUCHER, args);
   }
 }
 

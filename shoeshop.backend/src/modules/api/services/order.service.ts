@@ -98,6 +98,7 @@ export class OrderService {
       address,
       name,
       paymentMethod,
+      discountPrice,
       phone,
       price,
       reason,
@@ -158,6 +159,7 @@ export class OrderService {
       reason,
       city,
       district,
+      discountPrice,
       description,
       ward,
       client,
@@ -177,7 +179,10 @@ export class OrderService {
       .leftJoinAndSelect('c.client', 'client')
       .andWhere('client.id = :clientId', { clientId })
       .getOne();
-    await this.cartItemRepository.delete(cart.id);
+    Object.assign(cart, {
+      voucherCode: null,
+    });
+    await cart.save();
 
     return await newOrder.save();
   }

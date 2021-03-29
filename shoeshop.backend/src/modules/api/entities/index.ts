@@ -23,6 +23,8 @@ import { BlogCategory } from './blog-category.entity';
 import { Cart } from './cart.entity';
 import { Carrier } from './carrier.entity';
 import { OrderItem } from './order-item.entity';
+import { Voucher } from './voucher.entity';
+import { VoucherCode } from './voucher-code.entity';
 
 const ENTITIES = [
   User,
@@ -50,6 +52,8 @@ const ENTITIES = [
   Cart,
   Carrier,
   OrderItem,
+  Voucher,
+  VoucherCode,
 ];
 
 export {
@@ -78,5 +82,7 @@ export {
   Cart,
   Carrier,
   OrderItem,
+  Voucher,
+  VoucherCode,
   ENTITIES,
 };

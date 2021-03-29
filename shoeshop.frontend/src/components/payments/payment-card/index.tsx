@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useCallback, useRef, useMemo, useEffect, useState } from 'react';
 import clsx from 'clsx';
 
 // styles
@@ -7,61 +7,73 @@ import css from './style.module.scss';
 // components
 import Button from 'antd/lib/button';
 import notification from 'antd/lib/notification';
-import Popover from 'antd/lib/popover';
 
 // redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
+import * as AppActions from '@actions/app-action';
+import { getKeyCategory } from '~/helpers/local-storage-util';
 
 interface Props {
   className?: string;
   data: {
-    buyMore: number;
+    cartId?: number;
+    totalPrice: number;
     totalMoney: number;
     shipFee: number;
     discount: number;
   };
-  voucher?: any;
+  voucherCode?: REDUX_STORE.VoucherCode;
 }
 
-// mocks
-const loading = false;
-
 const PaymentCard: React.FC<Props> = (props) => {
-  const { data, className, voucher } = props;
+  const { data, className, voucherCode } = props;
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
-  const totalAll = data.totalMoney - data.discount + data.shipFee;
-  const [isChangeVoucher, setChangeVoucher] = useState<boolean>(!Boolean(voucher));
-  const vcInputEl = useRef<HTMLInputElement>(null);
+  const profile = useSelector((store: RootState) => store.appState.profile);
+  const loading = useSelector((store: RootState) => AppActions.applyVoucherAction.isPending(store));
+
+  const [isChangeVoucher, setChangeVoucher] = useState<boolean>(false);
+  const [code, setCode] = useState('');
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setChangeVoucher(!Boolean(voucher));
-  }, [voucher]);
+    setChangeVoucher(!Boolean(voucherCode));
+  }, [voucherCode]);
 
-  const onClickChangeVoucher = useCallback(async () => {
-    // pending
+  const onChangeCode = useCallback((event: any) => {
+    setCode(event.target.value);
+  }, []);
+
+  const onClickChangeVoucher = useCallback(() => {
+    setChangeVoucher(true);
   }, []);
 
   const onClickUpdateVoucher = useCallback(async () => {
-    const code = vcInputEl.current?.value;
-    // pending
-  }, []);
-
-  useEffect(() => {
-    if (isChangeVoucher) {
-      vcInputEl.current?.focus();
+    try {
+      await dispatch(
+        AppActions.applyVoucherAction({
+          clientId: profile?.client.id || getKeyCategory(),
+          cartId: data.cartId,
+          code,
+          price: data.totalPrice,
+        }),
+      );
+      notification.success({
+        message: 'Sử dụng mã thành công',
+        placement: 'bottomRight',
+      });
+    } catch (err) {
+      notification.error({
+        message: String(err).replace(/Error: /g, ''),
+        placement: 'bottomRight',
+      });
     }
-  }, [isChangeVoucher]);
+  }, [profile, data, code]);
 
   return (
     <div className={clsx(isMobile ? css.contentMobile : css.contentDesktop, className)}>
       <div className={css.top}>
-        <div className={css.textTop}>
-          Mua thêm
-          <span className={css.buyMore}> {data.buyMore.toLocaleString('vi-VN')} </span>
-          để được nhận ưu đãi cho thành viên cho đơn hàng từ 1.000.000
-        </div>
-        <div className={css.seeDetails}>Xem chi tiết</div>
         <div className={css.crossBar}>
           <div className={css.crossBarAbsolute} />
         </div>
@@ -77,13 +89,13 @@ const PaymentCard: React.FC<Props> = (props) => {
               <input
                 disabled={loading}
                 className={css.vcInput}
-                ref={vcInputEl}
+                value={code}
+                onChange={onChangeCode}
                 placeholder={isMobile ? 'Nhập tại đây…' : ''}
                 onKeyDown={(e) => e.key === 'Enter' && onClickUpdateVoucher()}
               />
               <Button
                 loading={loading}
-                type="ghost"
                 className={clsx(css.btbOk, { [css.btnOkNotLoading]: !loading })}
                 onClick={onClickUpdateVoucher}
               >
@@ -93,23 +105,8 @@ const PaymentCard: React.FC<Props> = (props) => {
           </div>
         ) : (
           <div className={css.hasVoucher}>
-            <div className={css.code}>
-              {voucher?.code}
-              {Boolean(voucher?.description) && (
-                <Popover
-                  trigger="click"
-                  content={<div className={css.discountInfo}>{voucher?.description}</div>}
-                  title="Thông tin mã giảm giá"
-                >
-                  <div className={css.infoIcon} />
-                </Popover>
-              )}
-            </div>
-            <Button
-              className={css.changeCodeBtn}
-              onClick={onClickChangeVoucher}
-              // loading={loadingRemoveCode}
-            >
+            <div className={css.code}>#{voucherCode?.code}</div>
+            <Button className={css.changeCodeBtn} onClick={onClickChangeVoucher} loading={loading}>
               Đổi mã
             </Button>
           </div>
@@ -142,7 +139,7 @@ const PaymentCard: React.FC<Props> = (props) => {
 
         <div className={css.contentMoney}>
           <div className={css.textContentTotal}>Tổng cộng</div>
-          <div className={css.moneyContentTotal}>{totalAll.toLocaleString('vi-VN')} đ</div>
+          <div className={css.moneyContentTotal}>{data.totalMoney.toLocaleString('vi-VN')} đ</div>
         </div>
       </div>
     </div>

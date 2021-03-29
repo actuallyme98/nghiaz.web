@@ -193,7 +193,7 @@ const headingData: {
   title: string;
 }[] = [
   { status: undefined, title: 'TẤT CẢ' },
-  { status: 'CONFIRMING', title: 'ĐANG XỬ LÝ' },
+  { status: 'CONFIRMING', title: 'ĐANG XÁC NHẬN' },
   { status: 'SUCCESS', title: 'HOÀN THÀNH' },
   { status: 'FAILED', title: 'ĐÃ HỦY' },
 ];

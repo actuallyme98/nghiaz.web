@@ -16,7 +16,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Typography from '@material-ui/core/Typography';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Tooliip from '@material-ui/core/Tooltip';
+import Tooltip from '@material-ui/core/Tooltip';
 import CategoryForm from '../../../components/category-form';
 
 // redux
@@ -76,16 +76,16 @@ const ProductList: React.FC<Props> = (props) => {
         <TableCell>{row.quantity}</TableCell>
         <TableCell>
           <Box>
-            <Tooliip title="Sửa" placement="top" arrow>
+            <Tooltip title="Sửa" placement="top" arrow>
               <IconButton>
                 <EditRoundedIcon />
               </IconButton>
-            </Tooliip>
-            <Tooliip title="Xóa" placement="top" arrow>
+            </Tooltip>
+            <Tooltip title="Xóa" placement="top" arrow>
               <IconButton onClick={() => onDelete(row.id)}>
                 <DeleteIcon />
               </IconButton>
-            </Tooliip>
+            </Tooltip>
           </Box>
         </TableCell>
       </TableRow>
@@ -105,13 +105,13 @@ const ProductList: React.FC<Props> = (props) => {
 
       <Box display="flex" justifyContent="space-between">
         <Typography>Danh sách sản phẩm</Typography>
-        <Tooliip title="Thêm mới" placement="top" arrow>
+        <Tooltip title="Thêm mới" placement="top" arrow>
           <IconButton>
             <Link to="/product/create" className={classes.link}>
               <AddCircleIcon />
             </Link>
           </IconButton>
-        </Tooliip>
+        </Tooltip>
       </Box>
       <TableContainer component={Paper}>
         <Table className={classes.table}>

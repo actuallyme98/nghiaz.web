@@ -16,58 +16,62 @@ export class CreateOrderDTO {
   @IsOptional()
   description: string;
 
+  @ApiPropertyOptional()
+  @IsOptional()
+  discountPrice: number;
+
   @ApiProperty()
-  @IsNotEmpty({ message: 'required' })
+  @IsNotEmpty({ message: 'Giá không được trống' })
   price: number;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'required' })
+  @IsNotEmpty({ message: 'Phương thức thanh toán không được trống' })
   paymentMethod: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'required' })
+  @IsNotEmpty({ message: 'Tên không được trống' })
   name: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'required' })
+  @IsNotEmpty({ message: 'Điện thoại không được trống' })
   phone: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'required' })
+  @IsNotEmpty({ message: 'Địa chỉ không được trống' })
   address: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'required' })
+  @IsNotEmpty({ message: 'Client is required' })
   clientId: number;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'required' })
+  @IsNotEmpty({ message: 'Phương thức giao hàng không được trống' })
   carrierId: number;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'required' })
+  @IsNotEmpty({ message: 'Thành phố không được trống' })
   cityId: number;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'required' })
+  @IsNotEmpty({ message: 'Quận/huyện không được trống' })
   districtId: number;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'required' })
+  @IsNotEmpty({ message: 'Phường/xã không được trống' })
   wardId: number;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'required' })
+  @IsNotEmpty({ message: 'Phải mua ít nhất 1 sản phẩm' })
   orderItems: OrderItemDTO[];
 }
 
 export class OrderItemDTO {
   @ApiProperty()
-  @IsNotEmpty({ message: 'required' })
+  @IsNotEmpty({ message: 'Sản phẩm ?' })
   productId: number;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'required' })
+  @IsNotEmpty({ message: 'Số lượng phải lớn hơn 1' })
   amount: number;
 }
 

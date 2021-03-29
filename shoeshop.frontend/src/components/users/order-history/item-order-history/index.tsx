@@ -56,7 +56,6 @@ const ItemOrdered: React.FC<Iprops> = (props) => {
     () => data.orderItems.reduce((s, i) => s + (i.product.currentPrice || 0) * (i.amount || 0), 0),
     [data],
   );
-  const discountPrice = data.price - data.carrier.fee - totalProductPrice;
   const contentBody = (
     <div className={isMobile ? css.costMobile : css.cost}>
       <div className={css.costDetail}>
@@ -67,10 +66,10 @@ const ItemOrdered: React.FC<Iprops> = (props) => {
         <div className={css.text}>Phí vận chuyển:</div>
         <div className={css.price}>{data.carrier.fee.toLocaleString('vi')} đ</div>
       </div>
-      {Boolean(discountPrice) && (
+      {Boolean(data.discountPrice) && (
         <div className={css.costDetail}>
           <div className={css.text}>Giảm giá:</div>
-          <div className={css.price}>{discountPrice.toLocaleString('vi')} đ</div>
+          <div className={css.price}>{data.discountPrice.toLocaleString('vi')} đ</div>
         </div>
       )}
       <div className={css.totalCost}>

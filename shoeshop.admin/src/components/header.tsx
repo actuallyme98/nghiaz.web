@@ -17,7 +17,9 @@ import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import HomeSharpIcon from '@material-ui/icons/HomeSharp';
+import RedeemIcon from '@material-ui/icons/Redeem';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import Tooltip from '@material-ui/core/Tooltip';
 
 // redux
 import * as AppActions from '../redux/actions/app-action';
@@ -52,15 +54,19 @@ const Header: React.FC<IProps> = (props) => {
       <Container maxWidth="xl">
         <AppBar position="static">
           <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" onClick={collapseMenu}>
-              <MenuIcon />
-            </IconButton>
+            <Tooltip title="Menu">
+              <IconButton className={classes.menuButton} color="inherit" onClick={collapseMenu}>
+                <MenuIcon />
+              </IconButton>
+            </Tooltip>
             <Typography variant="h6" className={classes.title}>
               ADMIN widget
             </Typography>
-            <IconButton color="inherit" onClick={handleLogout}>
-              <PowerSettingsNewIcon />
-            </IconButton>
+            <Tooltip title="Đăng xuất">
+              <IconButton color="inherit" onClick={handleLogout}>
+                <PowerSettingsNewIcon />
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
       </Container>
@@ -86,6 +92,15 @@ const Header: React.FC<IProps> = (props) => {
                 <DonutSmallRoundedIcon color="primary" />
               </ListItemIcon>
               <ListItemText primary="Products" />
+            </ListItem>
+          </Link>
+
+          <Link to={AppRouteEnum.VOUCHER} className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <RedeemIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Vouchers" />
             </ListItem>
           </Link>
         </List>

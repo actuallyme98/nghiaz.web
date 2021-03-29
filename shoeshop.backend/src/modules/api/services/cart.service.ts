@@ -2,9 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Cart, CartItem, Client, Product } from '@api/entities';
+import * as moment from 'moment';
+
+import { Cart, CartItem, Client, Product, Voucher, VoucherCode } from '@api/entities';
 import { ErrorHelper, StringHelper } from '@base/helpers';
-import { AddCartLineDTO, UpdateCartLineDTO } from '../dtos';
+import { AddCartLineDTO, ApplyVoucherDTO, UpdateCartLineDTO } from '../dtos';
 
 @Injectable()
 export class CartService {
@@ -17,6 +19,10 @@ export class CartService {
     private readonly cartItemRepository: Repository<CartItem>,
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    @InjectRepository(Voucher)
+    private readonly voucherRepository: Repository<Voucher>,
+    @InjectRepository(VoucherCode)
+    private readonly voucherCodeRepository: Repository<VoucherCode>,
   ) {}
 
   async getCart(clientId: number) {
@@ -28,15 +34,27 @@ export class CartService {
         .leftJoinAndSelect('c.client', 'client')
         .leftJoinAndSelect('c.cartItems', 'cart_item')
         .leftJoinAndSelect('cart_item.product', 'product')
+        .leftJoinAndSelect('c.voucherCode', 'voucher_code')
+        .leftJoinAndSelect('voucher_code.voucher', 'voucher')
         .andWhere('c.id = :id', { id: cart.id })
         .getOne();
+    }
+    let cart = await this.cartRepository
+      .createQueryBuilder('c')
+      .leftJoinAndSelect('c.client', 'client')
+      .andWhere('client.id = :clientId', { clientId })
+      .getOne();
+    if (!cart) {
+      cart = await this.createCart(clientId);
     }
     return await this.cartRepository
       .createQueryBuilder('c')
       .leftJoinAndSelect('c.client', 'client')
       .leftJoinAndSelect('c.cartItems', 'cart_item')
       .leftJoinAndSelect('cart_item.product', 'product')
-      .andWhere('client.id = :clientId', { clientId })
+      .leftJoinAndSelect('c.voucherCode', 'voucher_code')
+      .leftJoinAndSelect('voucher_code.voucher', 'voucher')
+      .andWhere('c.id = :id', { id: cart.id })
       .getOne();
   }
 
@@ -130,5 +148,61 @@ export class CartService {
     } catch (err) {
       throw ErrorHelper.BadRequestException(err);
     }
+  }
+
+  async applyVoucher(args: ApplyVoucherDTO) {
+    const { cartId, code, price } = args;
+    const voucherCode = await this.voucherCodeRepository
+      .createQueryBuilder('c')
+      .leftJoinAndSelect('c.voucher', 'voucher')
+      .andWhere('c.code = :code', { code })
+      .getOne();
+    if (!voucherCode) {
+      throw ErrorHelper.BadRequestException('Mã voucher không tồn tại');
+    }
+    if (voucherCode.isUsed) {
+      throw ErrorHelper.BadRequestException('Mã voucher đã được sử dụng');
+    }
+    const voucher = await this.voucherRepository
+      .createQueryBuilder('v')
+      .leftJoinAndSelect('v.voucherCodes', 'voucher_code')
+      .andWhere('voucher_code.code = :code', { code })
+      .getOne();
+    if (!voucher) {
+      throw ErrorHelper.BadRequestException('Mã voucher không tồn tại');
+    }
+    if (moment(moment().format('YYYY-MM-DD')).isSameOrAfter(moment(voucher.endDate.trim()))) {
+      throw ErrorHelper.BadRequestException('Mã voucher đã hết hạn');
+    }
+    if (moment(moment().format('YYYY-MM-DD')).isSameOrBefore(moment(voucher.startDate.trim()))) {
+      throw ErrorHelper.BadRequestException('Mã voucher chưa đến thời gian sử dụng');
+    }
+    const cart = await this.cartRepository
+      .createQueryBuilder('c')
+      .leftJoinAndSelect('c.voucherCode', 'voucher_code')
+      .leftJoinAndSelect('voucher_code.voucher', 'voucher')
+      .andWhere('c.id = :cartId', { cartId })
+      .getOne();
+    if (!cart) {
+      throw ErrorHelper.BadRequestException('[Cart] not found');
+    }
+    if (cart.voucherCode) {
+      await this.voucherCodeRepository.update(cart.voucherCode.id, {
+        isUsed: 0,
+      });
+    }
+    // Validation voucher
+    const buyMore = voucher.requireMinPrice - price;
+    if (buyMore > 0) {
+      throw ErrorHelper.BadRequestException(`Bạn cần mua ${buyMore} để được áp dụng`);
+    }
+    Object.assign(voucherCode, {
+      isUsed: 1,
+    });
+    await voucherCode.save();
+    Object.assign(cart, {
+      voucherCode,
+    });
+    return await cart.save();
   }
 }

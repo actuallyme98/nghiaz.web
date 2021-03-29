@@ -54,7 +54,7 @@ export class CreateUserDTO {
   username: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
+  @IsNotEmpty({ message: 'Mật khẩu không được trống' })
   password: string;
 }
 
@@ -64,27 +64,27 @@ export class UpdateInfoDTO {
   id: number;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
+  @IsNotEmpty({ message: 'Họ và tên phải là chuỗi ký tự' })
   firstName: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
+  @IsNotEmpty({ message: 'Họ và tên phải là chuỗi ký tự' })
   lastName: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
+  @IsNotEmpty({ message: 'Số điện thoại phải là chuỗi ký tự' })
   phoneNumber: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
+  @IsNotEmpty({ message: 'Email không được trống' })
   email: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
+  @IsNotEmpty({ message: 'Chọn ngày hợp lệ' })
   birthday: string;
 
   @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
+  @IsNotEmpty({ message: 'Chọn giới tính hợp lệ' })
   gender: string;
 }
 

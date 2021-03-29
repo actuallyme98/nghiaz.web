@@ -92,7 +92,7 @@ const Order: NextPage<IProps> = () => {
                     )
                   : '',
                 note: order?.description || 'Không có ghi chú',
-                id: order?.id,
+                code: order?.code,
                 isClient: Boolean(order?.client.clone),
               }}
             />

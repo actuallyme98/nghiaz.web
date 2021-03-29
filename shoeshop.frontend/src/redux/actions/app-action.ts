@@ -420,3 +420,15 @@ export const listCarriersAction = createTypeAsyncAction('LIST_CARRIERS_ACTION', 
     // ignore err
   }
 });
+
+export const applyVoucherAction = createTypeAsyncAction<SHOES_API.ApplyVoucherParams, void, Store>(
+  'APPLY_VOUCHER_ACTION',
+  async (args: SHOES_API.ApplyVoucherParams, { dispatch }) => {
+    try {
+      await ApiService.applyVoucher(args);
+      await dispatch(getCartAction(args.clientId));
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);

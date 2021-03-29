@@ -15,7 +15,7 @@ export class AuthService {
     // find user
     const user = await this.userService.findOneByPhone(phone);
     if (!user) {
-      ErrorHelper.BadRequestException('Số điện thoại này chưa được đăng kí');
+      ErrorHelper.BadRequestException('Sai tài khoản');
     }
     if (!EncryptHelper.compare(password, user.password)) {
       ErrorHelper.BadRequestException('Tài khoản hoặc mật khẩu không chính xác');
@@ -99,7 +99,7 @@ export class AuthService {
   async validateRequest(req: APIRequest): Promise<User> {
     const authorization = req.headers.authorization
       ? req.headers.authorization
-      : String(req.cookies.JWT);
+      : String(req.cookies.JWTADMIN);
     const authHeaders = (authorization as string).split(' ');
     if (authHeaders.length == 2 && authHeaders[0] == 'Bearer' && authHeaders[1] != '') {
       return await this.verifyUser(authHeaders[1]);

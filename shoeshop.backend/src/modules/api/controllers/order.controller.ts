@@ -18,7 +18,7 @@ export class OrderController {
     @Param('id') id: number,
     @Res() res: Response,
     @Query('page') page = 1,
-    @Query('limit') limit = 8,
+    @Query('limit') limit = 4,
     @Query('filters') filters: string,
   ) {
     const data = await this.orderService.listOrders(

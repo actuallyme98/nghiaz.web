@@ -91,10 +91,33 @@ declare namespace REDUX_STORE {
     updateAt: Date;
   }
 
+  interface VoucherCode {
+    id: number;
+    code: string;
+    isUsed: number;
+    voucher: IVoucher;
+  }
+
+  type VoucherType = 'discount_price' | 'discount_percentage' | 'free_ship';
+
+  interface IVoucher {
+    id: number;
+    title: string;
+    startDate: string;
+    endDate: string;
+    type: VoucherType;
+    percentDiscount: number;
+    amount: number;
+    maxAmount: number;
+    quantity: number;
+    requireMinPrice: number;
+  }
+
   interface ICartLine {
     id: number;
     client: Client;
     cartItems: CartItem[];
+    voucherCode?: VoucherCode;
   }
 
   interface ICarrier {
@@ -141,6 +164,7 @@ declare namespace REDUX_STORE {
     reason: string;
     description: string;
     price: number;
+    discountPrice: number;
     paymentMethod: string;
     name: string;
     phone: string;

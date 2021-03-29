@@ -26,15 +26,16 @@ interface IProps {
 const CartItem: React.FC<IProps> = (props) => {
   const { data, className, onChangeAmount, onDelete } = props;
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
-  const discountPercent = useMemo(
-    () =>
-      Math.ceil(
-        ((data.product.discountPrice - (data.product.discountPrice || data.product.currentPrice)) *
-          100) /
-          data.product.discountPrice,
-      ),
-    [data],
-  );
+  const discountPercent = useMemo(() => {
+    if (!data.product.discountPrice) {
+      return 0;
+    }
+    return Math.ceil(
+      ((data.product.discountPrice - (data.product.discountPrice || data.product.currentPrice)) *
+        100) /
+        data.product.discountPrice,
+    );
+  }, [data]);
   return (
     <div className={clsx(className, isMobile ? css.rootMobile : css.rootDesktop)}>
       <img

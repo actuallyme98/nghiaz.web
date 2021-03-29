@@ -3,7 +3,7 @@ import { AuthValidateDTO, AuthRefreshTokenDTO, AuthResponseDTO } from './auth.dt
 import { PaginationDTO } from './pagination.dto';
 import { DeliveryAddressDTO, CreateAddressDTO, UpdateAddressDTO } from './delivery-address.dto';
 import { SearchOptions, SortOptions } from './product.dto';
-import { AddCartLineDTO, UpdateCartLineDTO } from './cart.dto';
+import { AddCartLineDTO, UpdateCartLineDTO, ApplyVoucherDTO } from './cart.dto';
 import { CreateOrderDTO, OrderItemDTO, OrderStatusEnums, FilterOrderDTO } from './order.dto';
 
 export {
@@ -27,4 +27,5 @@ export {
   OrderItemDTO,
   OrderStatusEnums,
   FilterOrderDTO,
+  ApplyVoucherDTO,
 };

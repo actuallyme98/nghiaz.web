@@ -21,7 +21,7 @@ interface Props {
     pay: string;
     address: string;
     note: string;
-    id?: number;
+    code?: string;
     isClient: boolean;
   };
 }
@@ -68,7 +68,7 @@ const OrderInfo: React.FC<Props> = (props) => {
         </div>
       </div>
       {data.isClient && (
-        <Link href={`/user/order-history?order=${data.id}`}>
+        <Link href={`/user/order-history?order=${data.code}`}>
           <a>
             <Button type="ghost" className={css.pay}>
               THEO DÕI ĐƠN HÀNG

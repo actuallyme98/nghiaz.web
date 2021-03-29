@@ -4,7 +4,7 @@ import { Response } from 'express';
 
 import { AuthValidateDTO } from '@admin/dtos';
 
-import { AuthService } from '@api/services';
+import { AuthService } from '@admin/services';
 @ApiBearerAuth()
 @ApiTags('admin')
 @Controller()
@@ -17,7 +17,7 @@ export class AuthController {
   @Post('/auth/token')
   async validate(@Body() payload: AuthValidateDTO, @Res() res: Response) {
     const loginData = await this.authService.login(payload.username, payload.password);
-    res.cookie('JWT', 'Bearer ' + loginData.token, {
+    res.cookie('JWTADMIN', 'Bearer ' + loginData.token, {
       maxAge: loginData.expires,
       httpOnly: true,
     });

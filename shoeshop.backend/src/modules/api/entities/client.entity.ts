@@ -46,7 +46,9 @@ export class Client extends BaseModel {
   @JoinColumn()
   addresses: DeliveryAddress[];
 
-  @OneToOne(() => Cart)
+  @OneToOne(() => Cart, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn()
   cart: Cart;
 }
