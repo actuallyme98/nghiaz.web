@@ -33,6 +33,7 @@
   },
   "scripts": {
     "dev": "set PORT=4000 && react-scripts start",
+    "dev-linux": "export PORT=4000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
