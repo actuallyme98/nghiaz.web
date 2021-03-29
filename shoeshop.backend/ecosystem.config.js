@@ -5,6 +5,7 @@ module.exports = {
       script: 'yarn',
       args: 'dev',
       interpreter: 'none',
+      watching: true,
     },
   ],
 };
