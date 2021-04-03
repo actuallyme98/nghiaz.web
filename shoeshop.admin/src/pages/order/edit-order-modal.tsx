@@ -60,6 +60,7 @@ const EditOrderModal: React.FC<IProps> = (props) => {
       <div className={classes.paper}>
         <Select value={statusChange} onChange={onChangeStatus}>
           <MenuItem value="CONFIRMING">CONFIRMING</MenuItem>
+          <MenuItem value="PREPARING">PREPARING</MenuItem>
           <MenuItem value="SHIPPING">SHIPPING</MenuItem>
           <MenuItem value="SUCCESS">SUCCESS</MenuItem>
           <MenuItem value="FAILED">FAILED</MenuItem>

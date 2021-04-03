@@ -28,7 +28,7 @@ export const getOrderStatus = (
   if (['NEW', 'CONFIRMING', 'CUSTOMERCONFIRMING'].includes(status)) {
     return { value: 'CONFIRMING', label: 'Đang xác nhận' };
   }
-  if (['CONFIRMED', 'PACKING', 'CHANGEDEPOT', 'PICKUP', 'PICKINGUP', 'PICKEDUP'].includes(status)) {
+  if (['CONFIRMED', 'PACKING', 'PREPARING'].includes(status)) {
     return { value: 'PREPARING', label: 'Đang chuẩn bị' };
   }
   if (status === 'SHIPPING') {

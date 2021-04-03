@@ -194,6 +194,7 @@ const headingData: {
 }[] = [
   { status: undefined, title: 'TẤT CẢ' },
   { status: 'CONFIRMING', title: 'ĐANG XÁC NHẬN' },
+  { status: 'SHIPPING', title: 'ĐANG GIAO HÀNG' },
   { status: 'SUCCESS', title: 'HOÀN THÀNH' },
   { status: 'FAILED', title: 'ĐÃ HỦY' },
 ];

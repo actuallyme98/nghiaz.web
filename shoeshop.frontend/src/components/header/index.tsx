@@ -93,7 +93,7 @@ const Header: React.FC<IProps> = (props) => {
   const profileMenu = useMemo(() => {
     if (!profile) {
       return (
-        <Link href={AppRouteEnums.USER}>
+        <Link href={AppRouteEnums.SIGNIN}>
           <a className={css.borderBox}>
             <img src="/assets/icons/user.svg" alt="" />
           </a>
@@ -116,7 +116,7 @@ const Header: React.FC<IProps> = (props) => {
           <Link href={AppRouteEnums.HOME}>
             <a className={css.menuLinkDrawer}>Trang chủ</a>
           </Link>
-          <Link href={AppRouteEnums.USER}>
+          <Link href={AppRouteEnums.SIGNIN}>
             <a className={css.menuLinkDrawer}>Đăng nhập/ Đăng ký</a>
           </Link>
         </>

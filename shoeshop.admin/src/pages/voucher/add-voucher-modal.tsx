@@ -134,7 +134,7 @@ const AddVoucherModal: React.FC<IProps> = (props) => {
                     }}
                   />
                   <FormikTextField
-                    name="amount"
+                    name="maxAmount"
                     textFieldProps={{
                       variant: 'outlined',
                       margin: 'normal',

@@ -115,7 +115,7 @@ const PaymentCard: React.FC<Props> = (props) => {
       <div className={css.money}>
         <div className={css.contentMoney}>
           <div className={css.textContent}>Tổng tiền</div>
-          <div className={css.moneyContent}>{data.totalMoney.toLocaleString('vi-VN')} đ</div>
+          <div className={css.moneyContent}>{data.totalPrice.toLocaleString('vi-VN')} đ</div>
         </div>
 
         {Boolean(data.discount) && (
