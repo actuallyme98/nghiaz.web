@@ -86,3 +86,17 @@ export class CreateProductDTO {
   @IsNotEmpty({ message: 'Size required' })
   sizeIds: number[];
 }
+
+export class FilterProductDTO {
+  @ApiProperty()
+  @IsOptional({ message: 'Color required' })
+  colors: number[];
+
+  @ApiProperty()
+  @IsOptional({ message: 'Category required' })
+  categories: number[];
+
+  @ApiProperty()
+  @IsOptional({ message: 'Size required' })
+  sizes: number[];
+}

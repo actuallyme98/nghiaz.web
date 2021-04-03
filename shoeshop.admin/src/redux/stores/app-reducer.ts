@@ -16,7 +16,7 @@ export interface Store {
   profile?: REDUX_STORE.Profile;
   sizes: REDUX_STORE.ProductSize[];
   colors: REDUX_STORE.ProductColor[];
-  products: REDUX_STORE.IProduct[];
+  products: ADMIN_API.PaginationResponse<REDUX_STORE.IProduct>;
   categories: REDUX_STORE.ICategory[];
   vouchers: REDUX_STORE.Voucher[];
   orders: ADMIN_API.PaginationResponse<REDUX_STORE.Order>;
@@ -25,7 +25,7 @@ export interface Store {
 export const initialState: Store = {
   sizes: [],
   colors: [],
-  products: [],
+  products: initialPaging,
   categories: [],
   vouchers: [],
   orders: initialPaging,
@@ -55,10 +55,6 @@ export const logoutReducer = AppActions.logOutAction.reducer<Store>((state, acti
   }
   return {
     profile: undefined,
-    sizes: [],
-    colors: [],
-    products: [],
-    categories: [],
   };
 });
 

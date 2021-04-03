@@ -10,8 +10,9 @@ import {
   UploadedFile,
   UploadedFiles,
   Put,
+  Query,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
 import { ProductService } from '@admin/services';
@@ -24,8 +25,23 @@ export class ProductController {
   constructor(private productService: ProductService) {}
 
   @Get('/list')
-  async profile(@Res() res: Response) {
-    const data = await this.productService.listProducts();
+  @ApiQuery({ name: 'filters', required: false })
+  @ApiQuery({ name: 'page', required: false, type: 'number' })
+  @ApiQuery({ name: 'limit', required: false, type: 'number' })
+  async profile(
+    @Res() res: Response,
+    @Query('page') page = 1,
+    @Query('limit') limit = 5,
+    @Query('filters') filters: string,
+  ) {
+    limit = limit > 100 ? 100 : limit;
+    const data = await this.productService.listProducts(
+      {
+        page,
+        limit,
+      },
+      JSON.parse(filters),
+    );
     return res.json({ data });
   }
 

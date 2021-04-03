@@ -46,8 +46,14 @@ export class ApiService {
   public async updateImagesProduct(args: FormData, id: number) {
     return await Axios.put(`${ApiRouteEnum.UPDATE_PRODUCT_IMAGES}/${id}`, args);
   }
-  public async listProducts() {
-    return await Axios.get(ApiRouteEnum.LIST_PRODUCTS);
+  public async listProducts(args: ADMIN_API.ListProductParams) {
+    const { paging, filters } = args;
+    return await Axios.get(ApiRouteEnum.LIST_PRODUCTS, {
+      params: {
+        ...paging,
+        filters: filters ? filters : {},
+      },
+    });
   }
   public async deleteProduct(id: number) {
     return await Axios.delete(`${ApiRouteEnum.DELETE_PRODUCT}/${id}`);

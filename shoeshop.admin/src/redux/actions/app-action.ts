@@ -26,7 +26,6 @@ export const initializeApp = createTypeAsyncAction<any, void, Store>(
       await dispatch(listSizesAction());
       await dispatch(listColorsAction());
       await dispatch(listCategoriesAction());
-      await dispatch(listProductsAction());
       await dispatch(listVoucherAction());
     } catch (err) {
       throw new Error(err);
@@ -168,14 +167,17 @@ export const updateImagesProductAction = createTypeAsyncAction(
   },
 );
 
-export const listProductsAction = createTypeAsyncAction('LIST_PRODUCTS_ACTION', async () => {
-  try {
-    const response = await ApiService.listProducts();
-    return response.data;
-  } catch (err) {
-    throw new Error(err);
-  }
-});
+export const listProductsAction = createTypeAsyncAction(
+  'LIST_PRODUCTS_ACTION',
+  async (args: ADMIN_API.ListProductParams) => {
+    try {
+      const response = await ApiService.listProducts(args);
+      return response.data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
 
 export const deleteProductAction = createTypeAsyncAction<number, void, Store>(
   'DELETE_COLOR_ACION',

@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useState, useCallback } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 
 // components
@@ -17,6 +17,12 @@ import Typography from '@material-ui/core/Typography';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Tooltip from '@material-ui/core/Tooltip';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableFooter from '@material-ui/core/TableFooter';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import LastPageIcon from '@material-ui/icons/LastPage';
 import CategoryForm from '../../../components/category-form';
 
 // redux
@@ -37,19 +43,83 @@ const ProductList: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
-  const products = useSelector((store: IStore) => store.appState.products);
+  const productsPaging = useSelector((store: IStore) => store.appState.products);
+  const products = useMemo(() => productsPaging.items, [productsPaging]);
 
-  const handleChangeColors = useCallback((event: React.ChangeEvent<{ value: any }>) => {
-    setSelectedColors(event.target.value);
+  useEffect(() => {
+    dispatch(
+      AppActions.listProductsAction({
+        paging: {
+          page: 1,
+          limit: 5,
+        },
+        filters: {},
+      }),
+    );
   }, []);
 
-  const handleChangeSizes = useCallback((event: React.ChangeEvent<{ value: any }>) => {
-    setSelectedSizes(event.target.value);
-  }, []);
+  const handleChangeColors = useCallback(
+    async (event: React.ChangeEvent<{ value: any }>) => {
+      const { value } = event.target;
+      await dispatch(
+        AppActions.listProductsAction({
+          paging: {
+            page: 1,
+            limit: 5,
+          },
+          filters: {
+            colors: value,
+            sizes: selectedSizes,
+            categories: selectedCategories,
+          },
+        }),
+      );
+      setSelectedColors(value);
+    },
+    [selectedSizes, selectedCategories],
+  );
 
-  const handleChangeCategories = useCallback((event: React.ChangeEvent<{ value: any }>) => {
-    setSelectedCategories(event.target.value);
-  }, []);
+  const handleChangeSizes = useCallback(
+    async (event: React.ChangeEvent<{ value: any }>) => {
+      const { value } = event.target;
+      setSelectedSizes(value);
+      await dispatch(
+        AppActions.listProductsAction({
+          paging: {
+            page: 1,
+            limit: 5,
+          },
+          filters: {
+            colors: selectedColors,
+            sizes: value,
+            categories: selectedCategories,
+          },
+        }),
+      );
+    },
+    [selectedColors, selectedCategories],
+  );
+
+  const handleChangeCategories = useCallback(
+    async (event: React.ChangeEvent<{ value: any }>) => {
+      const { value } = event.target;
+      setSelectedCategories(value);
+      await dispatch(
+        AppActions.listProductsAction({
+          paging: {
+            page: 1,
+            limit: 5,
+          },
+          filters: {
+            colors: selectedColors,
+            sizes: selectedSizes,
+            categories: value,
+          },
+        }),
+      );
+    },
+    [selectedColors, selectedSizes],
+  );
 
   const onDelete = useCallback(async (id: number) => {
     try {
@@ -65,6 +135,35 @@ const ProductList: React.FC<Props> = (props) => {
     }
   }, []);
 
+  const handleChangePage = useCallback(
+    async (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+      await dispatch(
+        AppActions.listProductsAction({
+          paging: {
+            page: newPage + 1,
+          },
+          filters: {},
+        }),
+      );
+    },
+    [],
+  );
+
+  const handleChangeRowsPerPage = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      await dispatch(
+        AppActions.listProductsAction({
+          paging: {
+            page: 1,
+            limit: Number(event.target.value),
+          },
+          filters: {},
+        }),
+      );
+    },
+    [],
+  );
+
   const rows = useMemo(() => {
     return products.map((row, index) => (
       <TableRow key={index}>
@@ -76,11 +175,6 @@ const ProductList: React.FC<Props> = (props) => {
         <TableCell>{row.quantity}</TableCell>
         <TableCell>
           <Box>
-            <Tooltip title="Sửa" placement="top" arrow>
-              <IconButton>
-                <EditRoundedIcon />
-              </IconButton>
-            </Tooltip>
             <Tooltip title="Xóa" placement="top" arrow>
               <IconButton onClick={() => onDelete(row.id)}>
                 <DeleteIcon />
@@ -127,11 +221,87 @@ const ProductList: React.FC<Props> = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>{rows}</TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                colSpan={8}
+                count={productsPaging.meta.totalItems}
+                rowsPerPage={productsPaging.meta.itemsPerPage}
+                page={productsPaging.meta.currentPage - 1}
+                SelectProps={{
+                  inputProps: { 'aria-label': 'rows per page' },
+                  native: true,
+                }}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            </TableRow>
+          </TableFooter>
         </Table>
       </TableContainer>
     </Box>
   );
 };
+
+interface TablePaginationActionsProps {
+  count: number;
+  page: number;
+  rowsPerPage: number;
+  onChangePage: (event: React.MouseEvent<HTMLButtonElement>, newPage: number) => void;
+}
+
+function TablePaginationActions(props: TablePaginationActionsProps) {
+  const classes = useStyles();
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onChangePage } = props;
+
+  const handleFirstPageButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    onChangePage(event, 0);
+  };
+
+  const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    onChangePage(event, page - 1);
+  };
+
+  const handleNextButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    onChangePage(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+
+  return (
+    <div className={classes.rootRow}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="first page"
+      >
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
+        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="next page"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="last page"
+      >
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </div>
+  );
+}
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -142,6 +312,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
     maxWidth: 300,
+  },
+  rootRow: {
+    flexShrink: 0,
+    marginLeft: theme.spacing(2.5),
   },
   link: {
     color: 'unset',

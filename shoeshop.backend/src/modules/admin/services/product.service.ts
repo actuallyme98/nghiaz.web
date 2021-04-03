@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { paginate, Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
 
 import { Category, Color, Product, Size, ProductImage } from '@api/entities';
 
 import { ErrorHelper, StringHelper } from '@base/helpers';
-import { CreateProductDTO } from '../dtos';
+import { CreateProductDTO, FilterProductDTO } from '../dtos';
+import { classToPlain } from 'class-transformer';
 
 @Injectable()
 export class ProductService {
@@ -20,13 +22,29 @@ export class ProductService {
     private readonly categoryRepository: Repository<Category>,
   ) {}
 
-  async listProducts() {
-    return this.productRepository
+  async listProducts(options: IPaginationOptions, filters: FilterProductDTO) {
+    const queryBuilder = this.productRepository
       .createQueryBuilder('p')
       .leftJoinAndSelect('p.categories', 'category')
       .leftJoinAndSelect('p.colors', 'color')
-      .leftJoinAndSelect('p.sizes', 'size')
-      .getMany();
+      .leftJoinAndSelect('p.sizes', 'size');
+
+    const { categories, colors, sizes } = filters;
+    if (colors && colors.length > 0) {
+      queryBuilder.andWhere('color.id IN (:...colors)', { colors });
+    }
+    if (sizes && sizes.length > 0) {
+      queryBuilder.andWhere('size.id IN (:...sizes)', { sizes });
+    }
+    if (categories && categories.length > 0) {
+      queryBuilder.andWhere('category.id IN (:...categories)', { categories });
+    }
+    let records = await paginate(queryBuilder, options);
+    let items = classToPlain(records.items);
+    records = Object.assign(records, {
+      items,
+    });
+    return records;
   }
 
   async createProduct(args: CreateProductDTO) {

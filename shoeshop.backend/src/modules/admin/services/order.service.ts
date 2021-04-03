@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Equal, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { paginate, Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
 
 import { Order } from '@api/entities';
@@ -32,7 +32,7 @@ export class OrderService {
       queryBuilder.andWhere('o.code = :code', { code });
     }
     let records = await paginate(queryBuilder, options);
-    let items = classToPlain(records.items) as Order[];
+    let items = classToPlain(records.items);
     if (createdAt) {
       switch (type) {
         case 'date':

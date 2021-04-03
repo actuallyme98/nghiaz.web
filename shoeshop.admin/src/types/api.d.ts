@@ -162,4 +162,16 @@ declare namespace ADMIN_API {
     id: number;
     status: REDUX_STORE.OrderStatusEnums;
   }
+
+  interface ListProductParams {
+    paging: {
+      page: number;
+      limit?: number;
+    };
+    filters?: {
+      colors?: number[];
+      categories?: number[];
+      sizes?: number[];
+    };
+  }
 }
