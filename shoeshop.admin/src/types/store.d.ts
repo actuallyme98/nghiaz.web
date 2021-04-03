@@ -66,4 +66,21 @@ declare namespace REDUX_STORE {
     code: string;
     isUsed: number;
   }
+
+  type OrderStatusEnums = 'CONFIRMING' | 'PREPARING' | 'SHIPPING' | 'SUCCESS' | 'FAILED';
+
+  interface Order {
+    id: number;
+    status: OrderStatusEnums;
+    code: string;
+    reason: string;
+    description: string;
+    discountPrice: number;
+    price: number;
+    paymentMethod: string;
+    name: string;
+    phone: string;
+    address: string;
+    createdAt: string;
+  }
 }

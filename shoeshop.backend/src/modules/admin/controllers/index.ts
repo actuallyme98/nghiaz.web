@@ -3,6 +3,7 @@ import { ProductCSCController } from './product-csc.controller';
 import { ProductController } from './product.controller';
 import { AuthController } from './auth.controller';
 import { VoucherController } from './voucher.controller';
+import { OrderController } from './order.controller';
 
 const CONTROLLERS = [
   AdminController,
@@ -10,6 +11,7 @@ const CONTROLLERS = [
   ProductController,
   AuthController,
   VoucherController,
+  OrderController,
 ];
 
 export {
@@ -18,5 +20,6 @@ export {
   ProductController,
   AuthController,
   VoucherController,
+  OrderController,
   CONTROLLERS,
 };

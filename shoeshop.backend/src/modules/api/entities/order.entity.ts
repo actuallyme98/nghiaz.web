@@ -104,7 +104,9 @@ export class Order extends BaseModel {
   @JoinColumn()
   carrier: Carrier;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn()
   orderItems: OrderItem[];
 }

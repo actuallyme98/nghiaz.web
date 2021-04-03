@@ -1,9 +1,20 @@
 declare namespace ADMIN_API {
-  interface BaseResponse {
-    status?: boolean;
-    message?: string;
+  interface PaginationResponse<T> {
+    items: T[];
+    meta: {
+      totalItems: number;
+      itemCount: number;
+      itemsPerPage: number;
+      totalPages: number;
+      currentPage: number;
+    };
+    links?: {
+      first: string;
+      previous: string;
+      next: string;
+      last: string;
+    };
   }
-
   interface RegisterParams {
     username: string;
     firstName: string;
@@ -131,5 +142,24 @@ declare namespace ADMIN_API {
     requireMinPrice: number;
     startDate: string;
     endDate: string;
+  }
+
+  type FilterOrderTypes = 'date' | 'month' | 'year';
+
+  interface ListOrderParams {
+    paging: {
+      page: number;
+      limit?: number;
+    };
+    filters?: {
+      code?: string;
+      type?: FilterOrderTypes;
+      createdAt?: string;
+    };
+  }
+
+  interface UpdateStatusOrderArgs {
+    id: number;
+    status: REDUX_STORE.OrderStatusEnums;
   }
 }

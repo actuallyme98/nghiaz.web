@@ -3,4 +3,5 @@ export enum AppRouteEnum {
   LOGIN = '/login',
   PRODUCTS = '/products',
   VOUCHER = '/voucher',
+  ORDER = '/order',
 }

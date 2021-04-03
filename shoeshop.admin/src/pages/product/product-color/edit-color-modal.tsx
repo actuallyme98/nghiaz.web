@@ -48,7 +48,7 @@ const EditColorModal: React.FC<IProps> = (props) => {
           }),
         );
         onClose();
-        enqueueSnackbar('Tạo thành công', {
+        enqueueSnackbar('Sửa thành công', {
           variant: 'success',
         });
       } catch (err) {

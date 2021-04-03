@@ -310,3 +310,37 @@ export const deleteVoucherCodeAction = createTypeAsyncAction<number, void, Store
     }
   },
 );
+
+export const listOrdersAction = createTypeAsyncAction(
+  'LIST_ORDER_ACTION',
+  async (args: ADMIN_API.ListOrderParams) => {
+    try {
+      const response = await ApiService.listOrders(args);
+      return response.data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const updateStatusOrderAction = createTypeAsyncAction(
+  'UPDATE_STATUS_ORDER_ACTION',
+  async (args: ADMIN_API.UpdateStatusOrderArgs) => {
+    try {
+      return await ApiService.updateStatusOrder(args);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const deleteOrderAction = createTypeAsyncAction(
+  'DELETE_ORDER_ACTION',
+  async (id: number) => {
+    try {
+      return await ApiService.deleteOrder(id);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);

@@ -14,6 +14,7 @@ import {
   UpdateVoucherDTO,
   UpdateVoucherCodeDTO,
 } from './voucher.dto';
+import { FilterOrderDTO, OrderStatusEnums } from './order.dto';
 
 export {
   AuthValidateDTO,
@@ -28,4 +29,6 @@ export {
   VoucherType,
   UpdateVoucherDTO,
   UpdateVoucherCodeDTO,
+  FilterOrderDTO,
+  OrderStatusEnums,
 };

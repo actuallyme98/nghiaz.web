@@ -82,6 +82,21 @@ export class ApiService {
   public async deleteVoucherCode(id: number) {
     return await Axios.delete(`${ApiRouteEnum.DELETE_VOUCHER_CODE}/${id}`);
   }
+  public async listOrders(args: ADMIN_API.ListOrderParams) {
+    const { filters, paging } = args;
+    return await Axios.get(ApiRouteEnum.LIST_ORDER, {
+      params: {
+        ...paging,
+        filters,
+      },
+    });
+  }
+  public async updateStatusOrder(args: ADMIN_API.UpdateStatusOrderArgs) {
+    return await Axios.put(ApiRouteEnum.UPDATE_ORDER, args);
+  }
+  public async deleteOrder(id: number) {
+    return await Axios.delete(`${ApiRouteEnum.DELETE_ORDER}/${id}`);
+  }
 }
 
 export default new ApiService();

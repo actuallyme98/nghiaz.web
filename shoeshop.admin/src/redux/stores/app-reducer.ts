@@ -1,6 +1,17 @@
 import { createTypeReducer, isError } from '../type-redux';
 import * as AppActions from '../actions/app-action';
 
+export const initialPaging = {
+  items: [],
+  meta: {
+    currentPage: 0,
+    itemCount: 0,
+    itemsPerPage: 0,
+    totalItems: 0,
+    totalPages: 0,
+  },
+};
+
 export interface Store {
   profile?: REDUX_STORE.Profile;
   sizes: REDUX_STORE.ProductSize[];
@@ -8,6 +19,7 @@ export interface Store {
   products: REDUX_STORE.IProduct[];
   categories: REDUX_STORE.ICategory[];
   vouchers: REDUX_STORE.Voucher[];
+  orders: ADMIN_API.PaginationResponse<REDUX_STORE.Order>;
 }
 
 export const initialState: Store = {
@@ -16,6 +28,7 @@ export const initialState: Store = {
   products: [],
   categories: [],
   vouchers: [],
+  orders: initialPaging,
 };
 
 export const loginReducer = AppActions.loginAction.reducer<Store>((state, action) => {
@@ -96,6 +109,15 @@ export const listVouchersReducer = AppActions.listVoucherAction.reducer<Store>((
   };
 });
 
+export const listOrdersReducer = AppActions.listOrdersAction.reducer<Store>((state, action) => {
+  if (isError(action) || !action.payload) {
+    return {};
+  }
+  return {
+    orders: action.payload,
+  };
+});
+
 export const reducer = createTypeReducer(
   initialState,
   loginReducer,
@@ -106,4 +128,5 @@ export const reducer = createTypeReducer(
   listCategoriesReducer,
   listProductsReducer,
   listVouchersReducer,
+  listOrdersReducer,
 );

@@ -22,4 +22,7 @@ export enum ApiRouteEnum {
   DELETE_VOUCHER = '/voucher/delete',
   UPDATE_VOUCHER_CODE = '/voucher/code/update',
   DELETE_VOUCHER_CODE = '/voucher/code/delete',
+  LIST_ORDER = '/order/list',
+  UPDATE_ORDER = '/order/update-status',
+  DELETE_ORDER = '/order/delete',
 }

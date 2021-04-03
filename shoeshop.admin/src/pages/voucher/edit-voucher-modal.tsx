@@ -78,7 +78,6 @@ const EditVoucherModal: React.FC<IProps> = (props) => {
     },
     [typeSelected, voucher],
   );
-  console.log(voucher);
 
   return (
     <Modal open={open} onClose={onClose} className={classes.modal}>
