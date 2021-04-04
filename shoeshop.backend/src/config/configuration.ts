@@ -15,6 +15,7 @@ export default () => {
         tokenExpires: env.TOKEN_EXPIRES || 3600,
         refreshTokenExpires: env.REFRESH_TOKEN_EXPIRES || '1d',
       },
+      minsup: parseInt(env.MINSUP) || 1,
     },
     database: {
       type: env.DATABASE_TYPE || 'NEED TO CONFIGURED',

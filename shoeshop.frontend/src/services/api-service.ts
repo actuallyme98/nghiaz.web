@@ -148,6 +148,9 @@ export class ApiService {
   public async applyVoucher(args: SHOES_API.ApplyVoucherParams) {
     return await this.axios.post(ApiRouteEnum.APPLY_VOUCHER, args);
   }
+  public async getProductRelated(id: number) {
+    return await this.axios.get(`${ApiRouteEnum.PRODUCT_RELATED}/${id}`);
+  }
 }
 
 export default new ApiService();

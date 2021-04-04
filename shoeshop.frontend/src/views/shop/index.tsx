@@ -12,6 +12,8 @@ import Breadcrumb, { BreadcumbItem } from '../../components/breadcrumb';
 import MediaGallery from '../../components/shops/media-gallery';
 import ProductInformation from '../../components/shops/product-information';
 import ProductDetails from '../../components/shops/product-details';
+import ListRelatedProduct from '../../components/shops/list-related-product';
+import LoadingIcon from '../../components/loading-icon';
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,7 +31,13 @@ interface Props {}
 const Shop: React.FC<Props> = (props) => {
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const loading = useSelector((store: RootState) => AppActions.getProductAction.isPending(store));
+  const relatedLoading = useSelector((store: RootState) =>
+    AppActions.getProductRelatedAction.isPending(store),
+  );
   const [product, setProduct] = useState<REDUX_STORE.Product>();
+  const [relatedProducts, setRelatedProducts] = useState<
+    SHOES_API.PaginationResponse<REDUX_STORE.Product>
+  >();
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -47,6 +55,31 @@ const Shop: React.FC<Props> = (props) => {
   useEffect(() => {
     getProduct();
   }, []);
+
+  const getProductRelated = useCallback(async () => {
+    const { slug }: any = router.query;
+    if (!slug[1]) {
+      return router.push('/');
+    }
+    const response = await dispatch(AppActions.getProductRelatedAction(slug[1]));
+    if (response) {
+      setRelatedProducts(response);
+    }
+  }, []);
+
+  useEffect(() => {
+    getProductRelated();
+  }, []);
+
+  const relatedMemo = useMemo(() => {
+    if (relatedLoading) {
+      return <LoadingIcon />;
+    }
+    if (!isMobile) {
+      return <ListRelatedProduct products={relatedProducts?.items || []} />;
+    }
+    return null;
+  }, [isMobile, relatedLoading, relatedProducts]);
 
   return (
     <Layout
@@ -82,8 +115,8 @@ const Shop: React.FC<Props> = (props) => {
                   name: product.name,
                   sizes: product.sizes.map((x) => x.name),
                   remain: 2,
-                  price: product.currentPrice,
-                  currentPrice: product.discountPrice,
+                  price: product.price,
+                  currentPrice: product.currentPrice,
                   colors: product.colors.map((x) => x.name),
                   shortDescription: product.shortDescription,
                   thumbnail: product.thumbnail,
@@ -92,21 +125,7 @@ const Shop: React.FC<Props> = (props) => {
               />
             </div>
           </div>
-          {/* {!isMobile && <ListRelatedProduct
-        products={product.relatedProducts.edges.map(edge => {
-          const p = edge!.node!;
-          return {
-            id: p.id,
-            pk: p.pk,
-            slug: p.slug,
-            category: 'MOCK',
-            title: p.name,
-            currentPrice: p.currentPrice || 0,
-            originalPrice: p.price,
-            thumbnail: p.thumbnail || ''
-          };
-        })}
-      />} */}
+          {relatedMemo}
           <ProductDetails
             data={{
               sizes: product.sizes.map((x) => x.name),

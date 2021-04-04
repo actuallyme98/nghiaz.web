@@ -25,4 +25,5 @@ export const ApiRouteEnum = {
   ORDER: '/order',
   LIST_CARRIER: '/order/carrier',
   APPLY_VOUCHER: '/cart/voucher',
+  PRODUCT_RELATED: '/product/related',
 };

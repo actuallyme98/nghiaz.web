@@ -432,3 +432,15 @@ export const applyVoucherAction = createTypeAsyncAction<SHOES_API.ApplyVoucherPa
     }
   },
 );
+
+export const getProductRelatedAction = createTypeAsyncAction(
+  'GET_PRODUCT_RELATED_ACTION',
+  async (id: number) => {
+    try {
+      const response = await ApiService.getProductRelated(id);
+      return response.data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);

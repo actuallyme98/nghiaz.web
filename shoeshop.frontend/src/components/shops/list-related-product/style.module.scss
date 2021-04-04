@@ -1,0 +1,100 @@
+.root {
+  margin-bottom: 50px;
+  .block {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 24px;
+
+    & .title {
+      font-family: SFUIDisplay;
+      font-size: 30px;
+      color: #4a4a4a;
+      margin-right: 13px;
+    }
+
+    & .seeMore {
+      font-family: SFUIDisplay;
+      font-size: 16px;
+      color: #848484;
+
+      &::after {
+        content: "";
+        width: 4px;
+        height: 7px;
+        display: inline-block;
+        background-image: url("/images/icons/nav-right.svg");
+        background-size: contain;
+        margin-left: 8px;
+        margin-bottom: 1px;
+      }
+    }
+  }
+
+  .scroll {
+    padding: 0px 0px;
+    margin: 0 -20px 0 -20px;
+  }
+
+  .disabledArrow {
+    visibility: hidden;
+  }
+
+  .nextArrow {
+    width: 13px;
+    height: 22px;
+    right: -16px;
+  }
+
+  .preArrow {
+    width: 13px;
+    height: 22px;
+    left: -16px;
+  }
+
+  .slideItem {
+    margin: 10px 20px;
+    width: 240px;
+    height: 366px;
+    outline: none !important;
+    padding-top: 10px;
+  }
+}
+
+.rootMobile {
+  @extend .root;
+
+  .slide {
+    [class="slick-list"] {
+      overflow: auto;
+    }
+
+    [class="slick-track"] {
+      width: unset !important;
+      display: flex;
+    }
+  }
+
+  .block {
+    margin-bottom: 5px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .slideItem {
+    margin: 10px 2.5px;
+    width: 150px;
+  }
+
+  .nextArrow {
+    display: none !important;
+  }
+
+  .preArrow {
+    display: none !important;
+  }
+
+  .scroll {
+    padding: 0px 0px;
+    margin: 0px 0px;
+  }
+}
