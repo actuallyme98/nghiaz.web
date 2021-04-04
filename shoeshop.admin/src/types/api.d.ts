@@ -174,4 +174,31 @@ declare namespace ADMIN_API {
       sizes?: number[];
     };
   }
+
+  interface CreateBlogCategoryParams {
+    name: string;
+    slug: string;
+  }
+
+  interface UpdateBlogCategoryParams {
+    id: number;
+    name: string;
+    slug: string;
+  }
+
+  interface ListBlogParams {
+    paging: {
+      page: number;
+      limit?: number;
+    };
+    categoryId?: number;
+  }
+
+  interface CreateBlogParams {
+    title: string;
+    shortDescription: string;
+    description: string;
+    slug: string;
+    category: number;
+  }
 }

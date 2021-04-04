@@ -14,6 +14,8 @@ import Product from './pages/product';
 import AddProduct from './pages/product/list-product/add-product';
 import ListVoucher from './pages/voucher';
 import Order from './pages/order';
+import Blog from './pages/blog';
+import CreateBlog from './pages/blog/list-blog/add-modal';
 
 // themes
 import theme from './themes/dark-theme';
@@ -47,6 +49,16 @@ const routes: RouteConfig[] = [
   {
     component: Order,
     path: '/order',
+    exact: true,
+  },
+  {
+    component: Blog,
+    path: '/blog/:tab?',
+    exact: true,
+  },
+  {
+    component: CreateBlog,
+    path: '/blog-create',
     exact: true,
   },
   {

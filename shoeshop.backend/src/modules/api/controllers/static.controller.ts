@@ -10,7 +10,7 @@ export class StaticController {
   @ApiResponse({
     status: 200,
   })
-  @Get('/avatar/:url')
+  @Get('/:url')
   async getAvatarUrl(@Param('url') url: string, @Res() res: Response) {
     const img = fs.readFileSync('upload/assets/' + url);
 

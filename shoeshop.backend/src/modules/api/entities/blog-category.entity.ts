@@ -1,4 +1,4 @@
-import { Column, PrimaryGeneratedColumn, Entity, JoinColumn, ManyToMany } from 'typeorm';
+import { Column, PrimaryGeneratedColumn, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { BaseModel } from './base-model.entity';
 
 import { Blog } from '@api/entities';
@@ -26,7 +26,9 @@ export class BlogCategory extends BaseModel {
   slug: string;
 
   // Relationship
-  @ManyToMany(() => Blog)
+  @OneToMany(() => Blog, (type) => type.category, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn()
   blogs: Blog[];
 }

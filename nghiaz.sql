@@ -145,13 +145,11 @@ create table blog_category(
 create table blog(
 	id int primary key not null,
 	title nvarchar(150),
-	status int, -- 0 or 1
 	is_special int, -- 0 or 1
 	thumbnail char(150),
 	short_description nvarchar(150),
 	description ntext,
 	slug char(100),
-	image char(150)
 );
 
 create table city(

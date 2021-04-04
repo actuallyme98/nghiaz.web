@@ -21,6 +21,7 @@ import RedeemIcon from '@material-ui/icons/Redeem';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import Tooltip from '@material-ui/core/Tooltip';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 
 // redux
 import * as AppActions from '../redux/actions/app-action';
@@ -111,6 +112,15 @@ const Header: React.FC<IProps> = (props) => {
                 <ShoppingCartIcon color="primary" />
               </ListItemIcon>
               <ListItemText primary="Order" />
+            </ListItem>
+          </Link>
+
+          <Link to={AppRouteEnum.BLOG} className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <MenuBookIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Blog" />
             </ListItem>
           </Link>
         </List>

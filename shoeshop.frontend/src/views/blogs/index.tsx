@@ -6,10 +6,6 @@ import css from './style.module.scss';
 
 // components
 import Layout from '../../components/layout';
-import BlogNew from '../../components/blogs/blog-news';
-import BlogBrand from '../../components/blogs/blog-brand';
-import BlogCom from '../../components/blogs/blog-community';
-import BlogGift from '../../components/blogs/blog-gift';
 
 // redux
 import * as AppActions from '@actions/app-action';
@@ -23,10 +19,7 @@ interface Props {}
 const Blogs: React.FC<Props> = (props) => {
   return (
     <Layout backUrl={AppRouteEnums.HOME} title="Bài viết">
-      <BlogNew />
-      <BlogBrand />
-      <BlogCom />
-      <BlogGift />
+      {/* Tạo 1 component xong map nó ra, map tầm 8 cái */}
     </Layout>
   );
 };

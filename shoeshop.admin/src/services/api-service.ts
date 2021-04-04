@@ -103,6 +103,36 @@ export class ApiService {
   public async deleteOrder(id: number) {
     return await Axios.delete(`${ApiRouteEnum.DELETE_ORDER}/${id}`);
   }
+  public async listBlogCategories() {
+    return await Axios.get(ApiRouteEnum.LIST_BLOG_CATEGORY);
+  }
+  public async createBlogCategory(args: ADMIN_API.CreateBlogCategoryParams) {
+    return await Axios.post(ApiRouteEnum.CREATE_BLOG_CATEGORY, args);
+  }
+  public async updateBlogCategory(args: ADMIN_API.UpdateBlogCategoryParams) {
+    return await Axios.put(ApiRouteEnum.UPDATE_BLOG_CATEGORY, args);
+  }
+  public async listBlog(args: ADMIN_API.ListBlogParams) {
+    const { paging, categoryId } = args;
+    return await Axios.get(ApiRouteEnum.LIST_BLOG, {
+      params: {
+        ...paging,
+        categoryId,
+      },
+    });
+  }
+  public async createBlog(args: ADMIN_API.CreateBlogParams) {
+    return await Axios.post(ApiRouteEnum.CREATE_BLOG, args);
+  }
+  public async updateThumbnailBlog(id: number, data: FormData) {
+    return await Axios.put(`${ApiRouteEnum.UPDATE_THUMBNAIL_BLOG}/${id}`, data);
+  }
+  public async deleteBlog(id: number) {
+    return await Axios.delete(`${ApiRouteEnum.DELETE_BLOG}/${id}`);
+  }
+  public async deleteBlogCategory(id: number) {
+    return await Axios.delete(`${ApiRouteEnum.DELETE_CATEGORY_BLOG}/${id}`);
+  }
 }
 
 export default new ApiService();

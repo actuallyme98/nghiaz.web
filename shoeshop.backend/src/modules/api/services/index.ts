@@ -7,6 +7,7 @@ import { ProductService } from './products.service';
 import { CartService } from './cart.service';
 import { OrderService } from './order.service';
 import { ProductRelatedService } from './product-related.service';
+import { BlogService } from './blog.service';
 
 const SERVICES = [
   UserService,
@@ -18,6 +19,7 @@ const SERVICES = [
   CartService,
   OrderService,
   ProductRelatedService,
+  BlogService,
 ];
 
 const EXPORT_SERVICES = [];
@@ -32,6 +34,7 @@ export {
   CartService,
   OrderService,
   ProductRelatedService,
+  BlogService,
   SERVICES,
   EXPORT_SERVICES,
 };

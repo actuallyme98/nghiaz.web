@@ -20,6 +20,8 @@ export interface Store {
   categories: REDUX_STORE.ICategory[];
   vouchers: REDUX_STORE.Voucher[];
   orders: ADMIN_API.PaginationResponse<REDUX_STORE.Order>;
+  blogCategories: REDUX_STORE.BlogCategory[];
+  blogs: ADMIN_API.PaginationResponse<REDUX_STORE.Blog>;
 }
 
 export const initialState: Store = {
@@ -29,6 +31,8 @@ export const initialState: Store = {
   categories: [],
   vouchers: [],
   orders: initialPaging,
+  blogCategories: [],
+  blogs: initialPaging,
 };
 
 export const loginReducer = AppActions.loginAction.reducer<Store>((state, action) => {
@@ -114,6 +118,26 @@ export const listOrdersReducer = AppActions.listOrdersAction.reducer<Store>((sta
   };
 });
 
+export const listBlogCategoriesReducer = AppActions.listBlogCategoriesAction.reducer<Store>(
+  (state, action) => {
+    if (isError(action) || !action.payload) {
+      return {};
+    }
+    return {
+      blogCategories: action.payload,
+    };
+  },
+);
+
+export const listBlogReducer = AppActions.listBlogAction.reducer<Store>((state, action) => {
+  if (isError(action) || !action.payload) {
+    return {};
+  }
+  return {
+    blogs: action.payload,
+  };
+});
+
 export const reducer = createTypeReducer(
   initialState,
   loginReducer,
@@ -125,4 +149,6 @@ export const reducer = createTypeReducer(
   listProductsReducer,
   listVouchersReducer,
   listOrdersReducer,
+  listBlogCategoriesReducer,
+  listBlogReducer,
 );

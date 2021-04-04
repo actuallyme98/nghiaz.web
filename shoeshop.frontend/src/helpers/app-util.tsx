@@ -23,7 +23,7 @@ export const pathAvatar = (path?: string) => {
   if (!path?.trim()) {
     return process.env.DEFAULT_AVATAR_URL || '';
   }
-  return process.env.SERVER_URL + 'static/avatar/' + path;
+  return process.env.SERVER_URL + 'static/' + path;
 };
 
 export const toDateTime = (date?: string) => {

@@ -27,6 +27,7 @@ export const initializeApp = createTypeAsyncAction<any, void, Store>(
       await dispatch(listColorsAction());
       await dispatch(listCategoriesAction());
       await dispatch(listVoucherAction());
+      await dispatch(listBlogCategoriesAction());
     } catch (err) {
       throw new Error(err);
     }
@@ -341,6 +342,102 @@ export const deleteOrderAction = createTypeAsyncAction(
   async (id: number) => {
     try {
       return await ApiService.deleteOrder(id);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const listBlogCategoriesAction = createTypeAsyncAction(
+  'LIST_BLOG_CATEGORIES_ACTION',
+  async () => {
+    try {
+      const response = await ApiService.listBlogCategories();
+      return response.data;
+    } catch (err) {
+      // ignore err
+    }
+  },
+);
+
+export const createBlogCategoryAction = createTypeAsyncAction<
+  ADMIN_API.CreateBlogCategoryParams,
+  void,
+  Store
+>('CREATE_BLOG_CATEGORY_ACTION', async (args: ADMIN_API.CreateBlogCategoryParams, { dispatch }) => {
+  try {
+    await ApiService.createBlogCategory(args);
+    await dispatch(listBlogCategoriesAction());
+  } catch (err) {
+    throw new Error(err);
+  }
+});
+
+export const updateBlogCategoryAction = createTypeAsyncAction<
+  ADMIN_API.UpdateBlogCategoryParams,
+  void,
+  Store
+>('CREATE_BLOG_CATEGORY_ACTION', async (args: ADMIN_API.UpdateBlogCategoryParams, { dispatch }) => {
+  try {
+    await ApiService.updateBlogCategory(args);
+    await dispatch(listBlogCategoriesAction());
+  } catch (err) {
+    throw new Error(err);
+  }
+});
+
+export const deleteBlogCategoryAction = createTypeAsyncAction<number, void, Store>(
+  'DELETE_BLOG_CATEGORY_ACTION',
+  async (args: number, { dispatch }) => {
+    try {
+      await ApiService.deleteBlogCategory(args);
+      await dispatch(listBlogCategoriesAction());
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const listBlogAction = createTypeAsyncAction(
+  'LIST_BLOG_CATEGORY_ACTION',
+  async (args: ADMIN_API.ListBlogParams) => {
+    try {
+      const response = await ApiService.listBlog(args);
+      return response.data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const createBlogAction = createTypeAsyncAction(
+  'CREATE_BLOG_CATEGORY_ACTION',
+  async (args: ADMIN_API.CreateBlogParams) => {
+    try {
+      const response = await ApiService.createBlog(args);
+      return response.data;
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const deleteBlogAction = createTypeAsyncAction<number, void, Store>(
+  'DELETE_BLOG_ACTION',
+  async (args: number) => {
+    try {
+      await ApiService.deleteBlog(args);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const updateThumbnailBlogAction = createTypeAsyncAction(
+  'UPDATE_THUMBNAIL_BLOG__ACTION',
+  async (args: { id: number; data: FormData }) => {
+    try {
+      await ApiService.updateThumbnailBlog(args.id, args.data);
     } catch (err) {
       throw new Error(err);
     }

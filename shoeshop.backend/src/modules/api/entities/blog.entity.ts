@@ -1,4 +1,5 @@
-import { PrimaryGeneratedColumn, Entity, Column } from 'typeorm';
+import { PrimaryGeneratedColumn, Entity, Column, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
+import { BlogCategory } from '.';
 import { BaseModel } from './base-model.entity';
 
 @Entity('blog')
@@ -18,12 +19,6 @@ export class Blog extends BaseModel {
   title: string;
 
   @Column({
-    type: 'int',
-    default: 1,
-  })
-  status: number;
-
-  @Column({
     type: 'char',
     length: 150,
   })
@@ -31,8 +26,7 @@ export class Blog extends BaseModel {
 
   @Column({
     name: 'short_description',
-    type: 'nvarchar',
-    length: 150,
+    type: 'ntext',
   })
   shortDescription: string;
 
@@ -47,9 +41,10 @@ export class Blog extends BaseModel {
   })
   slug: string;
 
-  @Column({
-    type: 'char',
-    length: 150,
+  // Relationship
+  @ManyToOne(() => BlogCategory, (type) => type.blogs, {
+    onDelete: 'SET NULL',
   })
-  image: string;
+  @JoinColumn()
+  category: BlogCategory;
 }

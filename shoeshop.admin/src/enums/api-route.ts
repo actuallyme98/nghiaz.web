@@ -25,4 +25,12 @@ export enum ApiRouteEnum {
   LIST_ORDER = '/order/list',
   UPDATE_ORDER = '/order/update-status',
   DELETE_ORDER = '/order/delete',
+  LIST_BLOG_CATEGORY = '/blog/category/list',
+  CREATE_BLOG_CATEGORY = '/blog/category/create',
+  UPDATE_BLOG_CATEGORY = '/blog/category/update',
+  LIST_BLOG = '/blog/list',
+  CREATE_BLOG = '/blog/create',
+  UPDATE_THUMBNAIL_BLOG = '/blog/thumbnail/update',
+  DELETE_BLOG = '/blog/delete',
+  DELETE_CATEGORY_BLOG = '/blog/category/delete',
 }

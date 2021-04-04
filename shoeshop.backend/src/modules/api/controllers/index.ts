@@ -7,6 +7,7 @@ import { ProductsController } from './products.controller';
 import { CartController } from './cart.controller';
 import { OrderController } from './order.controller';
 import { ProductRelatedController } from './product-related.controller';
+import { BlogController } from './blog.controller';
 
 const CONTROLLERS = [
   UserController,
@@ -18,6 +19,7 @@ const CONTROLLERS = [
   CartController,
   OrderController,
   ProductRelatedController,
+  BlogController,
 ];
 
 export {
@@ -30,5 +32,6 @@ export {
   CartController,
   OrderController,
   ProductRelatedController,
+  BlogController,
   CONTROLLERS,
 };

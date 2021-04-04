@@ -34,6 +34,7 @@ const Header: React.FC<IProps> = (props) => {
   const categories = useSelector((store: RootState) => store.appState.categories);
   const openCartDrawer = useSelector((store: RootState) => store.appState.openCartDrawer);
   const cartline = useSelector((store: RootState) => store.appState.cartline);
+  const blogCategories = useSelector((store: RootState) => store.appState.blogCategories);
   const dispatch = useDispatch();
   const route = useRouter();
 
@@ -289,27 +290,14 @@ const Header: React.FC<IProps> = (props) => {
               Phụ kiện
               <div className={css.dropDown}>{listPk}</div>
             </div>
-            <Link href={AppRouteEnums.HOME}>
-              <a className={css.menuLink}>Khuyến mại</a>
-            </Link>
             <div onClick={redirectToBlog} className={clsx(css.menuLink, css.menuDropDown)}>
               Tin tức
               <div className={css.dropDown}>
-                <Link href={AppRouteEnums.HOME}>
-                  <a className={css.dropDownItem}>Hoạt động cộng đồng</a>
-                </Link>
-                <Link href={AppRouteEnums.HOME}>
-                  <a className={css.dropDownItem}>Xu hướng</a>
-                </Link>
-                <Link href={AppRouteEnums.HOME}>
-                  <a className={css.dropDownItem}>Mẹo hay hằng ngày</a>
-                </Link>
-                <Link href={AppRouteEnums.HOME}>
-                  <a className={css.dropDownItem}>Trải nghiệm - Phượt</a>
-                </Link>
-                <Link href={AppRouteEnums.HOME}>
-                  <a className={css.dropDownItem}>Feedback</a>
-                </Link>
+                {blogCategories.map((item, index) => (
+                  <Link key={index} href={`${AppRouteEnums.BLOGS}/${item.slug}`}>
+                    <a className={css.dropDownItem}>{item.name}</a>
+                  </Link>
+                ))}
               </div>
             </div>
             <Link href="/contact">

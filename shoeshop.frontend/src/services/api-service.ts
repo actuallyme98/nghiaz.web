@@ -151,6 +151,9 @@ export class ApiService {
   public async getProductRelated(id: number) {
     return await this.axios.get(`${ApiRouteEnum.PRODUCT_RELATED}/${id}`);
   }
+  public async listBlogCategories() {
+    return await this.axios.get(ApiRouteEnum.LIST_BLOG_CATEGORIES);
+  }
 }
 
 export default new ApiService();

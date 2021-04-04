@@ -47,6 +47,7 @@ export const initializeApp = createTypeAsyncAction<any, void, Store>(
   async (args, { dispatch }) => {
     try {
       await dispatch(listCategoriesAction());
+      await dispatch(listBlogCategoriesAction());
     } catch (err) {
       // ignore err
     }
@@ -441,6 +442,18 @@ export const getProductRelatedAction = createTypeAsyncAction(
       return response.data;
     } catch (err) {
       throw new Error(err);
+    }
+  },
+);
+
+export const listBlogCategoriesAction = createTypeAsyncAction(
+  'LIST_BLOG_CATEGORY_ACTION',
+  async () => {
+    try {
+      const response = await ApiService.listBlogCategories();
+      return response.data;
+    } catch (err) {
+      // ignore err
     }
   },
 );

@@ -16,6 +16,8 @@ import {
 } from './voucher.dto';
 import { FilterOrderDTO, OrderStatusEnums } from './order.dto';
 
+import { CreateBlogCategoryDTO, CreateBlogDTO, UpdateBlogCategoryDTO } from './blog.dto';
+
 export {
   AuthValidateDTO,
   CreateColorDTO,
@@ -32,4 +34,7 @@ export {
   FilterOrderDTO,
   OrderStatusEnums,
   FilterProductDTO,
+  CreateBlogCategoryDTO,
+  CreateBlogDTO,
+  UpdateBlogCategoryDTO,
 };

@@ -83,4 +83,21 @@ declare namespace REDUX_STORE {
     address: string;
     createdAt: string;
   }
+
+  interface Blog {
+    id: number;
+    title: string;
+    status: number;
+    thumbnail: string;
+    shortDescription: string;
+    description: string;
+    slug: string;
+    createdAt: string;
+  }
+
+  interface BlogCategory {
+    id: number;
+    name: string;
+    slug: string;
+  }
 }
