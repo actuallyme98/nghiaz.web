@@ -20,7 +20,7 @@ interface Props {}
 const Contact: React.FC<Props> = (props) => {
   return (
     <Layout backUrl={AppRouteEnums.HOME} title="Liện hệ">
-      <div className={clsx(css.container, 'container')}>
+      <div className={clsx(css.container)}>
         <h1>Liên Hệ</h1>
         <div className={css.map}>
           <img src="/assets/banners/banner1.jpg" alt="" />

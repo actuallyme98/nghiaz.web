@@ -1,5 +1,9 @@
 .container {
-  padding: 20px 0 50px;
+  width: 90%;
+  margin: 0 auto;
+  @media screen and (max-width: 500px) {
+    width: 100%;
+  }
 }
 .titleLeftRight {
   width: 100%;
@@ -26,21 +30,16 @@
   }
 }
 .wrapper {
+  width: 50%;
   display: grid;
   grid-template-columns: repeat(21fr);
   grid-gap: 40px;
-  @media screen and (max-width: 960px) {
-    display: block;
-  }
 }
 .col {
   display: grid;
   grid-template-columns: repeat(21fr);
   grid-gap: 30px;
   margin-bottom: 10px;
-  @media screen and (max-width: 760px) {
-    display: block;
-  }
 }
 .colFul {
   text-align: center;

@@ -28,17 +28,6 @@ const BlogNew: React.FC<IProps> = (props) => {
               cho đôi chân lại càng tăng lên. Vậy, bạn có biết đâu là địa chỉ uy tín cho sự lựa chọn
               giày thể thao đẹp, giá rẻ, đừng bỏ qua bài viết hôm nay.
             </p>
-            <div>
-              <div className={css.icon}>
-                <img src="/assets/icons/like.svg" alt="" />
-                <button className={css.btnIcon} type="submit">
-                  Thích 0
-                </button>
-              </div>
-              <button className={css.btn} type="submit">
-                Chia sẻ
-              </button>
-            </div>
           </div>
           <div>
             <img src="/assets/mocks/blogs/news/blog3.jpg" alt="" />
@@ -57,17 +46,6 @@ const BlogNew: React.FC<IProps> = (props) => {
               tính, sành điệu. Chẳng ai có thể đi giày cao gót cả tuần, bởi đôi chân cũng cần nghỉ
               ngơi. Vậy, bạn có biết mua ở đâu đôi giày chất lượng hàng đầu mà giá thành phải chăng?
             </p>
-            <div>
-              <div className={css.icon}>
-                <img src="/assets/icons/like.svg" alt="" />
-                <button type="submit" className={css.btnIcon}>
-                  Thích 0
-                </button>
-              </div>
-              <button type="submit" className={css.btn}>
-                Chia sẻ
-              </button>
-            </div>
           </div>
           <div>
             <img src="/assets/mocks/blogs/news/blog5.jpg" alt="" />
