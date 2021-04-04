@@ -1,0 +1,174 @@
+.contentDesktop {
+    width: 1440px;
+    box-sizing: border-box;
+    padding: 40px 100px 40px 100px;
+    margin: auto;
+    background-color: white;
+  
+    .content {
+      display: flex;
+      margin-top: 25px;
+  
+      .leftMenu {
+        width: 230px;
+        margin-right: 35px;
+      }
+    }
+  
+    .rightContent {
+      flex-grow: 1;
+    }
+  
+    .listProduct {
+      margin-top: 26px;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(4, 1fr);
+    }
+  
+    .listProductMobile {
+      @extend .listProduct;
+      margin: 0;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      grid-gap: 4px;
+    }
+  
+    .title {
+      font-family: SFUIDisplay;
+      font-size: 20px;
+      color: #4a4a4a;
+      margin-bottom: 10px;
+      line-height: 1em;
+    }
+  
+    .banner {
+      width: 100%;
+      margin-bottom: 20px;
+      max-height: 300px;
+      object-fit: cover;
+    }
+  
+    .wrapPagination {
+      text-align: center;
+      margin-top: 20px;
+    }
+  
+    .pagination {
+      margin: auto;
+    }
+  }
+  
+  .loadMoreBtnArea {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .loadMoreBtn {
+    color: #f16728;
+    border-color: #e8bba7;
+    background-color: #fff5f0;
+  }
+  
+  .loadingArea {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .contentMobile {
+    @extend .contentDesktop;
+    width: 100%;
+    padding: 10px;
+    padding-bottom: 70px;
+  
+    .rightContent {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .banner {
+      order: -1;
+      margin-bottom: 17px;
+    }
+  
+    .filter {
+      font-family: SFUIDisplay;
+      font-size: 14px;
+      font-weight: bold;
+      color: #f16728;
+  
+      &::after {
+        content: '';
+        display: inline-block;
+        width: 6.7px;
+        height: 10px;
+        background-size: contain;
+        margin-left: 3.8px;
+        background-repeat: no-repeat;
+        background-image: url('/assets/icons/right-arrow-red.svg');
+      }
+    }
+  
+    .title {
+      display: flex;
+      justify-content: space-between;
+      font-family: SFUIDisplay;
+      font-size: 18px;
+      font-weight: 600;
+      color: #4a4a4a;
+      margin-bottom: 20px;
+    }
+  
+    .content {
+      margin: 0;
+    }
+  
+    .listProduct {
+      margin: 0;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      grid-gap: 4px;
+    }
+  }
+  
+  .btnReset {
+    width: 160px;
+    border-radius: 2px;
+    border: solid 1px #d2d2d2;
+    background-color: #fcf7f5;
+    font-family: SFUIDisplay;
+    font-size: 15px;
+    font-weight: 600;
+    color: #848484;
+  }
+  
+  .btnApply {
+    width: 160px;
+    border-radius: 2px;
+    border: solid 1px #d05922;
+    background-color: #f16728;
+    font-family: SFUIDisplay;
+    font-size: 15px;
+    font-weight: 600;
+    margin-left: 20px;
+  
+    &:focus {
+      background-color: #f16728;
+    }
+  }
+  
+  .mobileMenu {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  
+    [class='ant-drawer-content'] {
+      background-color: #ededed;
+    }
+  }
+  
+  .bottom {
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+  }
+  

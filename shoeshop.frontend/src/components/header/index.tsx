@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -28,6 +28,7 @@ interface IProps {
 const Header: React.FC<IProps> = (props) => {
   const { backUrl } = props;
   const [openMenu, setOpenMenu] = useState(false);
+  const [keyword, setKeyword] = useState('');
   const isMobile = useSelector((store: RootState) => store.appState.isMobile);
   const profile = useSelector((store: RootState) => store.appState.profile);
   const categories = useSelector((store: RootState) => store.appState.categories);
@@ -35,6 +36,30 @@ const Header: React.FC<IProps> = (props) => {
   const cartline = useSelector((store: RootState) => store.appState.cartline);
   const dispatch = useDispatch();
   const route = useRouter();
+
+  useEffect(() => {
+    const { keyword } = route.query;
+    if (keyword) {
+      setKeyword(String(keyword));
+    }
+  }, []);
+
+  const handleChangeKeyword = useCallback((event: any) => {
+    setKeyword(event.target.value);
+  }, []);
+
+  const handleKeydown = useCallback(
+    (event: any) => {
+      if (event.code === 'Enter') {
+        handleSearch();
+      }
+    },
+    [keyword],
+  );
+
+  const handleSearch = useCallback(() => {
+    route.push(`/search?keyword=${keyword}`);
+  }, [keyword]);
 
   const handleCollapseMenu = useCallback(() => {
     setOpenMenu((prev) => !prev);
@@ -185,9 +210,15 @@ const Header: React.FC<IProps> = (props) => {
             })}
           >
             <div className={css.inputGroupSearch}>
-              <input className={css.inputSearch} placeholder="Bạn cần tìm gì?" />
+              <input
+                className={css.inputSearch}
+                placeholder="Bạn cần tìm gì?"
+                onChange={handleChangeKeyword}
+                onKeyDown={handleKeydown}
+                value={keyword}
+              />
             </div>
-            <button className={css.btnSearch}>
+            <button className={css.btnSearch} onClick={handleSearch}>
               <img src="/assets/icons/search.svg" alt="" />
             </button>
           </div>
