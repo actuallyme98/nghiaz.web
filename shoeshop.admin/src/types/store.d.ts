@@ -68,6 +68,22 @@ declare namespace REDUX_STORE {
 
   type OrderStatusEnums = 'CONFIRMING' | 'PREPARING' | 'SHIPPING' | 'SUCCESS' | 'FAILED';
 
+  interface OrderItem {
+    id: number;
+    amount: number;
+    product: IProduct;
+    color: ProductColor;
+    size: ProductSize;
+  }
+
+  interface Carrier {
+    id: number;
+    name: string;
+    method: string;
+    fee: number;
+    description: string;
+  }
+
   interface Order {
     id: number;
     status: OrderStatusEnums;
@@ -80,6 +96,12 @@ declare namespace REDUX_STORE {
     name: string;
     phone: string;
     address: string;
+    city: City;
+    district: District;
+    ward: Ward;
+    client: Client;
+    carrier: Carrier;
+    orderItems: OrderItem[];
     createdAt: string;
   }
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 // components
@@ -19,23 +19,30 @@ interface IProps {
   id: number;
   status: REDUX_STORE.OrderStatusEnums;
   onClose: () => void;
-  callback: () => void;
+  callback: () => Promise<void>;
 }
 
 const EditOrderModal: React.FC<IProps> = (props) => {
   const { open, onClose, status, id, callback } = props;
-  const [statusChange, setStatusChange] = useState<REDUX_STORE.OrderStatusEnums>(status);
+  const [statusChange, setStatusChange] = useState<REDUX_STORE.OrderStatusEnums>('CONFIRMING');
 
   const classes = useStyles();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
   const onChangeStatus = useCallback((event: any) => {
-    setStatusChange(event.target.value);
+    setStatusChange(event.target.value.trim());
   }, []);
+
+  useEffect(() => {
+    setStatusChange(status.trim() as any);
+  }, [status]);
 
   const onFormSubmit = useCallback(async () => {
     try {
+      if (!statusChange) {
+        return;
+      }
       await dispatch(
         AppActions.updateStatusOrderAction({
           id,
@@ -58,16 +65,26 @@ const EditOrderModal: React.FC<IProps> = (props) => {
   return (
     <Modal open={open} onClose={onClose} className={classes.modal}>
       <div className={classes.paper}>
-        <Select value={statusChange} onChange={onChangeStatus}>
-          <MenuItem value="CONFIRMING">CONFIRMING</MenuItem>
-          <MenuItem value="PREPARING">PREPARING</MenuItem>
-          <MenuItem value="SHIPPING">SHIPPING</MenuItem>
-          <MenuItem value="SUCCESS">SUCCESS</MenuItem>
-          <MenuItem value="FAILED">FAILED</MenuItem>
+        <Select
+          value={statusChange}
+          onChange={onChangeStatus}
+          disabled={status === 'SUCCESS' || status === 'FAILED'}
+        >
+          <MenuItem value="CONFIRMING" disabled={status === 'SHIPPING'}>
+            Đang xác nhận
+          </MenuItem>
+          <MenuItem value="PREPARING" disabled={status === 'SHIPPING'}>
+            Đang chuẩn bị hàng
+          </MenuItem>
+          <MenuItem value="SHIPPING">Đang giao hàng</MenuItem>
+          <MenuItem value="SUCCESS">Thành công</MenuItem>
+          <MenuItem value="FAILED">Thất bại</MenuItem>
         </Select>
         <br />
         <br />
-        <Button onClick={onFormSubmit}>Submit</Button>
+        <Button variant="outlined" color="primary" onClick={onFormSubmit}>
+          Submit
+        </Button>
       </div>
     </Modal>
   );

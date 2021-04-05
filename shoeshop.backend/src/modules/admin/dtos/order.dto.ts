@@ -16,5 +16,9 @@ export class FilterOrderDTO {
 
   @ApiProperty()
   @IsOptional()
+  status: OrderStatusEnums;
+
+  @ApiProperty()
+  @IsOptional()
   createdAt: string;
 }

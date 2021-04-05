@@ -31,6 +31,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import EditOrderModal from './edit-order-modal';
 import { DatePicker } from '@material-ui/pickers';
+import TextField from '@material-ui/core/TextField';
+import Collapse from '@material-ui/core/Collapse';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 // redux
 import * as AppActions from '../../redux/actions/app-action';
@@ -38,6 +44,8 @@ import { IStore } from '../../redux/stores/configure-store';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useSnackbar } from 'notistack';
+
+import useDebounceCallBack from '../../hooks/useDebounceCallBack';
 
 interface Props {}
 
@@ -47,6 +55,8 @@ const ListVoucher: React.FC<Props> = (props) => {
   const [orderSelected, setOrderSelected] = useState<REDUX_STORE.Order>();
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedDate, handleDateChange] = useState();
+  const [code, setCode] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState<any>(0);
 
   const ordersPaging = useSelector((store: IStore) => store.appState.orders);
 
@@ -161,13 +171,15 @@ const ListVoucher: React.FC<Props> = (props) => {
             limit: 5,
           },
           filters: {
+            code,
+            status: selectedStatus,
             type: typeFilter,
             createdAt: date,
           },
         }),
       );
     },
-    [typeFilter],
+    [typeFilter, code, selectedStatus],
   );
 
   const formatPicker = useMemo(() => {
@@ -183,6 +195,59 @@ const ListVoucher: React.FC<Props> = (props) => {
     }
   }, [typeFilter]);
 
+  const debounce = useDebounceCallBack(
+    async (code: string) => {
+      await dispatch(
+        AppActions.listOrdersAction({
+          paging: {
+            page: 1,
+            limit: 5,
+          },
+          filters: {
+            code,
+            status: selectedStatus,
+            type: typeFilter,
+            createdAt: selectedDate,
+          },
+        }),
+      );
+    },
+    500,
+    [selectedDate, typeFilter, selectedStatus],
+  );
+
+  const handleChangeCode = useCallback(
+    async (event: any) => {
+      const { value } = event.target;
+      setCode(value);
+      await debounce(value);
+    },
+    [debounce],
+  );
+
+  const onChangeStatus = useCallback(
+    async (event: any) => {
+      const { value } = event.target;
+      setSelectedStatus(value);
+      const status = value === '0' ? undefined : value;
+      await dispatch(
+        AppActions.listOrdersAction({
+          paging: {
+            page: 1,
+            limit: 5,
+          },
+          filters: {
+            code,
+            status,
+            type: typeFilter,
+            createdAt: selectedDate,
+          },
+        }),
+      );
+    },
+    [typeFilter, selectedDate, code],
+  );
+
   return (
     <Layout title="Quản lí đơn hàng">
       <Container maxWidth="lg" className={classes.container}>
@@ -195,47 +260,66 @@ const ListVoucher: React.FC<Props> = (props) => {
             onClose={onCloseEdit}
             open={openEdit}
             id={orderSelected.id}
-            status={orderSelected.status}
+            status={orderSelected.status.trim() as REDUX_STORE.OrderStatusEnums}
             callback={refetch}
           />
         )}
 
-        <FormControl component="fieldset" className={classes.formControl}>
-          <FormLabel component="legend">Thống kê theo</FormLabel>
-          <FormGroup className={classes.rootCb}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={typeFilter === 'date'}
-                  onChange={handleChangeType}
-                  value="date"
-                />
-              }
-              label="Date"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={typeFilter === 'month'}
-                  onChange={handleChangeType}
-                  value="month"
-                />
-              }
-              label="Month"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={typeFilter === 'year'}
-                  onChange={handleChangeType}
-                  value="year"
-                />
-              }
-              label="Year"
-            />
-          </FormGroup>
-          <DatePicker views={formatPicker as any} value={selectedDate} onChange={onChangeYear} />
-        </FormControl>
+        <Box>
+          <TextField placeholder="Tìm theo mã đơn hàng" value={code} onChange={handleChangeCode} />
+        </Box>
+
+        <Box className={classes.filterbox}>
+          <FormControl component="fieldset" className={classes.formControl}>
+            <FormLabel component="legend">Thống kê theo</FormLabel>
+            <FormGroup className={classes.rootCb}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={typeFilter === 'date'}
+                    onChange={handleChangeType}
+                    value="date"
+                  />
+                }
+                label="Date"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={typeFilter === 'month'}
+                    onChange={handleChangeType}
+                    value="month"
+                  />
+                }
+                label="Month"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={typeFilter === 'year'}
+                    onChange={handleChangeType}
+                    value="year"
+                  />
+                }
+                label="Year"
+              />
+            </FormGroup>
+            <DatePicker views={formatPicker as any} value={selectedDate} onChange={onChangeYear} />
+          </FormControl>
+
+          <Box marginLeft={30}>
+            <Typography>Thống kê theo trạng thái</Typography>
+            <br />
+            <Select style={{ minWidth: 180 }} value={selectedStatus} onChange={onChangeStatus}>
+              <MenuItem value={0}>Tất cả</MenuItem>
+              <MenuItem value="CONFIRMING">Đang xác nhận</MenuItem>
+              <MenuItem value="PREPARING">Đang chuẩn bị hàng</MenuItem>
+              <MenuItem value="SHIPPING">Đang giao hàng</MenuItem>
+              <MenuItem value="SUCCESS">Thành công</MenuItem>
+              <MenuItem value="FAILED">Thất bại</MenuItem>
+            </Select>
+          </Box>
+        </Box>
 
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="custom pagination table">
@@ -253,31 +337,7 @@ const ListVoucher: React.FC<Props> = (props) => {
             </TableHead>
             <TableBody>
               {orders.map((row, index) => (
-                <TableRow key={index}>
-                  <TableCell component="th" scope="row">
-                    #{row.code}
-                  </TableCell>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.address}</TableCell>
-                  <TableCell>{row.phone}</TableCell>
-                  <TableCell>{row.price}</TableCell>
-                  <TableCell>{row.status}</TableCell>
-                  <TableCell>{moment(row.createdAt).format('YYYY-MM-DD')}</TableCell>
-                  <TableCell>
-                    <Box>
-                      <Tooltip title="Sửa" placement="top" arrow>
-                        <IconButton onClick={() => onOpenEdit(row)}>
-                          <EditRoundedIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Xóa" placement="top" arrow>
-                        <IconButton onClick={() => onDelete(row.id)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
-                  </TableCell>
-                </TableRow>
+                <CollapseRow key={index} row={row} onDelete={onDelete} onOpenEdit={onOpenEdit} />
               ))}
             </TableBody>
             <TableFooter>
@@ -302,6 +362,74 @@ const ListVoucher: React.FC<Props> = (props) => {
         </TableContainer>
       </Container>
     </Layout>
+  );
+};
+
+const CollapseRow = (props: { row: REDUX_STORE.Order; onOpenEdit: any; onDelete: any }) => {
+  const { row, onDelete, onOpenEdit } = props;
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <TableRow>
+        <TableCell>
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell component="th" scope="row">
+          #{row.code}
+        </TableCell>
+        <TableCell>{row.name}</TableCell>
+        <TableCell>{row.address}</TableCell>
+        <TableCell>{row.phone}</TableCell>
+        <TableCell>{row.price}</TableCell>
+        <TableCell>{row.status}</TableCell>
+        <TableCell>{moment(row.createdAt).format('YYYY-MM-DD')}</TableCell>
+        <TableCell>
+          <Box>
+            <Tooltip title="Sửa" placement="top" arrow>
+              <IconButton onClick={() => onOpenEdit(row)}>
+                <EditRoundedIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Xóa" placement="top" arrow>
+              <IconButton onClick={() => onDelete(row.id)}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Tên sản phẩm</TableCell>
+                    <TableCell>Màu</TableCell>
+                    <TableCell>Kích thước</TableCell>
+                    <TableCell>Số lượng</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {row.orderItems.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{item.product.name}</TableCell>
+                      <TableCell>{item.color && item.color.name}</TableCell>
+                      <TableCell>{item.size && item.size.name}</TableCell>
+                      <TableCell>{item.amount}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
   );
 };
 
@@ -384,7 +512,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
   },
   formControl: {
-    margin: theme.spacing(3),
+    margin: '40px 0',
+  },
+  filterbox: {
+    display: 'flex',
+    alignItems: 'center',
   },
 }));
 

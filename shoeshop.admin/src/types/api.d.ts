@@ -153,6 +153,7 @@ declare namespace ADMIN_API {
     filters?: {
       code?: string;
       type?: FilterOrderTypes;
+      status?: REDUX_STORE.OrderStatusEnums;
       createdAt?: string;
     };
   }
