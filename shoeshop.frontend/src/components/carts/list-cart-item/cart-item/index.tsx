@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
 
 // utils
-import { pathAvatar } from '~/helpers/app-util';
+import { pathUrl } from '~/helpers/app-util';
 
 interface IProps {
   className?: string;
@@ -41,7 +41,7 @@ const CartItem: React.FC<IProps> = (props) => {
       <img
         alt={data.product.name}
         className={css.thumbnail}
-        src={pathAvatar(data.product.thumbnail)}
+        src={pathUrl(data.product.thumbnail)}
       />
       <div className={css.wrap}>
         <div className={css.col1}>
@@ -52,7 +52,9 @@ const CartItem: React.FC<IProps> = (props) => {
           <InputNumberSpinner value={data.amount} onChange={onChangeAmount} min={1} max={100} />
         </div>
         <div className={css.col2}>
-          <div className={css.price}>{data.product.currentPrice?.toLocaleString('vi-VN')} đ</div>
+          <div className={css.price}>
+            {(data.product.discountPrice || data.product.currentPrice).toLocaleString('vi-VN')} đ
+          </div>
           {Boolean(discountPercent) && (
             <div className={css.wrapPrice}>
               <div className={css.originalPrice}>

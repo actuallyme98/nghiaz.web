@@ -29,7 +29,6 @@ declare namespace REDUX_STORE {
     soleDetail: string;
     priority: number;
     quantity: number;
-    vat: number;
     images: ProductImage[];
     videos: ProductVideo[];
     sizes: Size[];

@@ -55,6 +55,8 @@ export class ProductRelatedService {
 
     const queryBuilder = this.productRepository
       .createQueryBuilder('p')
+      .leftJoinAndSelect('p.colors', 'color')
+      .leftJoinAndSelect('p.sizes', 'size')
       .andWhere('p.code IN (:...mapped6)', { mapped6 }); // list related products
 
     let records = await paginate(queryBuilder, option); // paging

@@ -36,7 +36,6 @@ interface FormikValues {
   bodyDetail: string;
   soleDetail: string;
   quantity: number;
-  vat: number;
   priority: number;
 }
 
@@ -106,12 +105,16 @@ const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
     async (values: FormikValues, formikHelpers: FormikHelpers<FormikValues>) => {
       formikHelpers.setSubmitting(true);
       try {
+        if (!singleFile || !multiFiles) {
+          window.alert('thumbnail & images required');
+          return;
+        }
         const id = Math.floor(Math.random() * 1e7);
         await dispatch(
           AppActions.createProductAction({
             id,
             ...values,
-            discountPrice: values.discountPrice || 0,
+            discountPrice: Math.max(0, values.discountPrice),
             categoryIds: selectedCategories,
             colorIds: selectedColors,
             sizeIds: selectedSizes,
@@ -121,9 +124,6 @@ const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
             status: 1,
           }),
         );
-        if (!singleFile || !multiFiles) {
-          return;
-        }
         const formDataSingle = new FormData();
         formDataSingle.append('thumbnail', singleFile, singleFile.name);
         await dispatch(AppActions.updateThumbnailProductAction({ data: formDataSingle, id }));
@@ -162,7 +162,6 @@ const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
             discountPrice: '',
             price: '',
             priority: '',
-            vat: '',
             quantity: '',
             shortDescription: '',
             soleDetail: '',
@@ -308,20 +307,6 @@ const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
               <div>Ảnh</div>
               <input id="images" type="file" onChange={onChangeMultiFiles} multiple /> <br />
               {prevImgsMemo}
-              <FormikTextField
-                name="vat"
-                textFieldProps={{
-                  variant: 'outlined',
-                  margin: 'normal',
-                  fullWidth: true,
-                  label: 'VAT',
-                  type: 'number',
-                  InputLabelProps: {
-                    shrink: true,
-                    focused: true,
-                  },
-                }}
-              />
               <FormikTextField
                 name="quantity"
                 textFieldProps={{

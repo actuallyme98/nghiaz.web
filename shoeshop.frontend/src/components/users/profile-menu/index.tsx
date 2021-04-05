@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import css from './style.module.scss';
 
 // utils
-import { pathAvatar, toDateTime } from '@helpers/app-util';
+import { pathUrl, toDateTime } from '@helpers/app-util';
 import { AppRouteEnums } from '../../../enums/app-route.enum';
 
 interface Iprops {
@@ -28,7 +28,7 @@ const ProfileMenu: React.FC<Iprops> = (props) => {
     <div className={css.rootDesktop}>
       <div className={css.flexHead}>
         <div className={css.avatar}>
-          <img src={pathAvatar(data.avatar)} alt={data.name} />
+          <img src={pathUrl(data.avatar)} alt={data.name} />
         </div>
         <div className={css.text}>
           <h4>{data.name}</h4>
@@ -86,7 +86,7 @@ const ProfileMenu: React.FC<Iprops> = (props) => {
       </div>
       <div className={css.lineDotted} />
       <ul className={css.list}>
-        <li>
+        {/* <li>
           <Link href="/user/share">
             <a>
               {isShareFacebook ? (
@@ -99,7 +99,7 @@ const ProfileMenu: React.FC<Iprops> = (props) => {
               </span>
             </a>
           </Link>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

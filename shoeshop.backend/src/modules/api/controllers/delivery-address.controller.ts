@@ -46,7 +46,7 @@ export class AddressController {
 
   @Put('/set-default/:id')
   async setDefaultDeliveryAddress(@Param('id') id: number, @Res() res: Response) {
-    this.addressService.setDefaultAddress(id);
+    await this.addressService.setDefaultAddress(id);
     return res.json({ ok: true });
   }
 }

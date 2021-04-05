@@ -16,7 +16,7 @@ import * as AppActions from '@actions/app-action';
 import { AppRouteEnums } from '../../../enums/app-route.enum';
 
 // utils
-import { pathAvatar } from '@helpers/app-util';
+import { pathUrl } from '@helpers/app-util';
 
 interface Iprops {
   data: {
@@ -59,7 +59,7 @@ const PopoverUserProfile: React.FC<Iprops> = (props) => {
     >
       <div className={css.container}>
         <div className={css.avatar}>
-          <img src={pathAvatar(data.avatar)} alt="" />
+          <img src={pathUrl(data.avatar)} alt="" />
         </div>
       </div>
     </Popover>

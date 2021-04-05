@@ -13,7 +13,7 @@ import InputNumberSpinner from '../../input-number-spinner';
 import { useSelector } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
 
-import { pathAvatar } from '@helpers/app-util';
+import { pathUrl } from '@helpers/app-util';
 
 interface IProps {
   className?: string;
@@ -40,14 +40,20 @@ const CartItem: React.FC<IProps> = (props) => {
       <div className={css.divThumbnail}>
         <img
           className={css.thumbnail}
-          src={pathAvatar(data.product.thumbnail)}
+          src={pathUrl(data.product.thumbnail)}
           alt={data.product.name}
         />
       </div>
       <div className={css.grow}>
-        <Link href={'/shop/[...slug]'} as={`/shop/${data.product.slug.trim()}/${data.id}`}>
+        <Link
+          href={'/shop/[...slug]'}
+          as={`/shop/${data.product.slug.trim()}/${data.product.code}`}
+        >
           <a className={css.title}>{data.product.name}</a>
         </Link>
+        <div className={css.price}>
+          {data.color.name} - {data.size.name}
+        </div>
         <div className={css.price}>{data.product.currentPrice?.toLocaleString('vi-VN')} đ</div>
         <InputNumberSpinner
           ref={inputRef}

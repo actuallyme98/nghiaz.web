@@ -24,7 +24,7 @@ import { initializeStore } from '@redux/with-redux';
 // enums
 import { AppRouteEnums } from '../../enums/app-route.enum';
 
-import { pathAvatar } from '../../helpers/app-util';
+import { pathUrl } from '../../helpers/app-util';
 
 interface Props {}
 
@@ -101,31 +101,28 @@ const Shop: React.FC<Props> = (props) => {
             <div className={css.left}>
               <MediaGallery
                 mediaFiles={product.images.map((image) => ({
-                  thumbnail: pathAvatar(image.url),
+                  thumbnail: pathUrl(image.url),
                   type: 'image',
-                  url: pathAvatar(image.url),
+                  url: pathUrl(image.url),
                 }))}
               />
             </div>
             <div>
               <ProductInformation
-                voucher="MOCK"
                 data={{
                   id: product.id as any,
                   name: product.name,
-                  sizes: product.sizes.map((x) => x.name),
+                  sizes: product.sizes,
                   remain: 2,
-                  price: product.price,
+                  price: product.discountPrice,
                   currentPrice: product.currentPrice,
-                  colors: product.colors.map((x) => x.name),
+                  colors: product.colors,
                   shortDescription: product.shortDescription,
                   thumbnail: product.thumbnail,
-                  isFavorite: false,
                 }}
               />
             </div>
           </div>
-          {relatedMemo}
           <ProductDetails
             data={{
               sizes: product.sizes.map((x) => x.name),
@@ -138,6 +135,11 @@ const Shop: React.FC<Props> = (props) => {
               sole: product.soleDetail,
             }}
           />
+          <br />
+          <hr />
+          <div className={css.description}>{product.description}</div>
+          <hr />
+          {relatedMemo}
         </div>
       ) : (
         <div className="m-5 text-center">Sản phẩm không tồn tại</div>

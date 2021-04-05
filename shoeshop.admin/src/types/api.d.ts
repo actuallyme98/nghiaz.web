@@ -84,7 +84,6 @@ declare namespace ADMIN_API {
     code?: string;
     name: string;
     price: number;
-    vat: number;
     status: number;
     slug?: string;
     discountPrice?: number;

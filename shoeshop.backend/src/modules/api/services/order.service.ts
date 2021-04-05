@@ -18,6 +18,8 @@ import {
   Carrier,
   Cart,
   CartItem,
+  Size,
+  Color,
 } from '@api/entities';
 import { classToPlain } from 'class-transformer';
 
@@ -44,6 +46,10 @@ export class OrderService {
     private readonly cartRepository: Repository<Cart>,
     @InjectRepository(CartItem)
     private readonly cartItemRepository: Repository<CartItem>,
+    @InjectRepository(Size)
+    private readonly sizeRepository: Repository<Size>,
+    @InjectRepository(Color)
+    private readonly colorRepository: Repository<Color>,
   ) {}
 
   async listOrders(clientId: number, options: IPaginationOptions, filters: FilterOrderDTO) {
@@ -58,6 +64,8 @@ export class OrderService {
       .leftJoinAndSelect('o.district', 'district')
       .leftJoinAndSelect('o.ward', 'ward')
       .leftJoinAndSelect('o.orderItems', 'order_item')
+      .leftJoinAndSelect('order_item.color', 'color')
+      .leftJoinAndSelect('order_item.size', 'size')
       .leftJoinAndSelect('o.carrier', 'carrier')
       .leftJoinAndSelect('order_item.product', 'product')
       .andWhere('client.id = :clientId', { clientId });
@@ -81,6 +89,8 @@ export class OrderService {
       .leftJoinAndSelect('o.district', 'district')
       .leftJoinAndSelect('o.ward', 'ward')
       .leftJoinAndSelect('o.orderItems', 'order_item')
+      .leftJoinAndSelect('order_item.color', 'color')
+      .leftJoinAndSelect('order_item.size', 'size')
       .leftJoinAndSelect('o.carrier', 'carrier')
       .andWhere('client.id = :clientId', { clientId })
       .andWhere('o.code = :code', { code })
@@ -139,12 +149,20 @@ export class OrderService {
     }
     const orderItemSaved = await Promise.all(
       orderItems.map(async (item) => {
-        const { productId, amount } = item;
+        const { productId, amount, color, size } = item;
         const product = await this.productRepository.findOne(productId);
+        const sizeEntity = await this.sizeRepository.findOne(size);
+        const colorEntity = await this.colorRepository.findOne(color);
         if (!product) {
-          throw ErrorHelper.BadRequestException('Not found');
+          throw ErrorHelper.BadRequestException('[Product] Not found');
         }
-        const orderItem = new OrderItem({ product, amount });
+        if (!sizeEntity) {
+          throw ErrorHelper.BadRequestException('[Size] Not found');
+        }
+        if (!colorEntity) {
+          throw ErrorHelper.BadRequestException('[Color] Not found');
+        }
+        const orderItem = new OrderItem({ product, amount, color: colorEntity, size: sizeEntity });
         return await orderItem.save();
       }),
     );
@@ -169,6 +187,8 @@ export class OrderService {
     const cartItems = await this.cartItemRepository
       .createQueryBuilder('c')
       .leftJoinAndSelect('c.cart', 'cart')
+      .leftJoinAndSelect('c.color', 'color')
+      .leftJoinAndSelect('c.size', 'size')
       .leftJoinAndSelect('cart.client', 'client')
       .andWhere('client.id = :clientId', { clientId })
       .getMany();

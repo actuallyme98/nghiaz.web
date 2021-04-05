@@ -457,3 +457,24 @@ export const listBlogCategoriesAction = createTypeAsyncAction(
     }
   },
 );
+
+export const listBlogsAction = createTypeAsyncAction(
+  'LIST_BLOG_ACTION',
+  async (args: SHOES_API.ListBlogParams) => {
+    try {
+      const response = await ApiService.listBlogs(args);
+      return response.data;
+    } catch (err) {
+      // ignore err
+    }
+  },
+);
+
+export const getBlogAction = createTypeAsyncAction('GET_BLOG_ACTION', async (slug: string) => {
+  try {
+    const response = await ApiService.getBlog(slug);
+    return response.data;
+  } catch (err) {
+    // ignore err
+  }
+});

@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import * as moment from 'moment';
 
-import { Cart, CartItem, Client, Product, Voucher, VoucherCode } from '@api/entities';
+import { Cart, CartItem, Client, Product, Voucher, VoucherCode, Size, Color } from '@api/entities';
 import { ErrorHelper, StringHelper } from '@base/helpers';
 import { AddCartLineDTO, ApplyVoucherDTO, UpdateCartLineDTO } from '../dtos';
 
@@ -23,6 +23,10 @@ export class CartService {
     private readonly voucherRepository: Repository<Voucher>,
     @InjectRepository(VoucherCode)
     private readonly voucherCodeRepository: Repository<VoucherCode>,
+    @InjectRepository(Size)
+    private readonly sizeRepository: Repository<Size>,
+    @InjectRepository(Color)
+    private readonly colorRepository: Repository<Color>,
   ) {}
 
   async getCart(clientId: number) {
@@ -33,6 +37,8 @@ export class CartService {
         .createQueryBuilder('c')
         .leftJoinAndSelect('c.client', 'client')
         .leftJoinAndSelect('c.cartItems', 'cart_item')
+        .leftJoinAndSelect('cart_item.color', 'color')
+        .leftJoinAndSelect('cart_item.size', 'size')
         .leftJoinAndSelect('cart_item.product', 'product')
         .leftJoinAndSelect('c.voucherCode', 'voucher_code')
         .leftJoinAndSelect('voucher_code.voucher', 'voucher')
@@ -51,6 +57,8 @@ export class CartService {
       .createQueryBuilder('c')
       .leftJoinAndSelect('c.client', 'client')
       .leftJoinAndSelect('c.cartItems', 'cart_item')
+      .leftJoinAndSelect('cart_item.color', 'color')
+      .leftJoinAndSelect('cart_item.size', 'size')
       .leftJoinAndSelect('cart_item.product', 'product')
       .leftJoinAndSelect('c.voucherCode', 'voucher_code')
       .leftJoinAndSelect('voucher_code.voucher', 'voucher')
@@ -78,11 +86,19 @@ export class CartService {
   }
 
   async addCartLine(args: AddCartLineDTO) {
-    const { cartId, clientId, productId, amount } = args;
+    const { cartId, clientId, productId, amount, color, size } = args;
 
     const product = await this.productRepository.findOne(productId);
+    const sizeEntity = await this.sizeRepository.findOne(size);
+    const colorEntity = await this.colorRepository.findOne(color);
     if (!product) {
-      throw ErrorHelper.BadRequestException('Not found');
+      throw ErrorHelper.BadRequestException('[Product] Not found');
+    }
+    if (!sizeEntity) {
+      throw ErrorHelper.BadRequestException('[Size] Not found');
+    }
+    if (!colorEntity) {
+      throw ErrorHelper.BadRequestException('[Color] Not found');
     }
     let cart = await this.cartRepository.findOne(cartId, {
       relations: ['cartItems'],
@@ -92,18 +108,26 @@ export class CartService {
     }
     let cartItem = await this.cartItemRepository
       .createQueryBuilder('c')
+      .leftJoinAndSelect('c.color', 'color')
+      .leftJoinAndSelect('c.size', 'size')
       .leftJoinAndSelect('c.product', 'product')
       .andWhere('product.id = :productId', { productId })
+      .andWhere('size.id = :size', { size })
+      .andWhere('color.id = :color', { color })
       .getOne();
     if (!cartItem) {
       cartItem = new CartItem({
         cart,
         product,
         amount,
+        size: sizeEntity,
+        color: colorEntity,
       });
     } else {
       Object.assign(cartItem, {
         amount: cartItem.amount + amount,
+        size: sizeEntity,
+        color: colorEntity,
       });
     }
     await cartItem.save();

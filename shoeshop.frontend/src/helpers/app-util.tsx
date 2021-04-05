@@ -19,7 +19,7 @@ export const caculateDiscount = (price: number, code?: REDUX_STORE.IVoucher, shi
   }
 };
 
-export const pathAvatar = (path?: string) => {
+export const pathUrl = (path?: string) => {
   if (!path?.trim()) {
     return process.env.DEFAULT_AVATAR_URL || '';
   }

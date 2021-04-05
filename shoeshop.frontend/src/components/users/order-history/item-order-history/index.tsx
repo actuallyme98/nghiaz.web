@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/stores/configure-store';
 
 // utils
-import { pathAvatar } from '@helpers/app-util';
+import { pathUrl } from '@helpers/app-util';
 
 interface Iprops {
   data: REDUX_STORE.IOrder;
@@ -110,7 +110,7 @@ const ItemOrdered: React.FC<Iprops> = (props) => {
                     <div className={css.boxProductMobile} key={index}>
                       <div className={css.imgOrderItemMobile}>
                         <Badge count={edge.amount > 1 ? edge.amount : 0}>
-                          <img src={pathAvatar(edge.product?.thumbnail)} alt={edge.product?.name} />
+                          <img src={pathUrl(edge.product?.thumbnail)} alt={edge.product?.name} />
                         </Badge>
                       </div>
                       <Link href={`/shop/${edge.product.slug}/${edge.product.id}`}>
@@ -133,7 +133,7 @@ const ItemOrdered: React.FC<Iprops> = (props) => {
                   ) : (
                     <div className={css.boxProduct} key={edge.id}>
                       <Badge count={edge.amount > 1 ? edge.amount : 0}>
-                        <img src={pathAvatar(edge.product?.thumbnail)} alt={edge.product?.name} />
+                        <img src={pathUrl(edge.product?.thumbnail)} alt={edge.product?.name} />
                       </Badge>
                       <Link href={`/shop/${edge.product.slug}/${edge.product.id}`}>
                         <a>

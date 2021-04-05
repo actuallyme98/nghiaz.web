@@ -1,8 +1,7 @@
 import { Column, PrimaryGeneratedColumn, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { BaseModel } from './base-model.entity';
 
-import { Color, Order, Product } from '@api/entities';
-import { Cart } from './cart.entity';
+import { Color, Order, Product, Size } from '@api/entities';
 
 @Entity('order_item')
 export class OrderItem extends BaseModel {
@@ -20,13 +19,27 @@ export class OrderItem extends BaseModel {
   amount: number;
 
   // Relationship
-  @ManyToOne(() => Product)
+  @ManyToOne(() => Product, {
+    createForeignKeyConstraints: false,
+  })
   @JoinColumn()
   product: Product;
+
+  @OneToOne(() => Color, {
+    createForeignKeyConstraints: false,
+  })
+  @JoinColumn()
+  color: Color;
+
+  @OneToOne(() => Size, {
+    createForeignKeyConstraints: false,
+  })
+  @JoinColumn()
+  size: Size;
 
   @ManyToOne(() => Order, (order) => order.orderItems, {
     onDelete: 'SET NULL',
   })
   @JoinColumn()
-  order: Cart;
+  order: Order;
 }

@@ -28,7 +28,12 @@ const Cart: NextPage<IProps> = () => {
 
   const cartItems = useMemo(() => cartline?.cartItems || [], [cartline]);
   const totalPrice = useMemo(
-    () => cartItems.reduce((sum, item) => sum + (item.product.currentPrice || 0) * item.amount, 0),
+    () =>
+      cartItems.reduce(
+        (sum, item) =>
+          sum + (item.product.discountPrice || item.product.currentPrice || 0) * item.amount,
+        0,
+      ),
     [cartItems],
   );
 

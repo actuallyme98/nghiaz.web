@@ -294,7 +294,7 @@ const Header: React.FC<IProps> = (props) => {
               Tin tức
               <div className={css.dropDown}>
                 {blogCategories.map((item, index) => (
-                  <Link key={index} href={`${AppRouteEnums.BLOGS}/${item.slug}`}>
+                  <Link key={index} href={`${AppRouteEnums.BLOGS}?category=${item.slug}`}>
                     <a className={css.dropDownItem}>{item.name}</a>
                   </Link>
                 ))}

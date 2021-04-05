@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../../../redux/stores/configure-store';
 
 // utils
-import { pathAvatar } from '@helpers/app-util';
+import { pathUrl } from '@helpers/app-util';
 
 interface Iprops {
   data: REDUX_STORE.IOrder;
@@ -32,7 +32,7 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
     () => data.orderItems.reduce((s, i) => s + (i.product.currentPrice || 0) * (i.amount || 0), 0),
     [data],
   );
-  const discountPrice = data.price - data.carrier.fee - totalProductPrice;
+  const discountPrice = useMemo(() => data.discountPrice, []);
   const step = useMemo(() => {
     switch (status.value) {
       case 'CONFIRMING':
@@ -90,13 +90,18 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
               return (
                 <div className={css.boxProductMobile} key={index}>
                   <Badge count={edge.amount > 1 ? edge.amount : 0}>
-                    <img src={edge.product?.thumbnail} alt={edge.product?.name} />
+                    <img src={pathUrl(edge.product?.thumbnail)} alt={edge.product?.name} />
                   </Badge>
-                  <Link href={`/shop/${edge.product?.slug}/${edge.product?.id}`}>
+                  <Link href={`/shop/${edge.product.slug.trim()}/${edge.product.code}`}>
                     <a>
                       <div className={css.nameMobile}>{edge.product?.name}</div>
                     </a>
                   </Link>
+                  {edge.color && edge.size && (
+                    <div className={css.priceMobile}>
+                      {edge.color.name}-{edge.size.name}
+                    </div>
+                  )}
                   <div className={css.priceMobile}>{totalPrice.toLocaleString('vi')} đ</div>
                 </div>
               );
@@ -265,13 +270,18 @@ const ModalItemOrdered: React.FC<Iprops> = (props) => {
               return (
                 <div className={css.boxProduct} key={edge.id}>
                   <Badge count={edge.amount > 1 ? edge.amount : 0}>
-                    <img src={pathAvatar(edge.product?.thumbnail)} alt={edge.product?.name} />
+                    <img src={pathUrl(edge.product?.thumbnail)} alt={edge.product?.name} />
                   </Badge>
-                  <Link href={`/shop/${edge.product?.slug}/${edge.product?.id}`}>
+                  <Link href={`/shop/${edge.product?.slug.trim()}/${edge.product?.code}`}>
                     <a>
                       <div className={css.name}>{edge.product?.name}</div>
                     </a>
                   </Link>
+                  {edge.color && edge.size && (
+                    <div className={css.price}>
+                      {edge.color.name}-{edge.size.name}
+                    </div>
+                  )}
                   <div className={css.price}>{totalPrice.toLocaleString('vi')} đ</div>
                 </div>
               );

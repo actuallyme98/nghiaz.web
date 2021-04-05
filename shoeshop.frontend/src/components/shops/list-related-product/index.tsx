@@ -23,7 +23,7 @@ const ListRelatedProduct: React.FC<IProps> = ({ products }) => {
   return (
     <div className={isMobile ? css.rootMobile : css.root}>
       <div className={css.block}>
-        <div className={css.title}>Sản phẩm thường được xem cùng</div>
+        <div className={css.title}>Sản phẩm thường được mua cùng</div>
       </div>
       <div className={css.scroll}>
         <Slider {...settings} slidesToShow={Math.min(products.length, 5)}>

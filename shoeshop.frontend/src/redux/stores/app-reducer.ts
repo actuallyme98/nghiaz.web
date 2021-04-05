@@ -28,6 +28,7 @@ export interface Store {
   carriers: REDUX_STORE.ICarrier[];
   orders: SHOES_API.PaginationResponse<REDUX_STORE.IOrder>;
   blogCategories: REDUX_STORE.BlogCategory[];
+  blogs: SHOES_API.PaginationResponse<REDUX_STORE.Blog>;
 }
 
 export const initialState: Store = {
@@ -43,6 +44,7 @@ export const initialState: Store = {
   carriers: [],
   orders: initialPaging,
   blogCategories: [],
+  blogs: initialPaging,
 };
 
 export const detectMobileReducer = AppActions.detectMobile.reducer<Store>((state, action) => ({
@@ -193,6 +195,15 @@ export const listBlogCategoriesReducer = AppActions.listBlogCategoriesAction.red
   },
 );
 
+export const listBlogsReducer = AppActions.listBlogsAction.reducer<Store>((state, action) => {
+  if (isError(action) || !action.payload) {
+    return {};
+  }
+  return {
+    blogs: action.payload,
+  };
+});
+
 export const reducer = createTypeReducer(
   initialState,
   detectMobileReducer,
@@ -211,4 +222,5 @@ export const reducer = createTypeReducer(
   listCarriersReducer,
   listOrdersReducer,
   listBlogCategoriesReducer,
+  listBlogsReducer,
 );

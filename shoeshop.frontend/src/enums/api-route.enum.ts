@@ -27,4 +27,6 @@ export const ApiRouteEnum = {
   APPLY_VOUCHER: '/cart/voucher',
   PRODUCT_RELATED: '/product/related',
   LIST_BLOG_CATEGORIES: '/blog/category/list',
+  LIST_BLOGS: '/blog/list',
+  GET_BLOG: '/blog',
 };

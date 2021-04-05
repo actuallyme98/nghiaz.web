@@ -15,6 +15,14 @@ export class AddCartLineDTO {
   productId: number;
 
   @ApiProperty()
+  @IsNotEmpty({ message: 'Vui lòng chọn màu' })
+  color: number;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Vui lòng chọn kích cỡ' })
+  size: number;
+
+  @ApiProperty()
   @IsNotEmpty({ message: 'required' })
   amount: number;
 }

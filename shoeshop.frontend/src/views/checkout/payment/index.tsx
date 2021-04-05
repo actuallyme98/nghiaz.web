@@ -130,6 +130,8 @@ const Payment: NextPage<IProps> = () => {
       const orderItems = cartItems.map((item) => ({
         productId: item.product.id,
         amount: item.amount,
+        color: item.color.id,
+        size: item.size.id,
       }));
 
       const response: REDUX_STORE.IOrder | undefined = await dispatch(

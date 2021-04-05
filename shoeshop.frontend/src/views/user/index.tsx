@@ -21,7 +21,7 @@ import { RootState } from '@redux/stores/configure-store';
 import { AppRouteEnums } from '../../enums/app-route.enum';
 
 // utils
-import { pathAvatar, toDateTime } from '../../helpers/app-util';
+import { pathUrl, toDateTime } from '../../helpers/app-util';
 
 interface Props {}
 
@@ -57,7 +57,7 @@ const User: NextPage<Props> = () => {
         </div>
         <div className={css.top}>
           <div className={css.left}>
-            <img src={pathAvatar(profile.client?.avatar)} />
+            <img src={pathUrl(profile.client?.avatar)} />
             <div className={css.nameWrap}>
               <div className={css.name}>
                 {profile.lastName} {profile.firstName}
@@ -117,14 +117,14 @@ const User: NextPage<Props> = () => {
               </div>
             </a>
           </Link>
-          <Link href="/user/share">
+          {/* <Link href="/user/share">
             <a>
               <div className={css.bottomItem}>
                 <img src="/assets/icons/a-add-user.svg" alt="" />
                 <span>Giới thiệu bạn bè</span>
               </div>
             </a>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </Layout>

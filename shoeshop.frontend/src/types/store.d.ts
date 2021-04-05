@@ -87,6 +87,8 @@ declare namespace REDUX_STORE {
     id: number;
     product: Product;
     amount: number;
+    color: Color;
+    size: Color;
     createdAt: Date;
     updateAt: Date;
   }
@@ -153,6 +155,8 @@ declare namespace REDUX_STORE {
 
   interface OrderItem {
     id: number;
+    color: Color;
+    size: Color;
     amount: number;
     product: Product;
   }

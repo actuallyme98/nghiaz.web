@@ -20,10 +20,6 @@ export class CreateProductDTO {
 
   @ApiProperty()
   @IsNotEmpty({ message: 'Required' })
-  vat: number;
-
-  @ApiProperty()
-  @IsNotEmpty({ message: 'Required' })
   status: number;
 
   @ApiProperty()

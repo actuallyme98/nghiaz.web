@@ -8,7 +8,7 @@ import css from './style.module.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
 
-import { pathAvatar } from '../../../helpers/app-util';
+import { pathUrl } from '../../../helpers/app-util';
 
 interface IProps {
   className?: string;
@@ -28,7 +28,7 @@ const ProductItem: React.FC<IProps> = (props) => {
     <div className={clsx(isMobile ? css.productMobile : css.productDesktop, className)}>
       <div className={css.category}>{data.category}</div>
 
-      <img alt={data.title} src={pathAvatar(data.thumbnail)} className={css.imgProduct}></img>
+      <img alt={data.title} src={pathUrl(data.thumbnail)} className={css.imgProduct}></img>
 
       <div className={css.titleAndCart}>
         <div className={css.title}> {data.title} </div>
@@ -36,7 +36,7 @@ const ProductItem: React.FC<IProps> = (props) => {
 
       <div className={css.price}>
         <div className={css.currentPrice}>{data.currentPrice.toLocaleString('vi-VN')} đ</div>
-        {data.currentPrice !== data.originalPrice && (
+        {data.currentPrice > 0 && (
           <div className={css.originalPrice}>{data.originalPrice.toLocaleString('vi-VN')} đ</div>
         )}
       </div>

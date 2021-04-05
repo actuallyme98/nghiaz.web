@@ -71,6 +71,14 @@ export class OrderItemDTO {
   productId: number;
 
   @ApiProperty()
+  @IsNotEmpty({ message: 'Vui lòng chọn màu' })
+  color: number;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Vui lòng chọn kích cỡ' })
+  size: number;
+
+  @ApiProperty()
   @IsNotEmpty({ message: 'Số lượng phải lớn hơn 1' })
   amount: number;
 }

@@ -44,10 +44,8 @@ const ProductItem: React.FC<IProps> = (props) => {
       </div>
       <div className={css.price}>
         <div className={css.currentPrice}>{data.currentPrice.toLocaleString('vi-VN')} đ</div>
-        {data.currentPrice != data.originalPrice ? (
+        {data.currentPrice > 0 && (
           <div className={css.originalPrice}>{data.originalPrice.toLocaleString('vi-VN')} đ</div>
-        ) : (
-          ''
         )}
       </div>
       <Button className={css.buyNow} type="ghost" onClick={handleAddToCart} loading={true}>

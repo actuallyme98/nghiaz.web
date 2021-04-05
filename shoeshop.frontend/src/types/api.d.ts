@@ -144,6 +144,8 @@ declare namespace SHOES_API {
     cartId: number;
     clientId?: number;
     productId: number;
+    size?: number;
+    color?: number;
     amount: number;
   }
 
@@ -157,6 +159,8 @@ declare namespace SHOES_API {
 
   interface OrderItemParams {
     productId: number;
+    color: number;
+    size: number;
     amount: number;
   }
 
@@ -191,5 +195,19 @@ declare namespace SHOES_API {
     cartId?: number;
     code: string;
     price: number;
+  }
+
+  type SortBlogDTO = 'createdAt' | '-createdAt';
+
+  interface ListBlogParams {
+    paging: {
+      page: number;
+      limit?: number;
+    };
+    filters?: {
+      category?: string;
+      title?: string;
+    };
+    sort?: SortBlogDTO;
   }
 }

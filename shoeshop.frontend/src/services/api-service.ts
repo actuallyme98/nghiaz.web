@@ -154,6 +154,23 @@ export class ApiService {
   public async listBlogCategories() {
     return await this.axios.get(ApiRouteEnum.LIST_BLOG_CATEGORIES);
   }
+  public async listBlogs(args: SHOES_API.ListBlogParams) {
+    const { paging, filters, sort } = args;
+    return await this.axios.get(ApiRouteEnum.LIST_BLOGS, {
+      params: {
+        ...paging,
+        filters,
+        sort,
+      },
+    });
+  }
+  public async getBlog(slug: string) {
+    return await this.axios.get(ApiRouteEnum.GET_BLOG, {
+      params: {
+        slug,
+      },
+    });
+  }
 }
 
 export default new ApiService();
