@@ -61,12 +61,18 @@ const ProductItem: React.FC<IProps> = (props) => {
       <img alt={product.name} src={pathUrl(product.thumbnail)} className={css.imgProduct} />
       <div className={css.titleAndCart}>
         <div className={css.title}>{product.name}</div>
-        <Button className={css.btnAddToCart} onClick={handleAddToCart} shape="circle" />
+        {product.quantity > 0 ? (
+          <Button className={css.btnAddToCart} onClick={handleAddToCart} shape="circle" />
+        ) : (
+          <Button disabled>Sold out</Button>
+        )}
       </div>
       <div className={css.price}>
-        <div className={css.currentPrice}>{product.currentPrice.toLocaleString('vi-VN')} đ</div>
-        {product.currentPrice !== product.currentPrice && (
-          <div className={css.originalPrice}>{product.discountPrice.toLocaleString('vi-VN')} đ</div>
+        <div className={css.currentPrice}>
+          {(product.discountPrice || product.currentPrice).toLocaleString('vi-VN')} đ
+        </div>
+        {product.discountPrice > 0 && (
+          <div className={css.originalPrice}>{product.currentPrice.toLocaleString('vi-VN')} đ</div>
         )}
       </div>
     </div>

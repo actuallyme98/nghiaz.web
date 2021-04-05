@@ -8,7 +8,6 @@ import css from './style.module.scss';
 // Components
 import Layout from '../../../components/layout';
 import ListCartItem from '../../../components/carts/list-cart-item';
-import ListFavourablePrice from '../../../components/carts/list-favourable-price';
 import PaymentCard from '../../../components/carts/payment-card';
 import Stepper from '../../../components/stepper';
 import LoadingIcon from '../../../components/loading-icon';
@@ -60,7 +59,6 @@ const Cart: NextPage<IProps> = () => {
                   }}
                 />
               )}
-              <ListFavourablePrice className={css.listRelated} />
             </div>
             {!isMobile && (
               <div className={css.col2}>

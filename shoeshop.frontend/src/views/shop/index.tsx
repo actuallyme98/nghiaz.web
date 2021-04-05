@@ -119,6 +119,7 @@ const Shop: React.FC<Props> = (props) => {
                   colors: product.colors,
                   shortDescription: product.shortDescription,
                   thumbnail: product.thumbnail,
+                  quantity: product.quantity,
                 }}
               />
             </div>

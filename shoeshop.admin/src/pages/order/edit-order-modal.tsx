@@ -7,6 +7,7 @@ import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 
 import { useSnackbar } from 'notistack';
 
@@ -17,14 +18,16 @@ import { useDispatch } from 'react-redux';
 interface IProps {
   open: boolean;
   id: number;
+  failedReason: string;
   status: REDUX_STORE.OrderStatusEnums;
   onClose: () => void;
   callback: () => Promise<void>;
 }
 
 const EditOrderModal: React.FC<IProps> = (props) => {
-  const { open, onClose, status, id, callback } = props;
+  const { open, onClose, status, id, callback, failedReason } = props;
   const [statusChange, setStatusChange] = useState<REDUX_STORE.OrderStatusEnums>('CONFIRMING');
+  const [reason, setReason] = useState('');
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -38,15 +41,24 @@ const EditOrderModal: React.FC<IProps> = (props) => {
     setStatusChange(status.trim() as any);
   }, [status]);
 
+  useEffect(() => {
+    setReason(failedReason);
+  }, [failedReason]);
+
   const onFormSubmit = useCallback(async () => {
     try {
       if (!statusChange) {
+        return;
+      }
+      if (statusChange === 'FAILED' && !reason) {
+        window.alert('Nhập lý do hủy đơn');
         return;
       }
       await dispatch(
         AppActions.updateStatusOrderAction({
           id,
           status: statusChange,
+          reason,
         }),
       );
       onClose();
@@ -60,7 +72,11 @@ const EditOrderModal: React.FC<IProps> = (props) => {
         variant: 'error',
       });
     }
-  }, [statusChange, id]);
+  }, [statusChange, id, reason]);
+
+  const handleChangeReason = useCallback((event: any) => {
+    setReason(event.target.value);
+  }, []);
 
   return (
     <Modal open={open} onClose={onClose} className={classes.modal}>
@@ -82,7 +98,19 @@ const EditOrderModal: React.FC<IProps> = (props) => {
         </Select>
         <br />
         <br />
-        <Button variant="outlined" color="primary" onClick={onFormSubmit}>
+        {statusChange === 'FAILED' && (
+          <>
+            <TextField onChange={handleChangeReason} value={reason} placeholder="Lý do hủy đơn" />
+            <br />
+            <br />
+          </>
+        )}
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={onFormSubmit}
+          disabled={status === 'SUCCESS' || status === 'FAILED'}
+        >
           Submit
         </Button>
       </div>

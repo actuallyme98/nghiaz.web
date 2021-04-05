@@ -263,7 +263,7 @@ const Product: React.FC<{ product: REDUX_STORE.Product }> = ({ product }) => {
           data={{
             category: product.categories[0].name,
             originalPrice: product.currentPrice,
-            currentPrice: product.discountPrice || product.currentPrice,
+            currentPrice: product.discountPrice,
             title: product.name,
             thumbnail: product.thumbnail || '',
           }}

@@ -62,7 +62,7 @@ export class OrderService {
     return records;
   }
 
-  async updateStatusOrder(id: number, status: OrderStatusEnums) {
+  async updateStatusOrder(id: number, status: OrderStatusEnums, reason: string = '') {
     const order = await this.orderRepository.findOne(id, {
       relations: ['orderItems', 'orderItems.product'],
     });
@@ -79,7 +79,7 @@ export class OrderService {
       quantity: item.amount,
     }));
 
-    if (status === 'SHIPPING') {
+    if (status === 'SUCCESS') {
       for (const item of products) {
         try {
           const product = await this.productRepository.findOne(item.id);
@@ -98,6 +98,7 @@ export class OrderService {
     }
     Object.assign(order, {
       status,
+      reason,
     });
     return await order.save();
   }

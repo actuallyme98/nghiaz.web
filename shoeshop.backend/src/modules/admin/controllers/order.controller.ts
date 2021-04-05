@@ -42,11 +42,12 @@ export class OrderController {
     payload: {
       id: number;
       status: OrderStatusEnums;
+      reason: string;
     },
     @Res() res: Response,
   ) {
-    const { id, status } = payload;
-    await this.orderService.updateStatusOrder(id, status);
+    const { id, status, reason } = payload;
+    await this.orderService.updateStatusOrder(id, status, reason);
     return res.json({ ok: true });
   }
 

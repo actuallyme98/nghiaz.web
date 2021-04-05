@@ -35,7 +35,9 @@ const ProductItem: React.FC<IProps> = (props) => {
       </div>
 
       <div className={css.price}>
-        <div className={css.currentPrice}>{data.currentPrice.toLocaleString('vi-VN')} đ</div>
+        <div className={css.currentPrice}>
+          {(data.currentPrice || data.originalPrice).toLocaleString('vi-VN')} đ
+        </div>
         {data.currentPrice > 0 && (
           <div className={css.originalPrice}>{data.originalPrice.toLocaleString('vi-VN')} đ</div>
         )}

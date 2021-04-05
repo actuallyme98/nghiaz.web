@@ -260,6 +260,7 @@ const ListVoucher: React.FC<Props> = (props) => {
             onClose={onCloseEdit}
             open={openEdit}
             id={orderSelected.id}
+            failedReason={orderSelected.reason.trim() || ''}
             status={orderSelected.status.trim() as REDUX_STORE.OrderStatusEnums}
             callback={refetch}
           />

@@ -37,7 +37,7 @@ export class Order extends BaseModel {
 
   @Column({
     type: 'nvarchar',
-    length: 100,
+    length: 200,
   })
   reason: string;
 

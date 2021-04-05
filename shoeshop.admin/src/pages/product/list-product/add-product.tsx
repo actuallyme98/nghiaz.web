@@ -149,7 +149,7 @@ const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
   );
 
   return (
-    <Layout title="Thêm sản phâm">
+    <Layout title="Thêm sản phẩm">
       <Box padding={5}>
         <Formik
           initialValues={{

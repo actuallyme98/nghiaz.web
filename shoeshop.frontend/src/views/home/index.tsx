@@ -27,7 +27,7 @@ const Home: React.FC<Props> = (props) => {
         <TopCampaign />
         <TopNewestProducts />
         <TopListSeller />
-        <BlogHome />
+        {/* <BlogHome /> */}
         <BrandHome />
       </div>
     </Layout>

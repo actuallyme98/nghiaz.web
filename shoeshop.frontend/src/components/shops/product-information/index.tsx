@@ -25,6 +25,7 @@ interface Props {
     sizes: REDUX_STORE.Size[];
     shortDescription?: string;
     thumbnail: string;
+    quantity: number;
   };
 }
 
@@ -164,10 +165,14 @@ const ProductInformation: React.FC<Props> = (props) => {
         />
       </div>
       <div className={css.buyLike}>
-        <Button className={css.buy} type="ghost" onClick={handleAddToCart} loading={loading}>
-          <div className={css.icon} />
-          {isMobile ? 'MUA NGAY' : 'CHỌN MUA'}
-        </Button>
+        {data.quantity > 0 ? (
+          <Button className={css.buy} type="ghost" onClick={handleAddToCart} loading={loading}>
+            <div className={css.icon} />
+            {isMobile ? 'MUA NGAY' : 'CHỌN MUA'}
+          </Button>
+        ) : (
+          <Button disabled>Sản phẩm này đã hết hàng</Button>
+        )}
       </div>
       <div className={css.borderFour} />
       <div className={css.deliveryTime}>Thời gian giao hàng dự kiến</div>

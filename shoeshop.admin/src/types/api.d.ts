@@ -161,6 +161,7 @@ declare namespace ADMIN_API {
   interface UpdateStatusOrderArgs {
     id: number;
     status: REDUX_STORE.OrderStatusEnums;
+    reason?: string;
   }
 
   interface ListProductParams {
