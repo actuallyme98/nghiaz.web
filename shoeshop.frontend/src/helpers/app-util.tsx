@@ -32,3 +32,19 @@ export const toDateTime = (date?: string) => {
   }
   return moment(date).format('YYYY-MM-DD HH:mm');
 };
+
+export const renderVoucherText = (voucher?: REDUX_STORE.IVoucher) => {
+  if (!voucher) {
+    return 'Unknown';
+  }
+  switch (voucher.type.trim()) {
+    case 'discount_percentage':
+      return 'Giảm theo %';
+    case 'discount_price':
+      return 'Giảm giá trực tiếp';
+    case 'free_ship':
+      return 'Miễn phí giao hàng';
+    default:
+      return 'Unknown';
+  }
+};

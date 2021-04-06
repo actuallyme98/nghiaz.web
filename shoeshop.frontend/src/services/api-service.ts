@@ -171,6 +171,9 @@ export class ApiService {
       },
     });
   }
+  public async getVoucher() {
+    return await this.axios.post(ApiRouteEnum.GET_VOUCHER);
+  }
 }
 
 export default new ApiService();

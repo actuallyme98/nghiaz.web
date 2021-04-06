@@ -15,7 +15,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <React.Fragment>
       <Head>
-        <title>{pageProps?.title || 'Bluewind'}</title>
+        <title>{pageProps?.title || 'Nghĩa Phương Shoes'}</title>
+        <link rel="icon" href="/assets/icons/favicon.png" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="stylesheet" href="/fonts/SFUIDisplay/styles.css" />
         <link rel="stylesheet" href="/css/bootstrap.min.css" />

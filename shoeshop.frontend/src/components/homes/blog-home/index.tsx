@@ -68,7 +68,7 @@ const settings: Settings = {
 
 const blogs = Array.from({ length: 4 }, (_, index) => ({
   thumnail: `/assets/mocks/blogs/blog${index + 1}.jpg`,
-  title: 'Bluewind – Định hướng phong cách riêng cho các cặp đôi',
+  title: 'Nghĩa Phương – Định hướng phong cách riêng cho các cặp đôi',
   date: '17:01:51 23/02/2021',
   shortDescription:
     'Giày đôi là món quà giúp gửi gắm tình yêu bền vững, sự quan tâm nhẹ nhàng cho đối phương.',

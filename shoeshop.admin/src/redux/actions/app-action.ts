@@ -185,7 +185,15 @@ export const deleteProductAction = createTypeAsyncAction<number, void, Store>(
   async (args: number, { dispatch }) => {
     try {
       await ApiService.deleteProduct(args);
-      await dispatch(listProductsAction());
+      await dispatch(
+        listProductsAction({
+          paging: {
+            page: 1,
+            limit: 5,
+          },
+          filters: {},
+        }),
+      );
     } catch (err) {
       throw new Error(err);
     }

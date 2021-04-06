@@ -77,7 +77,7 @@ const Contact: React.FC<Props> = (props) => {
             </div>
             <div className={css.phone}>
               <img src="/assets/icons/building.svg" alt="" />
-              <span className={css.spaceSpan}>BLUEWIND.VN</span>
+              <span className={css.spaceSpan}>nghiaphuong.vn</span>
             </div>
 
             <a className={css.phone} href="tel:0364589229">
@@ -94,7 +94,7 @@ const Contact: React.FC<Props> = (props) => {
 
             <div className={css.phone}>
               <img src="/assets/icons/envelope.svg" alt="" />
-              <span className={css.spaceSpanLink}> bluewindcontact@gmail.com</span>
+              <span className={css.spaceSpanLink}> nghiaphuong@gmail.com</span>
             </div>
           </div>
         </div>

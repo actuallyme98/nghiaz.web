@@ -226,6 +226,7 @@ const DeliveryAddressForm: React.FC<Props> = (props) => {
 export default DeliveryAddressForm;
 
 export interface AddDeliveryFormValues {
+  id?: number;
   name: string;
   phone: string;
   cityId: number;

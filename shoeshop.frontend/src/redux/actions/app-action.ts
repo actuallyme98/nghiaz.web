@@ -478,3 +478,12 @@ export const getBlogAction = createTypeAsyncAction('GET_BLOG_ACTION', async (slu
     // ignore err
   }
 });
+
+export const getVoucherAction = createTypeAsyncAction('GET_VOUCHER_ACTION', async () => {
+  try {
+    const response = await ApiService.getVoucher();
+    return response.data;
+  } catch (err) {
+    // ignore err
+  }
+});

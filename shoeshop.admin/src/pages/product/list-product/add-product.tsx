@@ -109,6 +109,14 @@ const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
           window.alert('thumbnail & images required');
           return;
         }
+        if (
+          selectedColors.length === 0 ||
+          selectedSizes.length === 0 ||
+          selectedCategories.length === 0
+        ) {
+          window.alert('Chọn 1 màu || size || thể loại');
+          return;
+        }
         const id = Math.floor(Math.random() * 1e7);
         await dispatch(
           AppActions.createProductAction({

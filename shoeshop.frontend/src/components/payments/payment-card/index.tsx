@@ -12,7 +12,9 @@ import notification from 'antd/lib/notification';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@redux/stores/configure-store';
 import * as AppActions from '@actions/app-action';
-import { getKeyCategory } from '~/helpers/local-storage-util';
+
+import { renderVoucherText } from '@helpers/app-util';
+import { getKeyCategory } from '@helpers/local-storage-util';
 
 interface Props {
   className?: string;
@@ -71,6 +73,20 @@ const PaymentCard: React.FC<Props> = (props) => {
     }
   }, [profile, data, code]);
 
+  const handleGetVoucher = useCallback(async () => {
+    try {
+      const data = await dispatch(AppActions.getVoucherAction());
+      if (data) {
+        setCode(data.code.trim());
+      }
+    } catch (err) {
+      notification.error({
+        message: String(err).replace(/Error: /g, ''),
+        placement: 'bottomRight',
+      });
+    }
+  }, []);
+
   return (
     <div className={clsx(isMobile ? css.contentMobile : css.contentDesktop, className)}>
       <div className={css.top}>
@@ -78,6 +94,24 @@ const PaymentCard: React.FC<Props> = (props) => {
           <div className={css.crossBarAbsolute} />
         </div>
         <div className={css.border} />
+        {isChangeVoucher && (
+          <>
+            <div className={css.voucher}>
+              <div className={css.textVoucher}>
+                <img src="/assets/icons/logo-voucher.svg" />
+                <div className={css.textCodeVoucher}>Lấy Voucher</div>
+              </div>
+              <Button
+                loading={loading}
+                className={clsx(css.btbOk, { [css.btnOkNotLoading]: !loading })}
+                onClick={handleGetVoucher}
+              >
+                OK
+              </Button>
+            </div>
+            <div className={css.border} />
+          </>
+        )}
         {isChangeVoucher ? (
           <div className={css.voucher}>
             <div className={css.logo} />
@@ -104,12 +138,19 @@ const PaymentCard: React.FC<Props> = (props) => {
             </div>
           </div>
         ) : (
-          <div className={css.hasVoucher}>
-            <div className={css.code}>#{voucherCode?.code}</div>
-            <Button className={css.changeCodeBtn} onClick={onClickChangeVoucher} loading={loading}>
-              Đổi mã
-            </Button>
-          </div>
+          <>
+            <div className={css.hasVoucher}>
+              <div className={css.code}>#{voucherCode?.code}</div>
+              <Button
+                className={css.changeCodeBtn}
+                onClick={onClickChangeVoucher}
+                loading={loading}
+              >
+                Đổi mã
+              </Button>
+            </div>
+            <div>{renderVoucherText(voucherCode?.voucher)}</div>
+          </>
         )}
       </div>
       <div className={css.money}>

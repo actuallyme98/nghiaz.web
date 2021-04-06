@@ -11,8 +11,8 @@ const Footer: React.FC<IProps> = (props) => {
       <div className={css.col1}>
         <h3>Giới thiệu</h3>
         <div>
-          Công ty TNHH Sản Xuất Thương Mại & Dịch Vụ Bluewind Mã số thuế: 0108124917 do Sở KH và Đầu
-          Tư TP. Hà Nội Cấp ngày 11/01/2018
+          Công ty TNHH Sản Xuất Thương Mại & Dịch Vụ Nghĩa Phương Mã số thuế: 0108124917 do Sở KH và
+          Đầu Tư TP. Hà Nội Cấp ngày 11/01/2018
         </div>
         <h3>Cửa hàng :</h3>
         <div>Add 1: Số 6/106 Chùa Láng, Đống Đa, Hà Nội Hotline: 0392646973</div>

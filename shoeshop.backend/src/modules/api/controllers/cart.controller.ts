@@ -33,9 +33,15 @@ export class CartController {
     return res.json({ ok: true });
   }
 
-  @Post('/voucher')
+  @Post('/apply-voucher')
   async applyVoucher(@Body() payload: ApplyVoucherDTO, @Res() res: Response) {
     await this.cartService.applyVoucher(payload);
     return res.json({ ok: true });
+  }
+
+  @Post('/voucher')
+  async getVoucher(@Res() res: Response) {
+    const data = await this.cartService.getVoucherCode();
+    return res.json({ data });
   }
 }

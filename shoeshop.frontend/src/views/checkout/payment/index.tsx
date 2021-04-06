@@ -38,7 +38,6 @@ interface IProps {}
 
 const Payment: NextPage<IProps> = () => {
   const [selectedCarrier, setSelectedCarrier] = useState(1);
-  const [selectedDeliveryAddress, setSelectedDeliveryAddress] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('COD');
   const [deliveryAddressData, setDeliveryAddressData] = useState<AddDeliveryFormValues>();
   const [openDeliveryAddressModal, setOpenDeliveryAddressModal] = useState(false);
@@ -71,6 +70,7 @@ const Payment: NextPage<IProps> = () => {
       const addressDefault = addresses.find((x) => x.isDefault === 1);
       if (addressDefault) {
         setDeliveryAddressData({
+          id: addressDefault.id,
           address: addressDefault.address,
           cityId: addressDefault.city.code,
           districtId: addressDefault.district.code,
@@ -109,9 +109,24 @@ const Payment: NextPage<IProps> = () => {
   );
   const totalAll = useMemo(() => totalPrice - discount + shipFee, [totalPrice, discount, shipFee]);
 
-  const handleChange = useCallback((event: RadioChangeEvent) => {
-    setSelectedDeliveryAddress(event.target.value);
-  }, []);
+  const handleChange = useCallback(
+    (event: RadioChangeEvent) => {
+      const { value } = event.target;
+      const address = addresses.find((x) => x.id === value);
+      if (address) {
+        setDeliveryAddressData({
+          id: address.id,
+          address: address.address,
+          cityId: address.city.code,
+          districtId: address.district.code,
+          wardId: address.ward.code,
+          name: address.fullName,
+          phone: address.phone,
+        });
+      }
+    },
+    [addresses],
+  );
 
   const handleChangeCarrier = useCallback((event: RadioChangeEvent) => {
     setSelectedCarrier(event.target.value);
@@ -200,7 +215,7 @@ const Payment: NextPage<IProps> = () => {
           {deliveryAddress.isDefault ? <div className={css.default}>Mặc định</div> : ''}
         </div>
       )),
-    [deliveryAddresses],
+    [deliveryAddresses, addresses],
   );
 
   const renderCarriers = useMemo(
@@ -270,7 +285,7 @@ const Payment: NextPage<IProps> = () => {
                       onClose={onCloseDeliveryAddressModal}
                     />
                   </div>
-                  <Radio.Group onChange={handleChange} value={selectedDeliveryAddress}>
+                  <Radio.Group onChange={handleChange} value={deliveryAddressData?.id}>
                     {renderDeliveryAddress}
                   </Radio.Group>
                 </div>

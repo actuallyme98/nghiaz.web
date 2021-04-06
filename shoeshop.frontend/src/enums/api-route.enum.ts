@@ -24,9 +24,10 @@ export const ApiRouteEnum = {
   LIST_ORDER: '/order/list',
   ORDER: '/order',
   LIST_CARRIER: '/order/carrier',
-  APPLY_VOUCHER: '/cart/voucher',
+  APPLY_VOUCHER: '/cart/apply-voucher',
   PRODUCT_RELATED: '/product/related',
   LIST_BLOG_CATEGORIES: '/blog/category/list',
   LIST_BLOGS: '/blog/list',
   GET_BLOG: '/blog',
+  GET_VOUCHER: '/cart/voucher',
 };

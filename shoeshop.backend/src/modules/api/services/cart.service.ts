@@ -229,4 +229,12 @@ export class CartService {
     });
     return await cart.save();
   }
+  async getVoucherCode() {
+    const voucher = await this.voucherCodeRepository
+      .createQueryBuilder('v')
+      .leftJoinAndSelect('v.voucher', 'voucher')
+      .andWhere('v.isUsed = :used', { used: 0 })
+      .getOne();
+    return voucher;
+  }
 }
