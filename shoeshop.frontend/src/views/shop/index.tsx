@@ -127,10 +127,10 @@ const Shop: React.FC<Props> = (props) => {
           <ProductDetails
             data={{
               sizes: product.sizes.map((x) => x.name),
-              category: 'Giày nam',
-              material: 'Vải',
+              category: product.categories.map((x) => x.name).join(', '),
+              material: '-',
               weight: 100,
-              origin: 'China',
+              origin: 'Việt nam',
               colors: product.colors.map((x) => x.name),
               body: product.bodyDetail,
               sole: product.soleDetail,
