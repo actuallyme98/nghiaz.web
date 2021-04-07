@@ -49,7 +49,7 @@ import useDebounceCallBack from '../../hooks/useDebounceCallBack';
 
 interface Props {}
 
-const ListVoucher: React.FC<Props> = (props) => {
+const ListOrder: React.FC<Props> = (props) => {
   const classes = useStyles();
   const [typeFilter, setTypeFilter] = useState<ADMIN_API.FilterOrderTypes>('date');
   const [orderSelected, setOrderSelected] = useState<REDUX_STORE.Order>();
@@ -521,4 +521,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ListVoucher;
+export default ListOrder;

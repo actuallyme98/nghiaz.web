@@ -174,6 +174,9 @@ export class ApiService {
   public async getVoucher() {
     return await this.axios.post(ApiRouteEnum.GET_VOUCHER);
   }
+  public async sendContact(args: SHOES_API.SendContactParams) {
+    return await this.axios.post(ApiRouteEnum.CONTACT, args);
+  }
 }
 
 export default new ApiService();

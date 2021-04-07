@@ -30,4 +30,5 @@ export const ApiRouteEnum = {
   LIST_BLOGS: '/blog/list',
   GET_BLOG: '/blog',
   GET_VOUCHER: '/cart/voucher',
+  CONTACT: '/contact',
 };

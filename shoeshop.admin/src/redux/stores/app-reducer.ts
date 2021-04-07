@@ -23,6 +23,7 @@ export interface Store {
   blogCategories: REDUX_STORE.BlogCategory[];
   blogs: ADMIN_API.PaginationResponse<REDUX_STORE.Blog>;
   users: ADMIN_API.PaginationResponse<REDUX_STORE.User>;
+  contacts: ADMIN_API.PaginationResponse<REDUX_STORE.Contact>;
 }
 
 export const initialState: Store = {
@@ -35,6 +36,7 @@ export const initialState: Store = {
   blogCategories: [],
   blogs: initialPaging,
   users: initialPaging,
+  contacts: initialPaging,
 };
 
 export const loginReducer = AppActions.loginAction.reducer<Store>((state, action) => {
@@ -149,6 +151,15 @@ export const listUserReducer = AppActions.listUsersAction.reducer<Store>((state,
   };
 });
 
+export const listContactReducer = AppActions.listContactsAction.reducer<Store>((state, action) => {
+  if (isError(action) || !action.payload) {
+    return {};
+  }
+  return {
+    contacts: action.payload,
+  };
+});
+
 export const reducer = createTypeReducer(
   initialState,
   loginReducer,
@@ -163,4 +174,5 @@ export const reducer = createTypeReducer(
   listBlogCategoriesReducer,
   listBlogReducer,
   listUserReducer,
+  listContactReducer,
 );

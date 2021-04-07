@@ -146,4 +146,14 @@ declare namespace REDUX_STORE {
     name: string;
     slug: string;
   }
+
+  interface Contact {
+    id: number;
+    from: string;
+    email: string;
+    phone: string;
+    address: string;
+    content: string;
+    createdAt: stringl;
+  }
 }

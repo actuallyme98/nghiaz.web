@@ -25,6 +25,7 @@ import { Carrier } from './carrier.entity';
 import { OrderItem } from './order-item.entity';
 import { Voucher } from './voucher.entity';
 import { VoucherCode } from './voucher-code.entity';
+import { Contact } from './contact.entity';
 
 const ENTITIES = [
   User,
@@ -54,6 +55,7 @@ const ENTITIES = [
   OrderItem,
   Voucher,
   VoucherCode,
+  Contact,
 ];
 
 export {
@@ -84,5 +86,6 @@ export {
   OrderItem,
   Voucher,
   VoucherCode,
+  Contact,
   ENTITIES,
 };

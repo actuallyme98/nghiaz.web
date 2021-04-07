@@ -6,6 +6,7 @@ import { SearchOptions, SortOptions } from './product.dto';
 import { AddCartLineDTO, UpdateCartLineDTO, ApplyVoucherDTO } from './cart.dto';
 import { CreateOrderDTO, OrderItemDTO, OrderStatusEnums, FilterOrderDTO } from './order.dto';
 import { FilterBlogDTO, SortBlogDTO } from './blog.dto';
+import { CreateContactDTO } from './contact.dto';
 
 export {
   UserDTO,
@@ -31,4 +32,5 @@ export {
   ApplyVoucherDTO,
   FilterBlogDTO,
   SortBlogDTO,
+  CreateContactDTO,
 };

@@ -231,4 +231,12 @@ declare namespace ADMIN_API {
     gender?: string;
     dob?: string;
   }
+
+  interface ListContactParams {
+    paging: {
+      page: number;
+      limit?: number;
+    };
+    phone?: string;
+  }
 }

@@ -151,6 +151,18 @@ export class ApiService {
   public async updateUser(args: ADMIN_API.UpdateUserParams) {
     return await Axios.put(ApiRouteEnum.UPDATE_USER, args);
   }
+  public async listContacts(args: ADMIN_API.ListContactParams) {
+    const { paging, phone } = args;
+    return await Axios.get(ApiRouteEnum.LIST_CONTACT, {
+      params: {
+        ...paging,
+        phone,
+      },
+    });
+  }
+  public async deleteContact(id: number) {
+    return await Axios.delete(`${ApiRouteEnum.CONTACT}/${id}`);
+  }
 }
 
 export default new ApiService();

@@ -6,6 +6,7 @@ import { VoucherService } from './voucher.service';
 import { OrderService } from './order.service';
 import { BlogService } from './blog.service';
 import { UserService } from './users.service';
+import { ContactService } from './contact.service';
 
 const SERVICES_ADMIN = [
   AdminService,
@@ -16,6 +17,7 @@ const SERVICES_ADMIN = [
   OrderService,
   BlogService,
   UserService,
+  ContactService,
 ];
 
 export {
@@ -27,5 +29,6 @@ export {
   OrderService,
   BlogService,
   UserService,
+  ContactService,
   SERVICES_ADMIN,
 };

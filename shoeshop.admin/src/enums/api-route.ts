@@ -37,4 +37,6 @@ export enum ApiRouteEnum {
   USER = '/user',
   CREATE_USER = '/user/create',
   UPDATE_USER = '/user/update',
+  LIST_CONTACT = '/contact/list',
+  CONTACT = '/contact',
 }

@@ -23,6 +23,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import ContactMailIcon from '@material-ui/icons/ContactMail';
 
 // redux
 import * as AppActions from '../redux/actions/app-action';
@@ -131,6 +132,15 @@ const Header: React.FC<IProps> = (props) => {
                 <MenuBookIcon color="primary" />
               </ListItemIcon>
               <ListItemText primary="Blog" />
+            </ListItem>
+          </Link>
+
+          <Link to={AppRouteEnum.CONTACT} className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <ContactMailIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Contact" />
             </ListItem>
           </Link>
         </List>

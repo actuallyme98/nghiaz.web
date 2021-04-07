@@ -6,6 +6,7 @@ import { VoucherController } from './voucher.controller';
 import { OrderController } from './order.controller';
 import { BlogController } from './blog.controller';
 import { UserController } from './users.controller';
+import { ContactController } from './contact.controller';
 
 const CONTROLLERS = [
   AdminController,
@@ -16,6 +17,7 @@ const CONTROLLERS = [
   OrderController,
   BlogController,
   UserController,
+  ContactController,
 ];
 
 export {
@@ -27,5 +29,6 @@ export {
   OrderController,
   BlogController,
   UserController,
+  ContactController,
   CONTROLLERS,
 };

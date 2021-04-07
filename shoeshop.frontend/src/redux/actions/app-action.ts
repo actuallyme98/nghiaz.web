@@ -487,3 +487,14 @@ export const getVoucherAction = createTypeAsyncAction('GET_VOUCHER_ACTION', asyn
     // ignore err
   }
 });
+
+export const sendContactAction = createTypeAsyncAction(
+  'SEND_CONTACT_ACTION',
+  async (args: SHOES_API.SendContactParams) => {
+    try {
+      await ApiService.sendContact(args);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);

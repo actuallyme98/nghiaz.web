@@ -210,4 +210,12 @@ declare namespace SHOES_API {
     };
     sort?: SortBlogDTO;
   }
+
+  interface SendContactParams {
+    from: string;
+    email?: string;
+    phone: string;
+    address?: string;
+    content: string;
+  }
 }

@@ -17,6 +17,7 @@ import Order from './pages/order';
 import Blog from './pages/blog';
 import CreateBlog from './pages/blog/list-blog/add-modal';
 import User from './pages/user';
+import Contact from './pages/contact';
 
 // themes
 import theme from './themes/dark-theme';
@@ -65,6 +66,11 @@ const routes: RouteConfig[] = [
   {
     component: User,
     path: '/user',
+    exact: true,
+  },
+  {
+    component: Contact,
+    path: '/contact',
     exact: true,
   },
   {

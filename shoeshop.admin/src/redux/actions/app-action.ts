@@ -523,3 +523,34 @@ export const deleteUserAction = createTypeAsyncAction<number, void, Store>(
     }
   },
 );
+
+export const listContactsAction = createTypeAsyncAction(
+  'LIST_CONTACTS_ACTION',
+  async (args: ADMIN_API.ListContactParams) => {
+    try {
+      const response = await ApiService.listContacts(args);
+      return response.data;
+    } catch (err) {
+      // ignore err
+    }
+  },
+);
+
+export const deleteContactAction = createTypeAsyncAction<number, void, Store>(
+  'DELETE_CONTACT_ACTION',
+  async (id: number, { dispatch }) => {
+    try {
+      await ApiService.deleteContact(id);
+      await dispatch(
+        listContactsAction({
+          paging: {
+            page: 1,
+            limit: 5,
+          },
+        }),
+      );
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);

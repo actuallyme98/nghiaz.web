@@ -6,4 +6,5 @@ export enum AppRouteEnum {
   ORDER = '/order',
   BLOG = '/blog',
   USER = '/user',
+  CONTACT = '/contact',
 }
