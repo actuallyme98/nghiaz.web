@@ -1,4 +1,4 @@
-import { AuthValidateDTO } from './user.dto';
+import { AuthValidateDTO, FilterUserDTO, CreateUserDTO, UpdateUserDTO } from './user.dto';
 import {
   CreateColorDTO,
   CreateSizeDTO,
@@ -37,4 +37,7 @@ export {
   CreateBlogCategoryDTO,
   CreateBlogDTO,
   UpdateBlogCategoryDTO,
+  FilterUserDTO,
+  CreateUserDTO,
+  UpdateUserDTO,
 };

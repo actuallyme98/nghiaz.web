@@ -38,7 +38,9 @@ export class DeliveryAddress extends BaseModel {
   isDefault: number;
 
   // Relationship
-  @ManyToOne(() => Client, (client) => client.addresses)
+  @ManyToOne(() => Client, (client) => client.addresses, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn()
   client: Client;
 

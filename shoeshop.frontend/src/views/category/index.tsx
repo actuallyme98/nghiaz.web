@@ -30,6 +30,9 @@ import { AppRouteEnums } from '../../enums/app-route.enum';
 // types
 import { QueryToProductsArgs } from '../../types/gtypes';
 
+// utils
+import { pathUrl } from '@helpers/app-util';
+
 interface Props {}
 
 const Category: React.FC<Props> = (props) => {
@@ -193,7 +196,11 @@ const Category: React.FC<Props> = (props) => {
               )}
             </div>
             {category?.thumbnail?.trim() && (
-              <img alt={category.name} className={css.banner} src={category.thumbnail} />
+              <img
+                alt={category.name}
+                className={css.banner}
+                src={pathUrl(category.thumbnail.trim())}
+              />
             )}
             {!isMobile && (
               <SortOptionBar

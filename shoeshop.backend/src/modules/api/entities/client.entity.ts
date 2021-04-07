@@ -42,7 +42,9 @@ export class Client extends BaseModel {
   clone: number;
 
   // Relationship
-  @OneToMany(() => DeliveryAddress, (address) => address.client)
+  @OneToMany(() => DeliveryAddress, (address) => address.client, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn()
   addresses: DeliveryAddress[];
 

@@ -5,4 +5,5 @@ export enum AppRouteEnum {
   VOUCHER = '/voucher',
   ORDER = '/order',
   BLOG = '/blog',
+  USER = '/user',
 }

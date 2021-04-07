@@ -33,4 +33,8 @@ export enum ApiRouteEnum {
   UPDATE_THUMBNAIL_BLOG = '/blog/thumbnail/update',
   DELETE_BLOG = '/blog/delete',
   DELETE_CATEGORY_BLOG = '/blog/category/delete',
+  LIST_USERS = '/user/list',
+  USER = '/user',
+  CREATE_USER = '/user/create',
+  UPDATE_USER = '/user/update',
 }

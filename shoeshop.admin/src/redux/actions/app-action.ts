@@ -451,3 +451,75 @@ export const updateThumbnailBlogAction = createTypeAsyncAction(
     }
   },
 );
+
+export const listUsersAction = createTypeAsyncAction(
+  'LIST_USERS_ACTION',
+  async (args: ADMIN_API.ListUserParams) => {
+    try {
+      const response = await ApiService.listUsers(args);
+      return response.data;
+    } catch (err) {
+      // ignore err
+    }
+  },
+);
+
+export const createUserAction = createTypeAsyncAction<ADMIN_API.CreateUserParams, void, Store>(
+  'CREATE_USER_ACTION',
+  async (args: ADMIN_API.CreateUserParams, { dispatch }) => {
+    try {
+      await ApiService.createUser(args);
+      await dispatch(
+        listUsersAction({
+          paging: {
+            page: 1,
+            limit: 5,
+          },
+          filters: {},
+        }),
+      );
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const updateUserAction = createTypeAsyncAction<ADMIN_API.UpdateUserParams, void, Store>(
+  'UPDATE_USER_ACTION',
+  async (args: ADMIN_API.UpdateUserParams, { dispatch }) => {
+    try {
+      await ApiService.updateUser(args);
+      await dispatch(
+        listUsersAction({
+          paging: {
+            page: 1,
+            limit: 5,
+          },
+          filters: {},
+        }),
+      );
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
+export const deleteUserAction = createTypeAsyncAction<number, void, Store>(
+  'DELETE_USER_ACTION',
+  async (id: number, { dispatch }) => {
+    try {
+      await ApiService.deleteUser(id);
+      await dispatch(
+        listUsersAction({
+          paging: {
+            page: 1,
+            limit: 5,
+          },
+          filters: {},
+        }),
+      );
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);

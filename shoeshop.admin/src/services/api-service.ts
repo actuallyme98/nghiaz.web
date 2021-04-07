@@ -133,6 +133,24 @@ export class ApiService {
   public async deleteBlogCategory(id: number) {
     return await Axios.delete(`${ApiRouteEnum.DELETE_CATEGORY_BLOG}/${id}`);
   }
+  public async listUsers(args: ADMIN_API.ListUserParams) {
+    const { paging, filters = {} } = args;
+    return await Axios.get(ApiRouteEnum.LIST_USERS, {
+      params: {
+        ...paging,
+        filters,
+      },
+    });
+  }
+  public async deleteUser(id: number) {
+    return await Axios.delete(`${ApiRouteEnum.USER}/${id}`);
+  }
+  public async createUser(args: ADMIN_API.CreateUserParams) {
+    return await Axios.post(ApiRouteEnum.CREATE_USER, args);
+  }
+  public async updateUser(args: ADMIN_API.UpdateUserParams) {
+    return await Axios.put(ApiRouteEnum.UPDATE_USER, args);
+  }
 }
 
 export default new ApiService();

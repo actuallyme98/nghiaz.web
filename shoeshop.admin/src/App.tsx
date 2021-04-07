@@ -16,6 +16,7 @@ import ListVoucher from './pages/voucher';
 import Order from './pages/order';
 import Blog from './pages/blog';
 import CreateBlog from './pages/blog/list-blog/add-modal';
+import User from './pages/user';
 
 // themes
 import theme from './themes/dark-theme';
@@ -59,6 +60,11 @@ const routes: RouteConfig[] = [
   {
     component: CreateBlog,
     path: '/blog-create',
+    exact: true,
+  },
+  {
+    component: User,
+    path: '/user',
     exact: true,
   },
   {

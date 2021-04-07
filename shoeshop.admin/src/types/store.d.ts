@@ -5,6 +5,31 @@ declare namespace REDUX_STORE {
     name: number;
   }
 
+  interface User {
+    id: number;
+    firstName: string;
+    lastName: string;
+    username: string;
+    email?: string;
+    createdAt?: string;
+    updatedAt?: string;
+    client: Client;
+  }
+
+  interface Client {
+    id: number;
+    avatar?: string;
+    dob?: string;
+    gender: EnumGender;
+    clone: number;
+  }
+
+  enum EnumGender {
+    MALE = 'MALE',
+    FEMALE = 'FEMALE',
+    UNDEFINED = 'UNDEFINED',
+  }
+
   interface ProductColor {
     id: number;
     name: string;

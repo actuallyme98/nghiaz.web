@@ -202,4 +202,33 @@ declare namespace ADMIN_API {
     slug: string;
     category: number;
   }
+
+  interface ListUserParams {
+    paging: {
+      page: number;
+      limit?: number;
+    };
+    filters?: {
+      name?: string;
+      phone?: string;
+    };
+  }
+
+  interface CreateUserParams {
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+  }
+
+  interface UpdateUserParams {
+    id: number;
+    username: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    email?: string;
+    gender?: string;
+    dob?: string;
+  }
 }

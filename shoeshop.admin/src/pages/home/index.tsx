@@ -10,7 +10,7 @@ const Home: React.FC<RouteConfigComponentProps<any>> = (props) => {
   const classes = useStyles();
 
   return (
-    <Layout title="BLUEWIND ADMIN">
+    <Layout title="Nghĩa Phương ADMIN">
       <div className={classes.note}>
         <KeyboardBackspaceIcon />
         <p>Just open sidebar</p>

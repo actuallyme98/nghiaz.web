@@ -22,6 +22,7 @@ import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import Tooltip from '@material-ui/core/Tooltip';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 // redux
 import * as AppActions from '../redux/actions/app-action';
@@ -76,7 +77,7 @@ const Header: React.FC<IProps> = (props) => {
       <Drawer open={open} onClose={closeMenu} className={classes.drawer}>
         <List className={classes.list}>
           <Typography color="primary" className={classes.heading}>
-            BLUEWIND ADMIN
+            Nghĩa Phương ADMIN
           </Typography>
 
           <Link to={AppRouteEnum.HOME} className={classes.link}>
@@ -85,6 +86,15 @@ const Header: React.FC<IProps> = (props) => {
                 <HomeSharpIcon color="primary" />
               </ListItemIcon>
               <ListItemText primary="Home" />
+            </ListItem>
+          </Link>
+
+          <Link to={AppRouteEnum.USER} className={classes.link}>
+            <ListItem button>
+              <ListItemIcon>
+                <PeopleAltIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Users" />
             </ListItem>
           </Link>
 

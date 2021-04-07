@@ -91,7 +91,7 @@ export class ProductCSC {
     Object.assign(category, {
       thumbnail,
     });
-    return category.save;
+    return category.save();
   }
   // delete
   async deleteSize(id: number) {
