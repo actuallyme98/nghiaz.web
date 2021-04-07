@@ -129,7 +129,6 @@ const Shop: React.FC<Props> = (props) => {
               sizes: product.sizes.map((x) => x.name),
               category: product.categories.map((x) => x.name).join(', '),
               material: '-',
-              weight: 100,
               origin: 'Việt nam',
               colors: product.colors.map((x) => x.name),
               body: product.bodyDetail,

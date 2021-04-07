@@ -17,7 +17,6 @@ interface Props {
     body?: string;
     sole?: string;
     origin: string;
-    weight?: number;
     sizes: number[];
     material: string;
   };
@@ -55,10 +54,6 @@ const ProductDetails: React.FC<Props> = (props) => {
             <tr>
               <td className={css.col1}>Xuất xứ</td>
               <td className={css.col24_2}>{data.origin}</td>
-            </tr>
-            <tr>
-              <td className={clsx(css.col1, css.paddingTd)}>Khối lượng</td>
-              <td className={clsx(css.col24_2, css.paddingTd)}>{data.weight}</td>
             </tr>
             <tr>
               <td className={clsx(css.col1, css.paddingTd)}>Màu sắc</td>
