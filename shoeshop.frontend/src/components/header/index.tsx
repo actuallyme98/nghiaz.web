@@ -225,7 +225,7 @@ const Header: React.FC<IProps> = (props) => {
           </div>
           <div className={css.controlHeader}>
             <a
-              href="tel:0364589229"
+              href="tel:0981384115"
               className={clsx({
                 [css.phoneText]: true,
                 [css.phoneLink]: true,
@@ -235,7 +235,7 @@ const Header: React.FC<IProps> = (props) => {
               <div className={css.borderBox}>
                 <img src="/assets/icons/phone.svg" alt="" />
               </div>
-              <span>0364589229</span>
+              <span>0981384115</span>
             </a>
             <Link href={AppRouteEnums.USER_ORER_HISTORY}>
               <a

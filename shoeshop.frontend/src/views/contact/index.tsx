@@ -191,7 +191,7 @@ const Contact: React.FC<Props> = (props) => {
               <span className={css.spaceSpan}>nghiaphuong.vn</span>
             </div>
 
-            <a className={css.phone} href="tel:0364589229">
+            <a className={css.phone} href="tel:0981384115">
               <img src="/assets/icons/phone.svg" alt="" />
               <span className={css.spaceSpanLink}> 19004772</span>
             </a>

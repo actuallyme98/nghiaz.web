@@ -170,7 +170,7 @@ const ProductInformation: React.FC<Props> = (props) => {
       <div className={css.textDeliveryTime}>
         <li>Hà Nội & HCM: 1 - 2 ngày. Miễn phí vận chuyển với đơn hàng trên 500.000đ</li>
         <li>Các tỉnh thành khác: 3 - 5 ngày</li>
-        <li>Trường hợp cần giao hàng gấp, liên hệ trực tiếp với hotline 0364589229.</li>
+        <li>Trường hợp cần giao hàng gấp, liên hệ trực tiếp với hotline 0981384115.</li>
       </div>
     </div>
   );
