@@ -31,7 +31,7 @@ const CartItem: React.FC<IProps> = (props) => {
       return 0;
     }
     return Math.ceil(
-      ((data.product.discountPrice - data.product.currentPrice) * 100) / data.product.discountPrice,
+      ((data.product.discountPrice - data.product.currentPrice) * 100) / data.product.currentPrice,
     );
   }, [data]);
   return (
@@ -56,7 +56,7 @@ const CartItem: React.FC<IProps> = (props) => {
           {Boolean(discountPercent) && (
             <div className={css.wrapPrice}>
               <div className={css.originalPrice}>
-                {data.product.price?.toLocaleString('vi-VN')} đ
+                {data.product.currentPrice.toLocaleString('vi-VN')} đ
               </div>
               <div className={css.percent}>{discountPercent} %</div>
             </div>

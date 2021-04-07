@@ -74,7 +74,7 @@ const ProductInformation: React.FC<Props> = (props) => {
   }, []);
 
   const discountPercent = useMemo(
-    () => Math.ceil(((data.price - data.currentPrice) * 100) / data.price),
+    () => Math.ceil(((data.currentPrice - data.price) * 100) / data.currentPrice),
     [data],
   );
 
@@ -106,30 +106,22 @@ const ProductInformation: React.FC<Props> = (props) => {
     <div className={isMobile ? css.contentMobile : css.contentDesktop}>
       <div className={css.title}>{data.name}</div>
       <div className={css.sumTwo}>
-        <div className={css.priceCurent}>{data.currentPrice.toLocaleString('vi-VN')} đ </div>
+        <div className={css.priceCurent}>
+          {(data.price || data.currentPrice).toLocaleString('vi-VN')} đ{' '}
+        </div>
         {data.price > 0 && (
           <>
-            <div className={css.price}>{data.price.toLocaleString('vi-VN')} đ </div>
+            <div className={css.price}>{data.currentPrice.toLocaleString('vi-VN')} đ </div>
             <div className={css.discount}>
               <div className={css.discountText}>{`Giảm ${discountPercent}%`}</div>
             </div>
           </>
         )}
       </div>
-      {/* <div className={css.promotionCodeWrap}>
-        <Dropdown overlay={detailVoucher} trigger={['click']}>
-          <div className={css.promotionCode}>
-            <div className={css.promotionCodeLeft}>Nhập mã khuyến mại</div>
-            <div className={css.promotionCodeRight}>{voucher}</div>
-            <img src="/assets/icons/down-arrow.svg"></img>
-          </div>
-        </Dropdown>
-      </div> */}
 
       <div className={css.table}>
         {data.colors && (
           <div className={css.elementTd}>
-            {/* <img src="/assets/icon-product-detail/multiple-19.svg" /> */}
             <div>
               <div className={css.textTopTd}>Màu sắc</div>
               <div className={css.textBottomTd}>{colorsMemo}</div>
@@ -138,7 +130,6 @@ const ProductInformation: React.FC<Props> = (props) => {
         )}
         {data.sizes && (
           <div className={css.elementTd}>
-            {/* <img src="/assets/icon-product-detail/time-alarm.svg" /> */}
             <div>
               <div>
                 <div className={css.textTopTd}>Kích cỡ</div>

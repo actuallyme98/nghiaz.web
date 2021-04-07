@@ -84,7 +84,11 @@ const CartDrawer: React.FC<IProps> = (props) => {
   const totalPrice = useMemo(
     () =>
       cartItems
-        .reduce((sum, item) => sum + item.product.currentPrice! * item.amount, 0)
+        .reduce(
+          (sum, item) =>
+            sum + (item.product.discountPrice || item.product.currentPrice) * item.amount,
+          0,
+        )
         .toLocaleString('vi-VN'),
     [cartItems],
   );

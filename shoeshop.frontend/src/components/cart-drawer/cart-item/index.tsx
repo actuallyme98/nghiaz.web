@@ -54,7 +54,9 @@ const CartItem: React.FC<IProps> = (props) => {
         <div className={css.price}>
           {data.color.name} - {data.size.name}
         </div>
-        <div className={css.price}>{data.product.currentPrice?.toLocaleString('vi-VN')} đ</div>
+        <div className={css.price}>
+          {(data.product.discountPrice || data.product.currentPrice).toLocaleString('vi-VN')} đ
+        </div>
         <InputNumberSpinner
           ref={inputRef}
           value={data.amount}
