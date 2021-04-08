@@ -96,3 +96,5 @@ export class FilterProductDTO {
   @IsOptional({ message: 'Size required' })
   sizes: number[];
 }
+
+export class UpdateProductDTO extends CreateProductDTO {}

@@ -163,6 +163,9 @@ export class ApiService {
   public async deleteContact(id: number) {
     return await Axios.delete(`${ApiRouteEnum.CONTACT}/${id}`);
   }
+  public async updateProduct(args: ADMIN_API.CreateProductParams) {
+    return await Axios.put(ApiRouteEnum.UPDATE_PRODUCT, args);
+  }
 }
 
 export default new ApiService();

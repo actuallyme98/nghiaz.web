@@ -6,7 +6,7 @@ import { paginate, Pagination, IPaginationOptions } from 'nestjs-typeorm-paginat
 import { Category, Color, Product, Size, ProductImage } from '@api/entities';
 
 import { ErrorHelper, StringHelper } from '@base/helpers';
-import { CreateProductDTO, FilterProductDTO } from '../dtos';
+import { CreateProductDTO, FilterProductDTO, UpdateProductDTO } from '../dtos';
 import { classToPlain } from 'class-transformer';
 
 @Injectable()
@@ -27,6 +27,7 @@ export class ProductService {
       .createQueryBuilder('p')
       .leftJoinAndSelect('p.categories', 'category')
       .leftJoinAndSelect('p.colors', 'color')
+      .leftJoinAndSelect('p.images', 'product_image')
       .leftJoinAndSelect('p.sizes', 'size');
 
     const { categories, colors, sizes } = filters;
@@ -58,6 +59,39 @@ export class ProductService {
       throw ErrorHelper.BadRequestException('Sản phẩm đã tồn tại');
     }
 
+    const colors = await Promise.all(
+      colorIds.map(async (id) => await this.colorRepository.findOne(id)),
+    );
+    const sizes = await Promise.all(
+      sizeIds.map(async (id) => await this.sizeRepository.findOne(id)),
+    );
+    const categories = await Promise.all(
+      categoryIds.map(async (id) => await this.categoryRepository.findOne(id)),
+    );
+    const newProduct = new Product({
+      ...args,
+      code: StringHelper.randomString(6),
+      colors,
+      sizes,
+      categories,
+    });
+    await newProduct.save();
+  }
+
+  async updateProduct(args: UpdateProductDTO) {
+    const { colorIds, categoryIds, sizeIds, id } = args;
+    const pr = await this.productRepository.findOne(id);
+    if (!pr) {
+      throw ErrorHelper.BadRequestException('[Product] not found');
+    }
+    const product = await this.productRepository
+      .createQueryBuilder('p')
+      .andWhere('p.slug = :slug', { slug: args.slug })
+      .andWhere('p.id != :id', { id })
+      .getOne();
+    if (product) {
+      throw ErrorHelper.BadRequestException(`[${args.slug}] đã tồn tại`);
+    }
     const colors = await Promise.all(
       colorIds.map(async (id) => await this.colorRepository.findOne(id)),
     );

@@ -39,4 +39,5 @@ export enum ApiRouteEnum {
   UPDATE_USER = '/user/update',
   LIST_CONTACT = '/contact/list',
   CONTACT = '/contact',
+  UPDATE_PRODUCT = '/products/update',
 }

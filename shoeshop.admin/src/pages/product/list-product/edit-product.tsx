@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo } from 'react';
+import React, { useCallback, useState, useMemo, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { RouteConfigComponentProps } from 'react-router-config';
 
@@ -22,8 +22,8 @@ import { useSnackbar } from 'notistack';
 
 // redux
 import * as AppActions from '../../../redux/actions/app-action';
-import { IStore } from '../../../redux/stores/configure-store';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { pathUrl } from '../../../utils/app-utils';
 
 interface FormikValues {
   name: string;
@@ -39,8 +39,9 @@ interface FormikValues {
   priority: number;
 }
 
-const CreateProduct: React.FC<RouteConfigComponentProps<any>> = (props) => {
+const EditProduct: React.FC<RouteConfigComponentProps<any>> = (props) => {
   const [singleUrl, setSingleUrl] = useState('');
+  const [productEdit, setProductEdit] = useState<REDUX_STORE.IProduct>();
   const [multiUrls, setMultiUrls] = useState<string[]>([]);
   const [singleFile, setSingleFile] = useState<File>();
   const [multiFiles, setMultiFiles] = useState<FileList>();
@@ -55,6 +56,21 @@ const CreateProduct: React.FC<RouteConfigComponentProps<any>> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    const { state }: any = props.location;
+    setProductEdit(state);
+  }, []);
+
+  useEffect(() => {
+    if (productEdit) {
+      setSpecial(productEdit.isSpecial);
+      setSellWell(productEdit.isSellWell);
+      setSelectedColors(productEdit.colors.map((x) => x.id));
+      setSelectedSizes(productEdit.sizes.map((x) => x.id));
+      setSelectedCategories(productEdit.categories.map((x) => x.id));
+    }
+  }, [productEdit]);
 
   const onChangeSingleFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.currentTarget;
@@ -74,10 +90,16 @@ const CreateProduct: React.FC<RouteConfigComponentProps<any>> = (props) => {
   }, []);
 
   const prevImgsMemo = useMemo(() => {
-    return multiUrls.map((url, index) => (
-      <img key={index} className={classes.prevImg} src={url} alt="" />
+    if (multiFiles) {
+      return multiUrls.map((url, index) => (
+        <img key={index} className={classes.prevImg} src={url} alt="" />
+      ));
+    }
+    const images = (productEdit?.images || []).map((image) => image.url);
+    return images.map((url, index) => (
+      <img key={index} className={classes.prevImg} src={pathUrl(url)} alt="" />
     ));
-  }, [multiUrls]);
+  }, [multiFiles, productEdit]);
 
   const handleChangeColors = useCallback((event: React.ChangeEvent<{ value: any }>) => {
     setSelectedColors(event.target.value);
@@ -105,10 +127,6 @@ const CreateProduct: React.FC<RouteConfigComponentProps<any>> = (props) => {
     async (values: FormikValues, formikHelpers: FormikHelpers<FormikValues>) => {
       formikHelpers.setSubmitting(true);
       try {
-        if (!singleFile || !multiFiles) {
-          window.alert('thumbnail & images required');
-          return;
-        }
         if (
           selectedColors.length === 0 ||
           selectedSizes.length === 0 ||
@@ -117,9 +135,12 @@ const CreateProduct: React.FC<RouteConfigComponentProps<any>> = (props) => {
           window.alert('Chọn 1 màu || size || thể loại');
           return;
         }
-        const id = Math.floor(Math.random() * 1e7);
+        if (!productEdit) {
+          return;
+        }
+        const { id } = productEdit;
         await dispatch(
-          AppActions.createProductAction({
+          AppActions.updateProductAction({
             id,
             ...values,
             discountPrice: Math.max(0, values.discountPrice),
@@ -132,19 +153,22 @@ const CreateProduct: React.FC<RouteConfigComponentProps<any>> = (props) => {
             status: 1,
           }),
         );
-        const formDataSingle = new FormData();
-        formDataSingle.append('thumbnail', singleFile, singleFile.name);
-        await dispatch(AppActions.updateThumbnailProductAction({ data: formDataSingle, id }));
-
-        const formDataMulti = new FormData();
-        for (const key of Object.keys(multiFiles)) {
-          formDataMulti.append('images', multiFiles[key as any]);
+        if (singleFile) {
+          const formDataSingle = new FormData();
+          formDataSingle.append('thumbnail', singleFile, singleFile.name);
+          await dispatch(AppActions.updateThumbnailProductAction({ data: formDataSingle, id }));
         }
-        await dispatch(AppActions.updateImagesProductAction({ data: formDataMulti, id }));
-
-        enqueueSnackbar('Tạo thành công', {
+        if (multiFiles) {
+          const formDataMulti = new FormData();
+          for (const key of Object.keys(multiFiles)) {
+            formDataMulti.append('images', multiFiles[key as any]);
+          }
+          await dispatch(AppActions.updateImagesProductAction({ data: formDataMulti, id }));
+        }
+        enqueueSnackbar('Cập nhật thành công', {
           variant: 'success',
         });
+        props.history.push('/products');
       } catch (err) {
         const message = String(err).replace(/Error: /g, '');
         enqueueSnackbar(message, {
@@ -153,27 +177,61 @@ const CreateProduct: React.FC<RouteConfigComponentProps<any>> = (props) => {
       }
       formikHelpers.setSubmitting(false);
     },
-    [singleFile, multiFiles, selectedColors, selectedCategories, selectedSizes, special, sellWell],
+    [
+      singleFile,
+      multiFiles,
+      selectedColors,
+      selectedCategories,
+      selectedSizes,
+      special,
+      sellWell,
+      productEdit,
+    ],
   );
+
+  const initialValues = useMemo(() => {
+    if (!productEdit) {
+      return {
+        name: '',
+        slug: '',
+        bodyDetail: '',
+        currentPrice: '',
+        description: '',
+        discountPrice: '',
+        price: '',
+        priority: '',
+        quantity: '',
+        shortDescription: '',
+        soleDetail: '',
+      };
+    }
+    return {
+      name: productEdit.name.trim(),
+      slug: productEdit.slug.trim(),
+      bodyDetail: productEdit.bodyDetail.trim(),
+      currentPrice: productEdit.currentPrice,
+      description: productEdit.description.trim(),
+      discountPrice: productEdit.discountPrice,
+      price: productEdit.price,
+      priority: productEdit.priority,
+      quantity: productEdit.quantity,
+      shortDescription: productEdit.shortDescription.trim(),
+      soleDetail: productEdit.soleDetail.trim(),
+    };
+  }, [productEdit]);
+
+  const previewThumbnail = useMemo(() => {
+    if (singleUrl) {
+      return;
+    }
+    return <img src={pathUrl(productEdit?.thumbnail)} className={classes.prevImg} alt="" />;
+  }, [productEdit, singleUrl]);
 
   return (
     <Layout title="Thêm sản phẩm">
       <Box padding={5}>
         <Formik
-          initialValues={{
-            name: '',
-            slug: '',
-            code: '',
-            bodyDetail: '',
-            currentPrice: '',
-            description: '',
-            discountPrice: '',
-            price: '',
-            priority: '',
-            quantity: '',
-            shortDescription: '',
-            soleDetail: '',
-          }}
+          initialValues={initialValues}
           onSubmit={onFormSubmit as any}
           validationSchema={validateForm}
         >
@@ -312,6 +370,7 @@ const CreateProduct: React.FC<RouteConfigComponentProps<any>> = (props) => {
               <div>Thumbnail</div>
               <input id="thumnail" type="file" onChange={onChangeSingleFile} /> <br />
               <img className={classes.prevImg} src={singleUrl} alt="" />
+              {previewThumbnail}
               <div>Ảnh</div>
               <input id="images" type="file" onChange={onChangeMultiFiles} multiple /> <br />
               {prevImgsMemo}
@@ -397,4 +456,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default CreateProduct;
+export default EditProduct;

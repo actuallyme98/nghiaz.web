@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect, useState, useCallback } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 // components
 import Table from '@material-ui/core/Table';
@@ -24,6 +25,9 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import CategoryForm from '../../../components/category-form';
+import Collapse from '@material-ui/core/Collapse';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 // redux
 import * as AppActions from '../../../redux/actions/app-action';
@@ -164,28 +168,6 @@ const ProductList: React.FC<Props> = (props) => {
     [],
   );
 
-  const rows = useMemo(() => {
-    return products.map((row, index) => (
-      <TableRow key={index}>
-        <TableCell>{row.code}</TableCell>
-        <TableCell>{row.name}</TableCell>
-        <TableCell>{row.categories.map((x) => x.name).join('')}</TableCell>
-        <TableCell>{row.price}</TableCell>
-        <TableCell>{row.currentPrice}</TableCell>
-        <TableCell>{row.quantity}</TableCell>
-        <TableCell>
-          <Box>
-            <Tooltip title="Xóa" placement="top" arrow>
-              <IconButton onClick={() => onDelete(row.id)}>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        </TableCell>
-      </TableRow>
-    ));
-  }, [products]);
-
   return (
     <Box className={classes.container}>
       <CategoryForm
@@ -197,7 +179,7 @@ const ProductList: React.FC<Props> = (props) => {
         handleChangeSizes={handleChangeSizes}
       />
 
-      <Box display="flex" justifyContent="space-between">
+      <Box display="flex" justifyContent="space-between" marginTop={3}>
         <Typography>Danh sách sản phẩm</Typography>
         <Tooltip title="Thêm mới" placement="top" arrow>
           <IconButton>
@@ -211,6 +193,7 @@ const ProductList: React.FC<Props> = (props) => {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
+              <TableCell />
               <TableCell>Mã sản phẩm</TableCell>
               <TableCell>Tên sản phẩm</TableCell>
               <TableCell>Category</TableCell>
@@ -220,7 +203,11 @@ const ProductList: React.FC<Props> = (props) => {
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>{rows}</TableBody>
+          <TableBody>
+            {products.map((row, index) => (
+              <CollapseRow key={index} row={row} onDelete={onDelete} />
+            ))}
+          </TableBody>
           <TableFooter>
             <TableRow>
               <TablePagination
@@ -242,6 +229,76 @@ const ProductList: React.FC<Props> = (props) => {
         </Table>
       </TableContainer>
     </Box>
+  );
+};
+
+const CollapseRow = (props: { row: REDUX_STORE.IProduct; onDelete: any }) => {
+  const { row, onDelete } = props;
+  const [open, setOpen] = useState(false);
+  const classes = useStyles();
+
+  return (
+    <>
+      <TableRow>
+        <TableCell>
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell>{row.code}</TableCell>
+        <TableCell>{row.name}</TableCell>
+        <TableCell>{row.categories.map((x) => x.name).join(', ')}</TableCell>
+        <TableCell>{row.price}</TableCell>
+        <TableCell>{row.currentPrice}</TableCell>
+        <TableCell>{row.quantity}</TableCell>
+        <TableCell>
+          <Box>
+            <Tooltip title="Sửa" placement="top" arrow>
+              <IconButton>
+                <Link
+                  to={{
+                    pathname: '/product/edit',
+                    state: row,
+                  }}
+                  className={classes.link}
+                >
+                  <EditRoundedIcon />
+                </Link>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Xóa" placement="top" arrow>
+              <IconButton onClick={() => onDelete(row.id)}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box>
+              <Table size="small" aria-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Màu</TableCell>
+                    <TableCell>Kích cỡ</TableCell>
+                    <TableCell>Mô tả</TableCell>
+                    <TableCell>Slug</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableCell>{row.colors.map((x) => x.name).join(', ')}</TableCell>
+                  <TableCell>{row.sizes.map((x) => x.name).join(', ')}</TableCell>
+                  <TableCell>{row.description}</TableCell>
+                  <TableCell>{row.slug}</TableCell>
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
   );
 };
 

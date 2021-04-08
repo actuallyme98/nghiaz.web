@@ -18,6 +18,7 @@ import Blog from './pages/blog';
 import CreateBlog from './pages/blog/list-blog/add-modal';
 import User from './pages/user';
 import Contact from './pages/contact';
+import EditProduct from './pages/product/list-product/edit-product';
 
 // themes
 import theme from './themes/dark-theme';
@@ -41,6 +42,11 @@ const routes: RouteConfig[] = [
   {
     component: AddProduct,
     path: '/product/create',
+    exact: true,
+  },
+  {
+    component: EditProduct,
+    path: '/product/edit',
     exact: true,
   },
   {

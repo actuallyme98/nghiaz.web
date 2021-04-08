@@ -7,7 +7,7 @@ import {
   CreateCategoryDTO,
   UpdateCategoryDTO,
 } from './product-csc.dto';
-import { CreateProductDTO, FilterProductDTO } from './product.dto';
+import { CreateProductDTO, FilterProductDTO, UpdateProductDTO } from './product.dto';
 import {
   CreateVoucherDTO,
   VoucherType,
@@ -40,4 +40,5 @@ export {
   FilterUserDTO,
   CreateUserDTO,
   UpdateUserDTO,
+  UpdateProductDTO,
 };

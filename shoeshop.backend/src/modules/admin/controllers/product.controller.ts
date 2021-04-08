@@ -16,7 +16,7 @@ import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
 import { ProductService } from '@admin/services';
-import { CreateProductDTO } from '../dtos';
+import { CreateProductDTO, UpdateProductDTO } from '../dtos';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 @ApiBearerAuth()
 @ApiTags('products')
@@ -46,13 +46,21 @@ export class ProductController {
   }
 
   @Post('/create')
-  async createProduct(@Body() payload: CreateProductDTO) {
-    return await this.productService.createProduct(payload);
+  async createProduct(@Body() payload: CreateProductDTO, @Res() res: Response) {
+    await this.productService.createProduct(payload);
+    return res.json({ ok: true });
+  }
+
+  @Put('/update')
+  async updateProduct(@Body() payload: UpdateProductDTO, @Res() res: Response) {
+    await this.productService.updateProduct(payload);
+    return res.json({ ok: true });
   }
 
   @Delete('/delete/:id')
-  async deleteProduct(@Param('id') id: number) {
-    return await this.productService.deleteProduct(id);
+  async deleteProduct(@Param('id') id: number, @Res() res: Response) {
+    await this.productService.deleteProduct(id);
+    return res.json({ ok: true });
   }
 
   @Put('/thumbnail/update/:id')

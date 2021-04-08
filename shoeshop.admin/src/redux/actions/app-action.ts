@@ -144,6 +144,17 @@ export const createProductAction = createTypeAsyncAction(
   },
 );
 
+export const updateProductAction = createTypeAsyncAction(
+  'UPDATE_PRODUCT_ACTION',
+  async (args: ADMIN_API.CreateProductParams) => {
+    try {
+      return await ApiService.updateProduct(args);
+    } catch (err) {
+      throw new Error(err);
+    }
+  },
+);
+
 export const updateThumbnailProductAction = createTypeAsyncAction(
   'UPDATE_THUMBNAIL_ACTION',
   async (args: { data: FormData; id: number }) => {
