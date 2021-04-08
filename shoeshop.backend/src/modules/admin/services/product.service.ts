@@ -103,7 +103,6 @@ export class ProductService {
     );
     const newProduct = new Product({
       ...args,
-      code: StringHelper.randomString(6),
       colors,
       sizes,
       categories,

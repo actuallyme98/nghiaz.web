@@ -416,14 +416,18 @@ const CollapseRow = (props: { row: REDUX_STORE.Order; onOpenEdit: any; onDelete:
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.orderItems.map((item, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{item.product.name}</TableCell>
-                      <TableCell>{item.color && item.color.name}</TableCell>
-                      <TableCell>{item.size && item.size.name}</TableCell>
-                      <TableCell>{item.amount}</TableCell>
-                    </TableRow>
-                  ))}
+                  {row.orderItems.map((item, index) => {
+                    if (item.product) {
+                      return (
+                        <TableRow key={index}>
+                          <TableCell>{item.product.name}</TableCell>
+                          <TableCell>{item.color && item.color.name}</TableCell>
+                          <TableCell>{item.size && item.size.name}</TableCell>
+                          <TableCell>{item.amount}</TableCell>
+                        </TableRow>
+                      );
+                    }
+                  })}
                 </TableBody>
               </Table>
             </Box>

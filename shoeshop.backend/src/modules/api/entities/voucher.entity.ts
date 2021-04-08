@@ -15,7 +15,7 @@ export class Voucher extends BaseModel {
   id: number;
 
   @Column({
-    type: 'varchar',
+    type: 'nvarchar',
     length: 50,
   })
   title: string;
