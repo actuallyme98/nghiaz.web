@@ -42,15 +42,11 @@ export class Client extends BaseModel {
   clone: number;
 
   // Relationship
-  @OneToMany(() => DeliveryAddress, (address) => address.client, {
-    onDelete: 'SET NULL',
-  })
+  @OneToMany(() => DeliveryAddress, (address) => address.client)
   @JoinColumn()
   addresses: DeliveryAddress[];
 
-  @OneToOne(() => Cart, {
-    onDelete: 'SET NULL',
-  })
+  @OneToOne(() => Cart)
   @JoinColumn()
   cart: Cart;
 }

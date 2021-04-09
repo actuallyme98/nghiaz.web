@@ -14,9 +14,7 @@ export class Cart extends BaseModel {
   id: number;
 
   // Relationship
-  @OneToOne(() => Client, {
-    onDelete: 'SET NULL',
-  })
+  @OneToOne(() => Client)
   @JoinColumn()
   client: Client;
 
@@ -24,9 +22,7 @@ export class Cart extends BaseModel {
   @JoinColumn()
   cartItems: CartItem[];
 
-  @OneToOne(() => VoucherCode, {
-    onDelete: 'SET NULL',
-  })
+  @OneToOne(() => VoucherCode)
   @JoinColumn()
   voucherCode: VoucherCode;
 }

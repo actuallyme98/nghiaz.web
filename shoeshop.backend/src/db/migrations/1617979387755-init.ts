@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class init1617720978204 implements MigrationInterface {
-    name = 'init1617720978204'
+export class init1617979387755 implements MigrationInterface {
+    name = 'init1617979387755'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "users" ("created_at" datetime NOT NULL CONSTRAINT "DF_c9b5b525a96ddc2c5647d7f7fa5" DEFAULT getdate(), "updated_at" datetime NOT NULL CONSTRAINT "DF_6d596d799f9cb9dac6f7bf7c23c" DEFAULT getdate(), "id" int NOT NULL IDENTITY(1,1), "username" char(60) NOT NULL, "email" char(50) NOT NULL CONSTRAINT "DF_97672ac88f789774dd47f7c8be3" DEFAULT '', "password" char(128) NOT NULL, "is_supperuser" int NOT NULL CONSTRAINT "DF_0806dc1a9d94e82da48712310d2" DEFAULT 0, "first_name" nvarchar(60) NOT NULL, "last_name" nvarchar(60) NOT NULL, "clientId" int, CONSTRAINT "UQ_fe0bb3f6520ee0469504521e710" UNIQUE ("username"), CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`);
@@ -33,7 +33,8 @@ export class init1617720978204 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "carrier" ("created_at" datetime NOT NULL CONSTRAINT "DF_7499970f4d8e868101ef123cf54" DEFAULT getdate(), "updated_at" datetime NOT NULL CONSTRAINT "DF_b2ac191803dcb7101c536144beb" DEFAULT getdate(), "id" int NOT NULL IDENTITY(1,1), "name" nvarchar(50) NOT NULL, "method" nvarchar(50) NOT NULL, "fee" int NOT NULL, "description" nvarchar(50) NOT NULL, CONSTRAINT "PK_f615ebd1906f0270d41b3a5a8b0" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "order_item" ("created_at" datetime NOT NULL CONSTRAINT "DF_66561ef057388238c0522e66834" DEFAULT getdate(), "updated_at" datetime NOT NULL CONSTRAINT "DF_2674c30eac9803918984027d764" DEFAULT getdate(), "id" int NOT NULL IDENTITY(1,1), "amount" int NOT NULL, "productId" int, "colorId" int, "sizeId" int, "orderId" int, CONSTRAINT "PK_d01158fe15b1ead5c26fd7f4e90" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "voucher_code" ("created_at" datetime NOT NULL CONSTRAINT "DF_e1d292ceb92e1b80c15c1f56d9d" DEFAULT getdate(), "updated_at" datetime NOT NULL CONSTRAINT "DF_1aa780bf85fb64809cbe70be648" DEFAULT getdate(), "id" int NOT NULL IDENTITY(1,1), "code" char(30) NOT NULL, "is_used" int NOT NULL CONSTRAINT "DF_7660eadb7f2eb3cd8dc5153548a" DEFAULT 0, "voucherId" int, CONSTRAINT "PK_ee60c59dedf99dfc18553762034" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "voucher" ("created_at" datetime NOT NULL CONSTRAINT "DF_7a511bf6a8227ede24395560d77" DEFAULT getdate(), "updated_at" datetime NOT NULL CONSTRAINT "DF_64f80f5d56bb56e9c986664053c" DEFAULT getdate(), "id" int NOT NULL IDENTITY(1,1), "title" varchar(50) NOT NULL, "start_date" char(30) NOT NULL, "end_date" char(30) NOT NULL, "type" char(30) NOT NULL, "percent_discount" int NOT NULL, "amount" int NOT NULL, "max_amount" int NOT NULL, "quantity" int NOT NULL, "require_min_price" int NOT NULL, CONSTRAINT "PK_677ae75f380e81c2f103a57ffaf" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "voucher" ("created_at" datetime NOT NULL CONSTRAINT "DF_7a511bf6a8227ede24395560d77" DEFAULT getdate(), "updated_at" datetime NOT NULL CONSTRAINT "DF_64f80f5d56bb56e9c986664053c" DEFAULT getdate(), "id" int NOT NULL IDENTITY(1,1), "title" nvarchar(50) NOT NULL, "start_date" char(30) NOT NULL, "end_date" char(30) NOT NULL, "type" char(30) NOT NULL, "percent_discount" int NOT NULL, "amount" int NOT NULL, "max_amount" int NOT NULL, "quantity" int NOT NULL, "require_min_price" int NOT NULL, CONSTRAINT "PK_677ae75f380e81c2f103a57ffaf" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "contact" ("created_at" datetime NOT NULL CONSTRAINT "DF_5655225a1b5dc278f91511bfe58" DEFAULT getdate(), "updated_at" datetime NOT NULL CONSTRAINT "DF_1611bff648370477d5d0a6156c9" DEFAULT getdate(), "id" int NOT NULL IDENTITY(1,1), "from" nvarchar(50) NOT NULL, "email" char(40) NOT NULL, "phone" char(20) NOT NULL, "address" ntext NOT NULL, "content" ntext NOT NULL, CONSTRAINT "PK_2cbbe00f59ab6b3bb5b8d19f989" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "blog_category" ("created_at" datetime NOT NULL CONSTRAINT "DF_982e13e125062efd6551112b1a8" DEFAULT getdate(), "updated_at" datetime NOT NULL CONSTRAINT "DF_46d10068aa404ec617abec558cc" DEFAULT getdate(), "id" int NOT NULL IDENTITY(1,1), "name" nvarchar(50) NOT NULL, "slug" char(50) NOT NULL, CONSTRAINT "PK_32b67ddf344608b5c2fb95bc90c" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "product_sizes_size" ("productId" int NOT NULL, "sizeId" int NOT NULL, CONSTRAINT "PK_92f139ef951e2ab39986aa6d443" PRIMARY KEY ("productId", "sizeId"))`);
         await queryRunner.query(`CREATE INDEX "IDX_c363d4050056518c07348e8a27" ON "product_sizes_size" ("productId") `);
@@ -44,25 +45,25 @@ export class init1617720978204 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "product_categories_category" ("productId" int NOT NULL, "categoryId" int NOT NULL, CONSTRAINT "PK_17f2a361443184000ee8d79f240" PRIMARY KEY ("productId", "categoryId"))`);
         await queryRunner.query(`CREATE INDEX "IDX_342d06dd0583aafc156e076379" ON "product_categories_category" ("productId") `);
         await queryRunner.query(`CREATE INDEX "IDX_15520e638eb4c46c4fb2c61c4b" ON "product_categories_category" ("categoryId") `);
-        await queryRunner.query(`ALTER TABLE "users" ADD CONSTRAINT "FK_6c3a73bbc9d8a8082816adc870e" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE SET NULL ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "client" ADD CONSTRAINT "FK_68cfa141dc4d6303a64e1b74a79" FOREIGN KEY ("cartId") REFERENCES "cart"("id") ON DELETE SET NULL ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "users" ADD CONSTRAINT "FK_6c3a73bbc9d8a8082816adc870e" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "client" ADD CONSTRAINT "FK_68cfa141dc4d6303a64e1b74a79" FOREIGN KEY ("cartId") REFERENCES "cart"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "delivery_address" ADD CONSTRAINT "FK_0bea7da1bb75c6b1f28617b42d5" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "delivery_address" ADD CONSTRAINT "FK_ef5c0761dcb0482a2068f011b13" FOREIGN KEY ("cityId") REFERENCES "city"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "delivery_address" ADD CONSTRAINT "FK_c8cb6d80c25f9d5a7bc37ccd61d" FOREIGN KEY ("districtId") REFERENCES "district"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "delivery_address" ADD CONSTRAINT "FK_a4fbbd570c419e9abb49ddff878" FOREIGN KEY ("wardId") REFERENCES "ward"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "product_image" ADD CONSTRAINT "FK_40ca0cd115ef1ff35351bed8da2" FOREIGN KEY ("productId") REFERENCES "product"("id") ON DELETE SET NULL ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "product_image" ADD CONSTRAINT "FK_40ca0cd115ef1ff35351bed8da2" FOREIGN KEY ("productId") REFERENCES "product"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "product_video" ADD CONSTRAINT "FK_cdc94e1384be913b439c8fbd3c1" FOREIGN KEY ("productId") REFERENCES "product"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "cart_item" ADD CONSTRAINT "FK_29e590514f9941296f3a2440d39" FOREIGN KEY ("cartId") REFERENCES "cart"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "flash_sale_item" ADD CONSTRAINT "FK_e711e0021e4d125fdf6a5d36895" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "flash_sale_item" ADD CONSTRAINT "FK_e711e0021e4d125fdf6a5d36895" FOREIGN KEY ("product_id") REFERENCES "product"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "order" ADD CONSTRAINT "FK_46c7dd14073310a8f733d5cb3a9" FOREIGN KEY ("cityId") REFERENCES "city"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "order" ADD CONSTRAINT "FK_c01f3cc5fd641bf0784510eb4d5" FOREIGN KEY ("districtId") REFERENCES "district"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "order" ADD CONSTRAINT "FK_9ba869b4b0dc3e85654051bc6ab" FOREIGN KEY ("wardId") REFERENCES "ward"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "order" ADD CONSTRAINT "FK_9b27855a9c2ade186e5c55d1ec3" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE SET NULL ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "order" ADD CONSTRAINT "FK_9b27855a9c2ade186e5c55d1ec3" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "order" ADD CONSTRAINT "FK_3180b06102e839c44f77f7358cb" FOREIGN KEY ("carrierId") REFERENCES "carrier"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "blog" ADD CONSTRAINT "FK_2585c11fedee21900a332b554a6" FOREIGN KEY ("categoryId") REFERENCES "blog_category"("id") ON DELETE SET NULL ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "cart" ADD CONSTRAINT "FK_4355dbbef8931576d9e362d4ae1" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE SET NULL ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "cart" ADD CONSTRAINT "FK_7020f2db949aec046ff941e1aaa" FOREIGN KEY ("voucherCodeId") REFERENCES "voucher_code"("id") ON DELETE SET NULL ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "order_item" ADD CONSTRAINT "FK_646bf9ece6f45dbe41c203e06e0" FOREIGN KEY ("orderId") REFERENCES "order"("id") ON DELETE SET NULL ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "blog" ADD CONSTRAINT "FK_2585c11fedee21900a332b554a6" FOREIGN KEY ("categoryId") REFERENCES "blog_category"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "cart" ADD CONSTRAINT "FK_4355dbbef8931576d9e362d4ae1" FOREIGN KEY ("clientId") REFERENCES "client"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "cart" ADD CONSTRAINT "FK_7020f2db949aec046ff941e1aaa" FOREIGN KEY ("voucherCodeId") REFERENCES "voucher_code"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "order_item" ADD CONSTRAINT "FK_646bf9ece6f45dbe41c203e06e0" FOREIGN KEY ("orderId") REFERENCES "order"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "voucher_code" ADD CONSTRAINT "FK_513f71b2aaeed46f9e9f76641a7" FOREIGN KEY ("voucherId") REFERENCES "voucher"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "product_sizes_size" ADD CONSTRAINT "FK_c363d4050056518c07348e8a27e" FOREIGN KEY ("productId") REFERENCES "product"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "product_sizes_size" ADD CONSTRAINT "FK_a7bd6fac9cf96620ec68761ef3b" FOREIGN KEY ("sizeId") REFERENCES "size"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
@@ -109,6 +110,7 @@ export class init1617720978204 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX "IDX_c363d4050056518c07348e8a27" ON "product_sizes_size"`);
         await queryRunner.query(`DROP TABLE "product_sizes_size"`);
         await queryRunner.query(`DROP TABLE "blog_category"`);
+        await queryRunner.query(`DROP TABLE "contact"`);
         await queryRunner.query(`DROP TABLE "voucher"`);
         await queryRunner.query(`DROP TABLE "voucher_code"`);
         await queryRunner.query(`DROP TABLE "order_item"`);

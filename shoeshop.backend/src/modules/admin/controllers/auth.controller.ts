@@ -23,4 +23,9 @@ export class AuthController {
     });
     return res.json(loginData);
   }
+  @Post('/auth/logout')
+  async signOut(@Res() res: Response) {
+    res.clearCookie('JWTADMIN');
+    return res.json({ ok: true });
+  }
 }

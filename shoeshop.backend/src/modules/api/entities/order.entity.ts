@@ -94,9 +94,7 @@ export class Order extends BaseModel {
   @JoinColumn()
   ward: Ward;
 
-  @ManyToOne(() => Client, {
-    onDelete: 'SET NULL',
-  })
+  @ManyToOne(() => Client)
   @JoinColumn()
   client: Client;
 
@@ -104,9 +102,7 @@ export class Order extends BaseModel {
   @JoinColumn()
   carrier: Carrier;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {
-    onDelete: 'SET NULL',
-  })
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
   @JoinColumn()
   orderItems: OrderItem[];
 }

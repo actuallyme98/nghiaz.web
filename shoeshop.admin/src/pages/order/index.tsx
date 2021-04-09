@@ -133,17 +133,19 @@ const ListOrder: React.FC<Props> = (props) => {
   }, []);
 
   const onDelete = useCallback(async (id: number) => {
-    try {
-      await dispatch(AppActions.deleteOrderAction(id));
-      await refetch();
-      enqueueSnackbar('Xóa thành công', {
-        variant: 'success',
-      });
-    } catch (err) {
-      const message = String(err).replace(/Error: /g, '');
-      enqueueSnackbar(message, {
-        variant: 'error',
-      });
+    if (window.confirm('Chắc chắn xóa?')) {
+      try {
+        await dispatch(AppActions.deleteOrderAction(id));
+        await refetch();
+        enqueueSnackbar('Xóa thành công', {
+          variant: 'success',
+        });
+      } catch (err) {
+        const message = String(err).replace(/Error: /g, '');
+        enqueueSnackbar(message, {
+          variant: 'error',
+        });
+      }
     }
   }, []);
 

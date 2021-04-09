@@ -37,9 +37,7 @@ export class FlashSaleItem extends BaseModel {
   soldQuantity: number;
 
   // Relationship
-  @ManyToOne((type) => Product, {
-    onDelete: 'CASCADE',
-  })
+  @ManyToOne((type) => Product)
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
   product: Product;
 }

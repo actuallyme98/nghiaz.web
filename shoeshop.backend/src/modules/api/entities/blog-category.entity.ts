@@ -26,9 +26,7 @@ export class BlogCategory extends BaseModel {
   slug: string;
 
   // Relationship
-  @OneToMany(() => Blog, (type) => type.category, {
-    onDelete: 'SET NULL',
-  })
+  @OneToMany(() => Blog, (type) => type.category)
   @JoinColumn()
   blogs: Blog[];
 }

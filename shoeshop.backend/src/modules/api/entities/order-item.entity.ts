@@ -37,9 +37,7 @@ export class OrderItem extends BaseModel {
   @JoinColumn()
   size: Size;
 
-  @ManyToOne(() => Order, (order) => order.orderItems, {
-    onDelete: 'SET NULL',
-  })
+  @ManyToOne(() => Order, (order) => order.orderItems)
   @JoinColumn()
   order: Order;
 }

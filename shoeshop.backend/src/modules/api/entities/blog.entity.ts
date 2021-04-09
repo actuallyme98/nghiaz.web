@@ -42,9 +42,7 @@ export class Blog extends BaseModel {
   slug: string;
 
   // Relationship
-  @ManyToOne(() => BlogCategory, (type) => type.blogs, {
-    onDelete: 'SET NULL',
-  })
+  @ManyToOne(() => BlogCategory, (type) => type.blogs)
   @JoinColumn()
   category: BlogCategory;
 }

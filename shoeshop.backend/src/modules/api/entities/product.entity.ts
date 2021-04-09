@@ -116,9 +116,7 @@ export class Product extends BaseModel {
   quantity: number;
 
   // Relationship
-  @OneToMany((type) => ProductImage, (image) => image.product, {
-    onDelete: 'SET NULL',
-  })
+  @OneToMany((type) => ProductImage, (image) => image.product)
   @JoinColumn()
   images: ProductImage[];
 
