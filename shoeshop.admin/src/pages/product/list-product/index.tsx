@@ -127,6 +127,10 @@ const ProductList: React.FC<Props> = (props) => {
 
   const onDelete = useCallback(async (id: number) => {
     try {
+      const r = confirm('Chắc chắn xóa?');
+      if(!r) {
+        return;
+      }
       await dispatch(AppActions.deleteProductAction(id));
       enqueueSnackbar('Xóa thành công', {
         variant: 'success',

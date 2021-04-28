@@ -19,7 +19,9 @@ export class ProductImage extends BaseModel {
   url: string;
 
   // Relationship
-  @ManyToOne((type) => Product, (product) => product.images)
+  @ManyToOne((type) => Product, (product) => product.images, {
+    onDelete: 'SET NULL'
+  })
   @JoinColumn()
   product: Product;
 }
