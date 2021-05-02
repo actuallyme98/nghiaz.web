@@ -204,6 +204,7 @@ const ProductList: React.FC<Props> = (props) => {
               <TableCell>Giá nhập</TableCell>
               <TableCell>Giá bán</TableCell>
               <TableCell>Số lượng</TableCell>
+              <TableCell>Thumbnail</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
@@ -255,6 +256,7 @@ const CollapseRow = (props: { row: REDUX_STORE.IProduct; onDelete: any }) => {
         <TableCell>{row.price}</TableCell>
         <TableCell>{row.currentPrice}</TableCell>
         <TableCell>{row.quantity}</TableCell>
+        <TableCell>{row.thumbnail}</TableCell>
         <TableCell>
           <Box>
             <Tooltip title="Sửa" placement="top" arrow>

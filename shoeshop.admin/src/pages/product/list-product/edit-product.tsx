@@ -221,7 +221,7 @@ const EditProduct: React.FC<RouteConfigComponentProps<any>> = (props) => {
   }, [productEdit]);
 
   const previewThumbnail = useMemo(() => {
-    if (singleUrl) {
+    if (!singleUrl) {
       return;
     }
     return <img src={pathUrl(productEdit?.thumbnail)} className={classes.prevImg} alt="" />;
