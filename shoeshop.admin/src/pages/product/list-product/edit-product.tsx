@@ -149,7 +149,6 @@ const EditProduct: React.FC<RouteConfigComponentProps<any>> = (props) => {
             sizeIds: selectedSizes,
             isSellWell: sellWell,
             isSpecial: special,
-            thumbnail: '',
             status: 1,
           }),
         );
@@ -221,11 +220,11 @@ const EditProduct: React.FC<RouteConfigComponentProps<any>> = (props) => {
   }, [productEdit]);
 
   const previewThumbnail = useMemo(() => {
-    if (!singleUrl) {
+    if (!productEdit?.thumbnail) {
       return;
     }
     return <img src={pathUrl(productEdit?.thumbnail)} className={classes.prevImg} alt="" />;
-  }, [productEdit, singleUrl]);
+  }, [productEdit]);
 
   return (
     <Layout title="Thêm sản phẩm">
