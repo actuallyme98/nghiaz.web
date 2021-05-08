@@ -124,7 +124,7 @@ export const listCitiesAction = createTypeAsyncAction('LIST_CITIES_ACTION', asyn
   try {
     return await ApiService.listCities();
   } catch (err) {
-    throw new Error(err);
+    // ignore err
   }
 });
 
@@ -134,7 +134,7 @@ export const listDistrictsAction = createTypeAsyncAction(
     try {
       return await ApiService.listDistricts(id);
     } catch (err) {
-      throw new Error(err);
+      // ignore err
     }
   },
 );
@@ -143,7 +143,7 @@ export const listWardsAction = createTypeAsyncAction('LIST_WARDS_ACTION', async 
   try {
     return await ApiService.listWards(id);
   } catch (err) {
-    throw new Error(err);
+    // ignore err
   }
 });
 
@@ -154,7 +154,7 @@ export const listDeliveryAddressAction = createTypeAsyncAction(
       const response = await ApiService.listDeliveryAddress();
       return response.data;
     } catch (err) {
-      throw new Error(err);
+      // ignore err
     }
   },
 );

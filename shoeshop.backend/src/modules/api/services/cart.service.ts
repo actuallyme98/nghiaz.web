@@ -94,6 +94,9 @@ export class CartService {
     if (!product) {
       throw ErrorHelper.BadRequestException('[Product] Not found');
     }
+    if(product.quantity <= 0) {
+      throw ErrorHelper.BadRequestException('Sản phẩm đã hết hàng');
+    }
     if (!sizeEntity) {
       throw ErrorHelper.BadRequestException('[Size] Not found');
     }

@@ -241,14 +241,6 @@ const Payment: NextPage<IProps> = () => {
       <div className={!isMobile ? css.background : ''}>
         <div className={isMobile ? css.contentMobile : css.contentDesktop}>
           {!isMobile && <Stepper step={2} className={css.stepper} />}
-          {!isMobile && (
-            <div className={css.haveAccDesktop}>
-              Bạn đã có tài khoản?{' '}
-              <Link href="/signin">
-                <a className={css.loginNow}>Đăng nhập ngay</a>
-              </Link>
-            </div>
-          )}
           <div className={css.wrap}>
             <div className={css.col1}>
               {isMobile && (

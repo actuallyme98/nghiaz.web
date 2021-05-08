@@ -50,8 +50,12 @@ const DeliveryAddressForm: React.FC<Props> = (props) => {
   const dispatch = useDispatch();
 
   const loadCities = useCallback(async () => {
-    const response = await dispatch(AppActions.listCitiesAction());
-    setCities(response.data);
+    try {
+      const response = await dispatch(AppActions.listCitiesAction());
+      setCities(response.data);
+    } catch (err) {
+      //
+    }
   }, []);
 
   useEffect(() => {
@@ -59,12 +63,20 @@ const DeliveryAddressForm: React.FC<Props> = (props) => {
   }, []);
 
   const onSelectCity = useCallback(async (cityId: string) => {
-    const response = await dispatch(AppActions.listDistrictsAction(parseInt(cityId)));
-    setDistricts(response.data);
+    try {
+      const response = await dispatch(AppActions.listDistrictsAction(parseInt(cityId)));
+      setDistricts(response.data);
+    } catch (err) {
+      //
+    }
   }, []);
   const onSelectDistrict = useCallback(async (districtId: string) => {
-    const response = await dispatch(AppActions.listWardsAction(parseInt(districtId)));
-    setWards(response.data);
+    try {
+      const response = await dispatch(AppActions.listWardsAction(parseInt(districtId)));
+      setWards(response.data);
+    } catch (err) {
+      //
+    }
   }, []);
 
   const addDeliveryFormSubmit = useCallback(

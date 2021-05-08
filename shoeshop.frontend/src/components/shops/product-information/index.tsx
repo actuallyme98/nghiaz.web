@@ -74,7 +74,7 @@ const ProductInformation: React.FC<Props> = (props) => {
   }, []);
 
   const discountPercent = useMemo(
-    () => Math.ceil(((data.currentPrice - data.price) * 100) / data.currentPrice),
+    () => Math.ceil(((data.price - data.currentPrice) * 100) / data.currentPrice),
     [data],
   );
 
