@@ -94,7 +94,7 @@ export class CartService {
     if (!product) {
       throw ErrorHelper.BadRequestException('[Product] Not found');
     }
-    if(product.quantity <= 0) {
+    if (product.quantity <= 0 || product.quantity < amount) {
       throw ErrorHelper.BadRequestException('Sản phẩm đã hết hàng');
     }
     if (!sizeEntity) {
@@ -150,6 +150,9 @@ export class CartService {
     const cartItem = await this.cartItemRepository.findOne(cartItemId);
     if (!cartItem) {
       throw ErrorHelper.BadRequestException('Not found');
+    }
+    if (cartItem.product.quantity <= 0 || cartItem.product.quantity < amount) {
+      throw ErrorHelper.BadRequestException('Sản phẩm đã hết hàng');
     }
     if (amount === 0) {
       try {
