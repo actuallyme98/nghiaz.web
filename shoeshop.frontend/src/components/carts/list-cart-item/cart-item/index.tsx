@@ -31,7 +31,7 @@ const CartItem: React.FC<IProps> = (props) => {
       return 0;
     }
     return Math.ceil(
-      ((data.product.discountPrice - data.product.currentPrice) * 100) / data.product.currentPrice,
+      ((data.product.currentPrice - data.product.discountPrice) * 100) / data.product.currentPrice,
     );
   }, [data]);
   return (
