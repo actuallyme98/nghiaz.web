@@ -92,9 +92,10 @@ const CartDrawer: React.FC<IProps> = (props) => {
         .toLocaleString('vi-VN'),
     [cartItems],
   );
-  const totalItem = useMemo(() => cartItems.reduce((sum, item) => sum + item.amount, 0), [
-    cartItems,
-  ]);
+  const totalItem = useMemo(() => cartItems.length, [cartItems]);
+  // const totalItem = useMemo(() => cartItems.reduce((sum, item) => sum + item.amount, 0), [
+  //   cartItems,
+  // ]);
   const handleClickOrder = () => {
     dispatch(AppActions.openCartDrawer(false));
   };
