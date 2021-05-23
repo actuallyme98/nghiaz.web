@@ -65,7 +65,7 @@ const EditVoucherModal: React.FC<IProps> = (props) => {
           }),
         );
         onClose();
-        enqueueSnackbar('Tạo thành công', {
+        enqueueSnackbar('Cập nhật thành công', {
           variant: 'success',
         });
       } catch (err) {

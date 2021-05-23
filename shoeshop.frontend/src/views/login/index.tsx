@@ -99,9 +99,9 @@ const Login: React.FC<Props> = (props) => {
                     </SubmitButton>
                   </li>
                 </ul>
-                <Link href="/forgot-password">
+                {/* <Link href="/forgot-password">
                   <a className={css.forgotPass}>Quên Mật Khẩu ?</a>
-                </Link>
+                </Link> */}
                 <Link href={AppRouteEnums.SIGNUP}>
                   <a className={css.signUp}>Đăng Ký</a>
                 </Link>

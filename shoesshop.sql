@@ -260,3 +260,4 @@ create table order_item(
 	amount int,
 	price int
 );
+
